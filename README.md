@@ -1,25 +1,48 @@
 # RadishUI
 
-Radish 家族共享设计系统，集中维护视觉基础、通用组件和可运行的界面范例，让设计改进能够通过版本升级服务多个产品。
+Radish 家族共享设计系统：集中维护视觉基础、通用组件与可运行的界面范例，让设计改进通过版本升级服务多个产品。
 
-## 已确认方向
+当前为工程预览，包含亮暗语义 token、首个 React Button 和独立展示站。视觉尚未定稿，组件包尚未发布，Flutter 暂为预留目录。
 
-- 仓库归属：计划放在 `RadishIntelligence` 组织下，远程仓库由项目所有者创建。
-- 展示方式：维护独立的静态文档与组件展示站；RadishX 提供介绍和入口。
-- 托管顺序：首选 Vercel；若连接资格或部署条件不满足，再采用 GitHub Pages。
-- 复用方式：React 与 Flutter 分别实现组件，共享设计语义与视觉基准；其他技术栈按实际需求适配。
+## 项目结构
 
-## 建设边界
+```text
+apps/docs/            React + Vite 静态文档与组件展示
+packages/tokens/      JSON token 来源与生成的 CSS
+packages/react/       React 组件与样式
+packages/flutter/     Flutter 接入边界，尚无可运行包
+scripts/              仓库与 token 一致性检查
+docs/                 规划、架构、协作、部署与开发记录
+```
 
-- 统一视觉基础、组件状态和常见页面组合，同时保留产品定位与平台交互差异。
-- 组件展示直接消费本仓库的真实实现，接入方通过明确版本升级。
-- 产品业务、权限、接口、路由与领域状态继续由各产品维护。
-- 既有 family-ui 与产品内组件作为后续核查和提取的候选来源，不在初始化时批量搬迁。
+## 本地开发
 
-## 当前状态
+使用 Node.js 24；在仓库根目录执行：
 
-2026-11-02：完成本地 Git 仓库与最小说明初始化。
+```bash
+npm ci
+npm run dev
+```
 
-当前尚未建立组件工程、安装依赖、发布组件包或部署展示站。协作流程、版本策略与首批实现范围待明确后形成正式文档。
+展示站默认使用 `http://127.0.0.1:4510`。验证与构建：
 
-根目录现有文件为 `README.md`、`.gitignore` 与 `.editorconfig`；尚未配置远程地址。
+```bash
+npm run build
+```
+
+构建包含仓库检查、token 产物核对、TypeScript 检查和 Vite 静态构建，输出为 `apps/docs/dist`。修改 token 后执行 `npm run tokens:generate`，并提交来源与 CSS 产物。
+
+## 协作与接入
+
+- 日常开发使用 `dev`，稳定主线使用 `master`；普通单人任务直接在 `dev` 推进。
+- 展示站直接消费本仓库的组件与 token，不另外实现演示组件。
+- workspace 包名为工程内部名称，全部设置 `private: true`；不代表公开包名或兼容范围已经冻结。
+- 现阶段 React 工程使用 React 19；Ink 的 React 18 兼容留待专门验证。
+- 产品业务、权限、接口、路由和领域状态由各产品维护。
+- 许可、正式发行与跨产品迁移另行决定，本轮没有发布组件包。
+
+## 文档与托管
+
+[当前规划](docs/planning/current.md) · [架构](docs/architecture/overview.md) · [协作方式](docs/development/collaboration.md) · [初始化范围](docs/features/bootstrap.md) · [部署说明](docs/deployment/hosting.md)
+
+仓库：[RadishIntelligence/RadishUI](https://github.com/RadishIntelligence/RadishUI)。展示站首选 Vercel，GitHub Pages 作为备选；RadishX 提供介绍与入口。具体执行与验证状态以当前规划和部署说明为准。

@@ -1,0 +1,18 @@
+.rd-button {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--rd-space-2);
+  min-height: 44px; padding: 10px 18px; border: 1px solid transparent;
+  border-radius: var(--rd-radius-control); font: 600 14px/1.4 var(--rd-font-sans);
+  cursor: pointer; background: var(--rd-action-primary); color: var(--rd-text-on-action);
+  transition: background var(--rd-motion-base), border-color var(--rd-motion-base);
+}
+.rd-button--primary:hover:not(:disabled) { background: var(--rd-action-hover); }
+.rd-button--secondary { background: var(--rd-bg-surface); border-color: var(--rd-border-soft); color: var(--rd-text-primary); }
+.rd-button--secondary:hover:not(:disabled), .rd-button--ghost:hover:not(:disabled) { background: var(--rd-bg-muted); }
+.rd-button--ghost { background: transparent; color: var(--rd-text-secondary); }
+.rd-button--danger { background: var(--rd-state-danger); color: var(--rd-text-on-action); }
+.rd-button--danger:hover:not(:disabled) { background: var(--rd-state-danger-hover); }
+.rd-button:disabled { opacity: .55; cursor: not-allowed; }
+.rd-button:focus-visible { outline: 3px solid var(--rd-focus-ring); outline-offset: 3px; }
+.rd-button__spinner { width: 14px; height: 14px; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: rd-spin .8s linear infinite; }
+@keyframes rd-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .rd-button { transition: none; } .rd-button__spinner { animation: none; } }
