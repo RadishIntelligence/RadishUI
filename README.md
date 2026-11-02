@@ -43,7 +43,7 @@ npm run build
 
 ## 文档与托管
 
-在线工程预览：[radishui.vercel.app](https://radishui.vercel.app/)。
+在线工程预览：[ui.radishx.com](https://ui.radishx.com/)。
 
 [当前规划](docs/planning/current.md) · [架构](docs/architecture/overview.md) · [协作方式](docs/development/collaboration.md) · [初始化范围](docs/features/bootstrap.md) · [部署说明](docs/deployment/hosting.md)
 
