@@ -8,7 +8,7 @@
 
 本地构建、依赖审计和代表双端浏览器检查已完成，详见[本周记录](../devlogs/2026-W45.md)。
 
-本轮按所有者要求连接 `RadishIntelligence/RadishUI`，完成验证后推送，并尝试 Vercel。GitHub Pages 为备选；远程和部署实际结果见[部署说明](../deployment/hosting.md)。
+`RadishIntelligence/RadishUI` 已连接并推送 `master` / `dev`，GitHub 默认分支为 `master`。首次 Vercel 生产部署已完成并通过公开页面与静态资源访问检查，地址为 [radishui.vercel.app](https://radishui.vercel.app/)。GitHub Pages 保留为备选，未启用；版本与验收快照见[部署说明](../deployment/hosting.md)。
 
 ## 后续顺位
 
