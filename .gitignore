@@ -1,0 +1,19 @@
+# 本机文件
+.DS_Store
+
+# 本地配置与凭据
+.env
+.env.*
+!.env.example
+!.env.*.example
+
+# 依赖与生成产物
+node_modules/
+dist/
+build/
+.dart_tool/
+.flutter-plugins-dependencies
+coverage/
+
+# 本地验证输出
+/output/
