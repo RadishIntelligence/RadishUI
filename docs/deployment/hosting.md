@@ -13,7 +13,21 @@
 
 ## 首次部署状态
 
-2026-11-02：所有者已在 GitHub 组织安装 Vercel App，并打开公开仓库的导入配置页。页面可进入不代表构建或部署已成功；本轮实际执行结果将在验证后补充。
+2026-11-02：所有者安装 GitHub 组织 Vercel App 并完成账户二次验证后，首次生产部署成功。
+
+| 项目 | 首次验收快照 |
+| --- | --- |
+| Vercel 归属 | `laugh0608's projects`，Hobby |
+| 项目 | `radishui` |
+| 生产分支 | `master` |
+| 首次源码提交 | `d85832cbbe13c273fe7ce603adb2f89135142532` |
+| 状态 / 首次耗时 | Ready / 9 秒 |
+| 公开地址 | [radishui.vercel.app](https://radishui.vercel.app/) |
+| 首次部署记录 | [Vercel deployment](https://vercel.com/laugh0608s-projects/radishui/2xQgxMYkdcq2ZYmnWGQAAspa87Nu) |
+
+GitHub 对该源码提交的 Vercel 状态为 `success`。独立 HTTP 检查页面、JS 与 CSS 均为 200，浏览器确认实际渲染与本地预览一致。
+
+本次结果证明这个公开组织仓库在当前账户的部署路径可用，不概括其他仓库、用途或未来套餐资格。首次验收记录固定指向上述提交，不将其冒充所有未来提交的验证。
 
 不修改 RadishX 原项目、套餐或 DNS；未计划购买 Pro 或启用试用。首次验证使用 Vercel 提供的默认域名。
 

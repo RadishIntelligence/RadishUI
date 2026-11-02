@@ -43,6 +43,8 @@ npm run build
 
 ## 文档与托管
 
+在线工程预览：[radishui.vercel.app](https://radishui.vercel.app/)。
+
 [当前规划](docs/planning/current.md) · [架构](docs/architecture/overview.md) · [协作方式](docs/development/collaboration.md) · [初始化范围](docs/features/bootstrap.md) · [部署说明](docs/deployment/hosting.md)
 
 仓库：[RadishIntelligence/RadishUI](https://github.com/RadishIntelligence/RadishUI)。展示站首选 Vercel，GitHub Pages 作为备选；RadishX 提供介绍与入口。具体执行与验证状态以当前规划和部署说明为准。
