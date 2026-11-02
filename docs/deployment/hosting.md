@@ -3,13 +3,20 @@
 ## 配置
 
 - 仓库：`RadishIntelligence/RadishUI`，公开。
-- 首选：现有 Vercel 账户下的独立 `radishui` 项目。
+- 托管：现有 Hobby 空间 [DaBaiLuoBo / radish-ui](https://vercel.com/dabailuobo/radish-ui)。
+- 首选公开地址 / canonical：`https://ui.radishx.com/`。
 - Git 仓库根目录：`./`，保持根 workspace 可见。
 - 框架：Vite。
 - Node.js：24.x。
 - 安装：`npm ci`；构建：`npm run build`；输出：`apps/docs/dist`。
 - 生产分支：`master`；`dev` 留作日常开发与预览。
 - 配置来源：根 `vercel.json` 与 `package.json`，当前没有运行时环境变量或后端需求。
+
+## 2026-11-02 自定义域名与名称同步
+
+所有者已将 Vercel scope slug 改为 `dabailuobo`、显示名改为 `DaBaiLuoBo`，项目名改为 `radish-ui`，并绑定 `ui.radishx.com`。本批同步 README、当前规划与 HTML canonical / Open Graph URL；不重建项目，不修改 GitHub 仓库、分支、托管配置或 DNS。
+
+真实 Chrome 已在新域名显示 RadishUI 页面；本机命令行请求返回 Cloudflare 403。默认地址 `https://radishui.vercel.app/` 独立请求仍为 200，可保留用于辅助核查；本批不假定旧地址已自动跳转。当前域名与最初的默认域名分别记录，不改写下方历史快照。
 
 ## 首次部署状态
 
