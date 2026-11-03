@@ -5,7 +5,7 @@ body:
     id: scenario
     attributes:
       label: 真实场景与通用价值
-      description: 哪些场景或产品受益？为何属于共享基础？现有方案有什么不足？
+      description: 哪些场景或产品受益？为何属于共享基础？现有方案有什么不足？请注明专题地图中的主要归属或建议归属。
     validations:
       required: true
   - type: textarea

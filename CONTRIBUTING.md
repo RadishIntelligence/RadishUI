@@ -4,9 +4,9 @@ RadishUI 维护家族共享的视觉基础、跨平台组件和页面范例。�
 
 ## 开始贡献
 
-1. 阅读 [当前规划](docs/planning/current.md)、[架构](docs/architecture/overview.md)和[设计系统契约](docs/development/design-system.md)。
+1. 阅读 [当前规划](docs/planning/current.md)、[专题地图](docs/planning/topics.md)、[架构](docs/architecture/overview.md)和[设计系统契约](docs/development/design-system.md)。
 2. 缺陷提供最小复现；新组件、token 语义、公共 API、依赖或平台范围变化先说明真实使用场景、影响和验证方式。
-3. 日常串行维护直接使用 `dev`；外部贡献或需要隔离时从 `dev` 建主题分支，PR 目标选 `dev`。GitHub 默认分支仍为 `master`，创建 PR 时需主动核对目标。
+3. 其他组织成员与外部贡献者从最新 `origin/dev` 建立个人主题分支，完成后通过 PR 合回 `dev`，不直接 push 工作提交到共享 `dev` 或 `master`。只有萝卜SAMA本人或明确授权执行同一串行维护任务的 AI 可直接维护 `dev`。具体命令与并发同步见[组织成员流程](docs/development/repository-governance.md#组织成员的分支流程)。GitHub 默认分支仍为 `master`，创建 PR 时需主动核对目标。
 4. 使用 Node.js 24 和仓库根 `package-lock.json`；安装依赖用 `npm ci`，不要另建 workspace 锁文件。AI 执行安装仍遵循[协作授权](docs/development/collaboration.md)。
 5. 稳定晋级通过 `dev → master` PR，优先 merge commit；合并后先回流 `dev`。细节见 [ADR 0001](docs/adr/0001-branch-and-pr-governance.md)。
 

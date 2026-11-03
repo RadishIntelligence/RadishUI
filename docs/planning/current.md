@@ -4,7 +4,9 @@
 
 ## 当前范围
 
-建立可构建、可审阅、可部署的最小工程：npm workspaces、JSON token 与 CSS 生成、React Button、独立展示站、轻量协作入口和必要检查。
+最小工程已建立：npm workspaces、JSON token 与 CSS 生成、React Button、独立展示站和必要检查。当前补齐协作、规划与组织贡献流程，下一产品方向仍是确认视觉基准与首批复用范围。
+
+长期目标和阶段出口见[整体规划](roadmap.md)，四个大专题与子专题归属见[专题地图](topics.md)；本页只维护当前顺位，不复制子专题任务表。
 
 本地构建、依赖审计和代表双端浏览器检查已完成，详见[本周记录](../devlogs/2026-W45.md)。
 
@@ -12,7 +14,9 @@
 
 所有者于 2026-11-02 完成域名绑定与 Vercel 名称调整；当前控制台为 `DaBaiLuoBo / radish-ui`。本批同步官网和组织入口，保留既有工程预览边界；真实 Chrome 已访问新域名，命令行请求的 Cloudflare 403 限制见部署说明。
 
-2026-11-03 在仓库内建立家族通用治理基础，并补充 RadishUI 的 token、组件、视觉与产品采用契约。政策见[仓库治理](../development/repository-governance.md)与 [ADR 0001](../adr/0001-branch-and-pr-governance.md)。工作流和 Ruleset 为本地待审变更，尚未推送或在 GitHub 实跑；当日只读核查显示远端无 Ruleset、`master` 未保护、squash 仍开放。具体模板差异和验收事实见[本周记录](../devlogs/2026-W45.md)。
+当前活跃子专题为 [G-01 仓库与协作治理](../development/repository-governance.md#实施与验收)。2026-11-03 的上一批通用治理基础已本地提交 `e4275da`；本轮仔细复核五个兄弟项目的 AGENTS/CLAUDE 后，补充启动约束、三级规划及组织成员 `topic → dev` 流程。详细实施状态在 G-01，审阅与验证事实在[本周记录](../devlogs/2026-W45.md)。
+
+工作流和 Ruleset 尚未推送或在 GitHub 实跑；当日只读核查显示远端无 Ruleset、`master` 未保护、squash 仍开放。本轮只有本地提交授权，没有执行推送、远端合并、设置或部署。
 
 ## 后续顺位
 

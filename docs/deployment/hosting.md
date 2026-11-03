@@ -1,5 +1,7 @@
 # 展示站部署
 
+主要归属：[G：工程协作与交付](../planning/topics.md#engineering)，子专题 G-02，协同 E-01 展示范例。Vercel 工程预览部署已完成；当前配置和日期化验收来源在本文，不代表本地未推送文档已上线，也不代表组件包正式发布。
+
 ## 配置
 
 - 仓库：`RadishIntelligence/RadishUI`，公开。

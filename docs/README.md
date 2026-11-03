@@ -1,5 +1,7 @@
 # 文档入口
 
+- [整体规划](planning/roadmap.md)：长期目标、阶段与完成条件。
+- [专题地图](planning/topics.md)：四个大专题、子专题归属和唯一进度来源。
 - [当前规划](planning/current.md)：当前状态、顺位与停止线。
 - [架构](architecture/overview.md)：目录职责、技术与依赖边界。
 - [协作](development/collaboration.md)：任务执行、授权、文档归位与交接。
@@ -12,3 +14,17 @@
 - [本周记录](devlogs/2026-W45.md)：日期化执行证据。
 
 仓库对外入口：[贡献指南](../CONTRIBUTING.md)、[行为规范](../CODE_OF_CONDUCT.md)、[安全报告](../SECURITY.md)。根协作入口只放必须立即生效的长期规则，当前规划只放状态与顺位，验证事实进入开发记录。
+
+## 规划与进度如何读取
+
+整体规划 → 专题地图中的 F 视觉基础 / C 跨平台组件 / E 范例与采用 / G 工程交付 → 对应子专题。日常从 current 进入活跃子专题，详细任务状态只在子专题，地图和整体规划不另建进度副本。
+
+| 文档类别 | 归属与职责 |
+| --- | --- |
+| `planning/roadmap.md` | 项目整体规划 |
+| `planning/topics.md` 的四个稳定章节 | 大专题，定义价值、能力边界、依赖和完成条件 |
+| [Token 基础](features/token-foundation.md)、[React Button](features/react-button.md)、[展示范例](features/docs-preview.md)、仓库治理、部署说明、初始化验收 | 子专题，主要归属和状态入口在专题地图登记；保留原路径 |
+| 架构、设计系统契约、协作规范与 ADR | 专题共同引用的规范与决策，不强行增加功能层级 |
+| current 与 devlogs | 当前调度与历史证据，不作为平行整体规划或任务库 |
+
+详细规则见[三级规划与唯一进度来源](development/collaboration.md#三级规划与唯一进度来源)。

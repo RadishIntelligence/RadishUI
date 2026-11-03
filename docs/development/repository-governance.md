@@ -18,7 +18,26 @@
 
 ## Git 与 PR 闭环
 
-`master` 是默认稳定主线；日常维护在 `dev`。主题分支主要面向 `dev`，GitHub 默认目标可能是 `master`，发起 PR 时必须核对。暂存、提交和推送只包含本次任务的精确路径；提交使用当前用户身份和 [Conventional Commits](../../CONTRIBUTING.md#提交信息)。不 amend 既有共享提交，不改全局 Git 配置。
+`master` 是默认稳定主线，`dev` 是共享开发集成分支。其他组织成员从最新 `origin/dev` 建个人主题分支，通过 PR 合回 `dev`；只有萝卜SAMA本人或明确授权执行同一串行维护任务的 AI 可直接在 `dev` 维护。GitHub 默认 PR 目标可能是 `master`，发起时必须核对。暂存、提交和推送只包含本次任务的精确路径；提交使用当前用户身份和 [Conventional Commits](../../CONTRIBUTING.md#提交信息)。不 amend 既有共享提交，不改全局 Git 配置。
+
+### 组织成员的分支流程
+
+取得仓库协作权限后，先检查本地工作区并获取最新共享基线。以下为供成员执行的示例，`feature/member-button` 替换为实际成员和任务名；AI 创建隔离分支使用 `codex/<成员或主题>`。本例不是执行远端动作的自动授权。
+
+```bash
+git fetch origin
+git switch --no-track -c feature/member-button origin/dev
+# 完成范围内改动和本地验证后提交
+git push -u origin feature/member-button
+```
+
+从 **最新远端 `dev`** 建分支，不从 `master`、过期本地 `dev` 或另一成员的未合并分支起步。完成后创建 `feature/member-button → dev` PR，不直接 push 工作提交到共享 `dev`，也不在本地自行合并后推送 `dev` 绕过 PR。
+
+若开发期间 `dev` 前进，合并前重新 `git fetch origin`，在自己的主题分支使用 `git merge origin/dev` 同步，解决冲突后补匹配验证再推送；不得为同步改写共享分支历史。PR 说明起点 SHA、同步情况、影响与证据；维护者确认目标、范围、会话及 `Candidate Quality` 结果后合入 `dev`。合入 `dev` 不直接晋级 `master`。
+
+组织协作流程是仓库政策；当前 `dev` 无服务端保护，不代表成员可跳过 PR。真实多人参与时复核审批与 `dev` 保护，远端设置需对应授权，不因文档修改自动启用。
+
+### 稳定主线晋级与回流
 
 稳定 PR 应说明共享 API、token、默认视觉与跨平台影响，实际验证、未验证面、风险和回滚；目标为 `master` 时还应说明 Vercel 自动部署影响及回流负责人。优先使用 merge commit；rebase merge 后仍以普通 merge 回流，不能改写共享历史。
 
@@ -63,6 +82,18 @@ CI 不进行人工视觉批准，也不验证 Flutter、React 18、真实产品�
 仅保护 `master`：PR 必需，严格 `Candidate Quality`，解决会话，禁止删除 / 强推；单人审批数 `0`、无 CODEOWNERS，管理员 bypass 仅限 PR。保留 merge / rebase，关闭 squash；关闭合并后自动删源分支，避免晋级时删除长期 `dev`。默认分支保持 `master`，不静默切换为 `dev` 或新增 `main` 匹配。
 
 远端模板、启用顺序、现状导出与回滚见 [Rulesets 说明](../../.github/rulesets/README.md)。只改 context 或合并选项时基于实际远端状态做精确差异，不直接覆盖组织规则、已有 bypass 或未知设置。
+
+## 实施与验收
+
+主要归属：[G：工程协作与交付](../planning/topics.md#engineering)，子专题 G-01。协作规范、ADR、模板与脚本为本专题的规范和实现来源；本表维护实施状态，日期化事实见[本周记录](../devlogs/2026-W45.md)。
+
+| 工作项 | 状态 | 验收与证据 |
+| --- | --- | --- |
+| G-01.1 通用治理文件、PR 检查、模板与本地验证 | 已完成（仓库内基线） | 上一批提交 `e4275da`；本轮根入口、三级规划及成员流程补充见开发记录，未推送不算远端启用 |
+| G-01.2 GitHub runner 的真实 PR 成功 / 失败传播 | 待开始 | 推送获准后记录真实 run URL、SHA、聚合结果；本地 shell 不能代替 |
+| G-01.3 仓库合并选项与 master Ruleset 启用 | 待开始 | 先完成真实 context 验收，再按授权读写精确差异并记录最终远端状态 |
+
+本地政策和模板交付不会关闭整个 G 大专题，也不代表未来包发行完成。
 
 ## 规则同步
 

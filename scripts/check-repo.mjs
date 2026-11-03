@@ -8,7 +8,9 @@ const root = fileURLToPath(new URL('../', import.meta.url));
 const required = [
   'AGENTS.md', 'CLAUDE.md', 'README.md', 'CONTRIBUTING.md', 'CODE_OF_CONDUCT.md', 'SECURITY.md',
   '.editorconfig', '.gitattributes', '.gitignore', '.node-version', 'package-lock.json',
-  'docs/README.md', 'docs/planning/current.md', 'docs/development/collaboration.md',
+  'docs/README.md', 'docs/planning/current.md', 'docs/planning/roadmap.md', 'docs/planning/topics.md',
+  'docs/features/token-foundation.md', 'docs/features/react-button.md', 'docs/features/docs-preview.md',
+  'docs/development/collaboration.md',
   'docs/development/repository-governance.md', 'docs/development/design-system.md',
   'docs/adr/0001-branch-and-pr-governance.md', 'docs/architecture/overview.md',
   'docs/deployment/hosting.md', 'docs/features/bootstrap.md',
