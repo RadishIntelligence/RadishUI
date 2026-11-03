@@ -22,7 +22,7 @@ Flutter 适配：待实现
 
 `packages/tokens/src/tokens.json` 是首批 token 的唯一机器来源，包含共享尺度及亮暗语义。当前使用项目内最小格式，不宣称已符合完整 DTCG 交换规范。`scripts/generate-tokens.mjs` 确认主题键对应并生成 `dist/tokens.css`；该文件被精确纳入 Git。
 
-灰玉品牌与墨蓝操作的方向参考既有 RadishX family-ui v26.7.3；本轮只建立少量探索 token，没有迁移完整规范、参考图或既有组件。数值和视觉形态尚需代表页确认。
+灰玉品牌与墨蓝操作的方向参考既有 RadishX family-ui v26.7.3；当前运行时仍是少量探索 token；通用资料已整合至 [docs/design](../design/README.md)，原生候选在 `designs/`，原创导出在 `assets/design-baselines/candidates/`。受限参考原图在仓库外私有库；历史 token 参考不参与构建。视觉候选未批准，也未迁入产品组件实现。
 
 ## 平台边界
 

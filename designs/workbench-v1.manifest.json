@@ -1,0 +1,145 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-11-03",
+  "status": "pending-owner-visual-review",
+  "document": "designs/radish-ui-workbench-v1.pen",
+  "generator": "Existing Pen App via Pencil MCP",
+  "nativeQA": {
+    "nodes": 918,
+    "layoutProblems": 0,
+    "unnamedNodes": 0,
+    "placeholders": 0,
+    "textWithoutFill": 0
+  },
+  "scope": "12 main combinations + 4 supporting boards; static design only",
+  "frames": [
+    {
+      "id": "ENe8F",
+      "name": "r1-desktop-light",
+      "width": 1440,
+      "height": 900,
+      "theme": "light",
+      "image": "assets/design-baselines/candidates/2026-11-03/r1-desktop-light.png"
+    },
+    {
+      "id": "HssGV",
+      "name": "r2-desktop-light",
+      "width": 1440,
+      "height": 900,
+      "theme": "light",
+      "image": "assets/design-baselines/candidates/2026-11-03/r2-desktop-light.png"
+    },
+    {
+      "id": "JbbSb",
+      "name": "r3-desktop-light",
+      "width": 1440,
+      "height": 900,
+      "theme": "light",
+      "image": "assets/design-baselines/candidates/2026-11-03/r3-desktop-light.png"
+    },
+    {
+      "id": "vfPie",
+      "name": "r1-mobile-light",
+      "width": 390,
+      "height": 844,
+      "theme": "light",
+      "image": "assets/design-baselines/candidates/2026-11-03/r1-mobile-light.png"
+    },
+    {
+      "id": "x4VyJl",
+      "name": "r2-mobile-light",
+      "width": 390,
+      "height": 844,
+      "theme": "light",
+      "image": "assets/design-baselines/candidates/2026-11-03/r2-mobile-light.png"
+    },
+    {
+      "id": "hLXLM",
+      "name": "r3-mobile-light",
+      "width": 390,
+      "height": 844,
+      "theme": "light",
+      "image": "assets/design-baselines/candidates/2026-11-03/r3-mobile-light.png"
+    },
+    {
+      "id": "tGomg",
+      "name": "r1-desktop-dark",
+      "width": 1440,
+      "height": 900,
+      "theme": "dark",
+      "image": "assets/design-baselines/candidates/2026-11-03/r1-desktop-dark.png"
+    },
+    {
+      "id": "U6aeBZ",
+      "name": "r2-desktop-dark",
+      "width": 1440,
+      "height": 900,
+      "theme": "dark",
+      "image": "assets/design-baselines/candidates/2026-11-03/r2-desktop-dark.png"
+    },
+    {
+      "id": "Iz92M",
+      "name": "r3-desktop-dark",
+      "width": 1440,
+      "height": 900,
+      "theme": "dark",
+      "image": "assets/design-baselines/candidates/2026-11-03/r3-desktop-dark.png"
+    },
+    {
+      "id": "RHYQ1",
+      "name": "r1-mobile-dark",
+      "width": 390,
+      "height": 844,
+      "theme": "dark",
+      "image": "assets/design-baselines/candidates/2026-11-03/r1-mobile-dark.png"
+    },
+    {
+      "id": "HKz4B",
+      "name": "r2-mobile-dark",
+      "width": 390,
+      "height": 844,
+      "theme": "dark",
+      "image": "assets/design-baselines/candidates/2026-11-03/r2-mobile-dark.png"
+    },
+    {
+      "id": "kUYtL",
+      "name": "r3-mobile-dark",
+      "width": 390,
+      "height": 844,
+      "theme": "dark",
+      "image": "assets/design-baselines/candidates/2026-11-03/r3-mobile-dark.png"
+    },
+    {
+      "id": "vCQcD",
+      "name": "foundation-board-light",
+      "width": 1200,
+      "height": 420,
+      "theme": "light",
+      "image": "assets/design-baselines/candidates/2026-11-03/foundation-board-light.png"
+    },
+    {
+      "id": "P8pK2X",
+      "name": "controls-states-light",
+      "width": 1600,
+      "height": 900,
+      "theme": "light",
+      "image": "assets/design-baselines/candidates/2026-11-03/controls-states-light.png"
+    },
+    {
+      "id": "IJsMa",
+      "name": "resource-states-light",
+      "width": 1440,
+      "height": 420,
+      "theme": "light",
+      "image": "assets/design-baselines/candidates/2026-11-03/resource-states-light.png"
+    },
+    {
+      "id": "rJTNn",
+      "name": "controls-states-dark",
+      "width": 1600,
+      "height": 900,
+      "theme": "dark",
+      "image": "assets/design-baselines/candidates/2026-11-03/controls-states-dark.png"
+    }
+  ]
+}

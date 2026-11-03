@@ -7,7 +7,8 @@
 - [协作](development/collaboration.md)：任务执行、授权、文档归位与交接。
 - [仓库治理](development/repository-governance.md)：基础文件、Git / PR、验证与 CI 契约。
 - [设计系统契约](development/design-system.md)：通用边界、token、组件、视觉验收和版本采用。
-- [F-02 视觉与资料归集方案](features/visual-baseline-proposal.md)：兄弟项目现状、视觉基准候选、代表页、首批组件和分仓迁移方案（待确认）。
+- [F-02 视觉与资料归集方案](features/visual-baseline-proposal.md)：兄弟项目现状、视觉基准候选、代表页、首批组件及归集进度（方案已确认，视觉待评审）。
+- [家族设计资料](design/README.md)：通用基础、参考索引、原生候选和来源迁移记录。
 - [ADR 0001](adr/0001-branch-and-pr-governance.md)：分支、合并、回流与 Ruleset 决策。
 - [GitHub 设置与 Rulesets](../.github/rulesets/README.md)：远端目标、启用顺序和回滚。
 - [初始化目标](features/bootstrap.md)：首批范围与验收。

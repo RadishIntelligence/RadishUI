@@ -1,0 +1,271 @@
+{
+  "variables": {
+    "ui-font": {
+      "type": "string",
+      "value": "Noto Sans SC"
+    },
+    "ui-bg": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#FFFFFF",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#1D2421",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "ui-side": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#F6F7F3",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#171F1B",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "ui-text": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#29332E",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#E9EFEA",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "ui-muted": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#626F65",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#A5B3A9",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "ui-line": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#E1E6DF",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#344139",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "ui-action": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#435C74",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#AEC7DD",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "ui-on-action": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#FFFFFF",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#152635",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "ui-brand": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#5D6C57",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#B2C4AA",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "ui-selected": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#EDF2F4",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#2A3940",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "ui-soft": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#F5F7F4",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#252F29",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "ui-success": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#39745D",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#9AC9AF",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "ui-success-soft": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#ECF5EF",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#273E31",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "ui-danger": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#A6403C",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#F2B2A9",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "ui-danger-soft": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#FFF1EE",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#442E2A",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "ui-control-line": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#87938A",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#7D8F81",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    }
+  },
+  "themes": {
+    "mode": [
+      "light",
+      "dark"
+    ]
+  },
+  "status": "design-candidate-only",
+  "runtimeSource": "packages/tokens/src/tokens.json"
+}

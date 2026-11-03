@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-11-03",
+  "sourceRepository": "https://github.com/laugh0608/RadishX",
+  "sourceCommit": "c0f57aea9ca74569bd342b9bc5b46190f780bc23",
+  "originalVersion": "v26.7.3",
+  "files": [
+    {
+      "path": "docs/design/family-ui/01-principles.md",
+      "sha256": "fb5347b54e0ad41d9f2671d0e8a09e5543cb7329a04580496b437451a997f331",
+      "bytes": 3294
+    },
+    {
+      "path": "docs/design/family-ui/02-color.md",
+      "sha256": "eca707729b62e3a9c257c0319ca8e43696064bdef97687bdcafd44746a2b7302",
+      "bytes": 9018
+    },
+    {
+      "path": "docs/design/family-ui/03-typography.md",
+      "sha256": "facb53117b9720ac173fce3a22ab3b50bce3837dce2fe9f5bca3c1c9f422659e",
+      "bytes": 2554
+    },
+    {
+      "path": "docs/design/family-ui/04-space-shape-elevation.md",
+      "sha256": "09ad59ace974c687978f0bd87abcc8a54756ee92e9f6a4e21a407657fe9d8a0e",
+      "bytes": 2420
+    },
+    {
+      "path": "docs/design/family-ui/05-motion.md",
+      "sha256": "4767b00cc8a136854175dcabbb13c3b75905cd241d5c1405c6c42705ecf13594",
+      "bytes": 1213
+    },
+    {
+      "path": "docs/design/family-ui/06-components.md",
+      "sha256": "dc59c28294ae66077d220a57d00f686803cffafe2df88de1e12eea054a612a20",
+      "bytes": 6250
+    },
+    {
+      "path": "docs/design/family-ui/07-layout-platforms.md",
+      "sha256": "ac451b179e5d698905c55234f780730ba344535a0cb7dfeedf67f20e96a05279",
+      "bytes": 3780
+    },
+    {
+      "path": "docs/design/family-ui/08-brand-assets.md",
+      "sha256": "29485bfd77fe4c58f15642b6b5f1b278f10d1a4bea9a2d1bbd6090a5cb4d225d",
+      "bytes": 2452
+    },
+    {
+      "path": "docs/design/family-ui/09-adoption.md",
+      "sha256": "1985e136c4f93e11f9720447d0436f894a6858cdd0eb624889d9988e5ff7e808",
+      "bytes": 2951
+    },
+    {
+      "path": "docs/design/family-ui/10-migration-playbook.md",
+      "sha256": "9f26b92643498ed9fd8364ae2115464cc5721bc864997e58223b31819a5927a6",
+      "bytes": 2952
+    },
+    {
+      "path": "docs/design/family-ui/README.md",
+      "sha256": "891dd172aba6c167c9ac73cc03c21b8464ce09588d7105748a0476c3556aeb7d",
+      "bytes": 5614
+    },
+    {
+      "path": "docs/design/family-ui/references.md",
+      "sha256": "06d3d852d44da7e0b83efd4f996ca8a19dcac3960f29ba8f8b300a45e4ce261b",
+      "bytes": 9816
+    },
+    {
+      "path": "docs/design/family-ui/tokens/tokens.css",
+      "sha256": "5475362635fd3fe12124bc3e367813455196ba3e103dd836799047ae68a176e3",
+      "bytes": 5735
+    },
+    {
+      "path": "docs/design/family-ui/tokens/tokens.json",
+      "sha256": "26335ae1e6241ccf5572529206ce53954e0f6cccbec9f314e3bb2847d1dbf7d8",
+      "bytes": 10843
+    }
+  ]
+}
