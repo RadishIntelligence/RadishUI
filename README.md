@@ -35,7 +35,7 @@ npm run build
 ## 协作与接入
 
 - `dev` 为开发集成分支，`master` 为稳定主线；其他组织成员从最新远端 `dev` 建个人主题分支，通过 PR 合回 `dev`。所有者本人或明确授权的串行维护 AI 可直接在 `dev` 推进。
-- 稳定晋级通过 PR，优先 merge commit；主线合并后先回流 `dev`。PR 检查和 Ruleset 模板已纳入仓库，远端启用与实际验证以当前规划和开发记录为准。
+- 稳定晋级通过 PR，优先 merge commit；主线合并后先回流 `dev`。PR 检查和 `master` Ruleset 已实际启用，验收事实与后续状态以当前规划和开发记录为准。
 - 展示站直接消费本仓库的组件与 token，不另外实现演示组件。
 - workspace 包名为工程内部名称，全部设置 `private: true`；不代表公开包名或兼容范围已经冻结。
 - 现阶段 React 工程使用 React 19；Ink 的 React 18 兼容留待专门验证。
