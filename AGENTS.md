@@ -26,3 +26,10 @@
 - 验证入口以 `package.json` 为准；视觉变更检查桌面、窄屏、明暗和关键状态，自动检查不能替代视觉确认。
 - 变更规则时同步相关 `docs/`；验证事实与遗留限制写入 `docs/devlogs/`。
 - 本文件与 `CLAUDE.md` 除标题和入口说明外保持同步，使用 `npm run check:repo` 验证。
+
+## 按任务读取
+
+- 执行、授权与文档归位：[协作规范](docs/development/collaboration.md)。
+- Git、PR、CI 与远端规则：[仓库治理](docs/development/repository-governance.md)、[ADR 0001](docs/adr/0001-branch-and-pr-governance.md)。
+- token、组件、视觉与产品接入：[设计系统契约](docs/development/design-system.md)、[架构](docs/architecture/overview.md)。
+- 当前状态与执行证据：[当前规划](docs/planning/current.md)、`docs/devlogs/`；不把临时门禁或历史流水加入根入口。

@@ -1,0 +1,24 @@
+name: 共享能力变更提案
+description: 提议 token、组件、页面模式、平台或治理改进。
+body:
+  - type: textarea
+    id: scenario
+    attributes:
+      label: 真实场景与通用价值
+      description: 哪些场景或产品受益？为何属于共享基础？现有方案有什么不足？
+    validations:
+      required: true
+  - type: textarea
+    id: contract
+    attributes:
+      label: 方案、边界与兼容
+      description: 说明 token / API / 视觉 / 平台影响、非目标、迁移和回滚；新材料注明来源及许可。
+    validations:
+      required: true
+  - type: textarea
+    id: validation
+    attributes:
+      label: 验收方式
+      description: 说明可复现的工程、视觉、交互或产品采用证据，区分已验证和计划。
+    validations:
+      required: true

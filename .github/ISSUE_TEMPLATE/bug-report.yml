@@ -1,0 +1,22 @@
+name: 缺陷报告
+description: 报告通用组件、token、展示站或工程问题。
+body:
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: 复现与预期
+      description: 提供最小步骤、实际结果、预期行为，以及相关组件或页面。
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: 版本与环境
+      description: 提交 SHA 或版本、浏览器或平台、视口、主题及组件状态；避免敏感数据。
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: 证据与影响
+      description: 可附截图、最小示例、影响范围和已排查事项。安全漏洞请遵循 SECURITY.md。

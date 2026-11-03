@@ -1,0 +1,72 @@
+name: PR Checks
+
+on:
+  pull_request:
+    branches: [dev, master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pr-checks-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  repo-hygiene:
+    name: Repo Hygiene
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version-file: .node-version
+          package-manager-cache: false
+      - name: Check repository and PR commits
+        env:
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          if [[ -n "$PR_BASE_SHA" ]]; then
+            node scripts/check-repo.mjs --base-ref "$PR_BASE_SHA" --head-ref "$PR_HEAD_SHA"
+          else
+            npm run check:repo
+          fi
+      - run: npm run test:repo
+
+  web-build:
+    name: Web Build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version-file: .node-version
+          package-manager-cache: false
+      - run: npm ci
+      - run: npm run check:tokens
+      - run: npm run type-check
+      - run: npm run build --workspace @radish-ui/docs
+
+  candidate-quality:
+    name: Candidate Quality
+    runs-on: ubuntu-24.04
+    timeout-minutes: 2
+    if: always()
+    needs: [repo-hygiene, web-build]
+    steps:
+      - name: Require every component to succeed
+        env:
+          REPO_HYGIENE_RESULT: ${{ needs.repo-hygiene.result }}
+          WEB_BUILD_RESULT: ${{ needs.web-build.result }}
+        run: |
+          printf 'Repo Hygiene: %s\nWeb Build: %s\n' "$REPO_HYGIENE_RESULT" "$WEB_BUILD_RESULT" >> "$GITHUB_STEP_SUMMARY"
+          test "$REPO_HYGIENE_RESULT" = success
+          test "$WEB_BUILD_RESULT" = success
