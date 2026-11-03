@@ -2,6 +2,8 @@
 
 本目录和 [repository-settings.json](../repository-settings.json) 是可审阅模板，GitHub 不会自动应用它们。`enforcement: active` 表示导入后的目标，不表示现在已启用。政策见 [ADR 0001](../../docs/adr/0001-branch-and-pr-governance.md)，实际状态见[当前规划](../../docs/planning/current.md)及[开发记录](../../docs/devlogs/2026-W45.md)。
 
+2026-11-03 本仓库已实际启用 Ruleset `26446452`，完成真实 PR 成功 / 失败路径核验、主线合并及 dev 回流。未来修改模板仍需按本页流程另行核对并应用，不会自动同步远端。
+
 ## 模板目标
 
 仅保护 `refs/heads/master`，不匹配 `dev`、`main` 或 tag：
