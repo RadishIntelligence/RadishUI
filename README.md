@@ -34,7 +34,8 @@ npm run build
 
 ## 协作与接入
 
-- 日常开发使用 `dev`，稳定主线使用 `master`；普通单人任务直接在 `dev` 推进。
+- `dev` 为开发集成分支，`master` 为稳定主线；其他组织成员从最新远端 `dev` 建个人主题分支，通过 PR 合回 `dev`。所有者本人或明确授权的串行维护 AI 可直接在 `dev` 推进。
+- 稳定晋级通过 PR，优先 merge commit；主线合并后先回流 `dev`。PR 检查和 Ruleset 模板已纳入仓库，远端启用与实际验证以当前规划和开发记录为准。
 - 展示站直接消费本仓库的组件与 token，不另外实现演示组件。
 - workspace 包名为工程内部名称，全部设置 `private: true`；不代表公开包名或兼容范围已经冻结。
 - 现阶段 React 工程使用 React 19；Ink 的 React 18 兼容留待专门验证。
@@ -45,6 +46,6 @@ npm run build
 
 在线工程预览：[ui.radishx.com](https://ui.radishx.com/)。
 
-[当前规划](docs/planning/current.md) · [架构](docs/architecture/overview.md) · [协作方式](docs/development/collaboration.md) · [初始化范围](docs/features/bootstrap.md) · [部署说明](docs/deployment/hosting.md)
+[整体规划](docs/planning/roadmap.md) · [专题地图](docs/planning/topics.md) · [当前规划](docs/planning/current.md) · [文档索引](docs/README.md) · [架构](docs/architecture/overview.md) · [协作方式](docs/development/collaboration.md) · [仓库治理](docs/development/repository-governance.md) · [设计系统契约](docs/development/design-system.md) · [贡献指南](CONTRIBUTING.md) · [部署说明](docs/deployment/hosting.md)
 
 仓库：[RadishIntelligence/RadishUI](https://github.com/RadishIntelligence/RadishUI)。展示站首选 Vercel，GitHub Pages 作为备选；RadishX 提供介绍与入口。具体执行与验证状态以当前规划和部署说明为准。

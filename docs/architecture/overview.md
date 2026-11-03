@@ -16,6 +16,8 @@ Flutter 适配：待实现
 
 通用组件只依赖 UI 运行时和设计基础，不依赖产品 HTTP 客户端、登录、业务状态或路由。应用布局和示例文案属于展示站；真实通用交互属于组件包。
 
+共享变更、状态验收、资产来源和版本化产品接入遵循[设计系统契约](../development/design-system.md)；仓库与远端门禁遵循[仓库治理](../development/repository-governance.md)，不把特定产品的业务约束加入通用底层。
+
 ## 设计基础
 
 `packages/tokens/src/tokens.json` 是首批 token 的唯一机器来源，包含共享尺度及亮暗语义。当前使用项目内最小格式，不宣称已符合完整 DTCG 交换规范。`scripts/generate-tokens.mjs` 确认主题键对应并生成 `dist/tokens.css`；该文件被精确纳入 Git。
