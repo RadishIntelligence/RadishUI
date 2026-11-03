@@ -15,7 +15,7 @@
 | F-01 最小 token 来源与 CSS 管线 | [Token 基础](../features/token-foundation.md) | 组件消费、主题展示 |
 | F-02 视觉基准与资料归集方案 | [视觉、代表页与资料归集提案](../features/visual-baseline-proposal.md) | C 首批组件边界、E 代表页与试点、G 跨仓迁移流程 |
 
-正式视觉基准在 P1 根据已确认场景细化，F-02 先维护现状梳理、资料归集与代表页候选；方案已获准实施不等于候选视觉获批；当前正文、索引与原生候选见[设计资料入口](../design/README.md)。依据[设计系统契约](../development/design-system.md)和[架构](../architecture/overview.md)约束来源与状态。完成条件是选定版本的 token 角色、亮暗对应、生成一致性、视觉确认及迁移影响均可复核；探索取值不能冒充家族定稿。
+正式视觉基准在 P1 根据已确认场景细化，F-02 先维护现状研究、本仓资料与代表页候选；先确认满意的第一版设计，再单独评估产品采用与跨仓资料切换。当前正文、索引与原生候选见[设计资料入口](../design/README.md)。依据[设计系统契约](../development/design-system.md)和[架构](../architecture/overview.md)约束来源与状态。完成条件是选定版本的 token 角色、亮暗对应、生成一致性、视觉确认及迁移影响均可复核；探索取值不能冒充家族定稿。
 
 <a id="components"></a>
 
