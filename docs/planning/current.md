@@ -16,11 +16,11 @@
 
 当前活跃子专题为 [G-01 仓库与协作治理](../development/repository-governance.md#实施与验收)。2026-11-03 的上一批通用治理基础已本地提交 `e4275da`；本轮仔细复核五个兄弟项目的 AGENTS/CLAUDE 后，补充启动约束、三级规划及组织成员 `topic → dev` 流程。详细实施状态在 G-01，审阅与验证事实在[本周记录](../devlogs/2026-W45.md)。
 
-工作流和 Ruleset 尚未推送或在 GitHub 实跑；当日只读核查显示远端无 Ruleset、`master` 未保护、squash 仍开放。本轮只有本地提交授权，没有执行推送、远端合并、设置或部署。
+本轮已获提交、推送、验证 PR、落实远端设置、合并与回流授权。治理提交已推送到 `dev`；PR #3 已有真实成功运行，隔离 PR #4 已验证类型错误使 Web Build 与 Candidate Quality 失败并关闭。远端已关闭 squash，启用精确保护 master 的 Ruleset `26446452`，检查来源绑定实际 GitHub Actions `15368`。稳定晋级正通过 [PR #3](https://github.com/RadishIntelligence/RadishUI/pull/3) 推进；最终合并、回流与部署结果以执行记录为准。
 
 ## 后续顺位
 
-1. 本批治理文件获准推送后，在真实 PR 验证 `Candidate Quality`，再按具体授权启用远端合并设置和主线 Ruleset；启用流程不阻断本地视觉方案推进。
+1. 完成 PR #3 最终候选检查、稳定主线合并、dev 回流与部署核验，记录收口结果。
 2. 确认家族视觉代表页、首批组件和产品接入范围。
 3. 核查现有 family-ui 和产品内组件，选择可复用部分，明确设计来源与许可。
 4. 在真实页面验证首批组件，再扩展 Flutter。

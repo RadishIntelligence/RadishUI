@@ -8,7 +8,7 @@
 
 - 必须 PR，解决所有 review conversation；单人阶段审批数为 `0`，不要求 CODEOWNERS、最后推送人批准或签名。
 - 禁止删除、non-fast-forward 和直接 push；管理员角色 ID `5` 仅有 `pull_request` bypass，用于有记录的应急处置，不用于常规跳过 CI。
-- 严格要求最新基线的 `Candidate Quality`；分支创建不豁免检查。
+- 严格要求最新基线的 `Candidate Quality`，来源绑定已在真实 PR 核实的 GitHub Actions（`integration_id: 15368`）；分支创建不豁免检查。
 - 允许 merge / rebase，不允许 squash，不要求线性历史；晋级优先 merge commit，之后必须回流 `dev`。
 - 不添加提交信息正则；PR commit range 由仓库检查器验证，正常 merge commit 例外。
 
@@ -23,7 +23,7 @@
 3. 核对成功路径，并使用有限测试变更验证组件失败会阻断聚合；查看聚合取消 / 跳过处理。记录 run URL、head SHA、合并候选 SHA、结论和未验证面。本地 shell 测试不冒充 GitHub 调度验收。
 4. 读取仓库设置、规则列表（含组织继承规则）、经典 branch protection 和 `master` 生效规则，保存调整前快照到忽略目录 `output/governance/<日期>/`。缺权限或读取失败不代表规则为空。
 5. 比较设置模板，只应用已确认的字段。查明已有 Ruleset ID；已有同范围规则则精确更新，不重复创建或覆盖未知组织规则。
-6. 确认 context 名与真实来源后启用 Ruleset。初始模板未绑定 `integration_id`；远端验收若已能选择 GitHub Actions 来源，应记录真实 App ID，并同步模板与检查器后再绑定，不能凭空填写。
+6. 确认 context 名与真实来源后启用 Ruleset。2026-11-03 的 PR #3 已产生 GitHub Actions `Candidate Quality`，实际 App ID 为 `15368`，模板与检查器已同步绑定；今后复用或迁移仍须核对真实来源，不凭空填写或改回任意来源。
 7. 在 PR 上核对 strict 基线、会话解决与合并限制；通过读取服务端规则确认直接 push / 删除 / 强推限制，不以破坏性真实写入测试主线。获准合并后回流 `dev`，读取最终设置并记录。
 
 以下是获授权后的命令参考，本文不会执行写入：

@@ -59,7 +59,7 @@ export function checkRuleset(ruleset) {
   });
   const checks = ruleset.rules.find((rule) => rule.type === 'required_status_checks').parameters;
   assert.deepEqual(checks, {
-    do_not_enforce_on_create: false, required_status_checks: [{ context: 'Candidate Quality' }],
+    do_not_enforce_on_create: false, required_status_checks: [{ context: 'Candidate Quality', integration_id: 15368 }],
     strict_required_status_checks_policy: true,
   });
 }
