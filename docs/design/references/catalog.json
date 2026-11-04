@@ -9,7 +9,7 @@
       "id": "ref-01",
       "title": "电商客户列表 + KPI 卡",
       "learn": "KPI 卡结构（图标 + 标签 + 大数字 + 趋势小 chip）、表格行内下拉、软色状态 chip、pill 筛选器",
-      "avoid": "纯灰白底色",
+      "avoid": "品牌、业务指标与完整页面组合",
       "aliases": [
         {
           "project": "RadishX",

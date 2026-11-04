@@ -2,6 +2,8 @@
 
 形态由任务倒推，组件 API 与行为另见[首批组件边界](../components/first-batch.md)。不从一份产品实现推断它已经具备共享组件所需的键盘、焦点或可访问性。
 
+交互区域与静态展示按[DR-02](../design-rules.md#dr-02)区分，保留特殊需求或特殊设计的例外。成组入口可以共享独立底板，不要求逐项画成按钮；侧栏的具体判断见[已选择的导航方案](../design-rules.md#sidebar-navigation)。
+
 - Button 区分主、次、危险与轻量操作。同一任务保留明确主动作；loading 与 disabled 有不同原因，图标按钮有可访问名称。
 - 字段由 label、控件、hint / error 组成，错误就近说明原因与下一步，失败保留输入。单位紧贴值；placeholder 不承担唯一标签。
 - Checkbox 表示选择，Switch 表示开启状态，Tabs 切换同级内容。静态颜色不能替代受控状态和键盘合同。
