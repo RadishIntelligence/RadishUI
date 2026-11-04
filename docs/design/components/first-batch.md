@@ -1,6 +1,6 @@
 # 首批组件候选边界
 
-这是代表页驱动的设计范围，未冻结公共 API。当前运行时只有已有 Button 工程预览；Pen 中的形态不是 React / Flutter 实现。
+这是代表页驱动的设计范围，未冻结正式发行 API。2026-11-04 已按所有者授权进入本仓 Web 实施；当前合同与实现验收统一转入 [C-02](../../features/react-workbench-components.md)，页面组合转入 [E-02](../../features/workbench-preview.md)。Pen 形态与运行时验收分别判断，Flutter 仍未实现。
 
 | 批次 | 组件 | 由代表页确认的合同重点 |
 | --- | --- | --- |
@@ -14,4 +14,4 @@ A 为 10 个、B 为 6 个。先确认代表页与 A 的合同，再按真实需
 
 AppShell、轻表格、列表 / 详情和设置分组先作为页面组合；首轮不承诺服务器分页、虚拟化、DataGrid、富文本编辑、协作编辑或全部平台。React 19 范围先验证，React 18 / Flutter 保留待验证身份。
 
-对应[页面与状态候选](../patterns/workbench-v1.md)。正式实施获批后在 C 大专题建立组件合同与唯一任务来源，不在此重复维护实现待办。
+对应[现代圆角候选](../patterns/modern-rounded-v1.md)，此前 [Workbench v1](../patterns/workbench-v1.md)保留对照。本页只保留原候选范围，不重复 C-02 的实施进度。

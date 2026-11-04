@@ -1,0 +1,81 @@
+import type { ReactNode } from 'react';
+import { IconButton, Menu, Tooltip } from '@radish-ui/react';
+import { BookOpen, Check, ChevronDown, FileText, FolderOpen, LifeBuoy, PanelLeftClose, PanelLeftOpen, SlidersHorizontal, Star, SunMoon } from 'lucide-react';
+import type { Page, Translate } from './model';
+
+interface ShellProps {
+  page: Page; collapsed: boolean; onCollapse(): void; onHelp(): void; onTheme(): void;
+  t: Translate; children: ReactNode;
+}
+export function Shell({ page, collapsed, onCollapse, onHelp, onTheme, t, children }: ShellProps) {
+  const links = [
+    { page: 'resources', href: '#/resources', label: t('资源库', 'Resources'), mobile: t('资源', 'Resources'), Icon: FolderOpen },
+    { page: 'document', href: '#/document', label: t('文档', 'Documents'), mobile: t('文档', 'Docs'), Icon: FileText },
+    { page: 'settings', href: '#/settings', label: t('偏好设置', 'Preferences'), mobile: t('偏好', 'Settings'), Icon: SlidersHorizontal },
+  ] as const;
+  const workspace = <Menu align="start" label={t('当前工作区', 'Current workspace')} trigger={
+    <button className="workspace-switch" aria-label={t('工作区菜单', 'Workspace menu')}>
+      <span className="workspace-avatar" aria-hidden="true">{t('演', 'D')}</span>
+      <strong className="rail-label">{t('演示空间', 'Demo space')}</strong><ChevronDown className="rail-label" size={15} />
+    </button>
+  } items={[
+    { id: 'demo', label: t('演示空间', 'Demo space'), icon: <Check />, disabled: true },
+    { id: 'help', label: t('关于本地演示', 'About this demo'), icon: <LifeBuoy />, onSelect: onHelp },
+  ]} />;
+  const account = <Menu label={t('林杏 · 示例成员', 'Lin Xing · Demo member')} trigger={
+    <button className="account-switch" aria-label={t('账号菜单', 'Account menu')}>
+      <span className="account-avatar" aria-hidden="true">{t('林', 'L')}</span>
+      <span className="account-text rail-label"><strong>{t('林杏', 'Lin Xing')}</strong><span>{t('示例成员', 'Demo member')}</span></span>
+      <ChevronDown className="rail-label" size={15} />
+    </button>
+  } items={[
+    { id: 'preferences', label: t('外观与偏好', 'Appearance & preferences'), icon: <SlidersHorizontal />, href: '#/settings' },
+    { id: 'project', label: t('项目文档', 'Project documentation'), icon: <BookOpen />, href: 'https://github.com/RadishIntelligence/RadishUI/tree/master/docs', separatorBefore: true },
+  ]} />;
+  return <div className={`workbench ${collapsed ? 'is-collapsed' : ''}`}>
+    <a className="skip-link" href="#main" onClick={event => { event.preventDefault(); document.getElementById('main')?.focus(); }}>{t('跳到主要内容', 'Skip to content')}</a>
+    <aside className="app-rail" aria-label={t('工作区侧栏', 'Workspace sidebar')}>
+      <div className="rail-surface">
+        <div className="rail-brand"><a href="#/resources" aria-label="RadishUI"><span className="brand-full">RadishUI</span><span className="brand-short">R</span></a>
+          <Tooltip content={collapsed ? t('展开侧栏', 'Expand sidebar') : t('收起侧栏', 'Collapse sidebar')}>
+            <IconButton label={collapsed ? t('展开侧栏', 'Expand sidebar') : t('收起侧栏', 'Collapse sidebar')} onClick={onCollapse}>
+              {collapsed ? <PanelLeftOpen /> : <PanelLeftClose />}
+            </IconButton>
+          </Tooltip>
+        </div>
+        {workspace}
+        <nav className="rail-navigation" aria-label={t('工作空间', 'Workspace')}>
+          <span className="rail-group-label rail-label">{t('工作空间', 'Workspace')}</span>
+          {links.map(({ href, page: key, label, Icon }) => <a className={`rail-link ${page === key ? 'is-active' : ''}`} key={key} href={href}
+            aria-current={page === key ? 'page' : undefined} aria-label={label}>
+            <Icon aria-hidden="true" /><span className="rail-label">{label}</span>
+          </a>)}
+        </nav>
+        <nav className="rail-favorites" aria-label={t('收藏', 'Favorites')}>
+          <span className="rail-group-label rail-label">{t('收藏', 'Favorites')}</span>
+          <a className="rail-link" href="#/document/theme-colors" aria-label={t('主题与配色', 'Theme & colors')}><Star aria-hidden="true" /><span className="rail-label">{t('主题与配色', 'Theme & colors')}</span></a>
+          <a className="rail-link" href="#/document/control-states" aria-label={t('控件状态检查表', 'Control states')}><Star aria-hidden="true" /><span className="rail-label">{t('控件状态检查表', 'Control states')}</span></a>
+        </nav>
+        <div className="rail-spacer" />
+        <button className="rail-link help-link" onClick={onHelp} aria-label={t('帮助与反馈', 'Help & feedback')}><LifeBuoy aria-hidden="true" /><span className="rail-label">{t('帮助与反馈', 'Help & feedback')}</span></button>
+        {account}
+      </div>
+    </aside>
+    <section className="workspace-panel" aria-label={t('演示空间', 'Demo space')}>
+      <header className="workspace-header">
+        <div className="breadcrumb"><FolderOpen size={18} aria-hidden="true" /><span>{t('演示空间', 'Demo space')}</span><span aria-hidden="true">/</span><span>{links.find(link => link.page === page)?.label}</span></div>
+        <div className="mobile-workspace">{workspace}</div>
+        <div className="header-actions">
+          <Tooltip content={t('切换明暗外观', 'Toggle appearance')}><IconButton label={t('切换明暗外观', 'Toggle appearance')} onClick={onTheme}><SunMoon /></IconButton></Tooltip>
+          <div className="mobile-account">{account}</div>
+        </div>
+      </header>
+      {children}
+    </section>
+    <nav className="mobile-navigation" aria-label={t('底部导航', 'Bottom navigation')}>
+      {links.map(({ href, page: key, mobile, Icon }) => <a key={key} className={page === key ? 'is-active' : ''} href={href} aria-current={page === key ? 'page' : undefined}>
+        <Icon aria-hidden="true" /><span>{mobile}</span>
+      </a>)}
+    </nav>
+  </div>;
+}

@@ -22,10 +22,12 @@ Flutter 适配：待实现
 
 `packages/tokens/src/tokens.json` 是首批 token 的唯一机器来源，包含共享尺度及亮暗语义。当前使用项目内最小格式，不宣称已符合完整 DTCG 交换规范。`scripts/generate-tokens.mjs` 确认主题键对应并生成 `dist/tokens.css`；该文件被精确纳入 Git。
 
-灰玉品牌与墨蓝操作的方向参考既有 RadishX family-ui v26.7.3；当前运行时仍是少量探索 token。本仓研究资料在 [docs/design](../design/README.md)，原生候选在 `designs/`，原创导出在 `assets/design-baselines/candidates/`。本仓使用的受限参考副本在仓库外私有库，来源仓文件已恢复；历史 token 参考不参与构建。当前先完成本仓第一版设计，尚未批准视觉或接入产品。
+灰玉品牌与墨蓝操作保留角色识别；本轮按所有者接受的现代圆角方向扩充中性明暗表面、状态、边界与尺度，映射见 [F-01](../features/token-foundation.md)。Pen 变量不直接参与运行时生成，机器来源仍只有 token JSON。本仓研究资料在 [docs/design](../design/README.md)，原生候选在 `designs/`，原创导出在 `assets/design-baselines/candidates/`。受限参考副本仍在仓库外私有库，历史 token 不参与构建。
+
+共享控件采用原生元素与 Radix Primitives 行为基础，视觉由本仓语义 token 维护，图标按需使用 Lucide。第三方依赖、版本和声明见[依赖说明](../development/third-party-dependencies.md)，不引入 antd、产品接口或网络字体。Web 范例使用 hash 地址与本地合成数据；存储、恢复和页面导航留在 `apps/docs`。
 
 ## 平台边界
 
-- React：当前仅提供 Button 与样式入口，React 18 尚未验证。
+- React：本轮实现 [C-02 首批控件与浮层](../features/react-workbench-components.md)，在 React 19 的 [E-02](../features/workbench-preview.md)范例验收；React 18、正式包构建与产品消费尚未验证。
 - Flutter：当前只有目录说明，未安装 SDK、创建 pub 包或宣称组件可用。
 - egui、Root 与 Godot：根据真实采用需求提供适配，不进入首批运行依赖。

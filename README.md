@@ -2,7 +2,7 @@
 
 Radish 家族共享设计系统：集中维护视觉基础、通用组件与可运行的界面范例，让设计改进通过版本升级服务多个产品。
 
-当前为工程预览，包含亮暗语义 token、首个 React Button 和独立展示站。视觉尚未定稿，组件包尚未发布，Flutter 暂为预留目录。
+当前推进首轮 Workbench Web 范例：亮暗语义 token、首批 React 控件，以及资源库、设置和文档三页。使用本地合成数据，不接产品服务；视觉继续迭代，组件包尚未发布，Flutter 暂为预留目录。
 
 ## 项目结构
 
@@ -11,7 +11,7 @@ apps/docs/            React + Vite 静态文档与组件展示
 packages/tokens/      JSON token 来源与生成的 CSS
 packages/react/       React 组件与样式
 packages/flutter/     Flutter 接入边界，尚无可运行包
-scripts/              仓库与 token 一致性检查
+scripts/              仓库、模型、token 与第三方声明检查
 docs/                 规划、架构、协作、部署与开发记录
 ```
 
@@ -30,7 +30,7 @@ npm run dev
 npm run build
 ```
 
-构建包含仓库检查、token 产物核对、TypeScript 检查和 Vite 静态构建，输出为 `apps/docs/dist`。修改 token 后执行 `npm run tokens:generate`，并提交来源与 CSS 产物。
+构建包含仓库与治理自测、工作面模型测试、token / 第三方声明核对、TypeScript 和 Vite 静态构建，输出为 `apps/docs/dist`。修改 token 后执行 `npm run tokens:generate`；调整运行时依赖后执行 `npm run notices:generate`，分别保留来源与生成产物。
 
 ## 协作与接入
 
@@ -44,7 +44,7 @@ npm run build
 
 ## 文档与托管
 
-在线工程预览：[ui.radishx.com](https://ui.radishx.com/)。
+在线工程预览：[ui.radishx.com](https://ui.radishx.com/)。本轮工作区尚未部署，线上仍是此前 master 的工程预览；当前实现与验收见[三代表页专题](docs/features/workbench-preview.md)。
 
 [整体规划](docs/planning/roadmap.md) · [专题地图](docs/planning/topics.md) · [当前规划](docs/planning/current.md) · [文档索引](docs/README.md) · [架构](docs/architecture/overview.md) · [协作方式](docs/development/collaboration.md) · [仓库治理](docs/development/repository-governance.md) · [设计系统契约](docs/development/design-system.md) · [贡献指南](CONTRIBUTING.md) · [部署说明](docs/deployment/hosting.md)
 

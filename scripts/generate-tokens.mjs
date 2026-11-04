@@ -14,7 +14,7 @@ for (const group of Object.values(tokens)) {
 }
 const block = (selector, values) => `${selector} {\n${Object.entries(values).map(([name, value]) => `  --rd-${name}: ${value};`).join('\n')}\n}\n`;
 const css = '/* Generated from src/tokens.json. Run npm run tokens:generate. */\n' +
-  block(':root', { ...tokens.shared, ...tokens.light }) + '\n' + block('[data-rd-theme="dark"]', tokens.dark);
+  block(':root', tokens.shared) + '\n' + block(':root, [data-rd-theme="light"]', tokens.light) + '\n' + block('[data-rd-theme="dark"]', tokens.dark);
 const output = new URL('packages/tokens/dist/tokens.css', root);
 if (process.argv.includes('--check')) {
   if (readFileSync(output, 'utf8') !== css) throw new Error('Token 产物过期，请执行 npm run tokens:generate');

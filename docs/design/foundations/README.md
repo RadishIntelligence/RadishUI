@@ -2,7 +2,7 @@
 
 这些章节承接 RadishX 的 family-ui `v26.7.3`，并整合 Radish、Mind、Flow 与 Nexus 的通用经验。规范已按 RadishUI 职责重新组织；没有导入产品业务合同或实现代码。[来源与原文件映射](../sources/2026-11-03-centralization.md)保留原仓、提交和许可说明。
 
-稳定原则可以直接用于设计判断；具体色值、尺度和组件合同以其明确标注的版本为准。Workbench v1 的新色值与页面仍是[候选稿](../patterns/workbench-v1.md)，未获视觉批准，也未修改运行时。
+稳定原则可以直接用于设计判断；具体色值、尺度和组件合同以其明确标注的版本为准。旧 [Workbench v1](../patterns/workbench-v1.md) 保留为历史候选；当前[现代圆角版](../patterns/modern-rounded-v1.md)已按所有者授权转入本仓 Web 实施，运行时映射归 [F-01](../../features/token-foundation.md)，组件与页面分别归 [C-02](../../features/react-workbench-components.md) / [E-02](../../features/workbench-preview.md)。本地实现不等于正式发行冻结或产品采用。
 
 具体评审条目统一在[设计条例与约束](../design-rules.md)维护，区分所有者确认的默认原则与参考提炼建议；本目录继续承载各能力的详细方法。
 

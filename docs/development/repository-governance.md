@@ -62,15 +62,17 @@ git rev-list --left-right --count origin/master...origin/dev
 | --- | --- |
 | `npm run check:repo` | 必需治理文件、协作同步、文本 / JSON / 文档链接、治理配置契约、工作区与暂存区 diff 空白 |
 | `npm run test:repo` | 治理检查器的正常与拒绝用例 |
+| `npm run test:workbench` | 本地数据校验、资源筛选、分页边界、文档标题解析与路由 |
 | `npm run check:repo -- --base-ref <base-sha> --head-ref <head-sha>` | 以上内容，加 PR 完整 diff 和真实 PR 提交信息；base 无效则失败 |
 | `npm run check:tokens` | JSON 与生成 CSS 一致性 |
+| `npm run check:notices` | lockfile、安装包许可文本与展示站第三方声明一致性 |
 | `npm run type-check` | React、展示站、Vite 配置类型 |
 | `npm run build` | 全部本地检查与展示站静态构建 |
 
 `PR Checks` 对 `dev` / `master` 的 PR 和手动调度生效，不监听普通 push / tag，不以 paths 过滤跳过文档 PR。PR 默认检出 GitHub 的合并候选，构建目标分支与本次改动的组合；提交信息检查单独使用真实 base / head SHA，排除 GitHub 临时合并提交。
 
 - `Repo Hygiene`：无需 npm 第三方依赖，运行仓库检查与检查器测试。
-- `Web Build`：Node 24，`npm ci` 后执行 token、类型检查与展示站构建。只支持当前 React 工程，不推断其他平台可用。
+- `Web Build`：Node 24，`npm ci` 后执行工作面模型测试、token / 第三方声明、类型检查与展示站构建。只支持当前 React 工程，不推断其他平台可用；2026-11-04 新增的本地工作流步骤尚未推送，不冒充远端已执行。
 - `Candidate Quality`：以 `if: always()` 汇总，所有组件必须为 `success`。required context 只绑定它，新增真实组件时同步聚合依赖与检查器。
 
 工作流使用 `contents: read`、不持久化 checkout 凭据、GitHub 官方 Actions 的完整 SHA，不使用 `pull_request_target` 执行 PR 代码，不读取发布凭据或执行部署。依赖安装仅发生在配置的临时 CI runner；本地安装仍遵循协作授权。Actions 来源见[Rulesets 说明](../../.github/rulesets/README.md#来源与官方参考)。
