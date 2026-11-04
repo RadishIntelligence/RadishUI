@@ -17138,14 +17138,13 @@
                       "name": "正文与辅助目录",
                       "width": "fill_container",
                       "height": "fill_container",
-                      "gap": 40,
-                      "justifyContent": "space_between",
+                      "gap": 24,
                       "children": [
                         {
                           "type": "frame",
                           "id": "OVsbr",
                           "name": "阅读正文",
-                          "width": 680,
+                          "width": "fill_container",
                           "layout": "vertical",
                           "gap": 24,
                           "padding": [
@@ -17377,7 +17376,7 @@
                           "name": "文档辅助区",
                           "width": 220,
                           "layout": "vertical",
-                          "gap": 24,
+                          "gap": 20,
                           "padding": [
                             16,
                             0
@@ -17388,8 +17387,13 @@
                               "id": "bGjUf",
                               "name": "本文目录",
                               "width": "fill_container",
+                              "fill": "$mr-soft",
+                              "cornerRadius": 12,
+                              "stroke": "$mr-line",
+                              "strokeWidth": 1,
                               "layout": "vertical",
                               "gap": 8,
+                              "padding": 12,
                               "children": [
                                 {
                                   "type": "text",
@@ -17403,96 +17407,102 @@
                                 },
                                 {
                                   "type": "frame",
-                                  "id": "XcCpj",
-                                  "name": "目录项 / 先确认主任务",
+                                  "id": "piYbo",
+                                  "name": "章节层级列表",
                                   "width": "fill_container",
-                                  "height": 36,
-                                  "fill": "$mr-selected",
-                                  "cornerRadius": 99,
-                                  "stroke": "$mr-action",
-                                  "strokeWidth": 1,
-                                  "padding": [
-                                    0,
-                                    8
-                                  ],
-                                  "alignItems": "center",
+                                  "layout": "vertical",
                                   "children": [
                                     {
-                                      "type": "text",
-                                      "id": "pWQuT",
-                                      "name": "目录名称",
-                                      "fill": "$mr-action",
-                                      "content": "先确认主任务",
-                                      "fontFamily": "$mr-font",
-                                      "fontSize": 12,
-                                      "fontWeight": "500"
-                                    }
-                                  ]
-                                },
-                                {
-                                  "type": "frame",
-                                  "id": "oP7aX",
-                                  "name": "目录项 / 让状态说清楚",
-                                  "width": "fill_container",
-                                  "height": 36,
-                                  "fill": "$mr-soft",
-                                  "cornerRadius": 99,
-                                  "stroke": "$mr-line",
-                                  "strokeWidth": 1,
-                                  "padding": [
-                                    0,
-                                    8
-                                  ],
-                                  "alignItems": "center",
-                                  "children": [
+                                      "type": "frame",
+                                      "id": "XcCpj",
+                                      "name": "目录项 / 先确认主任务",
+                                      "context": "Outline entry matching a level-2 heading in the document",
+                                      "width": "fill_container",
+                                      "height": 28,
+                                      "fill": "#00000000",
+                                      "stroke": "$mr-action",
+                                      "strokeWidth": {
+                                        "left": 2
+                                      },
+                                      "padding": [
+                                        0,
+                                        10
+                                      ],
+                                      "alignItems": "center",
+                                      "children": [
+                                        {
+                                          "type": "text",
+                                          "id": "pWQuT",
+                                          "name": "目录名称",
+                                          "fill": "$mr-action",
+                                          "content": "先确认主任务",
+                                          "fontFamily": "$mr-font",
+                                          "fontSize": 12,
+                                          "fontWeight": "500"
+                                        }
+                                      ]
+                                    },
                                     {
-                                      "type": "text",
-                                      "id": "sjJDf",
-                                      "name": "目录名称",
-                                      "fill": "$mr-muted",
-                                      "content": "让状态说清楚",
-                                      "fontFamily": "$mr-font",
-                                      "fontSize": 12
-                                    }
-                                  ]
-                                },
-                                {
-                                  "type": "frame",
-                                  "id": "N6CVEq",
-                                  "name": "目录项 / 保持阅读节奏",
-                                  "width": "fill_container",
-                                  "height": 36,
-                                  "fill": "$mr-soft",
-                                  "cornerRadius": 99,
-                                  "stroke": "$mr-line",
-                                  "strokeWidth": 1,
-                                  "padding": [
-                                    0,
-                                    8
-                                  ],
-                                  "alignItems": "center",
-                                  "children": [
+                                      "type": "frame",
+                                      "id": "oP7aX",
+                                      "name": "目录项 / 让状态说清楚",
+                                      "context": "Outline entry matching a level-2 heading in the document",
+                                      "width": "fill_container",
+                                      "height": 28,
+                                      "fill": "#00000000",
+                                      "stroke": "$mr-line",
+                                      "strokeWidth": {
+                                        "left": 1
+                                      },
+                                      "padding": [
+                                        0,
+                                        10
+                                      ],
+                                      "alignItems": "center",
+                                      "children": [
+                                        {
+                                          "type": "text",
+                                          "id": "sjJDf",
+                                          "name": "目录名称",
+                                          "fill": "$mr-muted",
+                                          "content": "让状态说清楚",
+                                          "fontFamily": "$mr-font",
+                                          "fontSize": 12
+                                        }
+                                      ]
+                                    },
                                     {
-                                      "type": "text",
-                                      "id": "xf2c0",
-                                      "name": "目录名称",
-                                      "fill": "$mr-muted",
-                                      "content": "保持阅读节奏",
-                                      "fontFamily": "$mr-font",
-                                      "fontSize": 12
+                                      "type": "frame",
+                                      "id": "N6CVEq",
+                                      "name": "目录项 / 保持阅读节奏",
+                                      "context": "Outline entry matching a level-2 heading in the document",
+                                      "width": "fill_container",
+                                      "height": 28,
+                                      "fill": "#00000000",
+                                      "stroke": "$mr-line",
+                                      "strokeWidth": {
+                                        "left": 1
+                                      },
+                                      "padding": [
+                                        0,
+                                        10
+                                      ],
+                                      "alignItems": "center",
+                                      "children": [
+                                        {
+                                          "type": "text",
+                                          "id": "xf2c0",
+                                          "name": "目录名称",
+                                          "fill": "$mr-muted",
+                                          "content": "保持阅读节奏",
+                                          "fontFamily": "$mr-font",
+                                          "fontSize": 12
+                                        }
+                                      ]
                                     }
                                   ]
                                 }
                               ]
-                            },
-                            {
-                              "type": "frame",
-                              "id": "Gah7d",
-                              "name": "分隔线",
-                              "width": "fill_container",
-                              "height": 1,
-                              "fill": "$mr-line",
-                              "layout": "vertical"
                             },
                             {
                               "type": "frame",
@@ -24618,14 +24628,13 @@
                       "name": "正文与辅助目录",
                       "width": "fill_container",
                       "height": "fill_container",
-                      "gap": 40,
-                      "justifyContent": "space_between",
+                      "gap": 24,
                       "children": [
                         {
                           "type": "frame",
                           "id": "x04JRM",
                           "name": "阅读正文",
-                          "width": 680,
+                          "width": "fill_container",
                           "layout": "vertical",
                           "gap": 24,
                           "padding": [
@@ -24857,7 +24866,7 @@
                           "name": "文档辅助区",
                           "width": 220,
                           "layout": "vertical",
-                          "gap": 24,
+                          "gap": 20,
                           "padding": [
                             16,
                             0
@@ -24868,8 +24877,13 @@
                               "id": "Ia1qU",
                               "name": "本文目录",
                               "width": "fill_container",
+                              "fill": "$mr-soft",
+                              "cornerRadius": 12,
+                              "stroke": "$mr-line",
+                              "strokeWidth": 1,
                               "layout": "vertical",
                               "gap": 8,
+                              "padding": 12,
                               "children": [
                                 {
                                   "type": "text",
@@ -24883,96 +24897,102 @@
                                 },
                                 {
                                   "type": "frame",
-                                  "id": "oWYTB",
-                                  "name": "目录项 / 先确认主任务",
+                                  "id": "xUpSa",
+                                  "name": "章节层级列表",
                                   "width": "fill_container",
-                                  "height": 36,
-                                  "fill": "$mr-selected",
-                                  "cornerRadius": 99,
-                                  "stroke": "$mr-action",
-                                  "strokeWidth": 1,
-                                  "padding": [
-                                    0,
-                                    8
-                                  ],
-                                  "alignItems": "center",
+                                  "layout": "vertical",
                                   "children": [
                                     {
-                                      "type": "text",
-                                      "id": "cx8J1",
-                                      "name": "目录名称",
-                                      "fill": "$mr-action",
-                                      "content": "先确认主任务",
-                                      "fontFamily": "$mr-font",
-                                      "fontSize": 12,
-                                      "fontWeight": "500"
-                                    }
-                                  ]
-                                },
-                                {
-                                  "type": "frame",
-                                  "id": "mewt6",
-                                  "name": "目录项 / 让状态说清楚",
-                                  "width": "fill_container",
-                                  "height": 36,
-                                  "fill": "$mr-soft",
-                                  "cornerRadius": 99,
-                                  "stroke": "$mr-line",
-                                  "strokeWidth": 1,
-                                  "padding": [
-                                    0,
-                                    8
-                                  ],
-                                  "alignItems": "center",
-                                  "children": [
+                                      "type": "frame",
+                                      "id": "oWYTB",
+                                      "name": "目录项 / 先确认主任务",
+                                      "context": "Outline entry matching a level-2 heading in the document",
+                                      "width": "fill_container",
+                                      "height": 28,
+                                      "fill": "#00000000",
+                                      "stroke": "$mr-action",
+                                      "strokeWidth": {
+                                        "left": 2
+                                      },
+                                      "padding": [
+                                        0,
+                                        10
+                                      ],
+                                      "alignItems": "center",
+                                      "children": [
+                                        {
+                                          "type": "text",
+                                          "id": "cx8J1",
+                                          "name": "目录名称",
+                                          "fill": "$mr-action",
+                                          "content": "先确认主任务",
+                                          "fontFamily": "$mr-font",
+                                          "fontSize": 12,
+                                          "fontWeight": "500"
+                                        }
+                                      ]
+                                    },
                                     {
-                                      "type": "text",
-                                      "id": "rSQWH",
-                                      "name": "目录名称",
-                                      "fill": "$mr-muted",
-                                      "content": "让状态说清楚",
-                                      "fontFamily": "$mr-font",
-                                      "fontSize": 12
-                                    }
-                                  ]
-                                },
-                                {
-                                  "type": "frame",
-                                  "id": "jRw3P",
-                                  "name": "目录项 / 保持阅读节奏",
-                                  "width": "fill_container",
-                                  "height": 36,
-                                  "fill": "$mr-soft",
-                                  "cornerRadius": 99,
-                                  "stroke": "$mr-line",
-                                  "strokeWidth": 1,
-                                  "padding": [
-                                    0,
-                                    8
-                                  ],
-                                  "alignItems": "center",
-                                  "children": [
+                                      "type": "frame",
+                                      "id": "mewt6",
+                                      "name": "目录项 / 让状态说清楚",
+                                      "context": "Outline entry matching a level-2 heading in the document",
+                                      "width": "fill_container",
+                                      "height": 28,
+                                      "fill": "#00000000",
+                                      "stroke": "$mr-line",
+                                      "strokeWidth": {
+                                        "left": 1
+                                      },
+                                      "padding": [
+                                        0,
+                                        10
+                                      ],
+                                      "alignItems": "center",
+                                      "children": [
+                                        {
+                                          "type": "text",
+                                          "id": "rSQWH",
+                                          "name": "目录名称",
+                                          "fill": "$mr-muted",
+                                          "content": "让状态说清楚",
+                                          "fontFamily": "$mr-font",
+                                          "fontSize": 12
+                                        }
+                                      ]
+                                    },
                                     {
-                                      "type": "text",
-                                      "id": "enpVU",
-                                      "name": "目录名称",
-                                      "fill": "$mr-muted",
-                                      "content": "保持阅读节奏",
-                                      "fontFamily": "$mr-font",
-                                      "fontSize": 12
+                                      "type": "frame",
+                                      "id": "jRw3P",
+                                      "name": "目录项 / 保持阅读节奏",
+                                      "context": "Outline entry matching a level-2 heading in the document",
+                                      "width": "fill_container",
+                                      "height": 28,
+                                      "fill": "#00000000",
+                                      "stroke": "$mr-line",
+                                      "strokeWidth": {
+                                        "left": 1
+                                      },
+                                      "padding": [
+                                        0,
+                                        10
+                                      ],
+                                      "alignItems": "center",
+                                      "children": [
+                                        {
+                                          "type": "text",
+                                          "id": "enpVU",
+                                          "name": "目录名称",
+                                          "fill": "$mr-muted",
+                                          "content": "保持阅读节奏",
+                                          "fontFamily": "$mr-font",
+                                          "fontSize": 12
+                                        }
+                                      ]
                                     }
                                   ]
                                 }
                               ]
-                            },
-                            {
-                              "type": "frame",
-                              "id": "aLrOY",
-                              "name": "分隔线",
-                              "width": "fill_container",
-                              "height": 1,
-                              "fill": "$mr-line",
-                              "layout": "vertical"
                             },
                             {
                               "type": "frame",

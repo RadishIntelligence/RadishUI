@@ -3,7 +3,7 @@
   "date": "2026-11-04",
   "status": "pending-owner-visual-review",
   "direction": "modern-rounded",
-  "revision": "grouped-sidebar",
+  "revision": "fluid-reading-column",
   "document": "designs/radish-ui-workbench-v1.pen",
   "generator": "Existing Pen App via Pencil MCP",
   "baselineCommit": "c6eba89",

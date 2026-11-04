@@ -290,6 +290,22 @@
       "ratio": 10.544,
       "minimum": 3,
       "passCheck": true
+    },
+    {
+      "theme": "light",
+      "foreground": "action",
+      "background": "soft",
+      "ratio": 6.325,
+      "minimum": 4.5,
+      "passCheck": true
+    },
+    {
+      "theme": "dark",
+      "foreground": "action",
+      "background": "soft",
+      "ratio": 8.175,
+      "minimum": 4.5,
+      "passCheck": true
     }
   ]
 }
