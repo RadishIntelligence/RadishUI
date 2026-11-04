@@ -27,7 +27,7 @@
 | --- | --- |
 | `planning/roadmap.md` | 项目整体规划 |
 | `planning/topics.md` 的四个稳定章节 | 大专题，定义价值、能力边界、依赖和完成条件 |
-| [Token 基础](features/token-foundation.md)、[React Button](features/react-button.md)、[展示范例](features/docs-preview.md)、仓库治理、部署说明、初始化验收 | 子专题，主要归属和状态入口在专题地图登记；保留原路径 |
+| [Token 基础](features/token-foundation.md)、[首批 React 组件](features/react-workbench-components.md)、[三代表页](features/workbench-preview.md)、视觉方案、仓库治理、部署说明、初始化验收 | 子专题，主要归属和状态入口在专题地图登记；P0 Button / 展示页保留历史验收身份 |
 | 架构、设计系统契约、协作规范与 ADR | 专题共同引用的规范与决策，不强行增加功能层级 |
 | current 与 devlogs | 当前调度与历史证据，不作为平行整体规划或任务库 |
 

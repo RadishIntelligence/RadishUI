@@ -17,7 +17,7 @@
 | 组件 | 输入 / 输出与行为 |
 | --- | --- |
 | Button / IconButton | 保留原生 button 属性、ref、四种 variant 与 loading，增加 sm / md；默认 type=button，loading 禁用并带 aria-busy。IconButton 的 label 必填 |
-| FormField / Input / Textarea | FormField 提供 label、hint / error、required 与稳定 id；控件读取字段上下文关联 aria-describedby / aria-invalid，也可独立传入原生属性。失败不清空输入 |
+| FormField / Input / Textarea | FormField 提供 label、hint / error、required 与稳定 id；Input / Textarea 读取字段上下文关联 aria-describedby / aria-invalid，也可独立传入原生属性。Switch 等其他控件由调用方显式关联 id / 标签及所需说明。失败不清空输入 |
 | Select | 受控 value / onValueChange、options、placeholder、disabled / required；触发值和箭头分离，浮层不透明，支持当前值、键盘、滚动与碰撞避让 |
 | Checkbox / Switch | Checkbox 保留原生表单与键盘行为，Switch 使用受控 checked / onCheckedChange；标签、禁用、焦点与选择状态分别表达 |
 | Tabs | 受控或非受控 Root，配合 TabsList / TabsContent，保持 tab / tabpanel 关联、方向键、选择与焦点；辅助导出不另算组件数量 |
@@ -42,5 +42,8 @@ A 批 10 个基础组件与 B 批 6 个反馈 / 浮层组件由三代表页实�
 | C-02.1 A 批控件与语义样式 | 已完成（本地 React 19 范例） | 十个基础组件由三页直接消费；类型、真实表单与明暗 / 窄屏检查通过 |
 | C-02.2 B 批浮层与反馈 | 已完成（本地 React 19 范例） | 六个反馈 / 浮层组件由 E-02 消费；Select 键盘、不透明菜单、Dialog / Drawer 焦点约束与恢复、失败反馈通过 |
 | C-02.3 状态与兼容验证 | 已完成（本轮限定范围） | 模型测试、浏览器流程和组合检查通过；具体证据与其他平台 / 辅助技术等未覆盖面归开发记录 |
+| C-02.4 组件用法与状态展示 | 待开始（下一步建议） | 在展示站消费现有 16 个组件，补 props / 事件、默认用例与适用的 hover / active / focus、disabled / loading / error / readonly、长文案和明暗状态；范围按下次任务确认 |
+
+前三项完成指本轮真实页面的有限组合验收，尚无独立的组件用法 / 状态展示页，也不等于每个组件的全部状态或所有消费环境均已验收。C-02.4 补齐这些可复核用例，之后再按页面需求决定新增组件；不以复制组件实现或静态截图替代运行用例。
 
 定向检查为 `npm run type-check`、`npm run test:workbench`、`npm run check:tokens`、`npm run check:notices`；完整基线使用 `npm run build`。浏览器验收由 E-02 的矩阵驱动，日期化证据见[本周记录](../devlogs/2026-W45.md)。不推断 Flutter、其他 React 主版本或产品接入可用。

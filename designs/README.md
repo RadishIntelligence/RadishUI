@@ -6,4 +6,4 @@
 
 已保存的 [Workbench v1](../docs/design/patterns/workbench-v1.md)仍保留 12 个主组合、6 个辅助板与 8 个复用部件。[原 manifest](workbench-v1.manifest.json)、[variables](workbench-v1.variables.json)、[contrast](workbench-v1.contrast.json)描述此前快照，不代表扩充后的全文件节点数量。两组候选参数均不替代运行时 token 来源。
 
-所有内容为合成示例。外部参考原图没有进入设计源。这里的候选尚未获得视觉批准，不代表 React、Flutter 或产品已接入。
+所有内容为合成示例。外部参考原图没有进入设计源。这里的候选尚未成为正式视觉基准，原生部件与运行时组件分别计数。首轮本仓 React 实施见 [C-02](../docs/features/react-workbench-components.md) / [E-02](../docs/features/workbench-preview.md)，与画稿的差异见现代圆角说明；Flutter 和兄弟产品尚未接入。
