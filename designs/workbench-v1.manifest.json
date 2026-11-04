@@ -1,17 +1,18 @@
 {
   "schemaVersion": 1,
-  "date": "2026-11-03",
+  "date": "2026-11-04",
   "status": "pending-owner-visual-review",
   "document": "designs/radish-ui-workbench-v1.pen",
   "generator": "Existing Pen App via Pencil MCP",
   "nativeQA": {
-    "nodes": 918,
+    "nodes": 932,
     "layoutProblems": 0,
     "unnamedNodes": 0,
     "placeholders": 0,
-    "textWithoutFill": 0
+    "textWithoutFill": 0,
+    "reusableComponents": 8
   },
-  "scope": "12 main combinations + 4 supporting boards; static design only",
+  "scope": "12 main combinations + 6 supporting boards; static design only",
   "frames": [
     {
       "id": "ENe8F",
@@ -19,7 +20,7 @@
       "width": 1440,
       "height": 900,
       "theme": "light",
-      "image": "assets/design-baselines/candidates/2026-11-03/r1-desktop-light.png"
+      "image": "assets/design-baselines/candidates/2026-11-04/r1-desktop-light.png"
     },
     {
       "id": "HssGV",
@@ -27,7 +28,7 @@
       "width": 1440,
       "height": 900,
       "theme": "light",
-      "image": "assets/design-baselines/candidates/2026-11-03/r2-desktop-light.png"
+      "image": "assets/design-baselines/candidates/2026-11-04/r2-desktop-light.png"
     },
     {
       "id": "JbbSb",
@@ -35,7 +36,7 @@
       "width": 1440,
       "height": 900,
       "theme": "light",
-      "image": "assets/design-baselines/candidates/2026-11-03/r3-desktop-light.png"
+      "image": "assets/design-baselines/candidates/2026-11-04/r3-desktop-light.png"
     },
     {
       "id": "vfPie",
@@ -43,7 +44,7 @@
       "width": 390,
       "height": 844,
       "theme": "light",
-      "image": "assets/design-baselines/candidates/2026-11-03/r1-mobile-light.png"
+      "image": "assets/design-baselines/candidates/2026-11-04/r1-mobile-light.png"
     },
     {
       "id": "x4VyJl",
@@ -51,7 +52,7 @@
       "width": 390,
       "height": 844,
       "theme": "light",
-      "image": "assets/design-baselines/candidates/2026-11-03/r2-mobile-light.png"
+      "image": "assets/design-baselines/candidates/2026-11-04/r2-mobile-light.png"
     },
     {
       "id": "hLXLM",
@@ -59,7 +60,7 @@
       "width": 390,
       "height": 844,
       "theme": "light",
-      "image": "assets/design-baselines/candidates/2026-11-03/r3-mobile-light.png"
+      "image": "assets/design-baselines/candidates/2026-11-04/r3-mobile-light.png"
     },
     {
       "id": "tGomg",
@@ -67,7 +68,7 @@
       "width": 1440,
       "height": 900,
       "theme": "dark",
-      "image": "assets/design-baselines/candidates/2026-11-03/r1-desktop-dark.png"
+      "image": "assets/design-baselines/candidates/2026-11-04/r1-desktop-dark.png"
     },
     {
       "id": "U6aeBZ",
@@ -75,7 +76,7 @@
       "width": 1440,
       "height": 900,
       "theme": "dark",
-      "image": "assets/design-baselines/candidates/2026-11-03/r2-desktop-dark.png"
+      "image": "assets/design-baselines/candidates/2026-11-04/r2-desktop-dark.png"
     },
     {
       "id": "Iz92M",
@@ -83,7 +84,7 @@
       "width": 1440,
       "height": 900,
       "theme": "dark",
-      "image": "assets/design-baselines/candidates/2026-11-03/r3-desktop-dark.png"
+      "image": "assets/design-baselines/candidates/2026-11-04/r3-desktop-dark.png"
     },
     {
       "id": "RHYQ1",
@@ -91,7 +92,7 @@
       "width": 390,
       "height": 844,
       "theme": "dark",
-      "image": "assets/design-baselines/candidates/2026-11-03/r1-mobile-dark.png"
+      "image": "assets/design-baselines/candidates/2026-11-04/r1-mobile-dark.png"
     },
     {
       "id": "HKz4B",
@@ -99,7 +100,7 @@
       "width": 390,
       "height": 844,
       "theme": "dark",
-      "image": "assets/design-baselines/candidates/2026-11-03/r2-mobile-dark.png"
+      "image": "assets/design-baselines/candidates/2026-11-04/r2-mobile-dark.png"
     },
     {
       "id": "kUYtL",
@@ -107,7 +108,7 @@
       "width": 390,
       "height": 844,
       "theme": "dark",
-      "image": "assets/design-baselines/candidates/2026-11-03/r3-mobile-dark.png"
+      "image": "assets/design-baselines/candidates/2026-11-04/r3-mobile-dark.png"
     },
     {
       "id": "vCQcD",
@@ -115,7 +116,7 @@
       "width": 1200,
       "height": 420,
       "theme": "light",
-      "image": "assets/design-baselines/candidates/2026-11-03/foundation-board-light.png"
+      "image": "assets/design-baselines/candidates/2026-11-04/foundation-board-light.png"
     },
     {
       "id": "P8pK2X",
@@ -123,7 +124,7 @@
       "width": 1600,
       "height": 900,
       "theme": "light",
-      "image": "assets/design-baselines/candidates/2026-11-03/controls-states-light.png"
+      "image": "assets/design-baselines/candidates/2026-11-04/controls-states-light.png"
     },
     {
       "id": "IJsMa",
@@ -131,7 +132,7 @@
       "width": 1440,
       "height": 420,
       "theme": "light",
-      "image": "assets/design-baselines/candidates/2026-11-03/resource-states-light.png"
+      "image": "assets/design-baselines/candidates/2026-11-04/resource-states-light.png"
     },
     {
       "id": "rJTNn",
@@ -139,7 +140,25 @@
       "width": 1600,
       "height": 900,
       "theme": "dark",
-      "image": "assets/design-baselines/candidates/2026-11-03/controls-states-dark.png"
+      "image": "assets/design-baselines/candidates/2026-11-04/controls-states-dark.png"
+    },
+    {
+      "id": "gPAbP",
+      "name": "select-states-light",
+      "width": 860,
+      "height": 470,
+      "theme": "light",
+      "image": "assets/design-baselines/candidates/2026-11-04/select-states-light.png"
+    },
+    {
+      "id": "mrRvl",
+      "name": "select-states-dark",
+      "width": 860,
+      "height": 470,
+      "theme": "dark",
+      "image": "assets/design-baselines/candidates/2026-11-04/select-states-dark.png"
     }
-  ]
+  ],
+  "revision": "capsule-navigation-and-select",
+  "previousSnapshotDirectory": "assets/design-baselines/candidates/2026-11-03"
 }

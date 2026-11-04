@@ -1,6 +1,6 @@
 # 设计基准与候选
 
-`candidates/2026-11-03/` 保存首次 Workbench v1 的 16 张 Pen 原生导出。来源、frame ID 和尺寸见 [manifest](../../designs/workbench-v1.manifest.json)，评审见[代表页候选](../../docs/design/patterns/workbench-v1.md)。
+`candidates/2026-11-04/` 保存当前 Workbench v1 的 18 张 Pen 原生导出，包含移动胶囊导航与选择器修订。来源、frame ID 和尺寸见 [manifest](../../designs/workbench-v1.manifest.json)，评审见[代表页候选](../../docs/design/patterns/workbench-v1.md)。`candidates/2026-11-03/` 的 16 张首稿作为历史快照保留，不再由当前清单引用。
 
 候选目录明确表示尚未获视觉批准，不能作为强制回归基准。获批后另登记版本、视口、主题、环境与批准记录，再确定正式基准路径。运行时临时截图仍放在忽略的 `output/`。
 
