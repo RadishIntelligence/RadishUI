@@ -39,7 +39,10 @@ export function SettingsPage({ preferences, save, t, onDirtyChange }: SettingsPa
               <div className="theme-options">
                 {(['light', 'dark', 'system'] as const).map(theme => <label key={theme} className={`theme-option ${draft.theme === theme ? 'is-selected' : ''}`}>
                   <input type="radio" name="theme" value={theme} checked={draft.theme === theme} onChange={() => change('theme', theme)} />
-                  <span className="theme-preview" data-rd-theme={theme === 'system' ? undefined : theme} aria-hidden="true"><i /><span><b /><i /><i /><i /></span></span>
+                  <span className="theme-preview" data-rd-theme={theme === 'system' ? undefined : theme} aria-hidden="true">
+                    <span className="theme-preview-rail"><b /><i className="is-active" /><i /><i /></span>
+                    <span className="theme-preview-main"><span className="theme-preview-bar is-title" /><span className="theme-preview-bar" /><span className="theme-preview-bar is-short" /><span className="theme-preview-button" /></span>
+                  </span>
                   <span className="theme-option-caption">{{ light: t('浅色', 'Light'), dark: t('深色', 'Dark'), system: t('跟随系统', 'System') }[theme]}{draft.theme === theme && <Check size={14} aria-hidden="true" />}</span>
                 </label>)}
               </div>
@@ -81,7 +84,7 @@ export function SettingsPage({ preferences, save, t, onDirtyChange }: SettingsPa
           {error && <div className="settings-feedback"><InlineAlert tone="danger">{error}</InlineAlert></div>}
           {message && <p className="save-message" role="status">{message}</p>}
           <div className="settings-footer">
-            <span className="dirty-indicator" aria-live="polite">{dirty ? t('有未保存的更改', 'Unsaved changes') : ''}</span>
+            <span className={`dirty-indicator ${dirty ? 'is-dirty' : ''}`} aria-live="polite">{dirty ? t('有未保存的更改', 'Unsaved changes') : t('所有更改已保存', 'All changes saved')}</span>
             <Button variant="secondary" onClick={() => { setDraft({ ...defaultPreferences }); setMessage(t('默认值已恢复，请保存更改。', 'Defaults restored. Save to apply.')); setError(undefined); }}>{t('恢复默认', 'Restore defaults')}</Button>
             <Button type="submit" disabled={!dirty}>{t('保存更改', 'Save changes')}</Button>
           </div>

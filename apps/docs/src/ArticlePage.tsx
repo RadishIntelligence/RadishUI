@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState, type FormEvent, type RefObject } from 'react';
 import { Button, Dialog, FormField, InlineAlert, Input, StatusBadge, Textarea } from '@radish-ui/react';
-import { Check, Copy, FileText, LockKeyhole, Pencil, Share2, Sparkles } from 'lucide-react';
+import { Check, Copy, FileText, Info, LockKeyhole, Pencil, Share2 } from 'lucide-react';
 import { articleForResource, welcomeArticle } from './document-seed';
 import { formatDate, isArticles, parseArticle, type Article, type Preferences, type Resource, type Translate } from './model';
 import { readStored, storageKeys, writeStored } from './storage';
@@ -110,7 +110,7 @@ function DocumentReader({ resourceId = 'welcome', resource, preferences, section
         {blocks.length ? blocks.map((block, index) => block.type === 'heading' ? block.level === 2
           ? <h2 className="article-heading" id={block.id} key={block.id}>{block.text}</h2>
           : <h3 className="article-heading" id={block.id} key={block.id}>{block.text}</h3>
-          : block.type === 'callout' ? <aside className="article-callout" key={index}><Sparkles size={18} aria-hidden="true" /><p>{block.text}</p></aside>
+          : block.type === 'callout' ? <aside className="article-callout" key={index}><Info size={18} aria-hidden="true" /><p>{block.text}</p></aside>
           : <p key={index} className={index === 0 ? 'article-lead' : undefined}>{block.text}</p>)
           : <p className="field-help">{t('文档暂无内容。', 'This document is empty.')}</p>}
       </article>
