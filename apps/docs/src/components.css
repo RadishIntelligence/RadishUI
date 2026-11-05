@@ -20,7 +20,18 @@
 @media (max-width: 799px) {
   .component-fields { grid-template-columns: minmax(0, 1fr); }
   .component-contract > div { grid-template-columns: minmax(0, 1fr); gap: var(--rd-space-1); }
-  .component-code summary { min-height: var(--rd-touch-height); }
   .component-groups > .rd-tabs-list { display: flex; flex-wrap: wrap; border-radius: var(--rd-radius-panel); }
   .component-groups > .rd-tabs-list > .rd-tab { flex: 1; padding-inline: var(--rd-space-2); }
+}
+@media (pointer: coarse), (pointer: none) {
+  .component-code summary { min-height: var(--rd-touch-height); }
+}
+@media (pointer: fine) {
+  html[data-density="compact"] .component-scope { margin-block: var(--rd-space-3); }
+  html[data-density="compact"] .component-example { padding-block: var(--rd-space-3); }
+  html[data-density="compact"] .component-demo { padding-block: var(--rd-space-3); gap: var(--rd-space-2); }
+  html[data-density="compact"] .component-contract { gap: var(--rd-space-1); }
+}
+@media (pointer: fine) and (min-width: 480px) and (max-width: 799px) {
+  .component-contract > div { grid-template-columns: 96px minmax(0, 1fr); gap: var(--rd-space-2); }
 }

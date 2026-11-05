@@ -104,7 +104,8 @@
 .rd-toast[data-swipe="end"] { transform: translateX(110%); }
 @keyframes rd-spin { to { transform: rotate(360deg); } }
 @keyframes rd-fade-in { from { opacity: 0; } to { opacity: 1; } }
-@media (pointer: coarse), (max-width: 799px) {
+/* A narrow desktop pane still uses desktop controls. Size touch targets by input device. */
+@media (pointer: coarse), (pointer: none) {
   .rd-button, .rd-input, .rd-select, .rd-checkbox, .rd-tab { min-height: var(--rd-touch-height); }
   .rd-icon-button { min-width: var(--rd-touch-height); min-height: var(--rd-touch-height); }
   .rd-select-item, .rd-menu-item { min-height: var(--rd-touch-height); }
