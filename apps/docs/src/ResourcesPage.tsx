@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { Button, Checkbox, Dialog, Drawer, FormField, IconButton, InlineAlert, Input, Menu, Select, Tabs, TabsContent, TabsList, Textarea } from '@radish-ui/react';
-import { ArrowUpRight, ChevronLeft, ChevronRight, FileText, History, ListChecks, LockKeyhole, MoreHorizontal, Palette, PanelsTopLeft, Plus, Search, Trash2 } from 'lucide-react';
+import { ArrowUpRight, ChevronLeft, ChevronRight, FileText, History, ListChecks, LockKeyhole, MoreHorizontal, Palette, PanelsTopLeft, Plus, RefreshCw, Search, Trash2 } from 'lucide-react';
 import { filterResources, formatDate, kindLabel, pageCount, pageNumbers, statusLabel, validatePage, type Preferences, type Resource, type ResourceKind, type Translate } from './model';
 
 const kindIcons = { document: FileText, spec: Palette, checklist: ListChecks, example: PanelsTopLeft };
@@ -21,7 +21,7 @@ export function ResourcesPage({ resources, error, save, retry, t, locale, notify
   const [status, setStatus] = useState('all');
   const [query, setQuery] = useState('');
   const [page, setPage] = useState(1);
-  const [size, setSize] = useState(10);
+  const [size, setSize] = useState(20);
   const [jump, setJump] = useState('1');
   const [jumpError, setJumpError] = useState('');
   const [selectedId, setSelectedId] = useState('');
@@ -66,8 +66,9 @@ export function ResourcesPage({ resources, error, save, retry, t, locale, notify
   const content = error ? <div className="resource-state"><InlineAlert tone="danger" title={t('资源未能载入', 'Resources could not be loaded')}>{error}</InlineAlert>
     <div className="state-actions"><Button variant="secondary" onClick={retry}>{t('重试', 'Retry')}</Button><Button variant="secondary" onClick={() => setRestoreOpen(true)}>{t('恢复演示数据', 'Restore demo data')}</Button></div>
   </div> : resources === undefined ? <div className="resource-state" role="status">{t('正在读取本地资源…', 'Loading local resources…')}</div>
-    : <div className="resources-layout">
+    : <div className={`resources-layout ${selected ? '' : 'is-empty'}`}>
       <div className="resource-table-panel">
+        <div className="resource-table-scroll">
         {visible.length ? <>
           <table className="resource-table"><caption className="sr-only">{t('资源列表', 'Resource list')}</caption>
             <colgroup><col /><col className="status-column" /><col className="updated-column" /><col className="action-column" /></colgroup>
@@ -96,6 +97,7 @@ export function ResourcesPage({ resources, error, save, retry, t, locale, notify
         </> : <div className="empty-state"><Search aria-hidden="true" /><h2>{resources.length ? t('没有匹配的资源', 'No matching resources') : t('还没有资源', 'No resources yet')}</h2>
           <Button variant="secondary" onClick={() => { if (resources.length) { setQuery(''); setStatus('all'); setKind('all'); resetPage(); } else setCreateOpen(true); }}>{resources.length ? t('清除筛选', 'Clear filters') : t('新建资源', 'New resource')}</Button>
         </div>}
+        </div>
         {visible.length > 0 && <nav className="pagination" aria-label={t('资源分页', 'Resource pagination')}>
           <span className="result-count" role="status">{t(`共 ${filtered.length} 项`, `${filtered.length} items`)}</span>
           <Select label={t('每页条数', 'Items per page')} className="page-size" value={String(size)} onValueChange={value => { setSize(Number(value)); resetPage(); }}
@@ -116,7 +118,14 @@ export function ResourcesPage({ resources, error, save, retry, t, locale, notify
     </div>;
 
   return <section className="resources-page">
-    <div className="page-title"><h1 ref={title} tabIndex={-1}>{t('资源库', 'Resources')}</h1><Button onClick={() => setCreateOpen(true)} disabled={resources === undefined || Boolean(error)}><Plus />{t('新建资源', 'New resource')}</Button></div>
+    <div className="page-title"><h1 ref={title} tabIndex={-1}>{t('资源库', 'Resources')}</h1>
+      <div className="page-title-actions">
+        <Menu trigger={<IconButton className="page-menu" label={t('页面操作', 'Page actions')}><MoreHorizontal /></IconButton>} items={[
+          { id: 'restore', label: t('恢复演示数据', 'Restore demo data'), icon: <RefreshCw />, onSelect: () => setRestoreOpen(true) },
+        ]} />
+        <Button onClick={() => setCreateOpen(true)} disabled={resources === undefined || Boolean(error)}><Plus />{t('新建资源', 'New resource')}</Button>
+      </div>
+    </div>
     <Tabs value={kind} onValueChange={value => { setKind(value); resetPage(); }} className="resources-tabs">
       <div className="resource-toolbar"><TabsList label={t('资源类型', 'Resource type')} items={[
         { value: 'all', label: t('全部', 'All') },

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState, type FormEvent, type RefObject } from 'react';
 import { Button, Dialog, FormField, InlineAlert, Input, StatusBadge, Textarea } from '@radish-ui/react';
-import { Check, Copy, FileText, Info, LockKeyhole, Pencil, Share2 } from 'lucide-react';
+import { Check, ChevronLeft, Copy, Info, LockKeyhole, Pencil, Share2 } from 'lucide-react';
 import { articleForResource, welcomeArticle } from './document-seed';
 import { formatDate, isArticles, parseArticle, type Article, type Preferences, type Resource, type Translate } from './model';
 import { readStored, storageKeys, writeStored } from './storage';
@@ -89,8 +89,7 @@ function DocumentReader({ resourceId = 'welcome', resource, preferences, section
       aria-current={(activeHeading || headings[0]?.id) === heading.id ? 'location' : undefined} onClick={() => setActiveHeading(heading.id)}>{heading.text}</a>
   </li>)}</ol></nav>;
   return <section className="document-page">
-    <div className="document-toolbar"><div><StatusBadge><FileText />{resource ? t('资源文档', 'Resource document') : t('设计笔记', 'Design notes')}</StatusBadge>
-      <StatusBadge tone={readonly ? 'neutral' : dirty ? 'warning' : 'success'}>{readonly ? <LockKeyhole /> : dirty ? <Pencil /> : <Check />}{readonly ? t('只读', 'Read only') : dirty ? t('未保存', 'Unsaved') : t('已保存', 'Saved')}</StatusBadge></div>
+    <div className="document-toolbar"><a className="document-back" href="#/resources"><ChevronLeft size={16} aria-hidden="true" />{t('资源库', 'Resources')}</a>
       <div><Button variant="secondary" onClick={() => { setShareOpen(true); setCopied(false); setCopyError(''); }}><Share2 />{t('分享', 'Share')}</Button>
         {!editing && <Button ref={editButton} disabled={readonly || Boolean(storeError)} onClick={() => { setDraft(article); setEditing(true); }}><Pencil />{t('编辑文档', 'Edit document')}</Button>}
       </div>
@@ -106,7 +105,7 @@ function DocumentReader({ resourceId = 'welcome', resource, preferences, section
       <div className="editor-actions"><Button variant="secondary" onClick={() => { if (dirty) setDiscardOpen(true); else exitEditing(); }}>{t('取消', 'Cancel')}</Button><Button type="submit" disabled={!dirty || externalChange || Boolean(storeError)}>{t('保存文档', 'Save document')}</Button></div>
     </form> : <div className="document-layout">
       <article className="article-body" data-font-size={preferences.fontSize} data-line-height={preferences.lineHeight}>
-        <header className="article-header"><h1>{article.title}</h1><div className="article-meta"><span>{resource?.creator ?? t('林杏', 'Lin Xing')}</span><span>·</span><time dateTime={article.updatedAt}>{formatDate(article.updatedAt, preferences.locale)}</time><span>·</span><span>{t(`约 ${Math.max(1, Math.ceil(article.body.length / 350))} 分钟`, `${Math.max(1, Math.ceil(article.body.length / 350))} min read`)}</span><StatusBadge tone="info">Workbench</StatusBadge></div></header>
+        <header className="article-header"><h1>{article.title}</h1><div className="article-meta"><span>{resource?.creator ?? t('林杏', 'Lin Xing')}</span><span>·</span><time dateTime={article.updatedAt}>{formatDate(article.updatedAt, preferences.locale)}</time><span>·</span><span>{t(`约 ${Math.max(1, Math.ceil(article.body.length / 350))} 分钟`, `${Math.max(1, Math.ceil(article.body.length / 350))} min read`)}</span><StatusBadge tone={readonly ? 'neutral' : dirty ? 'warning' : 'success'}>{readonly ? <LockKeyhole /> : dirty ? <Pencil /> : <Check />}{readonly ? t('只读', 'Read only') : dirty ? t('未保存', 'Unsaved') : t('已保存', 'Saved')}</StatusBadge><StatusBadge tone="info">Workbench</StatusBadge></div></header>
         {blocks.length ? blocks.map((block, index) => block.type === 'heading' ? block.level === 2
           ? <h2 className="article-heading" id={block.id} key={block.id}>{block.text}</h2>
           : <h3 className="article-heading" id={block.id} key={block.id}>{block.text}</h3>

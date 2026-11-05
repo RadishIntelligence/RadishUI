@@ -38,11 +38,14 @@ export function Shell({ page, collapsed, onCollapse, onHelp, onTheme, t, childre
     <aside className="app-rail" aria-label={t('工作区侧栏', 'Workspace sidebar')}>
       <div className="rail-surface">
         <div className="rail-brand"><a href="#/resources" aria-label="RadishUI"><span className="brand-full">RadishUI</span><span className="brand-short">R</span></a>
-          <Tooltip content={collapsed ? t('展开侧栏', 'Expand sidebar') : t('收起侧栏', 'Collapse sidebar')}>
-            <IconButton label={collapsed ? t('展开侧栏', 'Expand sidebar') : t('收起侧栏', 'Collapse sidebar')} onClick={onCollapse}>
-              {collapsed ? <PanelLeftOpen /> : <PanelLeftClose />}
-            </IconButton>
-          </Tooltip>
+          <div className="rail-brand-actions">
+            <Tooltip content={t('切换明暗外观', 'Toggle appearance')}><IconButton className="rail-theme" label={t('切换明暗外观', 'Toggle appearance')} onClick={onTheme}><SunMoon /></IconButton></Tooltip>
+            <Tooltip content={collapsed ? t('展开侧栏', 'Expand sidebar') : t('收起侧栏', 'Collapse sidebar')}>
+              <IconButton label={collapsed ? t('展开侧栏', 'Expand sidebar') : t('收起侧栏', 'Collapse sidebar')} onClick={onCollapse}>
+                {collapsed ? <PanelLeftOpen /> : <PanelLeftClose />}
+              </IconButton>
+            </Tooltip>
+          </div>
         </div>
         {workspace}
         <nav className="rail-navigation" aria-label={t('工作空间', 'Workspace')}>
@@ -70,7 +73,6 @@ export function Shell({ page, collapsed, onCollapse, onHelp, onTheme, t, childre
     </aside>
     <section className="workspace-panel" aria-label={t('演示空间', 'Demo space')}>
       <header className="workspace-header">
-        <div className="breadcrumb"><FolderOpen size={18} aria-hidden="true" /><span>{t('演示空间', 'Demo space')}</span><span aria-hidden="true">/</span><span>{page === 'components' ? t('组件用法', 'Components') : links.find(link => link.page === page)?.label}</span></div>
         <div className="mobile-workspace">{workspace}</div>
         <div className="header-actions">
           <Tooltip content={t('切换明暗外观', 'Toggle appearance')}><IconButton label={t('切换明暗外观', 'Toggle appearance')} onClick={onTheme}><SunMoon /></IconButton></Tooltip>

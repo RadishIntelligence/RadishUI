@@ -108,7 +108,7 @@ export function App() {
       const error = savePreferences({ ...preferences, theme: next });
       if (error) setPreferenceError(error);
     }}>
-    <main className="workspace-main" id="main" tabIndex={-1} ref={main}>
+    <main className={`workspace-main ${route.page === 'resources' ? 'is-fixed-page' : ''}`} id="main" tabIndex={-1} ref={main}>
       {externalChange && <InlineAlert tone="warning" title={t('其他标签页已更新本地数据', 'Local data changed in another tab')}>
         {t('重新载入会放弃当前未保存的更改。', 'Reloading discards unsaved changes.')} <Button variant="secondary" size="sm" onClick={() => window.location.reload()}>{t('重新载入', 'Reload')}</Button>
       </InlineAlert>}
