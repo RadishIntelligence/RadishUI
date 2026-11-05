@@ -1,4 +1,4 @@
-export type Page = 'resources' | 'settings' | 'document';
+export type Page = 'resources' | 'settings' | 'document' | 'components';
 export type Translate = (chinese: string, english: string) => string;
 export interface Preferences {
   theme: 'light' | 'dark' | 'system';
@@ -11,7 +11,7 @@ export interface Preferences {
   notifications: boolean;
 }
 export const defaultPreferences: Preferences = {
-  theme: 'system', locale: 'zh-CN', density: 'comfortable', fontSize: 'standard',
+  theme: 'system', locale: 'zh-CN', density: 'compact', fontSize: 'standard',
   hints: true, showToc: true, lineHeight: 'standard', notifications: true,
 };
 export type ResourceKind = 'document' | 'spec' | 'checklist' | 'example';
@@ -88,7 +88,7 @@ export function parseArticle(body: string): ArticleBlock[] {
 }
 export function parseRoute(hash: string): { page: Page; resourceId?: string; section?: string } {
   const parts = hash.replace(/^#\/?/, '').split('/');
-  const page: Page = parts[0] === 'settings' ? 'settings' : parts[0] === 'document' ? 'document' : 'resources';
+  const page: Page = parts[0] === 'components' ? 'components' : parts[0] === 'settings' ? 'settings' : parts[0] === 'document' ? 'document' : 'resources';
   return { page, resourceId: page === 'document' && parts[1] && /^[a-zA-Z0-9-]+$/.test(parts[1]) ? parts[1] : undefined,
     section: page === 'document' && /^section-\d+$/.test(parts[2] ?? '') ? parts[2] : undefined };
 }

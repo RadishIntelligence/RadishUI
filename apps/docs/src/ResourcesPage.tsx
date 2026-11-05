@@ -71,7 +71,7 @@ export function ResourcesPage({ resources, error, save, retry, t, locale, notify
             <tbody>{visible.map(item => {
               const Icon = kindIcons[item.kind];
               return <tr key={item.id} className={selected?.id === item.id ? 'is-selected' : ''} onClick={() => setSelectedId(item.id)}>
-                <td><button className="resource-select" onClick={() => select(item)} aria-label={t(`查看 ${item.name} 的详情`, `Details for ${item.name}`)} aria-pressed={selected?.id === item.id}>
+                <td><button className="resource-select" onClick={event => { event.currentTarget.focus({ preventScroll: true }); select(item); }} aria-label={t(`查看 ${item.name} 的详情`, `Details for ${item.name}`)} aria-pressed={selected?.id === item.id}>
                   <span className="resource-icon"><Icon aria-hidden="true" /></span><span className="resource-name"><strong>{item.name}</strong><span>{kindLabel(item.kind, t)}</span></span>
                 </button></td>
                 <td><ResourceStatus resource={item} t={t} /></td><td className="resource-date">{formatDate(item.updatedAt, locale)}</td>
@@ -83,7 +83,7 @@ export function ResourcesPage({ resources, error, save, retry, t, locale, notify
             {visible.map(item => {
               const Icon = kindIcons[item.kind];
               return <li key={item.id} className={selected?.id === item.id ? 'is-selected' : ''}>
-                <button className="resource-mobile-select" onClick={() => select(item)} aria-label={t(`查看 ${item.name} 的详情`, `Details for ${item.name}`)}>
+                <button className="resource-mobile-select" onClick={event => { event.currentTarget.focus({ preventScroll: true }); select(item); }} aria-label={t(`查看 ${item.name} 的详情`, `Details for ${item.name}`)}>
                   <span className="resource-icon"><Icon aria-hidden="true" /></span><span className="resource-name"><strong>{item.name}</strong><span>{kindLabel(item.kind, t)} · <ResourceStatus resource={item} t={t} /></span></span>
                 </button><IconButton label={t(`打开 ${item.name}`, `Open ${item.name}`)} onClick={() => openResource(item)}><ArrowUpRight /></IconButton>
               </li>;

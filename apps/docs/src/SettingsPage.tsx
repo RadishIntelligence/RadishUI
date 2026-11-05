@@ -47,7 +47,7 @@ export function SettingsPage({ preferences, save, t, onDirtyChange }: SettingsPa
             <FormField className="preference-field" id="interface-language" label={t('界面语言', 'Interface language')} hint={draft.hints ? t('用于导航、按钮与辅助信息。', 'Used for navigation, controls, and help.') : undefined}>
               <Select value={draft.locale} onValueChange={value => change('locale', value as Preferences['locale'])} options={[{ value: 'zh-CN', label: '简体中文' }, { value: 'en', label: 'English' }]} />
             </FormField>
-            <FormField className="preference-field" id="display-density" label={t('显示密度', 'Display density')} hint={draft.hints ? t('调整控件与内容之间的空间。', 'Adjust the spacing of desktop controls.') : undefined}>
+            <FormField className="preference-field" id="display-density" label={t('显示密度', 'Display density')} hint={draft.hints ? t('调整主要桌面控件的高度。', 'Adjust the height of primary desktop controls.') : undefined}>
               <Select value={draft.density} onValueChange={value => change('density', value as Preferences['density'])} options={[
                 { value: 'compact', label: t('紧凑', 'Compact') }, { value: 'comfortable', label: t('舒适', 'Comfortable') }, { value: 'spacious', label: t('宽松', 'Spacious') },
               ]} />

@@ -4,6 +4,7 @@ import { Shell } from './Shell';
 import { SettingsPage } from './SettingsPage';
 import { ResourcesPage } from './ResourcesPage';
 import { ArticlePage } from './ArticlePage';
+import { ComponentsPage } from './ComponentsPage';
 import { defaultPreferences, isPreferences, isResources, parseRoute, type Preferences, type Resource } from './model';
 import { readStored, storageKeys, writeStored } from './storage';
 
@@ -81,7 +82,7 @@ export function App() {
   }, []);
 
   useEffect(() => { main.current?.scrollTo({ top: 0 }); main.current?.focus({ preventScroll: true }); }, [route.page, route.resourceId ?? 'welcome']);
-  useEffect(() => { document.title = `${{ resources: t('资源库', 'Resources'), settings: t('外观与偏好', 'Preferences'), document: t('文档', 'Document') }[route.page]} · RadishUI`; }, [route.page, t]);
+  useEffect(() => { document.title = `${{ resources: t('资源库', 'Resources'), settings: t('外观与偏好', 'Preferences'), document: t('文档', 'Document'), components: t('组件用法', 'Components') }[route.page]} · RadishUI`; }, [route.page, t]);
 
   function notify(message: string, enabled = preferences.notifications) {
     if (!enabled) return;
@@ -114,6 +115,7 @@ export function App() {
       {preferenceError && <InlineAlert tone="danger" title={t('偏好未能读取或保存', 'Preferences could not be read or saved')}>{preferenceError} <Button variant="secondary" size="sm" onClick={() => {
         const error = savePreferences(preferences); if (error) setPreferenceError(error);
       }}>{t('重新保存当前偏好', 'Save current preferences again')}</Button></InlineAlert>}
+      {route.page === 'components' && <ComponentsPage t={t} />}
       {route.page === 'settings' && <SettingsPage preferences={preferences} save={savePreferences} t={t} onDirtyChange={updateDirty} />}
       {route.page === 'resources' && <ResourcesPage resources={resources} error={resourceError} save={saveResources} retry={() => setLoadAttempt(loadAttempt + 1)} t={t} locale={preferences.locale} notify={notify} />}
       {route.page === 'document' && <ArticlePage key={route.resourceId ?? 'welcome'} resourceId={route.resourceId} resources={resources} resourcesError={resourceError}

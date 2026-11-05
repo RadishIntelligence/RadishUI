@@ -7,7 +7,7 @@
 .rd-button {
   display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; gap: var(--rd-space-2);
   min-height: var(--rd-control-height); padding: 0 var(--rd-space-3); border: 1px solid transparent; border-radius: var(--rd-radius-pill);
-  font-size: var(--rd-font-size-sm); font-weight: 500; line-height: 1.4; white-space: nowrap;
+  font-size: var(--rd-font-size-sm); font-weight: 500; line-height: 1.4; white-space: normal; overflow-wrap: anywhere; min-width: 0; max-width: 100%;
   background: var(--rd-action-primary); color: var(--rd-text-on-action);
   transition: background var(--rd-motion-base), box-shadow var(--rd-motion-base);
 }
@@ -32,6 +32,7 @@
   border-radius: var(--rd-radius-control); padding: var(--rd-space-2) var(--rd-space-3); background: var(--rd-bg-surface);
   color: var(--rd-text-primary); font-size: var(--rd-font-size-sm); line-height: 1.5;
 }
+.rd-input:not(textarea), .rd-select { padding-block: max(var(--rd-space-1), calc((var(--rd-control-height) - 1.5em - 2px) / 2)); }
 .rd-input::placeholder { color: var(--rd-text-secondary); opacity: 1; }
 .rd-input[readonly] { background: var(--rd-bg-muted); }
 .rd-input[aria-invalid="true"], .rd-select[aria-invalid="true"] { border-color: var(--rd-state-danger); }

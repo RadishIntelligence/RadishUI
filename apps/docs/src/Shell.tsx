@@ -30,6 +30,7 @@ export function Shell({ page, collapsed, onCollapse, onHelp, onTheme, t, childre
     </button>
   } items={[
     { id: 'preferences', label: t('外观与偏好', 'Appearance & preferences'), icon: <SlidersHorizontal />, href: '#/settings' },
+    { id: 'components', label: t('组件用法', 'Components'), icon: <BookOpen />, href: '#/components' },
     { id: 'project', label: t('项目文档', 'Project documentation'), icon: <BookOpen />, href: 'https://github.com/RadishIntelligence/RadishUI/tree/master/docs', separatorBefore: true },
   ]} />;
   return <div className={`workbench ${collapsed ? 'is-collapsed' : ''}`}>
@@ -56,6 +57,12 @@ export function Shell({ page, collapsed, onCollapse, onHelp, onTheme, t, childre
           <a className="rail-link" href="#/document/theme-colors" aria-label={t('主题与配色', 'Theme & colors')}><Star aria-hidden="true" /><span className="rail-label">{t('主题与配色', 'Theme & colors')}</span></a>
           <a className="rail-link" href="#/document/control-states" aria-label={t('控件状态检查表', 'Control states')}><Star aria-hidden="true" /><span className="rail-label">{t('控件状态检查表', 'Control states')}</span></a>
         </nav>
+        <nav className="rail-favorites" aria-label={t('开发参考', 'Developer reference')}>
+          <span className="rail-group-label rail-label">{t('开发参考', 'Developer reference')}</span>
+          <a className={`rail-link ${page === 'components' ? 'is-active' : ''}`} href="#/components" aria-current={page === 'components' ? 'page' : undefined} aria-label={t('组件用法', 'Components')}>
+            <BookOpen aria-hidden="true" /><span className="rail-label">{t('组件用法', 'Components')}</span>
+          </a>
+        </nav>
         <div className="rail-spacer" />
         <button className="rail-link help-link" onClick={onHelp} aria-label={t('帮助与反馈', 'Help & feedback')}><LifeBuoy aria-hidden="true" /><span className="rail-label">{t('帮助与反馈', 'Help & feedback')}</span></button>
         {account}
@@ -63,7 +70,7 @@ export function Shell({ page, collapsed, onCollapse, onHelp, onTheme, t, childre
     </aside>
     <section className="workspace-panel" aria-label={t('演示空间', 'Demo space')}>
       <header className="workspace-header">
-        <div className="breadcrumb"><FolderOpen size={18} aria-hidden="true" /><span>{t('演示空间', 'Demo space')}</span><span aria-hidden="true">/</span><span>{links.find(link => link.page === page)?.label}</span></div>
+        <div className="breadcrumb"><FolderOpen size={18} aria-hidden="true" /><span>{t('演示空间', 'Demo space')}</span><span aria-hidden="true">/</span><span>{page === 'components' ? t('组件用法', 'Components') : links.find(link => link.page === page)?.label}</span></div>
         <div className="mobile-workspace">{workspace}</div>
         <div className="header-actions">
           <Tooltip content={t('切换明暗外观', 'Toggle appearance')}><IconButton label={t('切换明暗外观', 'Toggle appearance')} onClick={onTheme}><SunMoon /></IconButton></Tooltip>
