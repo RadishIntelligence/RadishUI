@@ -18,6 +18,7 @@ const required = [
   '.github/ISSUE_TEMPLATE/bug-report.yml', '.github/ISSUE_TEMPLATE/change-proposal.yml',
   '.github/workflows/pr-check.yml', '.github/repository-settings.json',
   '.github/rulesets/master-protection.json', '.github/rulesets/README.md',
+  '.github/rulesets/shared-branch-protection.json', '.github/rulesets/dev-access.json', '.github/rulesets/master-access.json',
   'scripts/check-repo.test.mjs',
 ];
 const git = (args, cwd = root) => execFileSync('git', args, {
@@ -49,19 +50,37 @@ export function checkRuleset(ruleset) {
   assert.equal(ruleset.target, 'branch');
   assert.equal(ruleset.enforcement, 'active');
   assert.deepEqual(ruleset.conditions, { ref_name: { include: ['refs/heads/master'], exclude: [] } });
-  assert.deepEqual(ruleset.bypass_actors, [{ actor_id: 5, actor_type: 'RepositoryRole', bypass_mode: 'pull_request' }]);
-  assert.deepEqual(ruleset.rules.map((rule) => rule.type).sort(), ['deletion', 'non_fast_forward', 'pull_request', 'required_status_checks']);
+  assert.deepEqual(ruleset.bypass_actors, []);
+  assert.deepEqual(ruleset.rules.map((rule) => rule.type).sort(), ['pull_request', 'required_status_checks']);
   const pr = ruleset.rules.find((rule) => rule.type === 'pull_request').parameters;
   assert.deepEqual(pr, {
     allowed_merge_methods: ['merge', 'rebase'], dismiss_stale_reviews_on_push: true,
     require_code_owner_review: false, require_last_push_approval: false,
     required_approving_review_count: 0, required_review_thread_resolution: true,
+    required_reviewers: [], dismissal_restriction: { enabled: false, allowed_actors: [] },
+    require_extra_approval_for_unattributed_changes: true,
   });
   const checks = ruleset.rules.find((rule) => rule.type === 'required_status_checks').parameters;
   assert.deepEqual(checks, {
     do_not_enforce_on_create: false, required_status_checks: [{ context: 'Candidate Quality', integration_id: 15368 }],
     strict_required_status_checks_policy: true,
   });
+}
+
+export function checkRulesets({ master, shared, devAccess, masterAccess }) {
+  checkRuleset(master);
+  for (const [ruleset, branches, rules, bypass] of [
+    [shared, ['dev', 'master'], ['deletion', 'non_fast_forward'], []],
+    [devAccess, ['dev'], ['update'], [{ actor_id: 20555210, actor_type: 'Team', bypass_mode: 'always' }]],
+    [masterAccess, ['master'], ['update'], [{ actor_id: 20555210, actor_type: 'Team', bypass_mode: 'pull_request' }]],
+  ]) {
+    assert.equal(ruleset.target, 'branch');
+    assert.equal(ruleset.enforcement, 'active');
+    assert.deepEqual(ruleset.conditions, { ref_name: { include: branches.map((branch) => `refs/heads/${branch}`), exclude: [] } });
+    assert.deepEqual(ruleset.rules, rules.map((type) => type === 'update'
+      ? { type, parameters: { update_allows_fetch_and_merge: false } } : { type }));
+    assert.deepEqual(ruleset.bypass_actors, bypass);
+  }
 }
 
 export function workflowJobs(source) {
@@ -161,7 +180,12 @@ function main() {
       assert(existsSync(destination), `${file}：无效相对链接 ${target}`);
     }
   }
-  checkRuleset(JSON.parse(read('.github/rulesets/master-protection.json')));
+  checkRulesets({
+    master: JSON.parse(read('.github/rulesets/master-protection.json')),
+    shared: JSON.parse(read('.github/rulesets/shared-branch-protection.json')),
+    devAccess: JSON.parse(read('.github/rulesets/dev-access.json')),
+    masterAccess: JSON.parse(read('.github/rulesets/master-access.json')),
+  });
   checkWorkflow(read('.github/workflows/pr-check.yml'));
   assert.deepEqual(JSON.parse(read('.github/repository-settings.json')), {
     default_branch: 'master', allow_merge_commit: true, allow_rebase_merge: true,

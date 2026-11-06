@@ -4,7 +4,7 @@ import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import test from 'node:test';
-import { checkCommit, checkHistory, checkRuleset, checkText, checkWorkflow, markdownTargets, workflowJobs } from './check-repo.mjs';
+import { checkCommit, checkHistory, checkRuleset, checkRulesets, checkText, checkWorkflow, markdownTargets, workflowJobs } from './check-repo.mjs';
 
 const read = (file) => readFileSync(new URL(`../${file}`, import.meta.url), 'utf8');
 const workflow = read('.github/workflows/pr-check.yml');
@@ -26,19 +26,44 @@ test('Markdown 检查普通链接与引用定义，忽略围栏代码', () => {
 test('Ruleset 拒绝直接绕过、弱化检查、错误分支与额外审批', () => {
   checkRuleset(ruleset());
   for (const mutate of [
-    (r) => { r.bypass_actors[0].bypass_mode = 'always'; },
+    (r) => { r.bypass_actors.push({ actor_id: 5, actor_type: 'RepositoryRole', bypass_mode: 'pull_request' }); },
     (r) => { r.conditions.ref_name.include.push('refs/heads/dev'); },
-    (r) => { r.rules[3].parameters.required_status_checks[0].context = 'placeholder'; },
-    (r) => { delete r.rules[3].parameters.required_status_checks[0].integration_id; },
-    (r) => { r.rules[3].parameters.required_status_checks[0].integration_id = 8329; },
-    (r) => { r.rules[3].parameters.strict_required_status_checks_policy = false; },
-    (r) => { r.rules[2].parameters.required_approving_review_count = 1; },
-    (r) => { r.rules[2].parameters.allowed_merge_methods.push('squash'); },
+    (r) => { r.rules[1].parameters.required_status_checks[0].context = 'placeholder'; },
+    (r) => { delete r.rules[1].parameters.required_status_checks[0].integration_id; },
+    (r) => { r.rules[1].parameters.required_status_checks[0].integration_id = 8329; },
+    (r) => { r.rules[1].parameters.strict_required_status_checks_policy = false; },
+    (r) => { r.rules[0].parameters.required_approving_review_count = 1; },
+    (r) => { r.rules[0].parameters.allowed_merge_methods.push('squash'); },
     (r) => { r.rules.pop(); },
   ]) {
     const value = ruleset();
     mutate(value);
     assert.throws(() => checkRuleset(value));
+  }
+});
+
+test('分层规则拒绝扩大更新权限、主线直推、绕过历史保护和停用规则', () => {
+  const rulesets = () => Object.fromEntries(Object.entries({
+    master: 'master-protection', shared: 'shared-branch-protection',
+    devAccess: 'dev-access', masterAccess: 'master-access',
+  }).map(([key, file]) => [key, JSON.parse(read(`.github/rulesets/${file}.json`))]));
+  checkRulesets(rulesets());
+  for (const mutate of [
+    (r) => { r.devAccess.bypass_actors[0].actor_type = 'RepositoryRole'; },
+    (r) => { r.devAccess.bypass_actors[0].actor_id = 5; },
+    (r) => { r.devAccess.bypass_actors.push({ actor_id: 4, actor_type: 'RepositoryRole', bypass_mode: 'always' }); },
+    (r) => { r.masterAccess.bypass_actors[0].bypass_mode = 'always'; },
+    (r) => { r.shared.bypass_actors = r.devAccess.bypass_actors; },
+    (r) => { r.shared.rules.pop(); },
+    (r) => { r.devAccess.rules = []; },
+    (r) => { r.devAccess.rules[0].parameters.update_allows_fetch_and_merge = true; },
+    (r) => { r.devAccess.enforcement = 'disabled'; },
+    (r) => { r.masterAccess.conditions.ref_name.include = ['refs/heads/dev']; },
+    (r) => { r.shared.conditions.ref_name.exclude.push('refs/heads/dev'); },
+  ]) {
+    const value = rulesets();
+    mutate(value);
+    assert.throws(() => checkRulesets(value));
   }
 });
 

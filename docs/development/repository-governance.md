@@ -33,9 +33,11 @@ git push -u origin feature/member-button
 
 从 **最新远端 `dev`** 建分支，不从 `master`、过期本地 `dev` 或另一成员的未合并分支起步。完成后创建 `feature/member-button → dev` PR，不直接 push 工作提交到共享 `dev`，也不在本地自行合并后推送 `dev` 绕过 PR。
 
-若开发期间 `dev` 前进，合并前重新 `git fetch origin`，在自己的主题分支使用 `git merge origin/dev` 同步，解决冲突后补匹配验证再推送；不得为同步改写共享分支历史。PR 说明起点 SHA、同步情况、影响与证据；维护者确认目标、范围、会话及 `Candidate Quality` 结果后合入 `dev`。合入 `dev` 不直接晋级 `master`。
+若开发期间 `dev` 前进，合并前重新 `git fetch origin`，在自己的主题分支使用 `git merge origin/dev` 同步，解决冲突后补匹配验证再推送；不得为同步改写共享分支历史。PR 说明起点 SHA、同步情况、影响与证据；萝卜SAMA确认目标、范围、会话及最新合并候选的 `Candidate Quality` 成功后亲自合入 `dev`；其他成员即使获得批准也不能合并。合入 `dev` 不直接晋级 `master`。
 
-组织协作流程是仓库政策；当前 `dev` 无服务端保护，不代表成员可跳过 PR。真实多人参与时复核审批与 `dev` 保护，远端设置需对应授权，不因文档修改自动启用。
+服务端限制 `dev/master` 的更新主体为仅含所有者的 `radishui-maintainers` 团队。普通成员获授本仓库 `Write`，可创建和推送自己的主题分支；不能直接更新或合并到两个共享分支。新成员须单独授予仓库写权限，不扩大组织默认权限。仓库级规则不能阻止组织所有者或有规则管理权限的人修改规则，因此不向普通贡献者授予 `Admin` 或自定义规则管理权限。
+
+从“最新 dev”起步由贡献规范、起点 SHA 与合并前同步共同检查，普通分支保护不能证明本地建分支来源。`dev` 保留所有者直推，因此不配置会阻断该路径的 required checks；成员 PR 照常运行 CI，由所有者确认检查成功和会话解决后合并。这是人工合并责任，不宣称为 dev 的服务端 CI 强制门禁。
 
 ### 稳定主线晋级与回流
 
@@ -72,7 +74,7 @@ git rev-list --left-right --count origin/master...origin/dev
 `PR Checks` 对 `dev` / `master` 的 PR 和手动调度生效，不监听普通 push / tag，不以 paths 过滤跳过文档 PR。PR 默认检出 GitHub 的合并候选，构建目标分支与本次改动的组合；提交信息检查单独使用真实 base / head SHA，排除 GitHub 临时合并提交。
 
 - `Repo Hygiene`：无需 npm 第三方依赖，运行仓库检查与检查器测试。
-- `Web Build`：Node 24，`npm ci` 后执行工作面模型测试、token / 第三方声明、类型检查与展示站构建。只支持当前 React 工程，不推断其他平台可用；2026-11-04 新增的本地工作流步骤尚未推送，不冒充远端已执行。
+- `Web Build`：Node 24，`npm ci` 后执行工作面模型测试、token / 第三方声明、类型检查与展示站构建。只支持当前 React 工程，不推断其他平台可用；工作流文件存在或已推送不代表本批已在远端执行，真实 run 证据另记。
 - `Candidate Quality`：以 `if: always()` 汇总，所有组件必须为 `success`。required context 只绑定它，新增真实组件时同步聚合依赖与检查器。
 
 工作流使用 `contents: read`、不持久化 checkout 凭据、GitHub 官方 Actions 的完整 SHA，不使用 `pull_request_target` 执行 PR 代码，不读取发布凭据或执行部署。依赖安装仅发生在配置的临时 CI runner；本地安装仍遵循协作授权。Actions 来源见[Rulesets 说明](../../.github/rulesets/README.md#来源与官方参考)。
@@ -81,7 +83,18 @@ CI 不进行人工视觉批准，也不验证 Flutter、React 18、真实产品�
 
 ## 远端目标
 
-仅保护 `master`：PR 必需，严格 `Candidate Quality`，解决会话，禁止删除 / 强推；单人审批数 `0`、无 CODEOWNERS，管理员 bypass 仅限 PR。保留 merge / rebase，关闭 squash；关闭合并后自动删源分支，避免晋级时删除长期 `dev`。默认分支保持 `master`，不静默切换为 `dev` 或新增 `main` 匹配。
+精确保护 `dev` 与 `master`，四组规则叠加：
+
+| 规则 | 分支与要求 | 绕过 |
+| --- | --- | --- |
+| 共享历史保护 | dev/master 禁止删除、强推 | 无，包括所有者 |
+| dev 更新权限 | `Restrict updates` | 仅所有者团队，`always`，允许直推与合并 |
+| master 更新权限 | `Restrict updates` | 仅所有者团队，`pull_request`，仅允许 PR 合并 |
+| master 质量门禁 | 必须 PR、严格 `Candidate Quality`、解决会话 | 无，不保留管理员宽泛例外 |
+
+维护者团队 `RadishIntelligence/radishui-maintainers`（ID `20555210`）仅包含所有者，不设父 / 子团队。成员变更就是共享分支权限变更，必须另行授权；检查器校验固定 Team ID 和绕过模式，远端团队成员需另外核对。审批数保持 `0`、无 CODEOWNERS，不要求所有者批准自己创建的晋级 PR；审阅由所有者亲自合并承接。主线检查失败时修复候选，不常规绕过。
+
+保留 merge / rebase，关闭 squash；关闭合并后自动删源分支，避免晋级时删除长期 `dev`。默认分支保持 `master`，不新增 `main` 或 tag 匹配。
 
 远端模板、启用顺序、现状导出与回滚见 [Rulesets 说明](../../.github/rulesets/README.md)。只改 context 或合并选项时基于实际远端状态做精确差异，不直接覆盖组织规则、已有 bypass 或未知设置。
 
@@ -93,7 +106,8 @@ CI 不进行人工视觉批准，也不验证 Flutter、React 18、真实产品�
 | --- | --- | --- |
 | G-01.1 通用治理文件、PR 检查、模板与本地验证 | 已完成（仓库内基线） | `e4275da`、`7112c93` 与来源绑定通过 PR #3 合入主线；合并后已快进回流 dev，验证见开发记录 |
 | G-01.2 GitHub runner 的真实 PR 成功 / 失败传播 | 已完成 | PR #3 的成功运行和隔离 PR #4 的类型错误拒绝均已验收；run、head 与合并候选 SHA 见开发记录 |
-| G-01.3 仓库合并选项与 master Ruleset 启用 | 已完成 | 2026-11-03 启用 Ruleset `26446452`，核对严格检查、GitHub Actions 来源 `15368`、PR 内管理员 bypass 和五字段合并设置；dev 未保护 |
+| G-01.3 仓库合并选项与 master Ruleset 启用 | 已完成（历史基线） | 2026-11-03 启用 Ruleset `26446452`；当时的管理员 bypass 和 dev 未保护策略由 G-01.4 替代 |
+| G-01.4 所有者集成与 dev/master 分层保护 | 已完成（配置与只读验收） | 2026-11-06 四份 Ruleset active、所有者团队唯一成员、5 位普通成员 Write；模板 / 生效规则 / 分支 SHA 回读通过，8 项治理测试通过；未以普通成员身份做真实写入拒绝测试，详见本周记录 |
 
 本地政策和模板交付不会关闭整个 G 大专题，也不代表未来包发行完成。
 
