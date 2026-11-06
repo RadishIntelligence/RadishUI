@@ -10,6 +10,10 @@
 
 由这 29 张样本提炼的具体建议统一在[设计条例与约束](../design-rules.md)维护，附参考编号和适用条件；与所有者确认的默认原则分别标注。
 
+## 外部系统参考
+
+2026-11-06 所有者提供一张 shadcn/ui 风格 dashboard 截图并询问 [Material 3](https://m3.material.io/) 是否可参考。只做参考拆解，不采集原图、不引入依赖、不改 token / 组件 API 或页面；结论见 [shadcn/ui 与 Material 3 参考拆解](shadcn-material3-audit.md)。截图未保存，不采集 Ledger 私人材料。
+
 ## 内容与学习点
 
 ref-01–27 保留旧 family-ui 编号；ref-28–48 补充其他独有内容。完整的 83 条旧路径、来源提交与 ID 映射见 [catalog.json](catalog.json)，不再依赖错误命名判断产品。
