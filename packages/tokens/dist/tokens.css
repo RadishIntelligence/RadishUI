@@ -33,6 +33,7 @@
   --rd-bg-app: #F5F6F8;
   --rd-bg-surface: #FFFFFF;
   --rd-bg-muted: #F0F2F5;
+  --rd-control-surface-filled: #F0F2F5;
   --rd-bg-selected: #EAF1F8;
   --rd-text-primary: #20242C;
   --rd-text-secondary: #626B78;
@@ -61,6 +62,7 @@
   --rd-bg-app: #141619;
   --rd-bg-surface: #1C1F24;
   --rd-bg-muted: #272C33;
+  --rd-control-surface-filled: #272C33;
   --rd-bg-selected: #2B3D50;
   --rd-text-primary: #F1F3F6;
   --rd-text-secondary: #ADB5C1;

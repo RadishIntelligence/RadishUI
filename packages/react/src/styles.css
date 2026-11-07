@@ -33,6 +33,19 @@
   color: var(--rd-text-primary); font-size: var(--rd-font-size-sm); line-height: 1.5;
 }
 .rd-input:not(textarea), .rd-select { padding-block: max(var(--rd-space-1), calc((var(--rd-control-height) - 1.5em - 2px) / 2)); }
+.rd-input[data-surface="filled"], .rd-select[data-surface="filled"] {
+  background: var(--rd-control-surface-filled); border-color: transparent;
+}
+.rd-input[data-surface="filled"]:hover:not(:disabled):not([readonly]), .rd-select[data-surface="filled"]:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--rd-control-surface-filled) 85%, var(--rd-text-primary));
+}
+.rd-input[data-surface="filled"]:focus-visible, .rd-select[data-surface="filled"]:focus-visible {
+  background: var(--rd-bg-surface); border-color: var(--rd-border-control);
+}
+.rd-input[data-surface="filled"][aria-invalid="true"], .rd-select[data-surface="filled"][aria-invalid="true"] {
+  border-color: var(--rd-state-danger);
+}
+.rd-input[data-surface="filled"][readonly] { background: var(--rd-bg-muted); }
 .rd-input::placeholder { color: var(--rd-text-secondary); opacity: 1; }
 .rd-input[readonly] { background: var(--rd-bg-muted); }
 .rd-input[aria-invalid="true"], .rd-select[aria-invalid="true"] { border-color: var(--rd-state-danger); }

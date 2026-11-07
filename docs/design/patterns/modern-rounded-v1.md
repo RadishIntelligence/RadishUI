@@ -103,3 +103,10 @@ B1 进一步把运行版外壳改为平面：去掉 8px 外沿和双层圆角卡
 以下限制指原生稿本身：已检查桌面、移动、明暗及控件板的静态构图；静态稿不能验证真实键盘、焦点进入 / 恢复、屏幕阅读器、hover / pressed、滚动、浏览器缩放、中间宽度、系统主题切换或 Flutter。R1 / R3 的节选不能作为运行版删减数据与正文的策略。实际 Web 已验证的组合、键盘、长文滚动与系统主题等以 E-02 和[本周记录](../../devlogs/2026-W45.md)为准，不将原生稿限制描述为当前代码未实现。
 
 保留此前的错误、加载、确认、抽屉等[旧状态构图](workbench-v1.md)供设计对照；新控件板只覆盖上文列出的状态，没有把旧板直接标成新方向已完成。token 映射、首批组件与页面已转入 F-01 / C-02 / E-02；其后状态展示与补验按[当前规划](../../planning/current.md)推进，不再列作“等待开始首批实现”。
+
+### 填充字段与分组表面（B2，2026-11-07）
+
+- **填充字段**：`Input` / `Textarea` / `Select` 可选 `surface="filled"`，默认 `outline` 不变。填充态用 `control-surface-filled`、透明边框；hover 用 85% 填充表面 + 文本色混合，focus 回到 `bg-surface` + `border-control`，invalid 保留 danger 边框，readonly 用 muted。
+- **分组表面**：候选卡片用 muted header / footer、1px 分隔和内容白底，表达一组有明确头尾的设置；不新增 Card 组件，避免为单页组合过早抽象。
+- **状态层**：Button 继续使用现有 `action-hover` / `bg-selected` / inset 阴影；填充字段的 hover / focus 只在本组件内用 color-mix，不新增独立状态 token。
+- **采用边界**：spike 与组件示例已使用可选 filled；设置页、资源库等现有页面仍为 outline，待 B2 评审后再决定是否扩大采用。

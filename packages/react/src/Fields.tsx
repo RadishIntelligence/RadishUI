@@ -3,6 +3,7 @@ import { Select as SelectPrimitive } from 'radix-ui';
 import { Check, ChevronDown, ChevronUp } from 'lucide-react';
 
 interface FieldState { id: string; describedBy?: string; invalid: boolean; required?: boolean }
+export type FieldSurface = 'outline' | 'filled';
 const FieldContext = createContext<FieldState | undefined>(undefined);
 
 export interface FormFieldProps {
@@ -29,18 +30,18 @@ export function FormField({ id: suppliedId, label, hint, error, required, classN
   </FieldContext.Provider>;
 }
 
-export function Input({ className = '', id, required, 'aria-describedby': description, 'aria-invalid': invalid, ...props }: ComponentPropsWithRef<'input'>) {
+export function Input({ className = '', surface = 'outline', id, required, 'aria-describedby': description, 'aria-invalid': invalid, ...props }: ComponentPropsWithRef<'input'> & { surface?: FieldSurface }) {
   const field = useContext(FieldContext);
   return <input {...props} id={id ?? field?.id} required={required ?? field?.required}
     aria-describedby={[description, field?.describedBy].filter(Boolean).join(' ') || undefined}
-    aria-invalid={invalid ?? (field?.invalid || undefined)} className={`rd-input ${className}`} />;
+    aria-invalid={invalid ?? (field?.invalid || undefined)} data-surface={surface} className={`rd-input ${className}`} />;
 }
 
-export function Textarea({ className = '', id, required, 'aria-describedby': description, 'aria-invalid': invalid, ...props }: ComponentPropsWithRef<'textarea'>) {
+export function Textarea({ className = '', surface = 'outline', id, required, 'aria-describedby': description, 'aria-invalid': invalid, ...props }: ComponentPropsWithRef<'textarea'> & { surface?: FieldSurface }) {
   const field = useContext(FieldContext);
   return <textarea {...props} id={id ?? field?.id} required={required ?? field?.required}
     aria-describedby={[description, field?.describedBy].filter(Boolean).join(' ') || undefined}
-    aria-invalid={invalid ?? (field?.invalid || undefined)} className={`rd-input rd-textarea ${className}`} />;
+    aria-invalid={invalid ?? (field?.invalid || undefined)} data-surface={surface} className={`rd-input rd-textarea ${className}`} />;
 }
 
 export interface SelectOption { value: string; label: string; disabled?: boolean }
@@ -55,13 +56,14 @@ export interface SelectProps {
   disabled?: boolean;
   required?: boolean;
   className?: string;
+  surface?: FieldSurface;
 }
 
-export function Select({ value, onValueChange, options, id, name, label, placeholder, disabled, required, className = '' }: SelectProps) {
+export function Select({ value, onValueChange, options, id, name, label, placeholder, disabled, required, className = '', surface = 'outline' }: SelectProps) {
   const field = useContext(FieldContext);
   return <SelectPrimitive.Root value={value} onValueChange={onValueChange} name={name} disabled={disabled} required={required ?? field?.required}>
     <SelectPrimitive.Trigger id={id ?? field?.id} aria-label={label} aria-describedby={field?.describedBy}
-      aria-invalid={field?.invalid || undefined} className={`rd-select ${className}`}>
+      aria-invalid={field?.invalid || undefined} data-surface={surface} className={`rd-select ${className}`}>
       <SelectPrimitive.Value placeholder={placeholder} />
       <SelectPrimitive.Icon><ChevronDown size={16} /></SelectPrimitive.Icon>
     </SelectPrimitive.Trigger>

@@ -14,6 +14,7 @@ function Example({ name, contract, keyboard, code, children }: { name: string; c
 }
 
 function SpikePanel({ variant, t }: { variant: 'current' | 'candidate'; t: Translate }) {
+  const surface = variant === 'candidate' ? 'filled' : 'outline';
   const [density, setDensity] = useState('standard');
   const [fontSize, setFontSize] = useState('standard');
   const [hints, setHints] = useState(true);
@@ -25,10 +26,11 @@ function SpikePanel({ variant, t }: { variant: 'current' | 'candidate'; t: Trans
   return <section className={`spike-panel is-${variant}`} aria-label={variant === 'current' ? t('当前样式示例', 'Current sample') : t('Spike 候选示例', 'Spike candidate')}>
     <header className="spike-head"><div><strong>{t('工作区偏好', 'Workspace preferences')}</strong><span>{t('表面、字段与状态对照', 'Surface, fields and states')}</span></div><StatusBadge tone="success">{t('已保存', 'Saved')}</StatusBadge></header>
     <div className="spike-body">
-      <div className="spike-row"><span className="spike-label">{t('显示密度', 'Display density')}</span><Select className="spike-select" label={t('显示密度', 'Display density')} value={density} onValueChange={setDensity} options={[
+      <div className="spike-row"><span className="spike-label">{t('工作区名称', 'Workspace name')}</span><Input className="spike-input" aria-label={t('工作区名称', 'Workspace name')} defaultValue={t('演示空间', 'Demo space')} surface={surface} /></div>
+      <div className="spike-row"><span className="spike-label">{t('显示密度', 'Display density')}</span><Select className="spike-select" surface={surface} label={t('显示密度', 'Display density')} value={density} onValueChange={setDensity} options={[
         { value: 'compact', label: t('紧凑', 'Compact') }, { value: 'standard', label: t('标准', 'Standard') }, { value: 'spacious', label: t('宽松', 'Spacious') },
       ]} /></div>
-      <div className="spike-row"><span className="spike-label">{t('正文字号', 'Reading size')}</span><Select className="spike-select" label={t('正文字号', 'Reading size')} value={fontSize} onValueChange={setFontSize} options={[
+      <div className="spike-row"><span className="spike-label">{t('正文字号', 'Reading size')}</span><Select className="spike-select" surface={surface} label={t('正文字号', 'Reading size')} value={fontSize} onValueChange={setFontSize} options={[
         { value: 'small', label: t('小 · 15 px', 'Small · 15 px') }, { value: 'standard', label: t('标准 · 16 px', 'Standard · 16 px') }, { value: 'large', label: t('大 · 18 px', 'Large · 18 px') },
       ]} /></div>
       <div className="spike-row"><span className="spike-label">{t('显示辅助说明', 'Show field help')}</span><Switch aria-label={t('显示辅助说明', 'Show field help')} checked={hints} onCheckedChange={setHints} /></div>
@@ -40,10 +42,10 @@ function SpikePanel({ variant, t }: { variant: 'current' | 'candidate'; t: Trans
 
 function SpikeSection({ t }: { t: Translate }) {
   return <section className="spike-section" aria-labelledby="surface-spike-title">
-    <div className="spike-section-head"><div><h2 id="surface-spike-title">Surface & state spike</h2><p>{t('临时对照：只借 shadcn/ui 与 Material 3 的表面、字段和状态处理，不进入共享组件、token 或 API。填充字段、分组表面与状态层是候选方向。', 'Temporary study: borrows surface, field and state treatment from shadcn/ui and Material 3. No shared component, token or API changes. Filled fields, grouped surfaces and state layers are candidates.')}</p></div><StatusBadge tone="info">{t('评审中', 'Under review')}</StatusBadge></div>
+    <div className="spike-section-head"><div><h2 id="surface-spike-title">Surface & state spike</h2><p>{t('临时对照：填充字段已使用共享 surface=\"filled\"（默认 outline 不变）；分组表面与状态层仍为本页实验，不改变其他页面。', 'Temporary study: filled fields now use the shared surface=\"filled\" (outline remains the default); grouped surfaces and state layers stay page-local and do not affect other pages.')}</p></div><StatusBadge tone="info">{t('B2 落地', 'B2 landed')}</StatusBadge></div>
     <div className="spike-grid">
       <div><p className="spike-caption">{t('当前', 'Current')}</p><SpikePanel variant="current" t={t} /></div>
-      <div><p className="spike-caption">{t('候选：填充字段 / 分组表面 / 状态层', 'Candidate: filled fields / grouped surface / state layer')}</p><SpikePanel variant="candidate" t={t} /></div>
+      <div><p className="spike-caption">{t('候选：surface=\"filled\" / 分组表面 / 状态层', 'Candidate: surface=\"filled\" / grouped surface / state layer')}</p><SpikePanel variant="candidate" t={t} /></div>
     </div>
   </section>;
 }
@@ -89,15 +91,15 @@ function FieldExamples() {
         <p role="status">{message}</p>
       </form>
     </Example>
-    <Example name="Input" contract="原生 input 属性：value / defaultValue、onChange、disabled、readOnly、type、ref；可独立提供 aria-label。"
+    <Example name="Input" contract="原生 input 属性：value / defaultValue、onChange、disabled、readOnly、type、ref；surface: outline（默认）| filled；可独立提供 aria-label。"
       keyboard="Tab 聚焦并输入；只读可聚焦、选择和复制，disabled 不进入 Tab 顺序。独立使用时由调用方提供标签与错误关联。"
       code={'<Input aria-label="搜索" placeholder="输入关键词" />\n<Input aria-label="版本" value="v0.1" readOnly />'}>
       <div className="component-fields"><FormField label="可编辑文本"><Input placeholder="输入中文或 English" /></FormField><FormField label="只读版本"><Input value="v0.1 / 内部预览" readOnly /></FormField><FormField label="禁用字段" hint="此字段在当前示例中不可编辑。"><Input value="不可编辑" disabled /></FormField></div>
     </Example>
-    <Example name="Textarea" contract="原生 textarea 属性与字段上下文；rows、maxLength、readOnly、disabled、onChange / ref。"
+    <Example name="Textarea" contract="原生 textarea 属性与字段上下文；surface: outline（默认）| filled；rows、maxLength、readOnly、disabled、onChange / ref。"
       keyboard="Enter 换行，Tab 离开；错误不清空内容。长正文在输入区滚动，支持拖动调整高度。"
       code={'<FormField label="说明"><Textarea rows={4} maxLength={1000} /></FormField>'}>
-      <div className="component-fields"><FormField label="多行说明"><Textarea rows={3} defaultValue={'第一行中文说明。\nSecond line in English.'} /></FormField><FormField label="只读摘要"><Textarea rows={3} readOnly value="这是可以选择和复制的只读长文案。内容按可用宽度自然换行。" /></FormField><FormField label="禁用正文"><Textarea rows={3} disabled value="不可编辑" /></FormField><FormField label="待修订说明" error="示例错误：请补充适用范围。"><Textarea rows={3} defaultValue="保留这段草稿继续修改。" /></FormField></div>
+      <div className="component-fields"><FormField label="多行说明"><Textarea rows={3} defaultValue={'第一行中文说明。\nSecond line in English.'} /></FormField><FormField label="只读摘要"><Textarea rows={3} readOnly value="这是可以选择和复制的只读长文案。内容按可用宽度自然换行。" /></FormField><FormField label="禁用正文"><Textarea rows={3} disabled value="不可编辑" /></FormField><FormField label="待修订说明" error="示例错误：请补充适用范围。"><Textarea rows={3} defaultValue="保留这段草稿继续修改。" /></FormField><FormField label="填充说明（候选）" hint="surface=&quot;filled&quot;；默认仍是 outline。"><Textarea surface="filled" rows={3} defaultValue="填充表面只作为可选形态，不改变默认字段。" /></FormField></div>
     </Example>
     <Example name="Select" contract="受控 value / onValueChange；options: { value, label, disabled? }[]；placeholder、disabled、required、name。无 readOnly prop。"
       keyboard="Space / Enter 展开；方向键、Home / End 选择；Enter 确认；Escape 关闭并恢复焦点。只读场景可直接显示已选文字。"
