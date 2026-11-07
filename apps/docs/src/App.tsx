@@ -18,6 +18,7 @@ export function App() {
   const [resourceError, setResourceError] = useState<string>();
   const [loadAttempt, setLoadAttempt] = useState(0);
   const [externalChange, setExternalChange] = useState(false);
+  const [conflictOpen, setConflictOpen] = useState(false);
   const [helpOpen, setHelpOpen] = useState(false);
   const [dirty, setDirty] = useState(false);
   const dirtyRef = useRef(dirty);
@@ -70,7 +71,11 @@ export function App() {
       setRoute(next);
     };
     const onBeforeUnload = (event: BeforeUnloadEvent) => { if (dirtyRef.current) { event.preventDefault(); event.returnValue = ''; } };
-    const onStorage = (event: StorageEvent) => { if (event.key === null || Object.values(storageKeys).includes(event.key as typeof storageKeys[keyof typeof storageKeys])) setExternalChange(true); };
+    const onStorage = (event: StorageEvent) => {
+      if (event.key === null || Object.values(storageKeys).includes(event.key as typeof storageKeys[keyof typeof storageKeys])) {
+        setExternalChange(true); setConflictOpen(true);
+      }
+    };
     window.addEventListener('hashchange', onHashChange);
     window.addEventListener('beforeunload', onBeforeUnload);
     window.addEventListener('storage', onStorage);
@@ -109,9 +114,6 @@ export function App() {
       if (error) setPreferenceError(error);
     }}>
     <main className={`workspace-main ${route.page === 'resources' ? 'is-fixed-page' : ''}`} id="main" tabIndex={-1} ref={main}>
-      {externalChange && <InlineAlert tone="warning" title={t('其他标签页已更新本地数据', 'Local data changed in another tab')}>
-        {t('重新载入会放弃当前未保存的更改。', 'Reloading discards unsaved changes.')} <Button variant="secondary" size="sm" onClick={() => window.location.reload()}>{t('重新载入', 'Reload')}</Button>
-      </InlineAlert>}
       {preferenceError && <InlineAlert tone="danger" title={t('偏好未能读取或保存', 'Preferences could not be read or saved')}>{preferenceError} <Button variant="secondary" size="sm" onClick={() => {
         const error = savePreferences(preferences); if (error) setPreferenceError(error);
       }}>{t('重新保存当前偏好', 'Save current preferences again')}</Button></InlineAlert>}
@@ -121,6 +123,12 @@ export function App() {
       {route.page === 'document' && <ArticlePage key={route.resourceId ?? 'welcome'} resourceId={route.resourceId} resources={resources} resourcesError={resourceError}
         preferences={preferences} section={route.section} scrollRoot={main} t={t} notify={notify} onDirtyChange={updateDirty} externalChange={externalChange} />}
     </main>
+    <Dialog open={conflictOpen && externalChange} onOpenChange={setConflictOpen} title={t('其他标签页已更新本地数据', 'Local data changed in another tab')}
+      description={t('重新载入会放弃当前未保存的更改。', 'Reloading discards unsaved changes.')} closeLabel={t('关闭', 'Close')}
+      footer={<><Button variant="secondary" onClick={() => setConflictOpen(false)}>{t('稍后处理', 'Later')}</Button>
+        <Button onClick={() => window.location.reload()}>{t('重新载入', 'Reload')}</Button></>}>
+      <p>{t('当前页面已阻止覆盖写入，避免覆盖另一个标签页保存的内容。重新载入后会使用最新数据。', 'Saving is blocked here so the other tab’s changes are not overwritten. Reload to continue with the latest data.')}</p>
+    </Dialog>
     <Dialog open={helpOpen} onOpenChange={setHelpOpen} title={t('关于演示空间', 'About the demo space')} closeLabel={t('关闭', 'Close')}>
       <div className="help-content"><p>{t('这里使用合成资源与示例成员。资源、文档和偏好仅保存在当前浏览器，不会发送到产品服务，也没有真实账号登录。', 'This space uses synthetic resources and a demo member. Resources, documents and preferences are saved only in this browser. There is no product service or real sign-in.')}</p>
         <p>{t('你可以尝试搜索、筛选、新建资源、编辑文档和切换外观。浏览器清除站点数据后，本地修改也会移除。', 'Try searching, filtering, creating resources, editing documents and changing appearance. Clearing site data also removes your local changes.')}</p>

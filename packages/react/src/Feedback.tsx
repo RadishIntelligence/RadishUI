@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { useState, type CSSProperties, type ReactNode } from 'react';
 import { Toast as ToastPrimitive } from 'radix-ui';
 import { CircleCheck, Info, TriangleAlert, X } from 'lucide-react';
 import { IconButton } from './Button';
@@ -11,13 +11,25 @@ export function InlineAlert({ tone = 'info', children, title, className = '' }: 
   </div>;
 }
 
+const toastDuration = 4500;
+
 export interface ToastProps { open: boolean; onOpenChange(open: boolean): void; message: string; label?: string; closeLabel?: string }
 export function Toast({ open, onOpenChange, message, label = '通知', closeLabel = '关闭通知' }: ToastProps) {
-  return <ToastPrimitive.Provider duration={4500} label={label} swipeDirection="right">
-    <ToastPrimitive.Root open={open} onOpenChange={onOpenChange} className="rd-toast" type="foreground">
-      <CircleCheck size={18} aria-hidden="true" />
+  const [paused, setPaused] = useState(false);
+  return <ToastPrimitive.Provider duration={toastDuration} label={label} swipeDirection="up">
+    <ToastPrimitive.Root open={open} onOpenChange={onOpenChange} className="rd-toast" type="foreground"
+      onPause={() => setPaused(true)} onResume={() => setPaused(false)}
+      data-paused={paused ? '' : undefined}
+      style={{ '--rd-toast-duration': `${toastDuration}ms` } as CSSProperties}>
+      <CircleCheck size={16} aria-hidden="true" />
       <ToastPrimitive.Title>{message}</ToastPrimitive.Title>
-      <ToastPrimitive.Close asChild><IconButton label={closeLabel} size="sm"><X /></IconButton></ToastPrimitive.Close>
+      <span className="rd-toast-close-wrap">
+        <svg className="rd-toast-ring" viewBox="0 0 30 30" aria-hidden="true">
+          <rect className="rd-toast-ring-track" x="0.75" y="0.75" width="28.5" height="28.5" rx="8.25" pathLength="1" />
+          <rect className="rd-toast-ring-progress" x="0.75" y="0.75" width="28.5" height="28.5" rx="8.25" pathLength="1" />
+        </svg>
+        <ToastPrimitive.Close asChild><IconButton className="rd-toast-close" label={closeLabel} size="sm"><X size={14} /></IconButton></ToastPrimitive.Close>
+      </span>
     </ToastPrimitive.Root>
     <ToastPrimitive.Viewport className="rd-toast-viewport" />
   </ToastPrimitive.Provider>;

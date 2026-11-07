@@ -97,11 +97,26 @@
 .rd-alert--danger { background: var(--rd-state-danger-soft); color: var(--rd-state-danger); }
 .rd-alert--success { background: var(--rd-state-success-soft); color: var(--rd-state-success); }
 .rd-alert--warning { background: var(--rd-state-warning-soft); color: var(--rd-state-warning); }
-.rd-toast-viewport { position: fixed; z-index: 80; right: 20px; bottom: 20px; display: flex; flex-direction: column; width: min(380px, calc(100vw - 32px)); padding: 0; margin: 0; list-style: none; }
-.rd-toast { display: flex; align-items: center; gap: var(--rd-space-3); padding: var(--rd-space-3); background: var(--rd-bg-surface); color: var(--rd-text-primary); border: 1px solid var(--rd-border-soft); border-radius: var(--rd-radius-control); box-shadow: var(--rd-shadow-popup); font-size: var(--rd-font-size-sm); }
-.rd-toast > svg { color: var(--rd-state-success); flex-shrink: 0; }
-.rd-toast > div { flex: 1; }
-.rd-toast[data-swipe="end"] { transform: translateX(110%); }
+.rd-toast-viewport { position: fixed; z-index: 90; top: calc(10px + env(safe-area-inset-top, 0px)); left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; width: max-content; max-width: min(520px, calc(100vw - 32px)); padding: 0; margin: 0; list-style: none; pointer-events: none; }
+.rd-toast { position: relative; pointer-events: auto; display: flex; align-items: center; gap: 10px; max-width: 100%; padding: 7px 7px 7px 14px; border: 1px solid color-mix(in srgb, var(--rd-text-on-action) 16%, transparent); border-radius: var(--rd-radius-pill); background: var(--rd-action-primary); color: var(--rd-text-on-action); box-shadow: var(--rd-shadow-popup); font: 500 var(--rd-font-size-sm)/1.5 var(--rd-font-sans); }
+.rd-toast > svg { flex-shrink: 0; opacity: .88; }
+.rd-toast > div { min-width: 0; overflow-wrap: anywhere; }
+.rd-toast[data-state="open"] { animation: rd-toast-in 240ms cubic-bezier(.2, .8, .2, 1); }
+.rd-toast[data-state="closed"] { animation: rd-toast-out 160ms ease-in forwards; }
+.rd-toast[data-swipe="end"] { transform: translateY(-140%); }
+.rd-toast-close-wrap { position: relative; display: grid; place-items: center; width: 30px; height: 30px; flex-shrink: 0; }
+.rd-toast-ring { position: absolute; inset: 0; width: 30px; height: 30px; }
+.rd-toast-ring-track, .rd-toast-ring-progress { fill: none; stroke: currentColor; stroke-width: 1.5; }
+.rd-toast-ring-track { opacity: .4; }
+.rd-toast-ring-progress { stroke-dasharray: 1 1; stroke-dashoffset: 0; animation: rd-toast-countdown var(--rd-toast-duration, 4500ms) linear forwards; }
+.rd-toast[data-paused] .rd-toast-ring-progress { animation-play-state: paused; }
+.rd-toast-close.rd-icon-button { position: relative; width: 30px; min-width: 30px; min-height: 30px; padding: 0; border-color: transparent; border-radius: 8.25px; background: transparent; color: inherit; }
+.rd-toast-close.rd-icon-button::after { content: ''; position: absolute; inset: -7px; }
+.rd-toast-close.rd-icon-button:hover:not(:disabled) { background: color-mix(in srgb, currentColor 14%, transparent); }
+.rd-toast-close.rd-icon-button:focus-visible { outline-color: currentColor; }
+@keyframes rd-toast-in { from { opacity: 0; transform: translateY(-14px) scale(.94); } }
+@keyframes rd-toast-out { to { opacity: 0; transform: translateY(-10px) scale(.97); } }
+@keyframes rd-toast-countdown { to { stroke-dashoffset: 1; } }
 @keyframes rd-spin { to { transform: rotate(360deg); } }
 @keyframes rd-fade-in { from { opacity: 0; } to { opacity: 1; } }
 /* A narrow desktop pane still uses desktop controls. Size touch targets by input device. */
@@ -113,10 +128,10 @@
   .rd-switch { width: 44px; height: 28px; }
   .rd-switch-thumb { width: 22px; height: 22px; }
   .rd-switch[data-state="checked"] .rd-switch-thumb { transform: translateX(14px); }
-  .rd-toast-viewport { bottom: 16px; right: 16px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .rd-button, .rd-switch-thumb { transition: none; }
   .rd-button__spinner { animation: none; }
   .rd-dialog-overlay { animation: none; }
+  .rd-toast[data-state="open"], .rd-toast[data-state="closed"] { animation: none; }
 }

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type FormEvent } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState, type FormEvent } from 'react';
 import { Button, Checkbox, Dialog, Drawer, FormField, IconButton, InlineAlert, Input, Menu, Select, Tabs, TabsContent, TabsList, Textarea } from '@radish-ui/react';
 import { ArrowUpRight, ChevronLeft, ChevronRight, FileText, History, ListChecks, LockKeyhole, MoreHorizontal, Palette, PanelsTopLeft, Plus, RefreshCw, Search, Trash2 } from 'lucide-react';
 import { filterResources, formatDate, kindLabel, pageCount, pageNumbers, statusLabel, validatePage, type Preferences, type Resource, type ResourceKind, type Translate } from './model';
@@ -31,6 +31,8 @@ export function ResourcesPage({ resources, error, save, retry, t, locale, notify
   const [versionTarget, setVersionTarget] = useState<Resource>();
   const [restoreOpen, setRestoreOpen] = useState(false);
   const [mutationError, setMutationError] = useState('');
+  const [scrollFallback, setScrollFallback] = useState(false);
+  const pageRef = useRef<HTMLElement>(null);
   const title = useRef<HTMLHeadingElement>(null);
   const filtered = filterResources(resources ?? [], query, kind, status);
   const totalPages = pageCount(filtered.length, size);
@@ -38,6 +40,27 @@ export function ResourcesPage({ resources, error, save, retry, t, locale, notify
   const visible = filtered.slice((currentPage - 1) * size, currentPage * size);
   const selected = visible.find(item => item.id === selectedId) ?? visible[0];
   useEffect(() => { setJump(String(currentPage)); setJumpError(''); }, [currentPage]);
+
+  // The workbench keeps one screen while the list stays usable; extreme text or a very short
+  // viewport falls back to a page-level scroll instead of squeezing the list to nothing.
+  useLayoutEffect(() => {
+    const page = pageRef.current;
+    const main = page?.closest('main');
+    const list = page?.querySelector<HTMLElement>('.resource-table-scroll');
+    if (!page || !main || !list) { setScrollFallback(false); return; }
+    const measure = () => {
+      const mainStyle = getComputedStyle(main);
+      const available = main.clientHeight - parseFloat(mainStyle.paddingTop) - parseFloat(mainStyle.paddingBottom);
+      const chrome = page.getBoundingClientRect().height - list.getBoundingClientRect().height;
+      const minList = parseFloat(getComputedStyle(document.documentElement).fontSize) * 8;
+      setScrollFallback(available > 0 && available < chrome + minList);
+    };
+    measure();
+    const observer = new ResizeObserver(measure);
+    for (const element of [main, page, list]) observer.observe(element);
+    window.addEventListener('resize', measure);
+    return () => { observer.disconnect(); window.removeEventListener('resize', measure); };
+  }, [resources, error]);
 
   function select(item: Resource) {
     setSelectedId(item.id);
@@ -106,6 +129,7 @@ export function ResourcesPage({ resources, error, save, retry, t, locale, notify
             <div className="page-buttons"><IconButton label={t('上一页', 'Previous page')} disabled={currentPage <= 1} onClick={() => setPage(currentPage - 1)}><ChevronLeft /></IconButton>
               {pageNumbers(currentPage, totalPages).map((number, index) => number === 'gap' ? <span className="page-gap" key={`gap-${index}`}>…</span> : <Button key={number} size="sm" className="page-number" variant={number === currentPage ? 'primary' : 'ghost'} aria-current={number === currentPage ? 'page' : undefined}
                 aria-label={t(`第 ${number} 页`, `Page ${number}`)} onClick={() => setPage(number)}>{number}</Button>)}
+              <span className="page-position" aria-label={t(`第 ${currentPage} 页，共 ${totalPages} 页`, `Page ${currentPage} of ${totalPages}`)}>{currentPage} / {totalPages}</span>
               <IconButton label={t('下一页', 'Next page')} disabled={currentPage >= totalPages} onClick={() => setPage(currentPage + 1)}><ChevronRight /></IconButton>
             </div>
             <form className="page-jump" onSubmit={jumpToPage} noValidate><label htmlFor="page-jump">{t('前往', 'Go to')}</label><Input id="page-jump" inputMode="numeric" value={jump} onChange={event => { setJump(event.target.value); setJumpError(''); }} aria-invalid={Boolean(jumpError) || undefined} aria-describedby={jumpError ? 'jump-error' : undefined} />
@@ -117,7 +141,7 @@ export function ResourcesPage({ resources, error, save, retry, t, locale, notify
       {selected && <aside className="resource-detail-panel" aria-label={t('当前资源', 'Current resource')}>{details}</aside>}
     </div>;
 
-  return <section className="resources-page">
+  return <section className={`resources-page${scrollFallback ? ' is-scroll-fallback' : ''}`} ref={pageRef}>
     <div className="page-title"><h1 ref={title} tabIndex={-1}>{t('资源库', 'Resources')}</h1>
       <div className="page-title-actions">
         <Menu trigger={<IconButton className="page-menu" label={t('页面操作', 'Page actions')}><MoreHorizontal /></IconButton>} items={[

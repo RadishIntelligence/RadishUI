@@ -148,8 +148,8 @@ function FeedbackExamples() {
       code={'<InlineAlert tone="danger" title="未能保存">草稿已保留，请检查后重试。</InlineAlert>'}>
       <div className="component-stack"><InlineAlert title="信息示例">这里展示持久的上下文说明。</InlineAlert><InlineAlert tone="success" title="成功状态示例">成功说明应对应实际操作结果。</InlineAlert><InlineAlert tone="warning" title="警告状态示例">此处说明操作前需要注意的具体影响。</InlineAlert><InlineAlert tone="danger" title="错误状态示例">输入应保留，并提供继续处理的方法。</InlineAlert></div>
     </Example>
-    <Example name="Toast" contract="open / onOpenChange、message、label、closeLabel；当前自动关闭时间 4500ms。"
-      keyboard="F8 进入通知区域，可聚焦关闭按钮；Escape 或关闭按钮关闭，支持向右滑动。悬停 / 聚焦时暂停自动关闭。"
+    <Example name="Toast" contract="open / onOpenChange、message、label、closeLabel；顶部胶囊提示，关闭按钮显示剩余时间，4500ms 后自动关闭。"
+      keyboard="F8 进入通知区域，可聚焦关闭按钮；Escape 或关闭按钮关闭，支持向上滑动。悬停 / 聚焦时暂停自动关闭与倒计时。"
       code={'<Toast open={open} onOpenChange={setOpen} message="本页计数已增加" closeLabel="关闭提示" />'}>
       <div className="component-row"><Button variant="secondary" onClick={() => { setToastCount(n => n + 1); setToast(true); }}>增加通知计数</Button><span>本页计数：{toastCount}</span></div>
       <Toast key={toastCount} open={toast} onOpenChange={setToast} message={`本页计数已增加到 ${toastCount}`} closeLabel="关闭示例通知" />
