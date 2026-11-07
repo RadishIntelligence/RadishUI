@@ -34,7 +34,7 @@ function DialogSurface({ open, onOpenChange, title, description, children, foote
           <div><DialogPrimitive.Title className="rd-dialog-title">{title}</DialogPrimitive.Title>
             {description && <DialogPrimitive.Description id={descriptionId} className="rd-dialog-description">{description}</DialogPrimitive.Description>}
           </div>
-          <DialogPrimitive.Close asChild><IconButton label={closeLabel}><X /></IconButton></DialogPrimitive.Close>
+          <DialogPrimitive.Close asChild><IconButton className="rd-dialog-close" label={closeLabel}><X /></IconButton></DialogPrimitive.Close>
         </header>
         <div className="rd-dialog-body">{children}</div>
         {footer && <footer className="rd-dialog-footer">{footer}</footer>}

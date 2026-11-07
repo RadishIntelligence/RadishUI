@@ -79,6 +79,9 @@
 .rd-dialog-header { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--rd-space-4); padding: var(--rd-space-4); }
 .rd-dialog-header > div { min-width: 0; }
 .rd-dialog-title { margin: 0; font-size: 1.25rem; font-weight: 600; overflow-wrap: anywhere; }
+.rd-dialog-close.rd-icon-button { position: relative; width: 32px; min-width: 32px; min-height: 32px; padding: 0; background: transparent; border-color: transparent; color: var(--rd-text-secondary); }
+.rd-dialog-close.rd-icon-button::after { content: ''; position: absolute; inset: -7px; }
+.rd-dialog-close.rd-icon-button:hover:not(:disabled) { background: var(--rd-bg-muted); color: var(--rd-text-primary); }
 .rd-dialog-description { margin: var(--rd-space-2) 0 0; color: var(--rd-text-secondary); font-size: var(--rd-font-size-sm); line-height: 1.6; }
 .rd-dialog-body { min-height: 0; overflow: auto; padding: 0 var(--rd-space-4) var(--rd-space-4); overscroll-behavior: contain; }
 .rd-dialog-footer { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: var(--rd-space-2); padding: var(--rd-space-3) var(--rd-space-4); border-top: 1px solid var(--rd-border-soft); }

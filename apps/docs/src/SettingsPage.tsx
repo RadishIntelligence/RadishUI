@@ -33,8 +33,8 @@ export function SettingsPage({ preferences, save, t, onDirtyChange }: SettingsPa
       <div className="settings-layout">
         <form className="settings-form" onSubmit={submit}>
           <TabsContent value="appearance">
-            <fieldset className="theme-fieldset">
-              <legend>{t('界面主题', 'Interface theme')}</legend>
+            <div className="theme-fieldset" role="radiogroup" aria-labelledby="interface-theme">
+              <span className="theme-heading" id="interface-theme">{t('界面主题', 'Interface theme')}</span>
               {draft.hints && <p className="field-help">{t('选择浅色、深色，或跟随设备外观。', 'Choose light, dark, or follow your device.')}</p>}
               <div className="theme-options">
                 {(['light', 'dark', 'system'] as const).map(theme => <label key={theme} className={`theme-option ${draft.theme === theme ? 'is-selected' : ''}`}>
@@ -46,7 +46,7 @@ export function SettingsPage({ preferences, save, t, onDirtyChange }: SettingsPa
                   <span className="theme-option-caption">{{ light: t('浅色', 'Light'), dark: t('深色', 'Dark'), system: t('跟随系统', 'System') }[theme]}{draft.theme === theme && <Check size={14} aria-hidden="true" />}</span>
                 </label>)}
               </div>
-            </fieldset>
+            </div>
             <FormField className="preference-field" id="interface-language" label={t('界面语言', 'Interface language')} hint={draft.hints ? t('用于导航、按钮与辅助信息。', 'Used for navigation, controls, and help.') : undefined}>
               <Select value={draft.locale} onValueChange={value => change('locale', value as Preferences['locale'])} options={[{ value: 'zh-CN', label: '简体中文' }, { value: 'en', label: 'English' }]} />
             </FormField>

@@ -22,7 +22,7 @@
 | Checkbox / Switch | Checkbox 保留原生表单与键盘行为，Switch 使用受控 checked / onCheckedChange；标签、禁用、焦点与选择状态分别表达 |
 | Tabs | 受控或非受控 Root，配合 TabsList / TabsContent，保持 tab / tabpanel 关联、方向键、选择与焦点；辅助导出不另算组件数量 |
 | StatusBadge | neutral / info / success / warning / danger 表达展示语义，文字与图标由调用方提供，不伪装为交互按钮 |
-| Dialog / Drawer | 受控 open / onOpenChange，标题、可选说明、正文与 footer；支持 Escape、焦点约束、可指定初始焦点并恢复入口。Drawer 是同一弹层合同的侧向编排 |
+| Dialog / Drawer | 受控 open / onOpenChange，标题、可选说明、正文与 footer；支持 Escape、焦点约束、可指定初始焦点并恢复入口；关闭按钮 32px 可视、44px 命中由共享组件提供。Drawer 是同一弹层合同的侧向编排 |
 | Menu | trigger 与具名 items，支持禁用、危险项、分隔与链接 / 动作；键盘、关闭与焦点由行为基础维护 |
 | InlineAlert | info / success / warning / danger，错误以 alert 播报，其余状态使用 status；必要说明不只放在 Tooltip |
 | Toast / Tooltip | Toast 以顶部胶囊提供可关闭的短时反馈，关闭按钮显示剩余时间，悬停 / 聚焦暂停，超时自动关闭；Tooltip 补充已有可访问名称；不替代持久错误、字段帮助或必要操作入口 |
@@ -61,3 +61,7 @@ Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前
 按所有者对底部通知的反馈，Toast 改为顶部居中的深色胶囊：关闭按钮的边框即 4500ms 倒计时环，走完后自动关闭；悬停或聚焦时暂停，离开后继续。Escape、关闭按钮与向上滑动都可关闭，F8 仍进入通知区域；`prefers-reduced-motion` 下取消进出场动画但保留倒计时。公开 API（open / onOpenChange / message / label / closeLabel）未变，其他页面与 ComponentsPage 示例直接获得同一形态。
 
 倒计时环使用 `pathLength="1"` 的圆角矩形描边，随时间增加 `stroke-dashoffset`；暂停状态由 Radix Toast 的 `onPause` / `onResume` 同步到 `data-paused`，避免动画与自动关闭时间脱节。通知不进入页面布局，也不改变固定单屏的滚动所有者。
+
+## 对话框关闭尺寸与 chrome（2026-11-07）
+
+此前关闭按钮只在展示站 ≤799px 覆盖；本轮把 32px 可视、44px 命中的关闭按钮收进共享 Dialog / Drawer（`.rd-dialog-close`，`::after` 外扩），展示站删除重复覆盖。footer 按钮由展示站按 [DR-17](../design/design-rules.md#dr-17) 设为桌面 32 / 移动 36（触屏 44 命中）；Dialog 正文表单仍按密度 36 / 40 / 44，不随 chrome 缩小。公开 props 未变，键盘、焦点恢复与 Escape 行为沿用原合同。
