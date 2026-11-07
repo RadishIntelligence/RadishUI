@@ -315,6 +315,7 @@ h1 { font-size: var(--rd-font-size-title); line-height: 1.2; font-weight: 680; l
   .preference-field > .rd-field-hint { grid-row: 2; }
   .switch-field { grid-template-columns: minmax(0, 1fr) auto; gap: 4px 16px; }
   .switch-field > .rd-switch { grid-column: 2; grid-row: 1 / 3; }
+  .settings-form.is-no-hints .switch-field > .rd-switch { grid-row: 1; align-self: center; }
   .settings-footer { padding-inline: 12px; }
   .dirty-indicator { flex-basis: 100%; }
   .settings-tabs .rd-tab { padding-inline: 10px; }
