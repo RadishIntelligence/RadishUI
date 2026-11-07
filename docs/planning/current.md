@@ -26,7 +26,7 @@ PR #3 最终候选的真实 CI 与 Vercel 预览通过，隔离 PR #4 已验证�
 
 ## 后续顺位
 
-1. **进行 `#/components` 的 visual spike。** 2026-11-06 已完成 [shadcn/ui 与 Material 3 参考拆解](../design/references/shadcn-material3-audit.md)：shadcn/ui 作为第一视觉 / 组件参考，Material 3 作为状态层、色调角色、自适应与可访问性的方法参考；不引入 Tailwind / CVA / 新依赖，不改 token / API，不把 dashboard 卡片网格带回。[F-02.4 基准登记](../features/visual-baseline-proposal.md#第一版视觉基准登记2026-11-07)已完成，已在 `#/components` 顶部落地临时 Surface & state spike（当前 / 候选填充字段与分组表面，页面本地样式），覆盖明暗、390 / 768 / 1024 与 focus / disabled / loading；所有者已接受候选方向，IconButton loading 已修正；B2 已落地 `control-surface-filled` 与字段可选 `surface="filled"`（默认 outline），spike 候选改用真实 API；设置页已作为首个页面切换为 filled，资源库等仍为 outline，待评审是否扩大；Spike 经所有者确认后再决定是否进入 B2，并单独说明 token / 组件变更范围。
+1. **进行 `#/components` 的 visual spike。** 2026-11-06 已完成 [shadcn/ui 与 Material 3 参考拆解](../design/references/shadcn-material3-audit.md)：shadcn/ui 作为第一视觉 / 组件参考，Material 3 作为状态层、色调角色、自适应与可访问性的方法参考；不引入 Tailwind / CVA / 新依赖，不改 token / API，不把 dashboard 卡片网格带回。[F-02.4 基准登记](../features/visual-baseline-proposal.md#第一版视觉基准登记2026-11-07)已完成，已在 `#/components` 顶部落地临时 Surface & state spike（当前 / 候选填充字段与分组表面，页面本地样式），覆盖明暗、390 / 768 / 1024 与 focus / disabled / loading；所有者已接受候选方向，IconButton loading 已修正；B2 已落地 `control-surface-filled` 与字段可选 `surface="filled"`（默认 outline），spike 候选改用真实 API；设置页已作为首个页面切换为 filled 并获所有者确认，资源库等仍为 outline；spike 去留与是否扩大待定；Spike 经所有者确认后再决定是否进入 B2，并单独说明 token / 组件变更范围。
 2. **完成 E-02.5 剩余环境补验。** 11 月 7 日已补 320–1440px × 100% / 200%、English 长标签、固定单屏退化、详情列与可访问性命中区；仍缺 Safari / Firefox 关键组合、真机安全区 / 软键盘 / IME 与屏幕阅读器，按可用设备逐项记录，不以浏览器模拟代替。
 3. **先收组件与页面的遗留缺口。** 桌面右侧详情、320px + 200% 固定单屏、共享 Dialog 关闭尺寸、设置页控件与辅助说明关闭后的布局已在 11-07 收口；设置页文本输入、Dialog 正文表单与组件用例仍按密度，留待后续单独决定；B2 的填充字段目前只用于 spike 与组件示例，未改现有页面默认外观。[C-02.4](../features/react-workbench-components.md) 的 16 个组件用法已完成，后续按真实缺口补充。第一版基准已登记，再单独选择一个产品、一个有限页面作为 P2 试点，确认消费版本、例外与回滚，不自动恢复已撤回的四仓迁移；React 18、Flutter、字体打包和正式发行仍按独立需求确认。
 4. **本地验证后再处理晋级。** 本地 `dev` 当前领先缓存 `origin/dev` 11 个提交（截至 `2f64984`），未 fetch、未推送；本轮只做本地验收，不扩大 11 月 6 日的 G-01.4 授权。推送、PR 与主线晋级的时机和方式待所有者单独确认；历史 `design(workbench)` 提交的允许类型问题仍会阻塞 dev→master 晋级 PR 的完整区间检查，日常 dev 直推不受该 PR 检查影响；晋级前先约定合规处理方式，不改写既有历史或放宽检查。
@@ -39,5 +39,5 @@ PR #3 最终候选的真实 CI 与 Vercel 预览通过，隔离 PR #4 已验证�
 - 本仓设计使用的受限参考副本保留在已确认的仓库外本地私有库，不建 Git、不上传；来源仓原图与原入口已恢复。私人材料排除，外部截图不进 `.pen`、产品或本仓公开素材。
 - 本次 G-01.4 已授权协作规范、远端权限 / 分支保护设置，以及本批治理文件的提交 / dev 推送；暂不合并 master，不新建 PR、不正式发行、不修改 DNS 或托管设置，dev 推送可能触发既有预览部署；上一轮四仓临时分支已删除，没有待提交的跨仓迁移。
 - 11 月 5 日组件用法与首轮尺寸收敛已本地提交为 `3043c2d`；其后的侧窗信息密度与纵向底栏调整按所有者要求随本批本地提交保存；A 档已提交为 `8c4c635`。11 月 5 日收尾时 B1 平面外壳、字阶、12 条种子、固定单屏（DR-15）与移动细节修复已作为 `ca22c5a` 本地提交，当时尚未推送，待所有者复评；11 月 6 日远端状态以本页开头的新快照为准；它们不改变共享 token、组件 API 或依赖。推送、远端 PR / 合并与主线自动部署留待明确授权。正式发行、其他平台和真实产品试点仍按独立出口确认。
-- B2 填充字段以可选 API 落地（默认 outline），设置页已作为首个页面采用 filled；资源库等未切换，采用修订待所有者复评，不自动改变已登记的 F-02.4 基准。
+- B2 填充字段以可选 API 落地（默认 outline），设置页已作为首个页面采用 filled 并获所有者确认，作为 F-02.4 基准修订；资源库等未切换。
 - 11 月 7 日的布局与运行时反馈已作为 `f9d545f`、`edd0185` 等本地提交保存，未推送；chrome 尺度、设置 / 弹窗 / 主题缩略图、密度三档、tabs 换行与设置页布局已收口；F-02.4 第一版视觉基准已登记（运行版 `2f64984`，原生 `.pen` 本轮不同步）。设置页文本输入与 Dialog 正文表单仍按密度，未纳入本轮。本地累计 11 个提交领先 `origin/dev`，推送与晋级待单独授权。
