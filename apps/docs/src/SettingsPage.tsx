@@ -10,19 +10,18 @@ export function SettingsPage({ preferences, save, t, onDirtyChange }: SettingsPa
   const [draft, setDraft] = useState(preferences);
   const [tab, setTab] = useState('appearance');
   const [error, setError] = useState<string>();
-  const [message, setMessage] = useState('');
   const dirty = JSON.stringify(draft) !== JSON.stringify(preferences);
   useEffect(() => onDirtyChange(dirty), [dirty, onDirtyChange]);
   useEffect(() => () => onDirtyChange(false), [onDirtyChange]);
   useEffect(() => setDraft(preferences), [preferences]);
   function change<K extends keyof Preferences>(key: K, value: Preferences[K]) {
-    setDraft(current => ({ ...current, [key]: value })); setMessage(''); setError(undefined);
+    setDraft(current => ({ ...current, [key]: value })); setError(undefined);
   }
   function submit(event: FormEvent) {
     event.preventDefault();
     const failure = save(draft);
     setError(failure);
-    if (!failure) { onDirtyChange(false); setMessage(t('已保存到当前浏览器。', 'Saved in this browser.')); }
+    if (!failure) onDirtyChange(false);
   }
   return <section className="settings-page">
     <div className="page-title"><h1>{t('外观与偏好', 'Appearance & preferences')}</h1></div>
@@ -31,7 +30,7 @@ export function SettingsPage({ preferences, save, t, onDirtyChange }: SettingsPa
         { value: 'appearance', label: t('外观', 'Appearance') }, { value: 'reading', label: t('阅读', 'Reading') }, { value: 'notifications', label: t('通知', 'Notifications') },
       ]} />
       <div className="settings-layout">
-        <form className="settings-form" onSubmit={submit}>
+        <form className={`settings-form${draft.hints ? '' : ' is-no-hints'}`} onSubmit={submit}>
           <TabsContent value="appearance">
             <div className="theme-fieldset" role="radiogroup" aria-labelledby="interface-theme">
               <span className="theme-heading" id="interface-theme">{t('界面主题', 'Interface theme')}</span>
@@ -82,10 +81,9 @@ export function SettingsPage({ preferences, save, t, onDirtyChange }: SettingsPa
             </div>
           </TabsContent>
           {error && <div className="settings-feedback"><InlineAlert tone="danger">{error}</InlineAlert></div>}
-          {message && <p className="save-message" role="status">{message}</p>}
           <div className="settings-footer">
             <span className={`dirty-indicator ${dirty ? 'is-dirty' : ''}`} aria-live="polite">{dirty ? t('有未保存的更改', 'Unsaved changes') : t('所有更改已保存', 'All changes saved')}</span>
-            <Button variant="secondary" onClick={() => { setDraft({ ...defaultPreferences }); setMessage(t('默认值已恢复，请保存更改。', 'Defaults restored. Save to apply.')); setError(undefined); }}>{t('恢复默认', 'Restore defaults')}</Button>
+            <Button variant="secondary" onClick={() => { setDraft({ ...defaultPreferences }); setError(undefined); }}>{t('恢复默认', 'Restore defaults')}</Button>
             <Button type="submit" disabled={!dirty}>{t('保存更改', 'Save changes')}</Button>
           </div>
         </form>
