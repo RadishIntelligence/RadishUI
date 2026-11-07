@@ -1,4 +1,4 @@
-import { createContext, useContext, useId, type ComponentPropsWithRef, type ReactNode } from 'react';
+import { createContext, useContext, useId, useRef, useState, type ComponentPropsWithRef, type ReactNode } from 'react';
 import { Select as SelectPrimitive } from 'radix-ui';
 import { Check, ChevronDown, ChevronUp } from 'lucide-react';
 
@@ -61,14 +61,33 @@ export interface SelectProps {
 
 export function Select({ value, onValueChange, options, id, name, label, placeholder, disabled, required, className = '', surface = 'outline' }: SelectProps) {
   const field = useContext(FieldContext);
-  return <SelectPrimitive.Root value={value} onValueChange={onValueChange} name={name} disabled={disabled} required={required ?? field?.required}>
-    <SelectPrimitive.Trigger id={id ?? field?.id} aria-label={label} aria-describedby={field?.describedBy}
+  const [open, setOpen] = useState(false);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const closeOnClick = useRef(false);
+  return <SelectPrimitive.Root open={open} onOpenChange={setOpen} value={value} onValueChange={onValueChange} name={name} disabled={disabled} required={required ?? field?.required}>
+    <SelectPrimitive.Trigger ref={triggerRef} id={id ?? field?.id} aria-label={label} aria-describedby={field?.describedBy}
+      onPointerDown={event => { closeOnClick.current = open && event.pointerType !== 'mouse'; }}
+      onPointerCancel={() => { closeOnClick.current = false; }}
+      onClick={event => {
+        if (closeOnClick.current) {
+          closeOnClick.current = false;
+          event.preventDefault();
+          setOpen(false);
+        }
+      }}
       aria-invalid={field?.invalid || undefined} data-surface={surface} className={`rd-select ${className}`}>
       <SelectPrimitive.Value placeholder={placeholder} />
       <SelectPrimitive.Icon><ChevronDown size={16} /></SelectPrimitive.Icon>
     </SelectPrimitive.Trigger>
     <SelectPrimitive.Portal>
-      <SelectPrimitive.Content className="rd-select-content" position="popper" sideOffset={6} collisionPadding={12}>
+      <SelectPrimitive.Content className="rd-select-content" position="popper" sideOffset={6} collisionPadding={12}
+        onPointerDownOutside={event => {
+          const { pointerType, target } = event.detail.originalEvent;
+          // Keep the popup open until the touch click can toggle it closed.
+          if (pointerType !== 'mouse' && target instanceof Node && triggerRef.current?.contains(target)) {
+            event.preventDefault();
+          }
+        }}>
         <SelectPrimitive.ScrollUpButton className="rd-select-scroll"><ChevronUp size={16} /></SelectPrimitive.ScrollUpButton>
         <SelectPrimitive.Viewport className="rd-select-viewport">
           {options.map(option => <SelectPrimitive.Item className="rd-select-item" key={option.value} value={option.value} disabled={option.disabled}>
