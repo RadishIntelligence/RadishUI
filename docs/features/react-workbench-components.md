@@ -20,7 +20,7 @@
 | FormField / Input / Textarea | FormField 提供 label、hint / error、required 与稳定 id；Input / Textarea 读取字段上下文关联 aria-describedby / aria-invalid，也可独立传入原生属性。Switch 等其他控件由调用方显式关联 id / 标签及所需说明。失败不清空输入 |
 | Select | 受控 value / onValueChange、options、placeholder、disabled / required；触发值和箭头分离，浮层不透明，支持当前值、键盘、滚动与碰撞避让 |
 | Checkbox / Switch | Checkbox 保留原生表单与键盘行为，Switch 使用受控 checked / onCheckedChange；标签、禁用、焦点与选择状态分别表达 |
-| Tabs | 受控或非受控 Root，配合 TabsList / TabsContent，保持 tab / tabpanel 关联、方向键、选择与焦点；辅助导出不另算组件数量 |
+| Tabs | 受控或非受控 Root，配合 TabsList / TabsContent，保持 tab / tabpanel 关联、方向键、选择与焦点；列表在极窄 + 大字号下可换行，避免入口被裁切；辅助导出不另算组件数量 |
 | StatusBadge | neutral / info / success / warning / danger 表达展示语义，文字与图标由调用方提供，不伪装为交互按钮 |
 | Dialog / Drawer | 受控 open / onOpenChange，标题、可选说明、正文与 footer；支持 Escape、焦点约束、可指定初始焦点并恢复入口；关闭按钮 32px 可视、44px 命中由共享组件提供。Drawer 是同一弹层合同的侧向编排 |
 | Menu | trigger 与具名 items，支持禁用、危险项、分隔与链接 / 动作；键盘、关闭与焦点由行为基础维护 |

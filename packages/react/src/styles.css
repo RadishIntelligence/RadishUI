@@ -63,7 +63,7 @@
 .rd-switch-thumb { display: block; width: 18px; height: 18px; border-radius: 50%; background: var(--rd-text-secondary); transition: transform var(--rd-motion-base); }
 .rd-switch[data-state="checked"] .rd-switch-thumb { transform: translateX(14px); background: var(--rd-text-on-action); }
 .rd-tabs { min-width: 0; }
-.rd-tabs-list { display: inline-flex; max-width: 100%; gap: 2px; padding: var(--rd-space-1); background: var(--rd-bg-muted); border-radius: var(--rd-radius-pill); }
+.rd-tabs-list { display: inline-flex; flex-wrap: wrap; max-width: 100%; gap: 2px; padding: var(--rd-space-1); background: var(--rd-bg-muted); border-radius: var(--rd-radius-pill); }
 .rd-tab { flex-shrink: 0; border: 0; border-radius: var(--rd-radius-pill); padding: 6px var(--rd-space-3); background: transparent; color: var(--rd-text-secondary); font-size: var(--rd-font-size-sm); line-height: 1.5; }
 .rd-tab[data-state="active"] { background: var(--rd-bg-surface); color: var(--rd-text-primary); box-shadow: var(--rd-shadow-raised); }
 .rd-tab:hover:not(:disabled) { color: var(--rd-text-primary); }
