@@ -87,3 +87,7 @@
 - [Material 3](https://m3.material.io/)、[State layers](https://m3.material.io/foundations/interaction/states/state-layers)、[Color roles](https://m3.material.io/styles/color/roles)
 - [参考索引](README.md)、[设计原则](../foundations/01-principles.md)、[设计条例](../design-rules.md)、[E-02](../../features/workbench-preview.md)、[F-02](../../features/visual-baseline-proposal.md)
 - 所有者提供的 dashboard 截图：仅内部观察，未保存、未纳入版本管理；不采集 Ledger 私人材料。
+
+## 2026-11-07 spike 状态
+
+F-02.4 基准登记后，已在 `#/components` 顶部实现临时 Surface & state spike：当前与候选（填充字段 / 分组表面 / 状态层）并排对照，只使用页面本地样式和现有共享组件，不改 token / API / 依赖。桌面双列、移动堆叠，320px 与 200% 字号已验证容器不溢出。结论待所有者评审：接受则进入 B2 并单独说明 token / 组件变更范围，不接受则移除。
