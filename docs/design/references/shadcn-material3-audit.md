@@ -88,6 +88,6 @@
 - [参考索引](README.md)、[设计原则](../foundations/01-principles.md)、[设计条例](../design-rules.md)、[E-02](../../features/workbench-preview.md)、[F-02](../../features/visual-baseline-proposal.md)
 - 所有者提供的 dashboard 截图：仅内部观察，未保存、未纳入版本管理；不采集 Ledger 私人材料。
 
-## 2026-11-07 spike 状态
+## 2026-11-07 B2 采用状态
 
-F-02.4 基准登记后，已在 `#/components` 顶部实现 Surface & state spike：当前与候选并排对照。所有者已接受候选方向；B2 已落地 `control-surface-filled` token 与 `Input` / `Textarea` / `Select` 的可选 `surface="filled"`（默认 outline），spike 候选改用真实 API；分组表面与状态层仍为页面本地实验。设置页已作为首个页面采用 filled（所有者已确认），资源库等仍为 outline；320px 与 200% 字号已验证容器不溢出。
+F-02.4 基准登记后，`#/components` 顶部的 Surface & state spike 完成了当前 / 候选对照；所有者确认后已从组件页移除，证据保留在本周记录。B2 落地 `control-surface-filled` token 与 `Input` / `Textarea` / `Select` 的可选 `surface="filled"`（默认 outline）；设置页作为首个页面采用 filled（所有者已确认），资源库等仍为 outline。分组表面与状态层未进入共享组件；320px 与 200% 字号已验证容器不溢出。

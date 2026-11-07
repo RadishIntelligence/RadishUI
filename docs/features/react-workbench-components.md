@@ -52,12 +52,12 @@ A 批 10 个基础组件与 B 批 6 个反馈 / 浮层组件由三代表页实�
 
 2026-11-05，`apps/docs/src/ComponentsPage.tsx` 直接导入共享组件，按操作、字段、选择、反馈四组展示。桌面从“开发参考 → 组件用法”进入，移动端从账号菜单进入；保留三代表页的主导航。示例仅在当前分组内保留内存状态，离开分组 / 页面即重置，不写入资源、正文或偏好。关键 props 与代码示例帮助理解用法，完整类型仍以共享包导出为准；示例内容以中文和 English 合成文案为主，不承诺文档全文英文化。
 
-2026-11-07 在 F-02.4 基准登记后，组件页顶部加入临时 **Surface & state spike**：同一偏好卡片的“当前”与“候选”并排对照，候选只在本页试验填充字段、分组表面与状态层（不可用 / 保存 loading），不改共享 token、组件 API 或依赖；桌面双列、移动堆叠，320px 与 200% 字号下容器不溢出。所有者已接受候选方向（2026-11-07）；IconButton loading 的常驻 spinner / 图标叠加已修正。B2 已按确认范围落地：
+2026-11-07 的 B2 采用：组件页临时 Surface & state spike 在候选方向确认后已移除，共享变更与示例保留如下：
 
 - 新增 `control-surface-filled` token（浅色 `#F0F2F5` / 深色 `#272C33`），由 token 管线生成。
 - `Input` / `Textarea` / `Select` 增加可选 `surface?: 'outline' | 'filled'`，默认仍为 `outline`；填充态使用 token 表面、透明边框，hover 用 85% 表面 + 文本色混合，focus 回到 surface + `border-control`，invalid 保持 danger 边框，readonly 使用 muted。
-- spike 候选改用真实 `surface="filled"`；Textarea 示例新增一条填充字段。分组表面与状态层仍只在本页实验，Button 沿用现有 action / bg-selected / inset 状态，不新增状态 token。
-- 设置页作为首个采用页面，4 个 Select 改为 filled；资源库搜索、文档与其他页面仍为 outline。所有者已确认该采用，设置页 filled 纳入 F-02.4 基准修订；资源库等仍为 outline。
+- 组件示例与设置页使用真实 `surface="filled"`；Textarea 示例保留一条填充字段。分组表面与状态层未进入共享组件，Button 沿用现有 action / bg-selected / inset 状态，不新增状态 token。
+- 设置页作为首个采用页面，4 个 Select 改为 filled；资源库搜索、文档与其他页面仍为 outline。所有者已确认该采用，设置页 filled 纳入 F-02.4 基准修订。
 
 按所有者“桌面按钮、输入框、选择器偏大”的反馈，展示站默认偏好改用已有 compact 档；共享 token 值与 API 未改。Input / Select 的纵向内边距随现有高度计算，普通字号时三档实际对齐到 28 / 32 / 36px（2026-11-07 重命名为紧凑 / 标准 / 宽松）；Textarea 保留多行留白，大字号允许自然撑高，coarse / none pointer 保留至少 44px 控件范围，fine pointer 不再仅因窗口变窄而放大。Button 长文案可换行，避免大字号溢出。
 

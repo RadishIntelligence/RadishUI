@@ -13,43 +13,6 @@ function Example({ name, contract, keyboard, code, children }: { name: string; c
   </section>;
 }
 
-function SpikePanel({ variant, t }: { variant: 'current' | 'candidate'; t: Translate }) {
-  const surface = variant === 'candidate' ? 'filled' : 'outline';
-  const [density, setDensity] = useState('standard');
-  const [fontSize, setFontSize] = useState('standard');
-  const [hints, setHints] = useState(true);
-  const [saving, setSaving] = useState(false);
-  function save() {
-    setSaving(true);
-    window.setTimeout(() => setSaving(false), 900);
-  }
-  return <section className={`spike-panel is-${variant}`} aria-label={variant === 'current' ? t('当前样式示例', 'Current sample') : t('Spike 候选示例', 'Spike candidate')}>
-    <header className="spike-head"><div><strong>{t('工作区偏好', 'Workspace preferences')}</strong><span>{t('表面、字段与状态对照', 'Surface, fields and states')}</span></div><StatusBadge tone="success">{t('已保存', 'Saved')}</StatusBadge></header>
-    <div className="spike-body">
-      <div className="spike-row"><span className="spike-label">{t('工作区名称', 'Workspace name')}</span><Input className="spike-input" aria-label={t('工作区名称', 'Workspace name')} defaultValue={t('演示空间', 'Demo space')} surface={surface} /></div>
-      <div className="spike-row"><span className="spike-label">{t('显示密度', 'Display density')}</span><Select className="spike-select" surface={surface} label={t('显示密度', 'Display density')} value={density} onValueChange={setDensity} options={[
-        { value: 'compact', label: t('紧凑', 'Compact') }, { value: 'standard', label: t('标准', 'Standard') }, { value: 'spacious', label: t('宽松', 'Spacious') },
-      ]} /></div>
-      <div className="spike-row"><span className="spike-label">{t('正文字号', 'Reading size')}</span><Select className="spike-select" surface={surface} label={t('正文字号', 'Reading size')} value={fontSize} onValueChange={setFontSize} options={[
-        { value: 'small', label: t('小 · 15 px', 'Small · 15 px') }, { value: 'standard', label: t('标准 · 16 px', 'Standard · 16 px') }, { value: 'large', label: t('大 · 18 px', 'Large · 18 px') },
-      ]} /></div>
-      <div className="spike-row"><span className="spike-label">{t('显示辅助说明', 'Show field help')}</span><Switch aria-label={t('显示辅助说明', 'Show field help')} checked={hints} onCheckedChange={setHints} /></div>
-      <div className="spike-row"><span className="spike-label">{t('控件状态', 'Control states')}</span><div className="spike-actions"><Button size="sm" variant="secondary" disabled>{t('不可用', 'Disabled')}</Button></div></div>
-    </div>
-    <footer className="spike-foot"><span>{t('所有更改已保存', 'All changes saved')}</span><div className="spike-actions"><Button size="sm" variant="secondary" onClick={save} disabled={saving}>{t('取消', 'Cancel')}</Button><Button size="sm" loading={saving} onClick={save}>{t('保存更改', 'Save changes')}</Button></div></footer>
-  </section>;
-}
-
-function SpikeSection({ t }: { t: Translate }) {
-  return <section className="spike-section" aria-labelledby="surface-spike-title">
-    <div className="spike-section-head"><div><h2 id="surface-spike-title">Surface & state spike</h2><p>{t('临时对照：填充字段已使用共享 surface=\"filled\"（默认 outline 不变）；分组表面与状态层仍为本页实验，不改变其他页面。', 'Temporary study: filled fields now use the shared surface=\"filled\" (outline remains the default); grouped surfaces and state layers stay page-local and do not affect other pages.')}</p></div><StatusBadge tone="info">{t('B2 落地', 'B2 landed')}</StatusBadge></div>
-    <div className="spike-grid">
-      <div><p className="spike-caption">{t('当前', 'Current')}</p><SpikePanel variant="current" t={t} /></div>
-      <div><p className="spike-caption">{t('候选：surface=\"filled\" / 分组表面 / 状态层', 'Candidate: surface=\"filled\" / grouped surface / state layer')}</p><SpikePanel variant="candidate" t={t} /></div>
-    </div>
-  </section>;
-}
-
 function ActionExamples() {
   const [count, setCount] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -203,7 +166,6 @@ function FeedbackExamples() {
 export function ComponentsPage({ t }: { t: Translate }) {
   return <section className="components-page">
     <div className="page-title"><h1>{t('组件用法', 'Components')}</h1><a className="text-link component-back" href="#/resources"><ArrowLeft size={16} aria-hidden="true" />{t('资源库', 'Resources')}</a></div>
-    <SpikeSection t={t} />
     <Tabs defaultValue="actions" className="component-groups">
       <TabsList label={t('组件分组', 'Component groups')} items={[{ value: 'actions', label: t('操作', 'Actions') }, { value: 'fields', label: t('字段', 'Fields') }, { value: 'selection', label: t('选择', 'Choice') }, { value: 'feedback', label: t('反馈', 'Feedback') }]} />
       <p className="component-scope">16 个共享组件 · React 19 内部预览。示例状态仅保留在当前分组，切换分组或离开页面会重置；文案使用中文与 English 合成内容。</p>
