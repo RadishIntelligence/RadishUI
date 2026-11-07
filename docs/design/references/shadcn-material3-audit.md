@@ -90,4 +90,4 @@
 
 ## 2026-11-07 spike 状态
 
-F-02.4 基准登记后，已在 `#/components` 顶部实现 Surface & state spike：当前与候选并排对照。所有者已接受候选方向；B2 已落地 `control-surface-filled` token 与 `Input` / `Textarea` / `Select` 的可选 `surface="filled"`（默认 outline），spike 候选改用真实 API；分组表面与状态层仍为页面本地实验。现有页面未切换，320px 与 200% 字号已验证容器不溢出。
+F-02.4 基准登记后，已在 `#/components` 顶部实现 Surface & state spike：当前与候选并排对照。所有者已接受候选方向；B2 已落地 `control-surface-filled` token 与 `Input` / `Textarea` / `Select` 的可选 `surface="filled"`（默认 outline），spike 候选改用真实 API；分组表面与状态层仍为页面本地实验。设置页已作为首个页面采用 filled，资源库等仍为 outline；320px 与 200% 字号已验证容器不溢出。

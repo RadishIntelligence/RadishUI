@@ -57,7 +57,7 @@ A 批 10 个基础组件与 B 批 6 个反馈 / 浮层组件由三代表页实�
 - 新增 `control-surface-filled` token（浅色 `#F0F2F5` / 深色 `#272C33`），由 token 管线生成。
 - `Input` / `Textarea` / `Select` 增加可选 `surface?: 'outline' | 'filled'`，默认仍为 `outline`；填充态使用 token 表面、透明边框，hover 用 85% 表面 + 文本色混合，focus 回到 surface + `border-control`，invalid 保持 danger 边框，readonly 使用 muted。
 - spike 候选改用真实 `surface="filled"`；Textarea 示例新增一条填充字段。分组表面与状态层仍只在本页实验，Button 沿用现有 action / bg-selected / inset 状态，不新增状态 token。
-- 现有页面（设置、资源库等）未切换为 filled，默认外观与已登记基准不变；是否采用到页面待所有者评审 B2 效果后单独决定。
+- 设置页作为首个采用页面，4 个 Select 改为 filled；资源库搜索、文档与其他页面仍为 outline。该采用作为 B2 修订，待所有者复评后更新 F-02.4 登记，不自动改写已登记基准。
 
 按所有者“桌面按钮、输入框、选择器偏大”的反馈，展示站默认偏好改用已有 compact 档；共享 token 值与 API 未改。Input / Select 的纵向内边距随现有高度计算，普通字号时三档实际对齐到 28 / 32 / 36px（2026-11-07 重命名为紧凑 / 标准 / 宽松）；Textarea 保留多行留白，大字号允许自然撑高，coarse / none pointer 保留至少 44px 控件范围，fine pointer 不再仅因窗口变窄而放大。Button 长文案可换行，避免大字号溢出。
 

@@ -47,15 +47,15 @@ export function SettingsPage({ preferences, save, t, onDirtyChange }: SettingsPa
               </div>
             </div>
             <FormField className="preference-field" id="interface-language" label={t('界面语言', 'Interface language')} hint={draft.hints ? t('用于导航、按钮与辅助信息。', 'Used for navigation, controls, and help.') : undefined}>
-              <Select value={draft.locale} onValueChange={value => change('locale', value as Preferences['locale'])} options={[{ value: 'zh-CN', label: '简体中文' }, { value: 'en', label: 'English' }]} />
+              <Select surface="filled" value={draft.locale} onValueChange={value => change('locale', value as Preferences['locale'])} options={[{ value: 'zh-CN', label: '简体中文' }, { value: 'en', label: 'English' }]} />
             </FormField>
             <FormField className="preference-field" id="display-density" label={t('显示密度', 'Display density')} hint={draft.hints ? t('标准为默认；调整控件与工作区留白。', 'Standard is the default; adjusts controls and workspace spacing.') : undefined}>
-              <Select value={draft.density} onValueChange={value => change('density', value as Preferences['density'])} options={[
+              <Select surface="filled" value={draft.density} onValueChange={value => change('density', value as Preferences['density'])} options={[
                 { value: 'compact', label: t('紧凑', 'Compact') }, { value: 'standard', label: t('标准', 'Standard') }, { value: 'spacious', label: t('宽松', 'Spacious') },
               ]} />
             </FormField>
             <FormField className="preference-field" id="reading-font-size" label={t('正文字号', 'Reading font size')} hint={draft.hints ? t('仅调整阅读内容，界面控件保持稳定。', 'Changes article text, while controls stay consistent.') : undefined}>
-              <Select value={draft.fontSize} onValueChange={value => change('fontSize', value as Preferences['fontSize'])} options={[
+              <Select surface="filled" value={draft.fontSize} onValueChange={value => change('fontSize', value as Preferences['fontSize'])} options={[
                 { value: 'small', label: t('小 · 15 px', 'Small · 15 px') }, { value: 'standard', label: t('标准 · 16 px', 'Standard · 16 px') }, { value: 'large', label: t('大 · 18 px', 'Large · 18 px') },
               ]} />
             </FormField>
@@ -65,7 +65,7 @@ export function SettingsPage({ preferences, save, t, onDirtyChange }: SettingsPa
           </TabsContent>
           <TabsContent value="reading">
             <FormField className="preference-field" id="paragraph-spacing" label={t('段落行距', 'Paragraph line height')} hint={draft.hints ? t('应用到文档阅读页。', 'Applied to the document reader.') : undefined}>
-              <Select value={draft.lineHeight} onValueChange={value => change('lineHeight', value as Preferences['lineHeight'])} options={[
+              <Select surface="filled" value={draft.lineHeight} onValueChange={value => change('lineHeight', value as Preferences['lineHeight'])} options={[
                 { value: 'standard', label: t('标准', 'Standard') }, { value: 'relaxed', label: t('宽松', 'Relaxed') },
               ]} />
             </FormField>
