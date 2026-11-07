@@ -37,9 +37,9 @@
 | 对象 | 当前实现 | 参考观察 | 结论 |
 | --- | --- | --- | --- |
 | Button | 共享 `Button`：`primary` / `secondary` / `ghost` / `danger`，`sm` / `md`，`loading` | shadcn 的 default / secondary / outline / ghost / destructive；M3 filled / tonal / outlined / text | **Adopt** 状态完整性与 keyboard / disabled；**Adapt** outline、button group 只在确有场景时作为后续变体；**Reject** 现在新增 API 或纯黑品牌 |
-| Input / Field | 共享 `Input`、`Textarea`、`FormField`，含 label / hint / error / required / aria 关联 | shadcn 的填充式输入与 Field 组合；M3 filled / outlined | **Adopt** 错误、必填、辅助文本与焦点关联；**Adapt** 填充表面只作为 spike 候选，当前边框形态先保留；**Reject** 改 token 或表单语义 |
-| Select | 共享 `Select`，基于 Radix；选项可 disabled，带勾选与滚动 | shadcn Select 的空态、disabled、check、键盘路径 | **Adopt** 空态 / disabled / check / 键盘；**Adapt** 当前 popper 表面与密度；不新增 Select API |
-| Dialog / Drawer | 共享 `Dialog`、`Drawer`；标题 / 描述 / footer / `initialFocusRef`；关闭按钮视觉 32px、展示站移动端 44px 热区 | shadcn Dialog / Sheet 的 overlay、焦点返回、关闭位置；M3 dialog 的层级与状态 | **Adopt** 初始焦点与关闭后焦点返回；**Adapt** 关闭尺寸是否进入共享组件仍是开放项；**Reject** 在展示站已有覆盖时再加第二套 Dialog |
+| Input / Field | 共享 `Input`、`Textarea`、`FormField`，含 label / hint / error / required / aria 关联 | shadcn 的填充式输入与 Field 组合；M3 filled / outlined | **Adopt** 错误、必填、辅助文本与焦点关联；**Adapt** 填充表面作为可选 `surface="filled"`，默认 outline 保留；**Reject** 改 token 或表单语义 |
+| Select | 共享 `Select`，基于 Radix；选项可 disabled，带勾选与滚动 | shadcn Select 的空态、disabled、check、键盘路径 | **Adopt** 空态 / disabled / check / 键盘；**Adapt** 当前 popper 表面与密度；B2 增加可选 `surface`，并修复鼠标 / 触控二次点按；其余 API 不变 |
+| Dialog / Drawer | 共享 `Dialog`、`Drawer`；标题 / 描述 / footer / `initialFocusRef`；关闭按钮视觉 32px、展示站移动端 44px 热区 | shadcn Dialog / Sheet 的 overlay、焦点返回、关闭位置；M3 dialog 的层级与状态 | **Adopt** 初始焦点与关闭后焦点返回；**Adapt** 关闭尺寸已进入共享组件（32px 可视 / 44px 命中）；**Reject** 在展示站已有覆盖时再加第二套 Dialog |
 | Tabs | 共享 `Tabs` / `TabsList` / `TabsContent`，Radix 键盘行为 | shadcn Tabs 的 indicator、disabled、键盘 | **Adopt** indicator / disabled / 键盘一致性；**Adapt** 保持当前分段柔底，不改结构 |
 | Table | 资源表是 `apps/docs` 页面级 `.resource-table`，不是共享组件 | shadcn Data Table 的列、空态、行操作、排序；M3 data table | **Adopt** 表头 / 行操作 / 空态 / 加载的表达；**Reject** 在只有一个消费者时新增共享 Data Table；先记录候选 |
 | Empty | 页面级 `.empty-state`：图标 + 标题 + 说明 + 操作 | shadcn Empty 的组合与留白 | **Adopt** 组合完整性；**Reject** 现在新增共享 Empty；等第二个消费者再抽象 |
