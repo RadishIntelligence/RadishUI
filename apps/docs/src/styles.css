@@ -418,8 +418,6 @@ h1 { font-size: var(--rd-font-size-title); line-height: 1.2; font-weight: 680; l
   .settings-tabs .rd-tab,
   .component-groups .rd-tab { padding-block: 4px; }
   .rd-dialog-footer .rd-button { min-height: 32px; }
-  .settings-form { --rd-control-height: 32px; }
-  .settings-form .rd-select, .settings-footer .rd-button { min-height: 32px; }
   .rail-surface { padding: 14px 12px 12px; gap: 12px; }
   .rail-link { min-height: 32px; padding-block: 4px; }
   .rail-link svg { width: 16px; height: 16px; }
@@ -489,15 +487,13 @@ h1 { font-size: var(--rd-font-size-title); line-height: 1.2; font-weight: 680; l
   .settings-footer .rd-button::after { content: ''; position: absolute; inset: -5px; }
 }
 
-/* Compact is one step tighter than standard on desktop surfaces; spacious keeps the base rhythm. */
-@media (pointer: fine) {
-  html[data-density="compact"] .workspace-main { padding-top: var(--rd-space-4); }
-  html[data-density="compact"] .page-title { margin-bottom: var(--rd-space-3); }
-  html[data-density="compact"] .settings-layout { gap: var(--rd-space-3); margin-top: var(--rd-space-2); }
-  html[data-density="compact"] .theme-fieldset { padding: var(--rd-space-2) var(--rd-space-3); }
-  html[data-density="compact"] .preference-field { min-height: 52px; padding: var(--rd-space-1) var(--rd-space-2); }
-  html[data-density="compact"] .settings-footer { padding: var(--rd-space-1) var(--rd-space-2); }
-  html[data-density="compact"] .resource-table th { height: 32px; }
-  html[data-density="compact"] .resource-table td { height: 48px; }
-  html[data-density="compact"] .resource-select { min-height: 48px; }
-}
+/* Compact is one step tighter than standard; spacious keeps the base rhythm. */
+html[data-density="compact"] .workspace-main { padding-top: var(--rd-space-4); }
+html[data-density="compact"] .page-title { margin-bottom: var(--rd-space-3); }
+html[data-density="compact"] .settings-layout { gap: var(--rd-space-3); margin-top: var(--rd-space-2); }
+html[data-density="compact"] .theme-fieldset { padding: var(--rd-space-2) var(--rd-space-3); }
+html[data-density="compact"] .preference-field { min-height: 52px; padding: var(--rd-space-1) var(--rd-space-2); }
+html[data-density="compact"] .settings-footer { padding: var(--rd-space-1) var(--rd-space-2); }
+html[data-density="compact"] .resource-table th { height: 32px; }
+html[data-density="compact"] .resource-table td { height: 48px; }
+html[data-density="compact"] .resource-select { min-height: 48px; }

@@ -22,9 +22,9 @@
   --rd-motion-base: 160ms;
   --rd-control-height: 40px;
   --rd-control-height-sm: 32px;
-  --rd-control-height-compact: 32px;
-  --rd-control-height-standard: 36px;
-  --rd-control-height-spacious: 40px;
+  --rd-control-height-compact: 28px;
+  --rd-control-height-standard: 32px;
+  --rd-control-height-spacious: 36px;
   --rd-touch-height: 44px;
   --rd-icon-size: 18px;
 }
