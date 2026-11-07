@@ -417,6 +417,8 @@ h1 { font-size: var(--rd-font-size-title); line-height: 1.2; font-weight: 680; l
   .settings-tabs .rd-tab,
   .component-groups .rd-tab { padding-block: 4px; }
   .rd-dialog-footer .rd-button { min-height: 32px; }
+  .settings-form { --rd-control-height: 32px; }
+  .settings-form .rd-select, .settings-footer .rd-button { min-height: 32px; }
   .rail-surface { padding: 14px 12px 12px; gap: 12px; }
   .rail-link { min-height: 32px; padding-block: 4px; }
   .rail-link svg { width: 16px; height: 16px; }
@@ -451,6 +453,8 @@ h1 { font-size: var(--rd-font-size-title); line-height: 1.2; font-weight: 680; l
   .settings-tabs .rd-tab,
   .component-groups .rd-tab { min-height: 28px; padding-block: 4px; }
   .rd-dialog-footer .rd-button { min-height: 36px; }
+  .settings-form { --rd-control-height: 36px; --rd-control-height-sm: 36px; }
+  .settings-form .rd-select, .settings-footer .rd-button { min-height: 36px; }
   .resource-search { padding-block: 4px; margin-block: -4px; }
 }
 @media (max-width: 799px) {
@@ -476,6 +480,10 @@ h1 { font-size: var(--rd-font-size-title); line-height: 1.2; font-weight: 680; l
   .resource-toolbar .rd-tab::after,
   .settings-tabs .rd-tab::after,
   .component-groups .rd-tab::after { content: ''; position: absolute; inset: -9px 0; }
-  .rd-dialog-footer .rd-button { position: relative; }
-  .rd-dialog-footer .rd-button::after { content: ''; position: absolute; inset: -5px; }
+  .rd-dialog-footer .rd-button,
+  .settings-form .rd-select,
+  .settings-footer .rd-button { position: relative; }
+  .rd-dialog-footer .rd-button::after,
+  .settings-form .rd-select::after,
+  .settings-footer .rd-button::after { content: ''; position: absolute; inset: -5px; }
 }
