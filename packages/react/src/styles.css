@@ -51,6 +51,8 @@
 .rd-input[aria-invalid="true"], .rd-select[aria-invalid="true"] { border-color: var(--rd-state-danger); }
 .rd-textarea { min-height: 100px; resize: vertical; }
 .rd-select { display: inline-flex; justify-content: space-between; align-items: center; gap: var(--rd-space-2); padding-inline: var(--rd-space-2); text-align: left; }
+/* Radix sets body pointer-events:none while open; keep the trigger clickable so a second click closes it. */
+.rd-select[data-state="open"] { pointer-events: auto; }
 .rd-select > span:first-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .rd-select > span:last-child { display: flex; color: var(--rd-text-secondary); }
 .rd-select-content, .rd-menu {
