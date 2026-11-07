@@ -109,12 +109,12 @@ h1 { font-size: var(--rd-font-size-title); line-height: 1.2; font-weight: 680; l
 .settings-help > svg { color: var(--rd-text-action); }
 .settings-help > div { display: flex; align-items: flex-start; gap: 8px; padding-top: 16px; border-top: 1px solid var(--rd-border-soft); }
 .settings-help > div svg { margin-top: 5px; }
-.resources-page { height: 100%; min-height: 0; overflow: hidden; display: flex; flex-direction: column; }
+.resources-page { height: 100%; min-height: 0; overflow: visible; display: flex; flex-direction: column; }
 .resources-tabs { flex: 1; min-height: 0; display: flex; flex-direction: column; }
 .resource-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 24px; }
 .resource-search-tools { display: flex; gap: 12px; align-items: center; }
 .resource-search-tools > .rd-select { width: auto; min-width: 128px; max-width: 100%; flex: 0 1 auto; }
-.resource-search { position: relative; width: 236px; }
+.resource-search { position: relative; display: block; width: 236px; }
 .resource-search > svg { position: absolute; top: 50%; left: 12px; transform: translateY(-50%); color: var(--rd-text-secondary); pointer-events: none; }
 .resource-search > .rd-input { border-radius: var(--rd-radius-pill); background: var(--rd-bg-muted); padding-left: 36px; }
 .resources-tabs > .rd-tabs-content[data-state="active"] { display: flex; flex-direction: column; flex: 1; min-height: 0; }
@@ -393,15 +393,74 @@ h1 { font-size: var(--rd-font-size-title); line-height: 1.2; font-weight: 680; l
 @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
 /* Compact pagination: visible controls stay small, touch hit areas still reach 44px. */
 @media (max-width: 799px) {
-  .pagination, html[data-density="compact"] .pagination { padding: 6px 12px; min-height: 44px; gap: 8px; }
-  .pagination .page-size { min-width: 96px; min-height: 32px; font-size: var(--rd-font-size-xs); }
-  .page-buttons .rd-icon-button { width: 32px; min-width: 32px; min-height: 32px; }
-  .page-position { font-size: var(--rd-font-size-xs); }
-}
-@media (pointer: coarse) and (max-width: 799px) {
-  .pagination, html[data-density="compact"] .pagination { min-height: 48px; }
-  .pagination .page-size { position: relative; min-height: 36px; }
+  .pagination, html[data-density="compact"] .pagination { padding: 6px 12px; min-height: 48px; gap: 8px; }
+  .pagination .page-size { position: relative; min-width: 96px; min-height: 36px; font-size: var(--rd-font-size-xs); }
+  html[data-density="compact"] .pagination .page-size { min-height: 36px; }
   .pagination .page-size::after { content: ''; position: absolute; inset: -5px -3px; }
   .page-buttons .rd-icon-button { position: relative; width: 36px; min-width: 36px; min-height: 36px; }
   .page-buttons .rd-icon-button::after { content: ''; position: absolute; inset: -5px; }
+  .page-position { font-size: var(--rd-font-size-xs); }
+}
+
+/* Chrome scale: one visual scale for shell and page chrome.
+   Desktop 32px; narrow/mobile 36px visible with a 44px touch target. */
+@media (min-width: 800px) {
+  .page-title, .resource-toolbar, .document-toolbar { --rd-control-height: 32px; }
+  .page-title { margin-bottom: 16px; }
+  .page-title h1 { font-size: 1.625rem; }
+  .resource-toolbar { margin-bottom: 12px; gap: 12px; }
+  .resource-toolbar .rd-tabs-list { padding: 2px; }
+  .resource-toolbar .rd-tab { padding-block: 4px; }
+  .rail-surface { padding: 14px 12px 12px; gap: 12px; }
+  .rail-link { min-height: 32px; padding-block: 4px; }
+  .rail-link svg { width: 16px; height: 16px; }
+  .rail-favorites .rail-link { min-height: 32px; }
+  .workspace-switch { min-height: 36px; padding: 2px 8px; }
+  .workspace-avatar { width: 28px; height: 28px; }
+  .account-switch { min-height: 48px; padding: 6px 8px; }
+  .account-avatar { width: 32px; height: 32px; }
+}
+@media (max-width: 799px) {
+  .workspace-header, .page-title, .resource-toolbar, .document-toolbar {
+    --rd-control-height: 36px; --rd-control-height-sm: 36px;
+  }
+  .workspace-header { min-height: 52px; padding: 8px 12px; }
+  .header-actions { gap: 6px; }
+  .mobile-workspace .workspace-switch { min-height: 36px; padding: 2px 8px; }
+  .mobile-workspace .workspace-avatar { width: 26px; height: 26px; }
+  .mobile-account .account-switch { width: 36px; min-height: 36px; padding: 2px; }
+  .mobile-account .account-avatar { width: 30px; height: 30px; }
+  .workspace-header .rd-button, .workspace-header .rd-icon-button,
+  .page-title .rd-button, .page-title .rd-icon-button,
+  .resource-toolbar .rd-button, .resource-toolbar .rd-icon-button,
+  .resource-toolbar .rd-input, .resource-toolbar .rd-select,
+  .document-toolbar .rd-button { min-height: 36px; }
+  .workspace-header .rd-icon-button, .page-title .rd-icon-button { width: 36px; min-width: 36px; }
+  html[data-density="compact"] .mobile-workspace .workspace-switch { min-height: 36px; padding: 2px 8px; }
+  html[data-density="compact"] .mobile-account .account-switch { width: 36px; min-height: 36px; padding: 2px; }
+  .page-title { margin-bottom: 12px; }
+  .page-title h1 { font-size: 1.5rem; }
+  .resource-toolbar { margin-bottom: 12px; gap: 12px; }
+  .resource-toolbar .rd-tab { min-height: 28px; padding-block: 4px; }
+  .resource-search { padding-block: 4px; margin-block: -4px; }
+}
+@media (max-width: 799px) {
+  .mobile-workspace .workspace-switch,
+  .mobile-account .account-switch,
+  .header-actions .rd-icon-button,
+  .page-title .rd-button,
+  .page-title .rd-icon-button,
+  .resource-toolbar .rd-select,
+  .resource-toolbar .rd-button,
+  .document-toolbar .rd-button { position: relative; }
+  .mobile-workspace .workspace-switch::after,
+  .mobile-account .account-switch::after,
+  .header-actions .rd-icon-button::after,
+  .page-title .rd-button::after,
+  .page-title .rd-icon-button::after,
+  .resource-toolbar .rd-select::after,
+  .resource-toolbar .rd-button::after,
+  .document-toolbar .rd-button::after { content: ''; position: absolute; inset: -5px; }
+  .resource-toolbar .rd-tab { position: relative; }
+  .resource-toolbar .rd-tab::after { content: ''; position: absolute; inset: -9px 0; }
 }
