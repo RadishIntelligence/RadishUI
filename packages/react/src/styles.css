@@ -111,7 +111,7 @@
 .rd-toast-ring-progress { stroke-dasharray: 1 1; stroke-dashoffset: 0; animation: rd-toast-countdown var(--rd-toast-duration, 4500ms) linear forwards; }
 .rd-toast[data-paused] .rd-toast-ring-progress { animation-play-state: paused; }
 .rd-toast-close.rd-icon-button { position: relative; width: 30px; min-width: 30px; min-height: 30px; padding: 0; border-color: transparent; border-radius: 8.25px; background: transparent; color: inherit; }
-.rd-toast-close.rd-icon-button::after { content: ''; position: absolute; inset: -7px; }
+.rd-toast-close.rd-icon-button::after { content: ''; position: absolute; inset: -8px; }
 .rd-toast-close.rd-icon-button:hover:not(:disabled) { background: color-mix(in srgb, currentColor 14%, transparent); }
 .rd-toast-close.rd-icon-button:focus-visible { outline-color: currentColor; }
 @keyframes rd-toast-in { from { opacity: 0; transform: translateY(-14px) scale(.94); } }

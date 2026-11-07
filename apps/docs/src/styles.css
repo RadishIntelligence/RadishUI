@@ -288,7 +288,7 @@ h1 { font-size: var(--rd-font-size-title); line-height: 1.2; font-weight: 680; l
     .rd-drawer.resource-sheet { left: 50%; right: auto; width: min(560px, calc(100vw - 32px)); transform: translateX(-50%); }
   }
   .pagination { justify-content: flex-start; padding: 8px 12px; gap: 8px; }
-  .result-count { flex: 1; min-width: 0; white-space: nowrap; }
+  .result-count { flex: 1; min-width: max-content; white-space: nowrap; }
   .pagination .page-size { min-height: 32px; font-size: var(--rd-font-size-xs); }
   .page-number, .page-gap, .page-jump { display: none; }
   .page-position { display: inline-flex; align-items: center; }
@@ -391,3 +391,17 @@ h1 { font-size: var(--rd-font-size-title); line-height: 1.2; font-weight: 680; l
   .pagination .page-size, .page-jump > .rd-input { min-height: var(--rd-touch-height); font-size: var(--rd-font-size-body); }
 }
 @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+/* Compact pagination: visible controls stay small, touch hit areas still reach 44px. */
+@media (max-width: 799px) {
+  .pagination, html[data-density="compact"] .pagination { padding: 6px 12px; min-height: 44px; gap: 8px; }
+  .pagination .page-size { min-width: 96px; min-height: 32px; font-size: var(--rd-font-size-xs); }
+  .page-buttons .rd-icon-button { width: 32px; min-width: 32px; min-height: 32px; }
+  .page-position { font-size: var(--rd-font-size-xs); }
+}
+@media (pointer: coarse) and (max-width: 799px) {
+  .pagination, html[data-density="compact"] .pagination { min-height: 48px; }
+  .pagination .page-size { position: relative; min-height: 36px; }
+  .pagination .page-size::after { content: ''; position: absolute; inset: -5px -3px; }
+  .page-buttons .rd-icon-button { position: relative; width: 36px; min-width: 36px; min-height: 36px; }
+  .page-buttons .rd-icon-button::after { content: ''; position: absolute; inset: -5px; }
+}
