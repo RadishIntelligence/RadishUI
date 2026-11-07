@@ -50,9 +50,9 @@ export function SettingsPage({ preferences, save, t, onDirtyChange }: SettingsPa
             <FormField className="preference-field" id="interface-language" label={t('界面语言', 'Interface language')} hint={draft.hints ? t('用于导航、按钮与辅助信息。', 'Used for navigation, controls, and help.') : undefined}>
               <Select value={draft.locale} onValueChange={value => change('locale', value as Preferences['locale'])} options={[{ value: 'zh-CN', label: '简体中文' }, { value: 'en', label: 'English' }]} />
             </FormField>
-            <FormField className="preference-field" id="display-density" label={t('显示密度', 'Display density')} hint={draft.hints ? t('调整桌面控件与工作区留白。', 'Adjust desktop controls and workspace spacing.') : undefined}>
+            <FormField className="preference-field" id="display-density" label={t('显示密度', 'Display density')} hint={draft.hints ? t('标准为默认；影响桌面控件与工作区留白。', 'Standard is the default; adjusts desktop controls and workspace spacing.') : undefined}>
               <Select value={draft.density} onValueChange={value => change('density', value as Preferences['density'])} options={[
-                { value: 'compact', label: t('紧凑', 'Compact') }, { value: 'comfortable', label: t('舒适', 'Comfortable') }, { value: 'spacious', label: t('宽松', 'Spacious') },
+                { value: 'compact', label: t('紧凑', 'Compact') }, { value: 'standard', label: t('标准', 'Standard') }, { value: 'spacious', label: t('宽松', 'Spacious') },
               ]} />
             </FormField>
             <FormField className="preference-field" id="reading-font-size" label={t('正文字号', 'Reading font size')} hint={draft.hints ? t('仅调整阅读内容，界面控件保持稳定。', 'Changes article text, while controls stay consistent.') : undefined}>

@@ -3,7 +3,7 @@ export type Translate = (chinese: string, english: string) => string;
 export interface Preferences {
   theme: 'light' | 'dark' | 'system';
   locale: 'zh-CN' | 'en';
-  density: 'compact' | 'comfortable' | 'spacious';
+  density: 'compact' | 'standard' | 'spacious';
   fontSize: 'small' | 'standard' | 'large';
   hints: boolean;
   showToc: boolean;
@@ -11,7 +11,7 @@ export interface Preferences {
   notifications: boolean;
 }
 export const defaultPreferences: Preferences = {
-  theme: 'system', locale: 'zh-CN', density: 'compact', fontSize: 'standard',
+  theme: 'system', locale: 'zh-CN', density: 'standard', fontSize: 'standard',
   hints: true, showToc: true, lineHeight: 'standard', notifications: true,
 };
 export type ResourceKind = 'document' | 'spec' | 'checklist' | 'example';
@@ -27,11 +27,20 @@ export type ArticleBlock = { type: 'heading'; level: 2 | 3; text: string; id: st
 const isRecord = (value: unknown): value is Record<string, unknown> => Boolean(value && typeof value === 'object' && !Array.isArray(value));
 const isDate = (value: unknown): value is string => typeof value === 'string' && Number.isFinite(Date.parse(value));
 const oneOf = (value: unknown, values: readonly string[]): value is string => typeof value === 'string' && values.includes(value);
-export function isPreferences(value: unknown): value is Preferences {
-  return isRecord(value) && oneOf(value.theme, ['light', 'dark', 'system'])
-    && oneOf(value.locale, ['zh-CN', 'en']) && oneOf(value.density, ['compact', 'comfortable', 'spacious'])
+function hasPreferenceFields(value: Record<string, unknown>) {
+  return oneOf(value.theme, ['light', 'dark', 'system']) && oneOf(value.locale, ['zh-CN', 'en'])
     && oneOf(value.fontSize, ['small', 'standard', 'large']) && oneOf(value.lineHeight, ['standard', 'relaxed'])
     && ['hints', 'showToc', 'notifications'].every(key => typeof value[key] === 'boolean');
+}
+export function isPreferences(value: unknown): value is Preferences {
+  return isRecord(value) && hasPreferenceFields(value) && oneOf(value.density, ['compact', 'standard', 'spacious']);
+}
+export interface LegacyPreferences extends Omit<Preferences, 'density'> { density: 'compact' | 'comfortable' | 'spacious' }
+export function isLegacyPreferences(value: unknown): value is LegacyPreferences {
+  return isRecord(value) && hasPreferenceFields(value) && oneOf(value.density, ['compact', 'comfortable', 'spacious']);
+}
+export function migratePreferences(value: LegacyPreferences): Preferences {
+  return { ...value, density: value.density === 'compact' ? 'standard' : 'spacious' };
 }
 export function isResource(value: unknown): value is Resource {
   return isRecord(value) && typeof value.id === 'string' && /^[a-zA-Z0-9-]{1,80}$/.test(value.id)

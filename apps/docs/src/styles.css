@@ -2,6 +2,7 @@
 html { color-scheme: light; }
 html[data-rd-theme="dark"] { color-scheme: dark; }
 html[data-density="compact"] { --rd-control-height: var(--rd-control-height-compact); }
+html[data-density="standard"] { --rd-control-height: var(--rd-control-height-standard); }
 html[data-density="spacious"] { --rd-control-height: var(--rd-control-height-spacious); }
 body { margin: 0; overflow: hidden; background: var(--rd-bg-app); color: var(--rd-text-primary); font: 400 var(--rd-font-size-base)/1.6 var(--rd-font-sans); }
 a { color: inherit; text-decoration: none; }
@@ -252,7 +253,7 @@ h1 { font-size: var(--rd-font-size-title); line-height: 1.2; font-weight: 680; l
 }
 @media (max-width: 799px) {
   :root { --mobile-navigation-height: max(72px, 4.5rem); }
-  html[data-density="compact"] { --mobile-navigation-height: max(52px, 3.25rem); }
+  html:is([data-density="standard"], [data-density="compact"]) { --mobile-navigation-height: max(52px, 3.25rem); }
   body { font-size: var(--rd-font-size-base); }
   .workbench, .workbench.is-collapsed { display: block; padding: 0; }
   .app-rail { display: none; }
@@ -333,51 +334,51 @@ h1 { font-size: var(--rd-font-size-title); line-height: 1.2; font-weight: 680; l
 }
 /* Compact desktop density also applies when the workbench is in a narrow pane. */
 @media (pointer: fine) {
-  html[data-density="compact"] .workspace-header { min-height: 48px; padding-block: var(--rd-space-2); }
-  html[data-density="compact"] .workspace-main { padding-top: var(--rd-space-5); }
-  html[data-density="compact"] .page-title { margin-bottom: var(--rd-space-4); }
-  html[data-density="compact"] .settings-layout { gap: var(--rd-space-4); margin-top: var(--rd-space-3); }
-  html[data-density="compact"] .theme-fieldset { padding: var(--rd-space-3); }
-  html[data-density="compact"] .theme-options { padding-top: var(--rd-space-2); }
-  html[data-density="compact"] .theme-preview { aspect-ratio: 16 / 10; height: auto; padding: var(--rd-space-1); gap: 3px; }
-  html[data-density="compact"] .theme-preview-rail,
-  html[data-density="compact"] .theme-preview-main { padding: 2px; gap: 2px; }
-  html[data-density="compact"] .theme-preview-rail b { height: 3px; }
-  html[data-density="compact"] .theme-preview-rail i { height: 2px; }
-  html[data-density="compact"] .theme-preview-bar { height: 2px; }
-  html[data-density="compact"] .theme-preview-bar.is-title { height: 3px; }
-  html[data-density="compact"] .theme-preview-button { height: 5px; }
-  html[data-density="compact"] .preference-field { min-height: 60px; padding: var(--rd-space-2) var(--rd-space-3); gap: var(--rd-space-1) var(--rd-space-3); }
-  html[data-density="compact"] .settings-footer { padding: var(--rd-space-2) var(--rd-space-3); }
-  html[data-density="compact"] .resource-toolbar,
-  html[data-density="compact"] .document-toolbar { gap: var(--rd-space-2); margin-bottom: var(--rd-space-3); }
-  html[data-density="compact"] .resource-table th { height: 36px; padding-block: var(--rd-space-1); }
-  html[data-density="compact"] .resource-table td { height: 52px; padding-block: var(--rd-space-1); }
-  html[data-density="compact"] .resource-table td:first-child { padding-block: 0; }
-  html[data-density="compact"] .resource-select { min-height: 52px; padding-block: var(--rd-space-1); }
-  html[data-density="compact"] .resource-mobile-list > li { padding: var(--rd-space-1) var(--rd-space-2); }
-  html[data-density="compact"] .resource-mobile-select { min-height: 36px; gap: var(--rd-space-2); }
-  html[data-density="compact"] .resource-detail { gap: var(--rd-space-3); }
-  html[data-density="compact"] .resource-detail-panel { padding: var(--rd-space-3); }
-  html[data-density="compact"] .pagination { padding: var(--rd-space-2); min-height: 48px; }
-  html[data-density="compact"] .pagination .page-size,
-  html[data-density="compact"] .page-jump > .rd-input { min-height: 32px; }
-  html[data-density="compact"] .page-number { min-width: 32px; }
-  html[data-density="compact"] .document-layout { gap: var(--rd-space-3); }
-  html[data-density="compact"] .mobile-outline { padding: var(--rd-space-2) var(--rd-space-3); }
-  html[data-density="compact"] .mobile-outline summary { min-height: 32px; padding-block: var(--rd-space-1); }
-  html[data-density="compact"] .mobile-outline a { min-height: 32px; }
+  html:is([data-density="standard"], [data-density="compact"]) .workspace-header { min-height: 48px; padding-block: var(--rd-space-2); }
+  html:is([data-density="standard"], [data-density="compact"]) .workspace-main { padding-top: var(--rd-space-5); }
+  html:is([data-density="standard"], [data-density="compact"]) .page-title { margin-bottom: var(--rd-space-4); }
+  html:is([data-density="standard"], [data-density="compact"]) .settings-layout { gap: var(--rd-space-4); margin-top: var(--rd-space-3); }
+  html:is([data-density="standard"], [data-density="compact"]) .theme-fieldset { padding: var(--rd-space-3); }
+  html:is([data-density="standard"], [data-density="compact"]) .theme-options { padding-top: var(--rd-space-2); }
+  html:is([data-density="standard"], [data-density="compact"]) .theme-preview { aspect-ratio: 16 / 10; height: auto; padding: var(--rd-space-1); gap: 3px; }
+  html:is([data-density="standard"], [data-density="compact"]) .theme-preview-rail,
+  html:is([data-density="standard"], [data-density="compact"]) .theme-preview-main { padding: 2px; gap: 2px; }
+  html:is([data-density="standard"], [data-density="compact"]) .theme-preview-rail b { height: 3px; }
+  html:is([data-density="standard"], [data-density="compact"]) .theme-preview-rail i { height: 2px; }
+  html:is([data-density="standard"], [data-density="compact"]) .theme-preview-bar { height: 2px; }
+  html:is([data-density="standard"], [data-density="compact"]) .theme-preview-bar.is-title { height: 3px; }
+  html:is([data-density="standard"], [data-density="compact"]) .theme-preview-button { height: 5px; }
+  html:is([data-density="standard"], [data-density="compact"]) .preference-field { min-height: 60px; padding: var(--rd-space-2) var(--rd-space-3); gap: var(--rd-space-1) var(--rd-space-3); }
+  html:is([data-density="standard"], [data-density="compact"]) .settings-footer { padding: var(--rd-space-2) var(--rd-space-3); }
+  html:is([data-density="standard"], [data-density="compact"]) .resource-toolbar,
+  html:is([data-density="standard"], [data-density="compact"]) .document-toolbar { gap: var(--rd-space-2); margin-bottom: var(--rd-space-3); }
+  html:is([data-density="standard"], [data-density="compact"]) .resource-table th { height: 36px; padding-block: var(--rd-space-1); }
+  html:is([data-density="standard"], [data-density="compact"]) .resource-table td { height: 52px; padding-block: var(--rd-space-1); }
+  html:is([data-density="standard"], [data-density="compact"]) .resource-table td:first-child { padding-block: 0; }
+  html:is([data-density="standard"], [data-density="compact"]) .resource-select { min-height: 52px; padding-block: var(--rd-space-1); }
+  html:is([data-density="standard"], [data-density="compact"]) .resource-mobile-list > li { padding: var(--rd-space-1) var(--rd-space-2); }
+  html:is([data-density="standard"], [data-density="compact"]) .resource-mobile-select { min-height: 36px; gap: var(--rd-space-2); }
+  html:is([data-density="standard"], [data-density="compact"]) .resource-detail { gap: var(--rd-space-3); }
+  html:is([data-density="standard"], [data-density="compact"]) .resource-detail-panel { padding: var(--rd-space-3); }
+  html:is([data-density="standard"], [data-density="compact"]) .pagination { padding: var(--rd-space-2); min-height: 48px; }
+  html:is([data-density="standard"], [data-density="compact"]) .pagination .page-size,
+  html:is([data-density="standard"], [data-density="compact"]) .page-jump > .rd-input { min-height: 32px; }
+  html:is([data-density="standard"], [data-density="compact"]) .page-number { min-width: 32px; }
+  html:is([data-density="standard"], [data-density="compact"]) .document-layout { gap: var(--rd-space-3); }
+  html:is([data-density="standard"], [data-density="compact"]) .mobile-outline { padding: var(--rd-space-2) var(--rd-space-3); }
+  html:is([data-density="standard"], [data-density="compact"]) .mobile-outline summary { min-height: 32px; padding-block: var(--rd-space-1); }
+  html:is([data-density="standard"], [data-density="compact"]) .mobile-outline a { min-height: 32px; }
 }
 @media (pointer: fine) and (max-width: 799px) {
-  html[data-density="compact"] { --mobile-navigation-height: max(52px, 3.25rem); }
-  html[data-density="compact"] .workspace-header { padding: var(--rd-space-2) var(--rd-space-3); }
-  html[data-density="compact"] .mobile-workspace .workspace-switch { min-height: 32px; padding: 2px var(--rd-space-2); }
-  html[data-density="compact"] .workspace-avatar { width: max(24px, 1.5rem); height: max(24px, 1.5rem); }
-  html[data-density="compact"] .mobile-account .account-switch { width: max(32px, 2rem); min-height: max(32px, 2rem); padding: 2px; }
-  html[data-density="compact"] .account-avatar { width: max(26px, 1.625rem); height: max(26px, 1.625rem); }
-  html[data-density="compact"] .workspace-main { padding-inline: var(--rd-space-3); padding-bottom: calc(var(--mobile-navigation-height) + 16px); scroll-padding-bottom: calc(var(--mobile-navigation-height) + 16px); }
-  html[data-density="compact"] .mobile-navigation { bottom: 8px; left: var(--rd-space-3); right: var(--rd-space-3); padding: 0; }
-  html[data-density="compact"] .mobile-navigation svg { width: 20px; height: 20px; }
+  html:is([data-density="standard"], [data-density="compact"]) { --mobile-navigation-height: max(52px, 3.25rem); }
+  html:is([data-density="standard"], [data-density="compact"]) .workspace-header { padding: var(--rd-space-2) var(--rd-space-3); }
+  html:is([data-density="standard"], [data-density="compact"]) .mobile-workspace .workspace-switch { min-height: 32px; padding: 2px var(--rd-space-2); }
+  html:is([data-density="standard"], [data-density="compact"]) .workspace-avatar { width: max(24px, 1.5rem); height: max(24px, 1.5rem); }
+  html:is([data-density="standard"], [data-density="compact"]) .mobile-account .account-switch { width: max(32px, 2rem); min-height: max(32px, 2rem); padding: 2px; }
+  html:is([data-density="standard"], [data-density="compact"]) .account-avatar { width: max(26px, 1.625rem); height: max(26px, 1.625rem); }
+  html:is([data-density="standard"], [data-density="compact"]) .workspace-main { padding-inline: var(--rd-space-3); padding-bottom: calc(var(--mobile-navigation-height) + 16px); scroll-padding-bottom: calc(var(--mobile-navigation-height) + 16px); }
+  html:is([data-density="standard"], [data-density="compact"]) .mobile-navigation { bottom: 8px; left: var(--rd-space-3); right: var(--rd-space-3); padding: 0; }
+  html:is([data-density="standard"], [data-density="compact"]) .mobile-navigation svg { width: 20px; height: 20px; }
 }
 /* Use available form width, including enlarged text, to decide when fields fit side by side. */
 @media (pointer: fine) and (max-width: 799px) {
@@ -394,9 +395,9 @@ h1 { font-size: var(--rd-font-size-title); line-height: 1.2; font-weight: 680; l
 @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
 /* Compact pagination: visible controls stay small, touch hit areas still reach 44px. */
 @media (max-width: 799px) {
-  .pagination, html[data-density="compact"] .pagination { padding: 6px 12px; min-height: 48px; gap: 8px; }
+  .pagination, html:is([data-density="standard"], [data-density="compact"]) .pagination { padding: 6px 12px; min-height: 48px; gap: 8px; }
   .pagination .page-size { position: relative; min-width: 96px; min-height: 36px; font-size: var(--rd-font-size-xs); }
-  html[data-density="compact"] .pagination .page-size { min-height: 36px; }
+  html:is([data-density="standard"], [data-density="compact"]) .pagination .page-size { min-height: 36px; }
   .pagination .page-size::after { content: ''; position: absolute; inset: -5px -3px; }
   .page-buttons .rd-icon-button { position: relative; width: 36px; min-width: 36px; min-height: 36px; }
   .page-buttons .rd-icon-button::after { content: ''; position: absolute; inset: -5px; }
@@ -444,8 +445,8 @@ h1 { font-size: var(--rd-font-size-title); line-height: 1.2; font-weight: 680; l
   .resource-toolbar .rd-input, .resource-toolbar .rd-select,
   .document-toolbar .rd-button { min-height: 36px; }
   .workspace-header .rd-icon-button, .page-title .rd-icon-button { width: 36px; min-width: 36px; }
-  html[data-density="compact"] .mobile-workspace .workspace-switch { min-height: 36px; padding: 2px 8px; }
-  html[data-density="compact"] .mobile-account .account-switch { width: 36px; min-height: 36px; padding: 2px; }
+  html:is([data-density="standard"], [data-density="compact"]) .mobile-workspace .workspace-switch { min-height: 36px; padding: 2px 8px; }
+  html:is([data-density="standard"], [data-density="compact"]) .mobile-account .account-switch { width: 36px; min-height: 36px; padding: 2px; }
   .page-title { margin-bottom: 12px; }
   .page-title h1 { font-size: 1.5rem; }
   .resource-toolbar { margin-bottom: 12px; gap: 12px; }
@@ -486,4 +487,17 @@ h1 { font-size: var(--rd-font-size-title); line-height: 1.2; font-weight: 680; l
   .rd-dialog-footer .rd-button::after,
   .settings-form .rd-select::after,
   .settings-footer .rd-button::after { content: ''; position: absolute; inset: -5px; }
+}
+
+/* Compact is one step tighter than standard on desktop surfaces; spacious keeps the base rhythm. */
+@media (pointer: fine) {
+  html[data-density="compact"] .workspace-main { padding-top: var(--rd-space-4); }
+  html[data-density="compact"] .page-title { margin-bottom: var(--rd-space-3); }
+  html[data-density="compact"] .settings-layout { gap: var(--rd-space-3); margin-top: var(--rd-space-2); }
+  html[data-density="compact"] .theme-fieldset { padding: var(--rd-space-2) var(--rd-space-3); }
+  html[data-density="compact"] .preference-field { min-height: 52px; padding: var(--rd-space-1) var(--rd-space-2); }
+  html[data-density="compact"] .settings-footer { padding: var(--rd-space-1) var(--rd-space-2); }
+  html[data-density="compact"] .resource-table th { height: 32px; }
+  html[data-density="compact"] .resource-table td { height: 48px; }
+  html[data-density="compact"] .resource-select { min-height: 48px; }
 }

@@ -1,12 +1,23 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { defaultPreferences, filterResources, isArticle, isArticles, isPreferences, isResources, pageCount, pageNumbers, parseArticle, parseRoute, validatePage } from '../apps/docs/src/model.ts';
+import { defaultPreferences, filterResources, isArticle, isArticles, isLegacyPreferences, isPreferences, isResources, migratePreferences, pageCount, pageNumbers, parseArticle, parseRoute, validatePage } from '../apps/docs/src/model.ts';
 
 const resource = { id: 'release-notes', name: '发布 Release Notes', kind: 'document', status: 'ready', summary: 'Upgrade guide', creator: '示例成员', updatedAt: '2026-11-04T10:00:00Z', version: 'v1', tags: ['发布'] };
 
 test('stored preferences reject missing, coerced and unknown values', () => {
   assert(isPreferences(defaultPreferences));
-  for (const value of [null, {}, { ...defaultPreferences, theme: ['dark'] }, { ...defaultPreferences, locale: 'fr' }, { ...defaultPreferences, hints: 'true' }, { ...defaultPreferences, density: 'ultra' }]) assert.equal(isPreferences(value), false);
+  assert.equal(defaultPreferences.density, 'standard');
+  assert(isPreferences({ ...defaultPreferences, density: 'compact' }));
+  assert(isPreferences({ ...defaultPreferences, density: 'spacious' }));
+  for (const value of [null, {}, { ...defaultPreferences, theme: ['dark'] }, { ...defaultPreferences, locale: 'fr' }, { ...defaultPreferences, hints: 'true' }, { ...defaultPreferences, density: 'ultra' }, { ...defaultPreferences, density: 'comfortable' }]) assert.equal(isPreferences(value), false);
+});
+test('legacy density values migrate without changing the standard appearance', () => {
+  assert(isLegacyPreferences({ ...defaultPreferences, density: 'compact' }));
+  assert(isLegacyPreferences({ ...defaultPreferences, density: 'comfortable' }));
+  assert.equal(isLegacyPreferences({ ...defaultPreferences, density: 'ultra' }), false);
+  assert.equal(migratePreferences({ ...defaultPreferences, density: 'compact' }).density, 'standard');
+  assert.equal(migratePreferences({ ...defaultPreferences, density: 'comfortable' }).density, 'spacious');
+  assert.equal(migratePreferences({ ...defaultPreferences, density: 'spacious' }).density, 'spacious');
 });
 test('resources accept empty collections and reject corrupted or duplicate records', () => {
   assert(isResources([])); assert(isResources([resource]));

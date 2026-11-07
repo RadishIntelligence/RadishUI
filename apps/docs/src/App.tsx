@@ -5,11 +5,11 @@ import { SettingsPage } from './SettingsPage';
 import { ResourcesPage } from './ResourcesPage';
 import { ArticlePage } from './ArticlePage';
 import { ComponentsPage } from './ComponentsPage';
-import { defaultPreferences, isPreferences, isResources, parseRoute, type Preferences, type Resource } from './model';
-import { readStored, storageKeys, writeStored } from './storage';
+import { defaultPreferences, isResources, parseRoute, type Preferences, type Resource } from './model';
+import { readPreferences, readStored, storageKeys, writeStored } from './storage';
 
 export function App() {
-  const [initialPreferences] = useState(() => readStored(storageKeys.preferences, isPreferences));
+  const [initialPreferences] = useState(() => readPreferences());
   const [preferences, setPreferences] = useState(initialPreferences.value ?? defaultPreferences);
   const [preferenceError, setPreferenceError] = useState(initialPreferences.error);
   const [route, setRoute] = useState(() => parseRoute(window.location.hash));
@@ -95,7 +95,7 @@ export function App() {
   }
   function savePreferences(next: Preferences) {
     if (externalChange) return t('其他标签页已更新，请重新载入后再保存。', 'Another tab made changes. Reload before saving.');
-    const error = writeStored(storageKeys.preferences, next);
+    const error = writeStored(storageKeys.preferences, next, 2);
     if (!error) { setPreferences(next); setPreferenceError(undefined); notify(next.locale === 'en' ? 'Preferences saved in this browser' : '偏好已保存到当前浏览器', next.notifications); }
     return error;
   }

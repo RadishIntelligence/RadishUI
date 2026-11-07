@@ -31,7 +31,7 @@ A 批 10 个基础组件与 B 批 6 个反馈 / 浮层组件由三代表页实�
 
 ## 视觉与失败路径
 
-现代圆角和紧凑留白按[设计条例](../design/design-rules.md)，具体 token 映射按 [F-01](token-foundation.md)。桌面控件密度可调，粗指针 / 无指针设备保持至少 44px 的主要控件范围，窄桌面窗口沿用所选桌面密度；焦点与选中不同，浮层可在 Dialog 内正常使用。
+现代圆角和紧凑留白按[设计条例](../design/design-rules.md)，具体 token 映射按 [F-01](token-foundation.md)。桌面组件控件密度可调（紧凑 / 标准 / 宽松，默认标准），粗指针 / 无指针设备保持至少 44px 的主要控件范围，窄桌面窗口沿用所选桌面密度；焦点与选中不同，浮层可在 Dialog 内正常使用。
 
 组件只输出事件，不替调用方宣称保存成功。IO 失败由页面明确反馈，表单保留输入；只读、禁用、loading 与错误分别判断。Dialog / Menu 的焦点恢复、Select 的键盘、长中文 / English、窄屏与明暗必须在组合页面检查，不能只凭引用 Radix 推断验收通过。
 
@@ -52,7 +52,7 @@ A 批 10 个基础组件与 B 批 6 个反馈 / 浮层组件由三代表页实�
 
 2026-11-05，`apps/docs/src/ComponentsPage.tsx` 直接导入共享组件，按操作、字段、选择、反馈四组展示。桌面从“开发参考 → 组件用法”进入，移动端从账号菜单进入；保留三代表页的主导航。示例仅在当前分组内保留内存状态，离开分组 / 页面即重置，不写入资源、正文或偏好。关键 props 与代码示例帮助理解用法，完整类型仍以共享包导出为准；示例内容以中文和 English 合成文案为主，不承诺文档全文英文化。
 
-按所有者“桌面按钮、输入框、选择器偏大”的反馈，展示站默认偏好改用已有 compact 档；共享 token 值与 API 未改。Input / Select 的纵向内边距随现有高度计算，普通字号时三档实际对齐到 36 / 40 / 44px；Textarea 保留多行留白，大字号允许自然撑高，coarse / none pointer 保留至少 44px 控件范围，fine pointer 不再仅因窗口变窄而放大。Button 长文案可换行，避免大字号溢出。
+按所有者“桌面按钮、输入框、选择器偏大”的反馈，展示站默认偏好改用已有 compact 档；共享 token 值与 API 未改。Input / Select 的纵向内边距随现有高度计算，普通字号时三档实际对齐到 32 / 36 / 40px（2026-11-07 重命名为紧凑 / 标准 / 宽松）；Textarea 保留多行留白，大字号允许自然撑高，coarse / none pointer 保留至少 44px 控件范围，fine pointer 不再仅因窗口变窄而放大。Button 长文案可换行，避免大字号溢出。
 
 Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前显式聚焦自身（preventScroll），资源详情的原生按钮采用同一方式，保证 Dialog / Drawer 能记录并恢复真实入口。消费者仍可在 onClick 内主动移动焦点。Safari 原生窗口已复验这两条关闭路径，其他浮层组合仍按具体环境判断。
 
@@ -64,4 +64,4 @@ Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前
 
 ## 对话框关闭尺寸与 chrome（2026-11-07）
 
-此前关闭按钮只在展示站 ≤799px 覆盖；本轮把 32px 可视、44px 命中的关闭按钮收进共享 Dialog / Drawer（`.rd-dialog-close`，`::after` 外扩），展示站删除重复覆盖。footer 按钮由展示站按 [DR-17](../design/design-rules.md#dr-17) 设为桌面 32 / 移动 36（触屏 44 命中）；Dialog 正文表单仍按密度 36 / 40 / 44，不随 chrome 缩小。公开 props 未变，键盘、焦点恢复与 Escape 行为沿用原合同。
+此前关闭按钮只在展示站 ≤799px 覆盖；本轮把 32px 可视、44px 命中的关闭按钮收进共享 Dialog / Drawer（`.rd-dialog-close`，`::after` 外扩），展示站删除重复覆盖。footer 按钮由展示站按 [DR-17](../design/design-rules.md#dr-17) 设为桌面 32 / 移动 36（触屏 44 命中）；Dialog 正文表单仍按密度 32 / 36 / 40，不随 chrome 缩小。公开 props 未变，键盘、焦点恢复与 Escape 行为沿用原合同。
