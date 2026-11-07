@@ -26,6 +26,6 @@ export interface IconButtonProps extends Omit<ButtonProps, 'children'> {
   children: ReactNode;
 }
 
-export function IconButton({ label, variant = 'ghost', className = '', ...props }: IconButtonProps) {
-  return <Button {...props} variant={variant} aria-label={label} className={`rd-icon-button ${className}`} />;
+export function IconButton({ label, variant = 'ghost', className = '', loading = false, children, ...props }: IconButtonProps) {
+  return <Button {...props} loading={loading} variant={variant} aria-label={label} className={`rd-icon-button ${className}`}>{loading ? null : children}</Button>;
 }

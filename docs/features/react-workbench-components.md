@@ -16,7 +16,7 @@
 
 | 组件 | 输入 / 输出与行为 |
 | --- | --- |
-| Button / IconButton | 保留原生 button 属性、ref、四种 variant 与 loading，增加 sm / md；默认 type=button，loading 禁用并带 aria-busy。IconButton 的 label 必填 |
+| Button / IconButton | 保留原生 button 属性、ref、四种 variant 与 loading，增加 sm / md；默认 type=button，loading 禁用并带 aria-busy。IconButton 的 label 必填；loading 时仅显示 spinner 并替换图标，不与图标叠加 |
 | FormField / Input / Textarea | FormField 提供 label、hint / error、required 与稳定 id；Input / Textarea 读取字段上下文关联 aria-describedby / aria-invalid，也可独立传入原生属性。Switch 等其他控件由调用方显式关联 id / 标签及所需说明。失败不清空输入 |
 | Select | 受控 value / onValueChange、options、placeholder、disabled / required；触发值和箭头分离，浮层不透明，支持当前值、键盘、滚动与碰撞避让 |
 | Checkbox / Switch | Checkbox 保留原生表单与键盘行为，Switch 使用受控 checked / onCheckedChange；标签、禁用、焦点与选择状态分别表达 |
@@ -52,7 +52,7 @@ A 批 10 个基础组件与 B 批 6 个反馈 / 浮层组件由三代表页实�
 
 2026-11-05，`apps/docs/src/ComponentsPage.tsx` 直接导入共享组件，按操作、字段、选择、反馈四组展示。桌面从“开发参考 → 组件用法”进入，移动端从账号菜单进入；保留三代表页的主导航。示例仅在当前分组内保留内存状态，离开分组 / 页面即重置，不写入资源、正文或偏好。关键 props 与代码示例帮助理解用法，完整类型仍以共享包导出为准；示例内容以中文和 English 合成文案为主，不承诺文档全文英文化。
 
-2026-11-07 在 F-02.4 基准登记后，组件页顶部加入临时 **Surface & state spike**：同一偏好卡片的“当前”与“候选”并排对照，候选只在本页试验填充字段、分组表面与状态层（不可用 / 处理中 / 保存 loading），不改共享 token、组件 API 或依赖；桌面双列、移动堆叠，320px 与 200% 字号下容器不溢出。该区块待所有者评审：接受则单独进入 B2 并说明 token / 组件变更范围，不接受则移除，不把页面本地样式当作共享契约。
+2026-11-07 在 F-02.4 基准登记后，组件页顶部加入临时 **Surface & state spike**：同一偏好卡片的“当前”与“候选”并排对照，候选只在本页试验填充字段、分组表面与状态层（不可用 / 保存 loading），不改共享 token、组件 API 或依赖；桌面双列、移动堆叠，320px 与 200% 字号下容器不溢出。所有者已接受候选方向（2026-11-07）；IconButton loading 的常驻 spinner / 图标叠加已修正。进入 B2 前仍需单独确认 token / 组件变更范围，不把页面本地样式当作共享契约。
 
 按所有者“桌面按钮、输入框、选择器偏大”的反馈，展示站默认偏好改用已有 compact 档；共享 token 值与 API 未改。Input / Select 的纵向内边距随现有高度计算，普通字号时三档实际对齐到 28 / 32 / 36px（2026-11-07 重命名为紧凑 / 标准 / 宽松）；Textarea 保留多行留白，大字号允许自然撑高，coarse / none pointer 保留至少 44px 控件范围，fine pointer 不再仅因窗口变窄而放大。Button 长文案可换行，避免大字号溢出。
 

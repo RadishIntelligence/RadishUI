@@ -32,7 +32,7 @@ function SpikePanel({ variant, t }: { variant: 'current' | 'candidate'; t: Trans
         { value: 'small', label: t('小 · 15 px', 'Small · 15 px') }, { value: 'standard', label: t('标准 · 16 px', 'Standard · 16 px') }, { value: 'large', label: t('大 · 18 px', 'Large · 18 px') },
       ]} /></div>
       <div className="spike-row"><span className="spike-label">{t('显示辅助说明', 'Show field help')}</span><Switch aria-label={t('显示辅助说明', 'Show field help')} checked={hints} onCheckedChange={setHints} /></div>
-      <div className="spike-row"><span className="spike-label">{t('控件状态', 'Control states')}</span><div className="spike-actions"><Button size="sm" variant="secondary" disabled>{t('不可用', 'Disabled')}</Button><Button size="sm" loading>{t('处理中', 'Working')}</Button></div></div>
+      <div className="spike-row"><span className="spike-label">{t('控件状态', 'Control states')}</span><div className="spike-actions"><Button size="sm" variant="secondary" disabled>{t('不可用', 'Disabled')}</Button></div></div>
     </div>
     <footer className="spike-foot"><span>{t('所有更改已保存', 'All changes saved')}</span><div className="spike-actions"><Button size="sm" variant="secondary" onClick={save} disabled={saving}>{t('取消', 'Cancel')}</Button><Button size="sm" loading={saving} onClick={save}>{t('保存更改', 'Save changes')}</Button></div></footer>
   </section>;
@@ -51,6 +51,7 @@ function SpikeSection({ t }: { t: Translate }) {
 function ActionExamples() {
   const [count, setCount] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [iconLoading, setIconLoading] = useState(false);
   return <>
     <Example name="Button" contract="variant: primary | secondary | ghost | danger；size: sm | md；loading、disabled；原生 onClick / type / ref。默认 type=button。"
       keyboard="Tab 聚焦；Enter / Space 触发。悬停、按下和焦点可直接体验；loading 同时禁用并设置 aria-busy。示例开关只用于展示加载外观。"
@@ -64,7 +65,7 @@ function ActionExamples() {
     <Example name="IconButton" contract="label 必填，提供可访问名称；children 为图标。其余 props 与 Button 相同，默认 ghost。"
       keyboard="Tab 聚焦；Enter / Space 触发。必要名称放在 label 中；禁用与加载不可触发。"
       code={'<IconButton label="增加计数" onClick={() => setCount(n => n + 1)}><Plus /></IconButton>'}>
-      <div className="component-row"><IconButton label="增加计数" onClick={() => setCount(n => n + 1)}><Plus /></IconButton><IconButton label="不可用的新增操作" disabled><Plus /></IconButton><IconButton label="正在处理新增操作" loading><Plus /></IconButton></div>
+      <div className="component-row"><IconButton label="增加计数" onClick={() => setCount(n => n + 1)}><Plus /></IconButton><IconButton label="不可用的新增操作" disabled><Plus /></IconButton><IconButton label={iconLoading ? '正在处理新增操作' : '增加计数（加载示例）'} loading={iconLoading} onClick={() => { setCount(n => n + 1); setIconLoading(true); window.setTimeout(() => setIconLoading(false), 900); }}><Plus /></IconButton></div>
     </Example>
   </>;
 }
