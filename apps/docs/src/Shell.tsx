@@ -19,6 +19,7 @@ export function Shell({ page, collapsed, onCollapse, onHelp, onTheme, t, childre
     { page: 'document', href: '#/document', label: t('文档', 'Documents'), mobile: t('文档', 'Docs'), Icon: FileText },
     { page: 'settings', href: '#/settings', label: t('偏好设置', 'Preferences'), mobile: t('偏好', 'Settings'), Icon: SlidersHorizontal },
   ] as const;
+  const mobileLinks = [{ page: 'overview', href: '#/overview', mobile: t('概览', 'Home'), Icon: Compass }, ...links] as const;
   const workspace = <Menu align="start" label={t('当前工作区', 'Current workspace')} trigger={
     <button className="workspace-switch" aria-label={t('工作区菜单', 'Workspace menu')}>
       <Avatar name={t('演示空间', 'Demo space')} fallback={t('演', 'D')} shape="square" size="md" decorative />
@@ -92,7 +93,7 @@ export function Shell({ page, collapsed, onCollapse, onHelp, onTheme, t, childre
       {children}
     </section>
     <nav className="mobile-navigation" aria-label={t('底部导航', 'Bottom navigation')}>
-      {links.map(({ href, page: key, mobile, Icon }) => <a key={key} className={page === key ? 'is-active' : ''} href={href} aria-current={page === key ? 'page' : undefined}>
+      {mobileLinks.map(({ href, page: key, mobile, Icon }) => <a key={key} className={page === key ? 'is-active' : ''} href={href} aria-current={page === key ? 'page' : undefined}>
         <Icon aria-hidden="true" /><span>{mobile}</span>
       </a>)}
     </nav>
