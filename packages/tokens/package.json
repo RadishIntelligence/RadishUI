@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "files": ["dist/tokens.css", "src/tokens.json"],
   "exports": { "./tokens.css": "./dist/tokens.css", "./json": "./src/tokens.json" },
   "sideEffects": ["**/*.css"]
 }
