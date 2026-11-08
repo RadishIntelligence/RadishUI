@@ -1,4 +1,4 @@
-import { Button, StatusBadge } from '@radish-ui/react';
+import { StatusBadge } from '@radish-ui/react';
 import { ArrowRight, ArrowUpRight, FileText, FolderOpen, Layers, Palette, SlidersHorizontal, Sparkles } from 'lucide-react';
 import type { Translate } from './model';
 import './site-pages.css';
@@ -12,7 +12,7 @@ export function OverviewPage({ t }: { t: Translate }) {
   const system = [
     { href: '#/foundations', icon: Palette, title: t('视觉基础', 'Foundations'), text: t('颜色、字体、图标、空间与状态。', 'Color, type, icons, space, and states.'), meta: 'F-02.4' },
     { href: '#/components', icon: Layers, title: t('组件用法', 'Components'), text: t('24 个共享组件的实际用法与键盘说明。', 'Practical usage and keyboard notes for 24 shared components.'), meta: 'C-02.4' },
-    { href: '#/platforms', icon: Sparkles, title: t('平台与接入', 'Platforms'), text: t('Tokens、React、Flutter 与产品接入边界。', 'Tokens, React, Flutter, and product adoption boundaries.'), meta: 'E-02' },
+    { href: '#/platforms', icon: Sparkles, title: t('平台与接入', 'Platforms'), text: t('Tokens、React、Flutter 与产品接入边界。', 'Tokens, React, Flutter, and product adoption boundaries.'), meta: 'F-01 · C-02' },
   ] as const;
   const demo = [
     { href: '#/resources', icon: FolderOpen, title: t('资源库', 'Resources'), text: t('扫描、筛选、详情与本地操作。', 'Scan, filter, detail, and local actions.') },
@@ -26,8 +26,8 @@ export function OverviewPage({ t }: { t: Translate }) {
         <h1>{t('共同的设计，', 'Shared design,')}<br /><span>{t('落在每个细节。', 'in every detail.')}</span></h1>
         <p>{t('Radish 家族的共享设计系统。从视觉基础到真实组件，让每个产品拥有熟悉而连贯的体验。', 'The shared design system for the Radish family. From visual foundations to real components, every product should feel familiar and coherent.')}</p>
         <div className="overview-actions">
-          <Button onClick={() => { window.location.hash = '#/resources'; }}>{t('进入演示', 'Open the demo')}<ArrowRight size={16} aria-hidden="true" /></Button>
-          <Button variant="secondary" onClick={() => { window.location.hash = '#/components'; }}>{t('浏览组件', 'Browse components')}</Button>
+          <a className="rd-button rd-button--primary rd-button--md" href="#/resources">{t('进入演示', 'Open the demo')}<ArrowRight size={16} aria-hidden="true" /></a>
+          <a className="rd-button rd-button--secondary rd-button--md" href="#/components">{t('浏览组件', 'Browse components')}</a>
         </div>
       </div>
       <div className="overview-palette" aria-label={t('视觉基础颜色', 'Foundation colors')}>
