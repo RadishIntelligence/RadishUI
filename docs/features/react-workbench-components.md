@@ -94,6 +94,6 @@ Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前
 
 - API：受控 `value` / `onValueChange`，`options: { value, label, disabled? }[]`，`orientation: vertical（默认）| horizontal`，`name`、`required`、`disabled`；FormField 内自动关联 label、hint / error 与 invalid 状态。
 - 键盘：Tab 进入当前选中项；方向键移动并选中（焦点驱动）；Space 选中；禁用项跳过。字段标签的 `htmlFor` 锚定当前选中项，点击字段标签不会误选第一项。
-- 视觉：列表单选使用 18px 圆点，选中用 action 色填充；粗指针 / 无指针设备每个选项至少 44px 行高。设置页使用横向单选组，桌面控件列放宽到 320px，窄容器换行；窄屏单列堆叠。
-- 验证：type-check、build 通过；设置页与组件页定向浏览器检查 26/26（四组单选、方向键即选中、字段标签不误选、保存、语言切换、390 / 514 / 1440、514 + 200% 基础字号、无溢出、无 pageerror / 4xx）。
+- 视觉：列表单选使用 18px 圆点，选中用 action 色填充；粗指针 / 无指针设备每个选项至少 44px 行高。设置页使用横向单选组，桌面控件列放宽到 320px 并右对齐，窄容器换行；移动单列左对齐。
+- 验证：type-check、build 通过；设置页与组件页定向浏览器检查 28/28（四组单选、方向键即选中、字段标签不误选、保存、语言切换、桌面右对齐 / 移动左对齐、390 / 514 / 1440、514 + 200% 基础字号、无溢出、无 pageerror / 4xx）。
 - 未覆盖：Safari / Firefox、屏幕阅读器实际朗读、设置页明暗矩阵；设置页 RadioGroup 视觉作为 F-02.4 候选修订，待所有者确认。
