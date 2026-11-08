@@ -1,5 +1,5 @@
 import { useRef, useState, type ReactNode } from 'react';
-import { Button, IconButton, FormField, Input, Textarea, Select, RadioGroup, Checkbox, Switch, Tabs, TabsList, TabsContent, StatusBadge, Dialog, Drawer, Menu, InlineAlert, Toast, Tooltip } from '@radish-ui/react';
+import { Avatar, Button, IconButton, FormField, Input, Textarea, Select, RadioGroup, Checkbox, Switch, Tabs, TabsList, TabsContent, StatusBadge, Tag, Dialog, Drawer, Menu, InlineAlert, Toast, Tooltip } from '@radish-ui/react';
 import { ArrowLeft, Check, MoreHorizontal, Plus } from 'lucide-react';
 import type { Translate } from './model';
 import './components.css';
@@ -78,6 +78,8 @@ function FieldExamples() {
   </>;
 }
 
+const avatarImage = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%232B3F55'/%3E%3Ccircle cx='32' cy='23' r='11' fill='%23DCE6F1'/%3E%3Cpath d='M12 62c3-14 11-20 20-20s17 6 20 20' fill='%23DCE6F1'/%3E%3C/svg%3E";
+
 function SelectionExamples() {
   const [checked, setChecked] = useState(false);
   const [enabled, setEnabled] = useState(true);
@@ -98,6 +100,17 @@ function SelectionExamples() {
         </FormField>
         <p role="status">当前密度：{radio}；水平示例：{radioHorizontal}</p>
       </div>
+    </Example>
+    <Example name="Avatar" contract="name（可访问名称与首字回退）、src、fallback、shape: circle（默认）/ square、size: sm / md / lg、decorative。图片加载失败时回退；纯展示不进入 Tab 顺序。"
+      keyboard="不进入 Tab 顺序；非装饰用法用 name 提供可访问名称，装饰用法设置 decorative。"
+      code={'<Avatar name="林杏" size="md" /><Avatar name="Lin Xing" src={src} shape="square" decorative />'}>
+      <div className="component-row"><Avatar name="林杏" size="sm" /><Avatar name="Lin Xing" size="md" /><Avatar name="周远" size="lg" shape="square" /><Avatar name="Lin Xing" src={avatarImage} size="lg" /></div>
+      <p role="status">首字回退、图片、圆形 / 方形与三档尺寸。</p>
+    </Example>
+    <Example name="Tag" contract="children 标签文本；className；纯展示，不进入 Tab 顺序。状态请用 StatusBadge，不用 Tag 伪装状态。"
+      keyboard="不进入 Tab 顺序；标签不是操作，除非外层提供真实操作。"
+      code={'<Tag>排版</Tag><Tag>English tag</Tag>'}>
+      <div className="component-row"><Tag>排版</Tag><Tag>English tag</Tag><Tag>较长标签用于检查窄屏换行与边界</Tag></div>
     </Example>
     <Example name="Checkbox" contract="原生 checked / defaultChecked、onChange、disabled、required；children 提供可见标签。"
       keyboard="Tab 聚焦、Space 切换；点击整段标签可切换。不提供只读交互，静态结果用文字表达。"
@@ -187,7 +200,7 @@ export function ComponentsPage({ t }: { t: Translate }) {
     <div className="page-title"><h1>{t('组件用法', 'Components')}</h1><a className="text-link component-back" href="#/resources"><ArrowLeft size={16} aria-hidden="true" />{t('资源库', 'Resources')}</a></div>
     <Tabs defaultValue="actions" className="component-groups">
       <TabsList label={t('组件分组', 'Component groups')} items={[{ value: 'actions', label: t('操作', 'Actions') }, { value: 'fields', label: t('字段', 'Fields') }, { value: 'selection', label: t('选择', 'Choice') }, { value: 'feedback', label: t('反馈', 'Feedback') }]} />
-      <p className="component-scope">17 个共享组件 · React 19 内部预览。示例状态仅保留在当前分组，切换分组或离开页面会重置；文案使用中文与 English 合成内容。</p>
+      <p className="component-scope">19 个共享组件 · React 19 内部预览。示例状态仅保留在当前分组，切换分组或离开页面会重置；文案使用中文与 English 合成内容。</p>
       <TabsContent value="actions"><ActionExamples /></TabsContent><TabsContent value="fields"><FieldExamples /></TabsContent><TabsContent value="selection"><SelectionExamples /></TabsContent><TabsContent value="feedback"><FeedbackExamples /></TabsContent>
     </Tabs>
   </section>;

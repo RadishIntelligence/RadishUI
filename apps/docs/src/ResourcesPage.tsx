@@ -1,5 +1,5 @@
 import { useEffect, useLayoutEffect, useRef, useState, type FormEvent } from 'react';
-import { Button, Checkbox, Dialog, Drawer, FormField, IconButton, InlineAlert, Input, Menu, Select, Tabs, TabsContent, TabsList, Textarea } from '@radish-ui/react';
+import { Button, Checkbox, Dialog, Drawer, FormField, IconButton, InlineAlert, Input, Menu, Select, Tabs, TabsContent, TabsList, Textarea, Tag } from '@radish-ui/react';
 import { ArrowUpRight, ChevronLeft, ChevronRight, FileText, History, ListChecks, LockKeyhole, MoreHorizontal, Palette, PanelsTopLeft, Plus, RefreshCw, Search, Trash2 } from 'lucide-react';
 import { filterResources, formatDate, kindLabel, pageCount, pageNumbers, statusLabel, validatePage, type Preferences, type Resource, type ResourceKind, type Translate } from './model';
 
@@ -209,7 +209,7 @@ function ResourceDetails({ resource, t, locale, onVersion, onDelete, variant = '
     {variant === 'aside' && <ResourceStatus resource={resource} t={t} />}
     <p className="resource-summary">{resource.summary || t('暂无摘要', 'No summary')}</p>
     <dl className="property-list"><div><dt>{t('类型', 'Type')}</dt><dd>{kindLabel(resource.kind, t)}</dd></div><div><dt>{t('创建者', 'Created by')}</dt><dd>{resource.creator}</dd></div><div><dt>{t('最近更新', 'Updated')}</dt><dd>{formatDate(resource.updatedAt, locale)}</dd></div><div><dt>{t('版本', 'Version')}</dt><dd>{resource.version}</dd></div></dl>
-    {resource.tags.length > 0 && <div className="resource-tags"><span>{t('标签', 'Tags')}</span><div>{resource.tags.map(tag => <span className="plain-tag" key={tag}>{tag}</span>)}</div></div>}
+    {resource.tags.length > 0 && <div className="resource-tags"><span>{t('标签', 'Tags')}</span><div>{resource.tags.map(tag => <Tag key={tag}>{tag}</Tag>)}</div></div>}
   </div>;
 }
 

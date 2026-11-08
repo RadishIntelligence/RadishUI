@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent, type RefObject } from 'react';
-import { Button, Dialog, FormField, InlineAlert, Input, StatusBadge, Textarea } from '@radish-ui/react';
+import { Button, Dialog, FormField, InlineAlert, Input, StatusBadge, Textarea, Tag } from '@radish-ui/react';
 import { Check, ChevronLeft, Copy, Info, LockKeyhole, Pencil, Share2 } from 'lucide-react';
 import { articleForResource, welcomeArticle } from './document-seed';
 import { formatDate, isArticles, parseArticle, type Article, type Preferences, type Resource, type Translate } from './model';
@@ -172,7 +172,7 @@ function DocumentReader({ resourceId = 'welcome', resource, preferences, section
       <aside className="document-aside">
         {preferences.showToc && headings.length > 0 && <><div className="document-outline"><span>{t('本文目录', 'On this page')}</span>{outline}</div>
           <details className="mobile-outline"><summary>{t('本文目录', 'On this page')}</summary>{outline}</details></>}
-        <div className="document-properties"><span>{t('文档属性', 'Document properties')}</span><dl className="property-list"><div><dt>{t('状态', 'Status')}</dt><dd>{readonly ? t('只读', 'Read only') : t('已保存', 'Saved')}</dd></div><div><dt>{t('创建者', 'Created by')}</dt><dd>{resource?.creator ?? t('林杏', 'Lin Xing')}</dd></div><div><dt>{t('最近更新', 'Updated')}</dt><dd>{formatDate(article.updatedAt, preferences.locale)}</dd></div></dl><div className="document-tags"><span className="plain-tag">{t('排版', 'Typography')}</span><span className="plain-tag">{t('交互', 'Interaction')}</span></div></div>
+        <div className="document-properties"><span>{t('文档属性', 'Document properties')}</span><dl className="property-list"><div><dt>{t('状态', 'Status')}</dt><dd>{readonly ? t('只读', 'Read only') : t('已保存', 'Saved')}</dd></div><div><dt>{t('创建者', 'Created by')}</dt><dd>{resource?.creator ?? t('林杏', 'Lin Xing')}</dd></div><div><dt>{t('最近更新', 'Updated')}</dt><dd>{formatDate(article.updatedAt, preferences.locale)}</dd></div></dl><div className="document-tags"><Tag>{t('排版', 'Typography')}</Tag><Tag>{t('交互', 'Interaction')}</Tag></div></div>
       </aside>
     </div>}
     <Dialog open={discardOpen} onOpenChange={setDiscardOpen} title={t('放弃文档修改？', 'Discard document edits?')} closeLabel={t('关闭', 'Close')}

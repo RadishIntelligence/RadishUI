@@ -27,7 +27,6 @@ svg { flex-shrink: 0; }
 .workspace-switch, .account-switch { width: 100%; display: flex; align-items: center; gap: 10px; padding: 8px 10px; border: 1px solid var(--rd-border-soft); border-radius: 12px; color: var(--rd-text-primary); background: var(--rd-bg-muted); text-align: left; cursor: pointer; }
 .workspace-switch { min-height: 48px; }
 .workspace-switch strong { font-size: var(--rd-font-size-sm); font-weight: 500; flex: 1; }
-.workspace-avatar, .account-avatar { display: grid; place-items: center; width: 32px; height: 32px; flex-shrink: 0; border-radius: var(--rd-radius-small); color: var(--rd-text-action); background: var(--rd-bg-selected); font-size: var(--rd-font-size-xs); }
 .rail-navigation, .rail-favorites { display: grid; gap: 2px; }
 .rail-group-label { font-size: var(--rd-font-size-xs); color: var(--rd-text-secondary); margin-bottom: 2px; }
 .rail-link { display: flex; align-items: center; gap: 10px; min-height: 36px; min-width: 0; padding: 6px 10px; color: var(--rd-text-primary); border: 0; border-radius: var(--rd-radius-small); background: transparent; text-align: left; font-size: var(--rd-font-size-sm); cursor: pointer; }
@@ -41,7 +40,6 @@ svg { flex-shrink: 0; }
 .rail-spacer { flex: 1; min-height: 16px; }
 .help-link { color: var(--rd-text-secondary); }
 .account-switch { min-height: 56px; background: var(--rd-bg-surface); border-color: var(--rd-border-control); box-shadow: var(--rd-shadow-raised); }
-.account-avatar { width: 36px; height: 36px; border-radius: 50%; }
 .account-text { display: flex; flex: 1; min-width: 0; flex-direction: column; gap: 2px; line-height: 1.35; }
 .account-text strong { font-size: var(--rd-font-size-sm); font-weight: 500; }
 .account-text > span { font-size: var(--rd-font-size-xs); color: var(--rd-text-secondary); }
@@ -186,7 +184,6 @@ h1 { font-size: var(--rd-font-size-title); line-height: 1.2; font-weight: 680; l
 .resource-detail > .property-list, .resource-tags { padding-top: 16px; border-top: 1px solid var(--rd-border-soft); }
 .resource-tags { display: grid; gap: 12px; color: var(--rd-text-secondary); font-size: var(--rd-font-size-xs); }
 .resource-tags > div, .document-tags { display: flex; gap: 8px; flex-wrap: wrap; }
-.plain-tag { display: inline-block; padding: 4px 10px; border-radius: var(--rd-radius-pill); background: var(--rd-bg-surface); color: var(--rd-text-secondary); font-size: var(--rd-font-size-xs); }
 .pagination { display: flex; align-items: center; justify-content: flex-end; flex-wrap: wrap; gap: 8px; padding: 12px; min-height: 56px; border-top: 1px solid var(--rd-border-soft); font-size: var(--rd-font-size-xs); }
 .result-count { color: var(--rd-text-secondary); margin-right: auto; }
 .pagination .page-size { width: auto; min-width: 110px; max-width: 100%; min-height: 32px; padding-block: 4px; font-size: var(--rd-font-size-xs); }
@@ -237,7 +234,6 @@ h1 { font-size: var(--rd-font-size-title); line-height: 1.2; font-weight: 680; l
 .document-outline a:hover, .mobile-outline a:hover { color: var(--rd-text-primary); }
 .document-properties > span { margin-bottom: 20px; }
 .document-tags { margin-top: 24px; }
-.document-tags .plain-tag { background: var(--rd-bg-muted); }
 .document-editor { display: grid; gap: 20px; padding: 16px; border: 1px solid var(--rd-border-soft); border-radius: var(--rd-radius-panel); }
 .document-editor textarea { font-family: var(--rd-font-mono); line-height: 1.8; }
 .editor-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; }
@@ -379,7 +375,7 @@ h1 { font-size: var(--rd-font-size-title); line-height: 1.2; font-weight: 680; l
   html:is([data-density="standard"], [data-density="compact"]) { --mobile-navigation-height: max(52px, 3.25rem); }
   html:is([data-density="standard"], [data-density="compact"]) .workspace-header { padding: var(--rd-space-2) var(--rd-space-3); }
   html:is([data-density="standard"], [data-density="compact"]) .mobile-workspace .workspace-switch { min-height: 32px; padding: 2px var(--rd-space-2); }
-  html:is([data-density="standard"], [data-density="compact"]) .workspace-avatar { width: max(24px, 1.5rem); height: max(24px, 1.5rem); }
+  html:is([data-density="standard"], [data-density="compact"]) .workspace-switch .rd-avatar { width: max(24px, 1.5rem); height: max(24px, 1.5rem); }
   html:is([data-density="standard"], [data-density="compact"]) .mobile-account .account-switch { width: max(32px, 2rem); min-height: max(32px, 2rem); padding: 2px; }
   html:is([data-density="standard"], [data-density="compact"]) .workspace-main { padding-inline: var(--rd-space-3); padding-bottom: calc(var(--mobile-navigation-height) + 16px); scroll-padding-bottom: calc(var(--mobile-navigation-height) + 16px); }
   html:is([data-density="standard"], [data-density="compact"]) .mobile-navigation { bottom: 8px; left: var(--rd-space-3); right: var(--rd-space-3); padding: 0; }
@@ -436,9 +432,9 @@ h1 { font-size: var(--rd-font-size-title); line-height: 1.2; font-weight: 680; l
   .rail-link svg { width: 16px; height: 16px; }
   .rail-favorites .rail-link { min-height: 32px; }
   .workspace-switch { min-height: 36px; padding: 2px 8px; }
-  .workspace-avatar { width: 28px; height: 28px; }
+  .workspace-switch .rd-avatar { width: 28px; height: 28px; }
   .account-switch { min-height: 48px; padding: 6px 8px; }
-  .account-avatar { width: 32px; height: 32px; }
+  .account-switch .rd-avatar { width: 32px; height: 32px; }
 }
 @media (max-width: 799px) {
   .workspace-header, .page-title, .resource-toolbar, .document-toolbar {
@@ -447,9 +443,9 @@ h1 { font-size: var(--rd-font-size-title); line-height: 1.2; font-weight: 680; l
   .workspace-header { min-height: 52px; padding: 8px 12px; }
   .header-actions { gap: 6px; }
   .mobile-workspace .workspace-switch { min-height: 36px; padding: 2px 8px; }
-  .mobile-workspace .workspace-avatar { width: 26px; height: 26px; }
+  .mobile-workspace .rd-avatar { width: 26px; height: 26px; }
   .mobile-account .account-switch { width: 36px; min-height: 36px; padding: 2px; }
-  .mobile-account .account-avatar { width: 30px; height: 30px; }
+  .mobile-account .rd-avatar { width: 30px; height: 30px; }
   .workspace-header .rd-button, .workspace-header .rd-icon-button,
   .page-title .rd-button, .page-title .rd-icon-button,
   .resource-toolbar .rd-button, .resource-toolbar .rd-icon-button,

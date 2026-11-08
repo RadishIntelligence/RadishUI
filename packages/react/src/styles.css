@@ -98,6 +98,13 @@
 .rd-tab[data-state="active"] { background: var(--rd-bg-surface); color: var(--rd-text-primary); box-shadow: var(--rd-shadow-raised); }
 .rd-tab:hover:not(:disabled) { color: var(--rd-text-primary); }
 .rd-tabs-content { border-radius: var(--rd-radius-small); }
+.rd-avatar { display: inline-grid; place-items: center; flex-shrink: 0; overflow: hidden; border-radius: 50%; background: var(--rd-bg-selected); color: var(--rd-text-action); font-size: var(--rd-font-size-xs); font-weight: 600; line-height: 1; }
+.rd-avatar--square { border-radius: var(--rd-radius-small); }
+.rd-avatar--sm { width: 24px; height: 24px; font-size: var(--rd-font-size-xs); }
+.rd-avatar--md { width: 32px; height: 32px; }
+.rd-avatar--lg { width: 36px; height: 36px; font-size: var(--rd-font-size-sm); }
+.rd-avatar img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.rd-tag { display: inline-flex; align-items: center; max-width: 100%; padding: 3px 8px; border: 1px solid var(--rd-border-soft); border-radius: var(--rd-radius-pill); background: var(--rd-bg-muted); color: var(--rd-text-secondary); font-size: var(--rd-font-size-xs); line-height: 1.4; overflow-wrap: anywhere; }
 .rd-badge { display: inline-flex; align-items: center; gap: 4px; max-width: 100%; padding: 4px 8px; border-radius: var(--rd-radius-pill); background: var(--rd-bg-muted); color: var(--rd-text-secondary); font-size: var(--rd-font-size-xs); line-height: 1.4; white-space: nowrap; }
 .rd-badge svg { width: 13px; height: 13px; }
 .rd-badge--success { color: var(--rd-state-success); background: var(--rd-state-success-soft); }

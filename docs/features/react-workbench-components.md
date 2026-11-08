@@ -23,12 +23,14 @@
 | RadioGroup | 受控 value / onValueChange，options: { value, label, disabled? }[]；orientation: vertical（默认）/ horizontal；name、required、disabled；FormField 内自动关联标签、说明与错误；方向键移动即选中，单项 label 使用字符串保证可访问名称 |
 | Tabs | 受控或非受控 Root，配合 TabsList / TabsContent，保持 tab / tabpanel 关联、方向键、选择与焦点；列表在极窄 + 大字号下可换行，避免入口被裁切；辅助导出不另算组件数量 |
 | StatusBadge | neutral / info / success / warning / danger 表达展示语义，文字与图标由调用方提供，不伪装为交互按钮 |
+| Avatar | name 提供可访问名称与首字回退；src、fallback、shape: circle（默认）/ square、size: sm / md / lg、decorative；图片加载失败回退；纯展示不进入 Tab 顺序 |
+| Tag | 中性标签文本；纯展示，不进入 Tab 顺序；状态用 StatusBadge，不用 Tag 伪装状态 |
 | Dialog / Drawer | 受控 open / onOpenChange，标题、可选说明、正文与 footer；支持 Escape、焦点约束、可指定初始焦点并恢复入口；关闭按钮 32px 可视、44px 命中由共享组件提供。Drawer 是同一弹层合同的侧向编排 |
 | Menu | trigger 与具名 items，支持禁用、危险项、分隔与链接 / 动作；键盘、关闭与焦点由行为基础维护 |
 | InlineAlert | info / success / warning / danger，错误以 alert 播报，其余状态使用 status；必要说明不只放在 Tooltip |
 | Toast / Tooltip | Toast 以顶部胶囊提供可关闭的短时反馈，关闭按钮显示剩余时间，悬停 / 聚焦暂停，超时自动关闭；Tooltip 补充已有可访问名称；不替代持久错误、字段帮助或必要操作入口 |
 
-A 批 10 个基础组件与 B 批 6 个反馈 / 浮层组件由三代表页实际消费；RadioGroup 是 2026-11-08 为设置页新增的第 17 个共享组件；AppShell、表格、分页、目录和业务数据仍属于展示站组合，不提前承诺通用 DataGrid、服务器分页、富文本或权限能力。
+A 批 10 个基础组件与 B 批 6 个反馈 / 浮层组件由三代表页实际消费；RadioGroup 是 2026-11-08 为设置页新增的第 17 个共享组件，Avatar / Tag 是随后新增的第 18 / 19 个；AppShell、表格、分页、目录和业务数据仍属于展示站组合，不提前承诺通用 DataGrid、服务器分页、富文本或权限能力。
 
 ## 视觉与失败路径
 
@@ -43,7 +45,7 @@ A 批 10 个基础组件与 B 批 6 个反馈 / 浮层组件由三代表页实�
 | C-02.1 A 批控件与语义样式 | 已完成（本地 React 19 范例） | 十个基础组件由三页直接消费；类型、真实表单与明暗 / 窄屏检查通过 |
 | C-02.2 B 批浮层与反馈 | 已完成（本地 React 19 范例） | 六个反馈 / 浮层组件由 E-02 消费；Select 键盘、不透明菜单、Dialog / Drawer 焦点约束与恢复、失败反馈通过 |
 | C-02.3 状态与兼容验证 | 已完成（本轮限定范围） | 模型测试、浏览器流程和组合检查通过；具体证据与其他平台 / 辅助技术等未覆盖面归开发记录 |
-| C-02.4 组件用法与状态展示 | 已完成（本地 React 19 用例） | `#/components` 提供 17 个共享组件的实际用例、关键 props / 事件、代码与键盘说明；适用的禁用 / 加载 / 错误 / 只读和长内容可操作；11 月 7 日同步顶部通知与倒计时说明，明暗 / 窄屏验证见开发记录 |
+| C-02.4 组件用法与状态展示 | 已完成（本地 React 19 用例） | `#/components` 提供 19 个共享组件的实际用例、关键 props / 事件、代码与键盘说明；适用的禁用 / 加载 / 错误 / 只读和长内容可操作；11 月 7 日同步顶部通知与倒计时说明，明暗 / 窄屏验证见开发记录 |
 
 前三项完成指本轮真实页面的有限组合验收，C-02.4 已补齐独立用法页；这仍不等于每个组件的所有组合或所有消费环境均已验收。之后按页面需求决定新增组件，不以复制组件实现或静态截图替代运行用例。
 
@@ -97,3 +99,14 @@ Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前
 - 视觉：列表单选使用 18px 圆点，选中用 action 色填充；粗指针 / 无指针设备每个选项至少 44px 行高。设置页使用横向单选组，桌面控件列放宽到 320px 并右对齐，窄容器换行；移动单列左对齐。
 - 验证：type-check、build 通过；设置页与组件页定向浏览器检查 28/28（四组单选、方向键即选中、字段标签不误选、保存、语言切换、桌面右对齐 / 移动左对齐、390 / 514 / 1440、514 + 200% 基础字号、无溢出、无 pageerror / 4xx）。
 - Safari / Firefox 后续复验见 [E-02.5](workbench-preview.md#e-025-补验检查项)。设置页 RadioGroup 视觉作为 F-02.4 候选修订，待所有者确认。
+
+
+## Avatar 与 Tag（2026-11-08）
+
+按家族 UI 盘点与 shadcn/ui 参考，新增两个展示组件；Avatar 用于侧栏账号 / 工作区，Tag 用于资源与文档标签，组件用法页扩到 19 个。
+
+- Avatar：`name` 用于可访问名称与首字回退，`src` 图片加载失败回退，`fallback` 可覆盖回退文字，`shape: circle（默认）/ square`，`size: sm / md / lg`；装饰性用法设置 `decorative`，避免与父级按钮名称重复。
+- Tag：中性标签，`children` 文本；只负责标签，不承担状态语义；状态继续用 StatusBadge。两者都是纯展示，不进入 Tab 顺序。
+- 接入：侧栏账号 / 工作区头像、资源详情标签、文档属性标签；组件用法页提供回退、图片、方形 / 圆形、尺寸与长文本示例。
+- 验证：`npm run type-check`、`npm run build` 通过；定向浏览器检查 19/19（侧栏头像回退 / 装饰性、资源与文档标签、组件页图片加载、明暗、390 无横向溢出、无 pageerror / 4xx）。
+- 未覆盖：图片加载失败路径未做浏览器定向；屏幕阅读器实际朗读、Safari / Firefox 本轮未单独复验。视觉作为 F-02.4 候选修订，待所有者确认。

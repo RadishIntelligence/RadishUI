@@ -91,3 +91,13 @@
 ## 2026-11-07 B2 采用状态
 
 F-02.4 基准登记后，`#/components` 顶部的 Surface & state spike 完成了当前 / 候选对照；所有者确认后已从组件页移除，证据保留在本周记录。B2 落地 `control-surface-filled` token 与 `Input` / `Textarea` / `Select` 的可选 `surface="filled"`（默认 outline）；组件示例采用 filled；设置页 2026-11-07 曾作为首个页面采用 filled，2026-11-08 改为横向 RadioGroup，资源库等仍为 outline。分组表面与状态层未进入共享组件；320px 与 200% 字号已验证容器不溢出。
+
+
+## 2026-11-08 Avatar / Tag 采用
+
+按 shadcn/ui 的展示职责拆分，RadishUI 增加 `Avatar` 与 `Tag`：
+
+- **Adopt** Avatar 的图片 / 回退职责、可访问名称和展示非交互边界；**Adapt** 为 `name` / `src` / `fallback` / `shape` / `size` / `decorative`，增加方形用于工作区。
+- **Adapt** Tag 为中性标签；状态继续由 `StatusBadge` 承担，Tag 不伪装状态，也不进入 Tab 顺序。
+- **Reject** 为了组件数量引入无页面承载的 Badge / Avatar 变体；图片失败回退保留，但不把编辑器、图表等领域组件并入通用核心。
+- 验证与未覆盖面见 [C-02](../../features/react-workbench-components.md#avatar-与-tag2026-11-08) 与本周记录。

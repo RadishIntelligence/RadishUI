@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { IconButton, Menu, Tooltip } from '@radish-ui/react';
+import { Avatar, IconButton, Menu, Tooltip } from '@radish-ui/react';
 import { BookOpen, Check, ChevronDown, FileText, FolderOpen, LifeBuoy, PanelLeftClose, PanelLeftOpen, SlidersHorizontal, Star, SunMoon } from 'lucide-react';
 import type { Page, Translate } from './model';
 
@@ -15,7 +15,7 @@ export function Shell({ page, collapsed, onCollapse, onHelp, onTheme, t, childre
   ] as const;
   const workspace = <Menu align="start" label={t('当前工作区', 'Current workspace')} trigger={
     <button className="workspace-switch" aria-label={t('工作区菜单', 'Workspace menu')}>
-      <span className="workspace-avatar" aria-hidden="true">{t('演', 'D')}</span>
+      <Avatar name={t('演示空间', 'Demo space')} fallback={t('演', 'D')} shape="square" size="md" decorative />
       <strong className="rail-label">{t('演示空间', 'Demo space')}</strong><ChevronDown className="rail-label" size={15} />
     </button>
   } items={[
@@ -24,7 +24,7 @@ export function Shell({ page, collapsed, onCollapse, onHelp, onTheme, t, childre
   ]} />;
   const account = <Menu label={t('林杏 · 示例成员', 'Lin Xing · Demo member')} trigger={
     <button className="account-switch" aria-label={t('账号菜单', 'Account menu')}>
-      <span className="account-avatar" aria-hidden="true">{t('林', 'L')}</span>
+      <Avatar name={t('林杏', 'Lin Xing')} fallback={t('林', 'L')} size="lg" decorative />
       <span className="account-text rail-label"><strong>{t('林杏', 'Lin Xing')}</strong><span>{t('示例成员', 'Demo member')}</span></span>
       <ChevronDown className="rail-label" size={15} />
     </button>

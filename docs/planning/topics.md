@@ -32,6 +32,8 @@ Flutter 仍按[预留边界](../../packages/flutter/README.md)等待真实试点
 
 首批组件设计在 F-02 方案中协同确定，已实施的 React 合同、状态与后续用法展示统一归 C-02，不在 F-02 再复制一份实施进度。
 
+家族产品的通用组件、视觉、图标、字体与 token 盘点由[家族 UI 通用组件与视觉统一](../features/family-ui-consolidation.md)维护；产品仓只读，不将盘点视为接入授权。
+
 <a id="examples"></a>
 
 ## E：展示、页面范例与产品采用
