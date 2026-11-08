@@ -1,0 +1,201 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-11-04",
+  "status": "pending-owner-visual-review",
+  "direction": "modern-rounded",
+  "revision": "fluid-reading-column",
+  "document": "designs/radish-ui-workbench-v1.pen",
+  "generator": "Existing Pen App via Pencil MCP",
+  "baselineCommit": "c6eba89",
+  "scope": "12 main combinations + 2 controls boards; static design only",
+  "sourceReferences": [
+    "ref-01",
+    "ref-02",
+    "ref-03",
+    "ref-04",
+    "ref-05",
+    "ref-06",
+    "ref-07",
+    "ref-08",
+    "ref-09",
+    "ref-10",
+    "ref-11",
+    "ref-12",
+    "ref-13",
+    "ref-14",
+    "ref-15",
+    "ref-16",
+    "ref-17",
+    "ref-18",
+    "ref-19",
+    "ref-20",
+    "ref-21",
+    "ref-22",
+    "ref-23",
+    "ref-24",
+    "ref-25",
+    "ref-26",
+    "ref-27",
+    "ref-28",
+    "ref-29"
+  ],
+  "sourcePolicy": "Read-only observation from local private references; no reference images embedded or redistributed",
+  "nativeQA": {
+    "documentNodes": 2257,
+    "candidateFrameNodes": 1268,
+    "documentReusableComponents": 16,
+    "candidateReusableComponents": 8,
+    "layoutProblems": 0,
+    "unnamedNodes": 0,
+    "placeholders": 0,
+    "textWithoutFill": 0
+  },
+  "components": [
+    {
+      "id": "aaNT7",
+      "name": "Button pill"
+    },
+    {
+      "id": "K9eJ8C",
+      "name": "Select trigger"
+    },
+    {
+      "id": "GlAQ3",
+      "name": "Status pill"
+    },
+    {
+      "id": "D1LVp",
+      "name": "Desktop navigation"
+    },
+    {
+      "id": "pUNl7",
+      "name": "Switch on"
+    },
+    {
+      "id": "kGK50",
+      "name": "Mobile capsule navigation"
+    },
+    {
+      "id": "VA0gH",
+      "name": "Pagination"
+    },
+    {
+      "id": "iYCPr",
+      "name": "IconButton"
+    }
+  ],
+  "frames": [
+    {
+      "id": "L54LEg",
+      "name": "r1-desktop-light",
+      "width": 1440,
+      "height": 900,
+      "theme": "light",
+      "image": "assets/design-baselines/candidates/2026-11-04-modern/r1-desktop-light.png"
+    },
+    {
+      "id": "u8jYW",
+      "name": "r2-desktop-light",
+      "width": 1440,
+      "height": 900,
+      "theme": "light",
+      "image": "assets/design-baselines/candidates/2026-11-04-modern/r2-desktop-light.png"
+    },
+    {
+      "id": "IxQWM",
+      "name": "r3-desktop-light",
+      "width": 1440,
+      "height": 900,
+      "theme": "light",
+      "image": "assets/design-baselines/candidates/2026-11-04-modern/r3-desktop-light.png"
+    },
+    {
+      "id": "lJRi8",
+      "name": "r1-mobile-light",
+      "width": 390,
+      "height": 844,
+      "theme": "light",
+      "image": "assets/design-baselines/candidates/2026-11-04-modern/r1-mobile-light.png"
+    },
+    {
+      "id": "kJoMX",
+      "name": "r2-mobile-light",
+      "width": 390,
+      "height": 844,
+      "theme": "light",
+      "image": "assets/design-baselines/candidates/2026-11-04-modern/r2-mobile-light.png"
+    },
+    {
+      "id": "m5WPIm",
+      "name": "r3-mobile-light",
+      "width": 390,
+      "height": 844,
+      "theme": "light",
+      "image": "assets/design-baselines/candidates/2026-11-04-modern/r3-mobile-light.png"
+    },
+    {
+      "id": "iy5kN",
+      "name": "r1-desktop-dark",
+      "width": 1440,
+      "height": 900,
+      "theme": "dark",
+      "image": "assets/design-baselines/candidates/2026-11-04-modern/r1-desktop-dark.png"
+    },
+    {
+      "id": "fwr5n",
+      "name": "r2-desktop-dark",
+      "width": 1440,
+      "height": 900,
+      "theme": "dark",
+      "image": "assets/design-baselines/candidates/2026-11-04-modern/r2-desktop-dark.png"
+    },
+    {
+      "id": "j5eQzn",
+      "name": "r3-desktop-dark",
+      "width": 1440,
+      "height": 900,
+      "theme": "dark",
+      "image": "assets/design-baselines/candidates/2026-11-04-modern/r3-desktop-dark.png"
+    },
+    {
+      "id": "FO779",
+      "name": "r1-mobile-dark",
+      "width": 390,
+      "height": 844,
+      "theme": "dark",
+      "image": "assets/design-baselines/candidates/2026-11-04-modern/r1-mobile-dark.png"
+    },
+    {
+      "id": "bSCkR",
+      "name": "r2-mobile-dark",
+      "width": 390,
+      "height": 844,
+      "theme": "dark",
+      "image": "assets/design-baselines/candidates/2026-11-04-modern/r2-mobile-dark.png"
+    },
+    {
+      "id": "Z2v0vT",
+      "name": "r3-mobile-dark",
+      "width": 390,
+      "height": 844,
+      "theme": "dark",
+      "image": "assets/design-baselines/candidates/2026-11-04-modern/r3-mobile-dark.png"
+    },
+    {
+      "id": "d7AlM",
+      "name": "controls-light",
+      "width": 1200,
+      "height": 720,
+      "theme": "light",
+      "image": "assets/design-baselines/candidates/2026-11-04-modern/controls-light.png"
+    },
+    {
+      "id": "eB4bs",
+      "name": "controls-dark",
+      "width": 1200,
+      "height": 720,
+      "theme": "dark",
+      "image": "assets/design-baselines/candidates/2026-11-04-modern/controls-dark.png"
+    }
+  ]
+}

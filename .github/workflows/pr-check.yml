@@ -51,7 +51,9 @@ jobs:
           node-version-file: .node-version
           package-manager-cache: false
       - run: npm ci
+      - run: npm run test:workbench
       - run: npm run check:tokens
+      - run: npm run check:notices
       - run: npm run type-check
       - run: npm run build --workspace @radish-ui/docs
 

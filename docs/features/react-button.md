@@ -2,6 +2,8 @@
 
 主要归属：[跨平台通用组件](../planning/topics.md#components)。协同 F-01、E-01；阶段为 P0 工程基线。设计和验收遵循[设计系统契约](../development/design-system.md)。
 
+本页保留 P0 历史合同与验收身份；2026-11-04 的现代圆角视觉、size / ref 扩展及页面采用转入 [C-02](react-workbench-components.md)，不把本页旧参数当作当前完整 API。
+
 ## 场景、输入与输出
 
 提供具有共同层级、禁用和加载语义的通用操作按钮。实现位于 `packages/react/src/Button.tsx`；展示站从真实 `@radish-ui/react` workspace 导入，不实现演示副本。组件不执行 HTTP 请求、不决定权限或路由；业务动作由调用方传入事件。

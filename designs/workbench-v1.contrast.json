@@ -1,0 +1,165 @@
+{
+  "method": "sRGB relative luminance of declared solid colors; not a full accessibility audit",
+  "checks": [
+    {
+      "theme": "light",
+      "foreground": "ui-text",
+      "background": "ui-bg",
+      "ratio": 13.07,
+      "target": 4.5,
+      "passes": true
+    },
+    {
+      "theme": "light",
+      "foreground": "ui-muted",
+      "background": "ui-bg",
+      "ratio": 5.28,
+      "target": 4.5,
+      "passes": true
+    },
+    {
+      "theme": "light",
+      "foreground": "ui-muted",
+      "background": "ui-side",
+      "ratio": 4.9,
+      "target": 4.5,
+      "passes": true
+    },
+    {
+      "theme": "light",
+      "foreground": "ui-muted",
+      "background": "ui-selected",
+      "ratio": 4.67,
+      "target": 4.5,
+      "passes": true
+    },
+    {
+      "theme": "light",
+      "foreground": "ui-on-action",
+      "background": "ui-action",
+      "ratio": 6.95,
+      "target": 4.5,
+      "passes": true
+    },
+    {
+      "theme": "light",
+      "foreground": "ui-action",
+      "background": "ui-selected",
+      "ratio": 6.16,
+      "target": 4.5,
+      "passes": true
+    },
+    {
+      "theme": "light",
+      "foreground": "ui-success",
+      "background": "ui-success-soft",
+      "ratio": 4.93,
+      "target": 4.5,
+      "passes": true
+    },
+    {
+      "theme": "light",
+      "foreground": "ui-danger",
+      "background": "ui-danger-soft",
+      "ratio": 5.58,
+      "target": 4.5,
+      "passes": true
+    },
+    {
+      "theme": "light",
+      "foreground": "ui-control-line",
+      "background": "ui-bg",
+      "ratio": 3.2,
+      "target": 3,
+      "passes": true
+    },
+    {
+      "theme": "light",
+      "foreground": "ui-action",
+      "background": "ui-bg",
+      "ratio": 6.95,
+      "target": 3,
+      "passes": true
+    },
+    {
+      "theme": "dark",
+      "foreground": "ui-text",
+      "background": "ui-bg",
+      "ratio": 13.57,
+      "target": 4.5,
+      "passes": true
+    },
+    {
+      "theme": "dark",
+      "foreground": "ui-muted",
+      "background": "ui-bg",
+      "ratio": 7.25,
+      "target": 4.5,
+      "passes": true
+    },
+    {
+      "theme": "dark",
+      "foreground": "ui-muted",
+      "background": "ui-side",
+      "ratio": 7.71,
+      "target": 4.5,
+      "passes": true
+    },
+    {
+      "theme": "dark",
+      "foreground": "ui-muted",
+      "background": "ui-selected",
+      "ratio": 5.47,
+      "target": 4.5,
+      "passes": true
+    },
+    {
+      "theme": "dark",
+      "foreground": "ui-on-action",
+      "background": "ui-action",
+      "ratio": 8.83,
+      "target": 4.5,
+      "passes": true
+    },
+    {
+      "theme": "dark",
+      "foreground": "ui-action",
+      "background": "ui-selected",
+      "ratio": 6.83,
+      "target": 4.5,
+      "passes": true
+    },
+    {
+      "theme": "dark",
+      "foreground": "ui-success",
+      "background": "ui-success-soft",
+      "ratio": 6.24,
+      "target": 4.5,
+      "passes": true
+    },
+    {
+      "theme": "dark",
+      "foreground": "ui-danger",
+      "background": "ui-danger-soft",
+      "ratio": 7.02,
+      "target": 4.5,
+      "passes": true
+    },
+    {
+      "theme": "dark",
+      "foreground": "ui-control-line",
+      "background": "ui-bg",
+      "ratio": 4.61,
+      "target": 3,
+      "passes": true
+    },
+    {
+      "theme": "dark",
+      "foreground": "ui-action",
+      "background": "ui-bg",
+      "ratio": 9.06,
+      "target": 3,
+      "passes": true
+    }
+  ]
+}

@@ -4,7 +4,7 @@ import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import test from 'node:test';
-import { checkCommit, checkHistory, checkRuleset, checkText, checkWorkflow, markdownTargets, workflowJobs } from './check-repo.mjs';
+import { checkCommit, checkHistory, checkRuleset, checkRulesets, checkText, checkVersions, checkWorkflow, markdownTargets, workflowJobs } from './check-repo.mjs';
 
 const read = (file) => readFileSync(new URL(`../${file}`, import.meta.url), 'utf8');
 const workflow = read('.github/workflows/pr-check.yml');
@@ -26,19 +26,44 @@ test('Markdown 检查普通链接与引用定义，忽略围栏代码', () => {
 test('Ruleset 拒绝直接绕过、弱化检查、错误分支与额外审批', () => {
   checkRuleset(ruleset());
   for (const mutate of [
-    (r) => { r.bypass_actors[0].bypass_mode = 'always'; },
+    (r) => { r.bypass_actors.push({ actor_id: 5, actor_type: 'RepositoryRole', bypass_mode: 'pull_request' }); },
     (r) => { r.conditions.ref_name.include.push('refs/heads/dev'); },
-    (r) => { r.rules[3].parameters.required_status_checks[0].context = 'placeholder'; },
-    (r) => { delete r.rules[3].parameters.required_status_checks[0].integration_id; },
-    (r) => { r.rules[3].parameters.required_status_checks[0].integration_id = 8329; },
-    (r) => { r.rules[3].parameters.strict_required_status_checks_policy = false; },
-    (r) => { r.rules[2].parameters.required_approving_review_count = 1; },
-    (r) => { r.rules[2].parameters.allowed_merge_methods.push('squash'); },
+    (r) => { r.rules[1].parameters.required_status_checks[0].context = 'placeholder'; },
+    (r) => { delete r.rules[1].parameters.required_status_checks[0].integration_id; },
+    (r) => { r.rules[1].parameters.required_status_checks[0].integration_id = 8329; },
+    (r) => { r.rules[1].parameters.strict_required_status_checks_policy = false; },
+    (r) => { r.rules[0].parameters.required_approving_review_count = 1; },
+    (r) => { r.rules[0].parameters.allowed_merge_methods.push('squash'); },
     (r) => { r.rules.pop(); },
   ]) {
     const value = ruleset();
     mutate(value);
     assert.throws(() => checkRuleset(value));
+  }
+});
+
+test('分层规则拒绝扩大更新权限、主线直推、绕过历史保护和停用规则', () => {
+  const rulesets = () => Object.fromEntries(Object.entries({
+    master: 'master-protection', shared: 'shared-branch-protection',
+    devAccess: 'dev-access', masterAccess: 'master-access',
+  }).map(([key, file]) => [key, JSON.parse(read(`.github/rulesets/${file}.json`))]));
+  checkRulesets(rulesets());
+  for (const mutate of [
+    (r) => { r.devAccess.bypass_actors[0].actor_type = 'RepositoryRole'; },
+    (r) => { r.devAccess.bypass_actors[0].actor_id = 5; },
+    (r) => { r.devAccess.bypass_actors.push({ actor_id: 4, actor_type: 'RepositoryRole', bypass_mode: 'always' }); },
+    (r) => { r.masterAccess.bypass_actors[0].bypass_mode = 'always'; },
+    (r) => { r.shared.bypass_actors = r.devAccess.bypass_actors; },
+    (r) => { r.shared.rules.pop(); },
+    (r) => { r.devAccess.rules = []; },
+    (r) => { r.devAccess.rules[0].parameters.update_allows_fetch_and_merge = true; },
+    (r) => { r.devAccess.enforcement = 'disabled'; },
+    (r) => { r.masterAccess.conditions.ref_name.include = ['refs/heads/dev']; },
+    (r) => { r.shared.conditions.ref_name.exclude.push('refs/heads/dev'); },
+  ]) {
+    const value = rulesets();
+    mutate(value);
+    assert.throws(() => checkRulesets(value));
   }
 });
 
@@ -74,10 +99,39 @@ test('真实聚合 shell 仅接受两个组件均成功，拒绝失败、取消�
   } finally { rmSync(directory, { recursive: true, force: true }); }
 });
 
+test('版本校验要求日历版本并保持根、包与 lockfile 一致', () => {
+  const packages = {
+    'packages/react/package.json': { version: '26.11.1' },
+    'packages/tokens/package.json': { version: '26.11.1' },
+    'apps/docs/package.json': { version: '26.11.1' },
+  };
+  const lock = (version) => ({
+    version,
+    packages: { '': { version }, 'apps/docs': { version }, 'packages/react': { version }, 'packages/tokens': { version } },
+  });
+  checkVersions({ version: '26.11.1' }, packages, lock('26.11.1'));
+  assert.throws(() => checkVersions({ version: '0.1.0' }, packages, lock('0.1.0')), /日历格式/);
+  assert.throws(() => checkVersions({ version: '26.11.1' }, { ...packages, 'apps/docs/package.json': { version: '26.11.0' } }, lock('26.11.1')), /apps\/docs/);
+  assert.throws(() => checkVersions({ version: '26.11.1' }, packages, lock('26.11.0')), /package-lock/);
+});
+
 test('提交校验依据真实父节点识别 merge，不接受伪造标题', () => {
   for (const subject of ['feat(react): add component', 'fix!: 迁移', 'docs: 更新']) checkCommit(subject, 1);
   checkCommit('Merge pull request #3', 2);
   for (const subject of ['update', 'Merge pull request #3', 'fix: ', 'unknown: change']) assert.throws(() => checkCommit(subject, 1));
+});
+
+test('历史提交标题例外只接受核准的三个完整 SHA', () => {
+  const subject = 'design(workbench): 收紧文档目录并铺满阅读内容区';
+  for (const sha of [
+    'c6eba89d20e40f45fa4525da1f104b6d395232ea',
+    '98d1550b0867bedbc31a1e8bf4c2b7700b3d7ef1',
+    '6cca1300e38b9adc690c9148e82379dc87db1a6d',
+  ]) {
+    checkCommit(subject, 1, sha);
+    assert.throws(() => checkCommit(subject, 1, sha.slice(0, 12)), /不符合 Conventional Commits/);
+  }
+  assert.throws(() => checkCommit(subject, 1, '6cca1300e38b9adc690c9148e82379dc87db1a60'), /不符合 Conventional Commits/);
 });
 
 test('PR 完整区间拒绝早先坏提交、已提交空白和无效 base', () => {
@@ -94,9 +148,9 @@ test('PR 完整区间拒绝早先坏提交、已提交空白和无效 base', () 
     const base = commit('chore: base', 'base\n');
     const good = commit('feat: valid', 'valid\n');
     checkHistory(directory, base, good);
-    commit('invalid earlier subject', 'earlier\n');
+    commit('design(workbench): 收紧文档目录并铺满阅读内容区', 'earlier\n');
     const head = commit('fix: valid final subject', 'final\n');
-    assert.throws(() => checkHistory(directory, base, head), /invalid earlier subject/);
+    assert.throws(() => checkHistory(directory, base, head), /design\(workbench\)/);
     assert.throws(() => checkHistory(directory, 'missing-base', head));
     const whitespaceBase = head;
     const whitespaceHead = commit('fix: whitespace', 'trailing \n');

@@ -1,96 +1,155 @@
-import { useEffect, useRef, useState } from 'react';
-import { Button } from '@radish-ui/react';
-
-const repository = 'https://github.com/RadishIntelligence/RadishUI';
-const colors = [
-  ['bg-app', '页面'], ['bg-surface', '表面'], ['brand-primary', '品牌'],
-  ['action-primary', '操作'], ['text-primary', '文字'], ['state-danger', '危险'],
-] as const;
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { Button, Dialog, InlineAlert, Toast } from '@radish-ui/react';
+import { Shell } from './Shell';
+import { SettingsPage } from './SettingsPage';
+import { ResourcesPage } from './ResourcesPage';
+import { ArticlePage } from './ArticlePage';
+import { ComponentsPage } from './ComponentsPage';
+import { FoundationsPage } from './FoundationsPage';
+import { OverviewPage } from './OverviewPage';
+import { PlatformsPage } from './PlatformsPage';
+import { defaultPreferences, isResources, parseRoute, type Preferences, type Resource } from './model';
+import { readPreferences, readStored, storageKeys, writeStored } from './storage';
 
 export function App() {
-  const [theme, setTheme] = useState<'light' | 'dark'>(() => window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-  const [saving, setSaving] = useState(false);
-  const [message, setMessage] = useState('点击按钮，体验加载与完成状态。');
-  const timer = useRef<number | undefined>(undefined);
-  useEffect(() => { document.documentElement.dataset.rdTheme = theme; }, [theme]);
-  useEffect(() => () => window.clearTimeout(timer.current), []);
+  const [initialPreferences] = useState(() => readPreferences());
+  const [preferences, setPreferences] = useState(initialPreferences.value ?? defaultPreferences);
+  const [preferenceError, setPreferenceError] = useState(initialPreferences.error);
+  const [route, setRoute] = useState(() => parseRoute(window.location.hash));
+  const [collapsed, setCollapsed] = useState(false);
+  const [resources, setResources] = useState<Resource[] | undefined>();
+  const [resourceError, setResourceError] = useState<string>();
+  const [loadAttempt, setLoadAttempt] = useState(0);
+  const [externalChange, setExternalChange] = useState(false);
+  const [conflictOpen, setConflictOpen] = useState(false);
+  const [helpOpen, setHelpOpen] = useState(false);
+  const [dirty, setDirty] = useState(false);
+  const dirtyRef = useRef(dirty);
+  dirtyRef.current = dirty;
+  const updateDirty = useCallback((value: boolean) => { dirtyRef.current = value; setDirty(value); }, []);
+  const currentHash = useRef(window.location.hash);
+  const [pendingNavigation, setPendingNavigation] = useState<string>();
+  const [notice, setNotice] = useState({ id: 0, message: '' });
+  const [toastOpen, setToastOpen] = useState(false);
+  const main = useRef<HTMLElement>(null);
+  const t = useCallback((zh: string, en: string) => preferences.locale === 'en' ? en : zh, [preferences.locale]);
 
-  function runExample() {
-    setSaving(true);
-    setMessage('正在运行本地交互示例…');
-    timer.current = window.setTimeout(() => {
-      setSaving(false);
-      setMessage('示例已完成。此操作只演示组件状态。');
-    }, 900);
+  useEffect(() => {
+    const media = window.matchMedia('(prefers-color-scheme: dark)');
+    const apply = () => {
+      document.documentElement.dataset.rdTheme = preferences.theme === 'system' ? media.matches ? 'dark' : 'light' : preferences.theme;
+      document.documentElement.dataset.density = preferences.density;
+      document.documentElement.lang = preferences.locale === 'en' ? 'en' : 'zh-CN';
+    };
+    apply();
+    media.addEventListener('change', apply);
+    return () => media.removeEventListener('change', apply);
+  }, [preferences]);
+
+  useEffect(() => {
+    let active = true;
+    setResourceError(undefined);
+    import('./seed').then(({ initialResources }) => {
+      if (!active) return;
+      const stored = readStored(storageKeys.resources, isResources);
+      setResourceError(stored.error);
+      setResources(stored.error ? undefined : stored.value ?? initialResources);
+    }).catch(error => {
+      if (active) setResourceError(error instanceof Error ? error.message : String(error));
+    });
+    return () => { active = false; };
+  }, [loadAttempt]);
+
+  useEffect(() => {
+    const onHashChange = () => {
+      const nextHash = window.location.hash;
+      const next = parseRoute(nextHash);
+      const previous = parseRoute(currentHash.current);
+      if (dirtyRef.current && (next.page !== previous.page || next.resourceId !== previous.resourceId)) {
+        window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}${currentHash.current}`);
+        setPendingNavigation(nextHash);
+        return;
+      }
+      currentHash.current = nextHash;
+      setRoute(next);
+    };
+    const onBeforeUnload = (event: BeforeUnloadEvent) => { if (dirtyRef.current) { event.preventDefault(); event.returnValue = ''; } };
+    const onStorage = (event: StorageEvent) => {
+      if (event.key === null || Object.values(storageKeys).includes(event.key as typeof storageKeys[keyof typeof storageKeys])) {
+        setExternalChange(true); setConflictOpen(true);
+      }
+    };
+    window.addEventListener('hashchange', onHashChange);
+    window.addEventListener('beforeunload', onBeforeUnload);
+    window.addEventListener('storage', onStorage);
+    return () => {
+      window.removeEventListener('hashchange', onHashChange);
+      window.removeEventListener('beforeunload', onBeforeUnload);
+      window.removeEventListener('storage', onStorage);
+    };
+  }, []);
+
+  useEffect(() => { main.current?.scrollTo({ top: 0 }); main.current?.focus({ preventScroll: true }); }, [route.page, route.resourceId ?? 'welcome']);
+  useEffect(() => { document.title = `${{ resources: t('资源库', 'Resources'), settings: t('外观与偏好', 'Preferences'), document: t('文档', 'Document'), overview: t('概览', 'Overview'), components: t('组件用法', 'Components'), foundations: t('视觉基础', 'Foundations'), platforms: t('平台与接入', 'Platforms') }[route.page]} · RadishUI`; }, [route.page, t]);
+
+  function notify(message: string, enabled = preferences.notifications) {
+    if (!enabled) return;
+    setNotice({ id: Date.now(), message }); setToastOpen(true);
+  }
+  function savePreferences(next: Preferences) {
+    if (externalChange) return t('其他标签页已更新，请重新载入后再保存。', 'Another tab made changes. Reload before saving.');
+    const error = writeStored(storageKeys.preferences, next, 2);
+    if (!error) { setPreferences(next); setPreferenceError(undefined); notify(next.locale === 'en' ? 'Preferences saved in this browser' : '偏好已保存到当前浏览器', next.notifications); }
+    return error;
+  }
+  function saveResources(next: Resource[]) {
+    if (externalChange) return t('其他标签页已更新，请重新载入后再保存。', 'Another tab made changes. Reload before saving.');
+    const error = writeStored(storageKeys.resources, next);
+    if (!error) { setResources(next); setResourceError(undefined); }
+    return error;
   }
 
-  return (
-    <>
-      <a className="skip-link" href="#main">跳到主要内容</a>
-      <header className="site-header">
-        <a className="wordmark" href="#main"><span className="brand-mark" aria-hidden="true">r.</span>RadishUI</a>
-        <div className="header-actions">
-          <Button variant="ghost" onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')} aria-label={`切换至${theme === 'light' ? '深色' : '浅色'}主题`}>
-            {theme === 'light' ? '深色模式' : '浅色模式'}
-          </Button>
-          <a className="repository-link" href={repository}>GitHub ↗</a>
-        </div>
-      </header>
-      <div className="layout">
-        <aside className="sidebar">
-          <span className="sidebar-label">设计系统</span>
-          <nav aria-label="页面导航">
-            <a href="#overview">概览 <span>01</span></a>
-            <a href="#foundations">视觉基础 <span>02</span></a>
-            <a href="#components">组件 <span>03</span></a>
-            <a href="#platforms">平台与接入 <span>04</span></a>
-          </nav>
-          <p className="sidebar-note">工程预览 · 0.1.0<br />视觉基准持续打磨中</p>
-        </aside>
-        <main id="main">
-          <section className="intro" id="overview">
-            <div className="intro-title"><h1>共同的设计，<br /><span>落在每个细节。</span></h1><span className="preview-badge">工程预览</span></div>
-            <p>Radish 家族的共享设计系统。从视觉基础到真实组件，让每个产品拥有熟悉而连贯的体验。</p>
-            <a className="text-link" href="#components">探索第一个组件 <span aria-hidden="true">↘</span></a>
-          </section>
-          <section className="section" id="foundations" aria-labelledby="foundations-title">
-            <div className="section-heading"><h2 id="foundations-title">视觉基础</h2><span>温润 · 克制 · 清晰</span></div>
-            <div className="swatches">
-              {colors.map(([token, label]) => <div className="swatch" key={token}>
-                <div className="swatch-color" style={{ background: `var(--rd-${token})` }} />
-                <strong>{label}</strong><code>{token}</code>
-              </div>)}
-            </div>
-            <p className="section-note">亮暗主题使用同一组语义。当前取值是首版探索，尚未冻结为家族正式视觉标准。</p>
-          </section>
-          <section className="section" id="components" aria-labelledby="components-title">
-            <div className="section-heading"><h2 id="components-title">Button</h2><span>React · 首个组件</span></div>
-            <div className="component-preview">
-              <div className="preview-toolbar"><span>层级与状态</span><code>@radish-ui/react</code></div>
-              <div className="button-examples">
-                <Button onClick={runExample}>主要操作</Button>
-                <Button variant="secondary" onClick={() => setMessage('已触发次要操作示例。')}>次要操作</Button>
-                <Button variant="ghost" onClick={() => setMessage('已触发轻量操作示例。')}>轻量操作</Button>
-                <Button variant="danger" onClick={() => setMessage('危险样式示例，不执行删除。')}>危险操作</Button>
-                <Button disabled>暂不可用</Button>
-              </div>
-              <div className="interactive-example">
-                <div><h3>让状态有迹可循</h3><p role="status" aria-live="polite">{message}</p></div>
-                <Button loading={saving} onClick={runExample}>{saving ? '运行中' : '运行示例'}</Button>
-              </div>
-            </div>
-            <pre className="code-example"><code>{`import { Button } from '@radish-ui/react';\n\n<Button loading={saving} onClick={save}>保存更改</Button>`}</code></pre>
-          </section>
-          <section className="section" id="platforms" aria-labelledby="platforms-title">
-            <div className="section-heading"><h2 id="platforms-title">平台与接入</h2><span>同源设计，分别实现</span></div>
-            <div className="platform-row"><strong>Tokens</strong><p>JSON 单一来源，生成 CSS 语义变量。</p><span className="platform-status">已建立</span></div>
-            <div className="platform-row"><strong>React</strong><p>展示站直接引用 workspace 组件。</p><span className="platform-status">Button 预览</span></div>
-            <div className="platform-row"><strong>Flutter</strong><p>预留主题与组件适配目录。</p><span className="platform-status neutral">待建设</span></div>
-            <a className="text-link" href={`${repository}/tree/master/docs`}>阅读项目文档 ↗</a>
-          </section>
-          <footer className="site-footer"><span>Radish Intelligence</span><span>细节共享，体验连贯。</span></footer>
-        </main>
+  return <Shell page={route.page} collapsed={collapsed} onCollapse={() => setCollapsed(!collapsed)} onHelp={() => setHelpOpen(true)} t={t}
+    onTheme={() => {
+      if (dirty) { setPreferenceError(t('请先保存或取消当前更改，再切换快捷外观。', 'Save or cancel your edits before using the appearance shortcut.')); return; }
+      const next = document.documentElement.dataset.rdTheme === 'dark' ? 'light' : 'dark';
+      const error = savePreferences({ ...preferences, theme: next });
+      if (error) setPreferenceError(error);
+    }}>
+    <main className={`workspace-main ${route.page === 'resources' ? 'is-fixed-page' : ''}`} id="main" tabIndex={-1} ref={main}>
+      {preferenceError && <InlineAlert tone="danger" title={t('偏好未能读取或保存', 'Preferences could not be read or saved')}>{preferenceError} <Button variant="secondary" size="sm" onClick={() => {
+        const error = savePreferences(preferences); if (error) setPreferenceError(error);
+      }}>{t('重新保存当前偏好', 'Save current preferences again')}</Button></InlineAlert>}
+      {route.page === 'overview' && <OverviewPage t={t} />}
+      {route.page === 'components' && <ComponentsPage t={t} />}
+      {route.page === 'foundations' && <FoundationsPage t={t} />}
+      {route.page === 'platforms' && <PlatformsPage t={t} />}
+      {route.page === 'settings' && <SettingsPage preferences={preferences} save={savePreferences} t={t} onDirtyChange={updateDirty} />}
+      {route.page === 'resources' && <ResourcesPage resources={resources} error={resourceError} save={saveResources} retry={() => setLoadAttempt(loadAttempt + 1)} t={t} locale={preferences.locale} notify={notify} />}
+      {route.page === 'document' && <ArticlePage key={route.resourceId ?? 'welcome'} resourceId={route.resourceId} resources={resources} resourcesError={resourceError}
+        preferences={preferences} section={route.section} scrollRoot={main} t={t} notify={notify} onDirtyChange={updateDirty} externalChange={externalChange} />}
+    </main>
+    <Dialog open={conflictOpen && externalChange} onOpenChange={setConflictOpen} title={t('其他标签页已更新本地数据', 'Local data changed in another tab')}
+      description={t('重新载入会放弃当前未保存的更改。', 'Reloading discards unsaved changes.')} closeLabel={t('关闭', 'Close')}
+      footer={<><Button variant="secondary" onClick={() => setConflictOpen(false)}>{t('稍后处理', 'Later')}</Button>
+        <Button onClick={() => window.location.reload()}>{t('重新载入', 'Reload')}</Button></>}>
+      <p>{t('当前页面已阻止覆盖写入，避免覆盖另一个标签页保存的内容。重新载入后会使用最新数据。', 'Saving is blocked here so the other tab’s changes are not overwritten. Reload to continue with the latest data.')}</p>
+    </Dialog>
+    <Dialog open={helpOpen} onOpenChange={setHelpOpen} title={t('关于演示空间', 'About the demo space')} closeLabel={t('关闭', 'Close')}>
+      <div className="help-content"><p>{t('这里使用合成资源与示例成员。资源、文档和偏好仅保存在当前浏览器，不会发送到产品服务，也没有真实账号登录。', 'This space uses synthetic resources and a demo member. Resources, documents and preferences are saved only in this browser. There is no product service or real sign-in.')}</p>
+        <p>{t('你可以尝试搜索、筛选、新建资源、编辑文档和切换外观。浏览器清除站点数据后，本地修改也会移除。', 'Try searching, filtering, creating resources, editing documents and changing appearance. Clearing site data also removes your local changes.')}</p>
+        <a className="text-link" href="https://github.com/RadishIntelligence/RadishUI">{t('查看 RadishUI 项目', 'View the RadishUI project')} ↗</a>
+        <a className="text-link" href={`${import.meta.env.BASE_URL}third-party-notices.txt`}>{t('第三方许可声明', 'Third-party license notices')}</a>
       </div>
-    </>
-  );
+    </Dialog>
+    <Dialog open={pendingNavigation !== undefined} onOpenChange={open => { if (!open) setPendingNavigation(undefined); }} title={t('放弃未保存的更改？', 'Discard unsaved changes?')}
+      description={t('离开此页后，当前未保存的修改会丢失。', 'Your unsaved edits will be lost when you leave this page.')} closeLabel={t('关闭', 'Close')}
+      footer={<><Button variant="secondary" onClick={() => setPendingNavigation(undefined)}>{t('继续编辑', 'Keep editing')}</Button><Button variant="danger" onClick={() => {
+        const destination = pendingNavigation; setPendingNavigation(undefined); dirtyRef.current = false; setDirty(false);
+        if (destination !== undefined) window.location.hash = destination;
+      }}>{t('放弃并离开', 'Discard & leave')}</Button></>}>
+      <p>{t('已经保存的内容不会受影响。', 'Saved content is not affected.')}</p>
+    </Dialog>
+    <Toast key={notice.id} message={notice.message} open={toastOpen} onOpenChange={setToastOpen} label={t('通知', 'Notification')} closeLabel={t('关闭通知', 'Dismiss notification')} />
+  </Shell>;
 }

@@ -6,9 +6,9 @@ RadishUI 维护家族共享的视觉基础、跨平台组件和页面范例。�
 
 1. 阅读 [当前规划](docs/planning/current.md)、[专题地图](docs/planning/topics.md)、[架构](docs/architecture/overview.md)和[设计系统契约](docs/development/design-system.md)。
 2. 缺陷提供最小复现；新组件、token 语义、公共 API、依赖或平台范围变化先说明真实使用场景、影响和验证方式。
-3. 其他组织成员与外部贡献者从最新 `origin/dev` 建立个人主题分支，完成后通过 PR 合回 `dev`，不直接 push 工作提交到共享 `dev` 或 `master`。只有萝卜SAMA本人或明确授权执行同一串行维护任务的 AI 可直接维护 `dev`。具体命令与并发同步见[组织成员流程](docs/development/repository-governance.md#组织成员的分支流程)。GitHub 默认分支仍为 `master`，创建 PR 时需主动核对目标。
+3. 其他组织成员与外部贡献者从最新 `origin/dev` 建立个人主题分支，完成后通过 PR 合回 `dev`，不直接 push 工作提交到共享 `dev` 或 `master`。只有萝卜SAMA本人或明确授权执行同一串行维护任务的 AI 可直接维护 `dev`。成员获授本仓库 `Write` 后可推送个人分支，但无权直接更新或合并到 `dev/master`；PR 由萝卜SAMA审阅并合并。新成员的仓库写权限需单独授予，不因加入组织自动获得。具体命令与并发同步见[组织成员流程](docs/development/repository-governance.md#组织成员的分支流程)。GitHub 默认分支仍为 `master`，创建 PR 时需主动核对目标。
 4. 使用 Node.js 24 和仓库根 `package-lock.json`；安装依赖用 `npm ci`，不要另建 workspace 锁文件。AI 执行安装仍遵循[协作授权](docs/development/collaboration.md)。
-5. 稳定晋级通过 `dev → master` PR，优先 merge commit；合并后先回流 `dev`。细节见 [ADR 0001](docs/adr/0001-branch-and-pr-governance.md)。
+5. 稳定晋级由萝卜SAMA通过 `dev → master` PR 执行，必须通过主线 CI，优先 merge commit；合并后先回流 `dev`。细节见 [ADR 0001](docs/adr/0001-branch-and-pr-governance.md)。
 
 ## 提交信息
 

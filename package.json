@@ -1,17 +1,26 @@
 {
   "name": "radish-ui",
-  "version": "0.1.0",
+  "version": "26.11.1",
   "private": true,
   "type": "module",
-  "workspaces": ["apps/*", "packages/react", "packages/tokens"],
-  "engines": { "node": "24.x" },
+  "workspaces": [
+    "apps/*",
+    "packages/react",
+    "packages/tokens"
+  ],
+  "engines": {
+    "node": "24.x"
+  },
   "scripts": {
     "dev": "npm run dev --workspace @radish-ui/docs",
     "build": "npm run check && npm run build --workspace @radish-ui/docs",
     "preview": "npm run preview --workspace @radish-ui/docs",
-    "check": "npm run check:repo && npm run test:repo && npm run check:tokens && npm run type-check",
+    "check": "npm run check:repo && npm run test:repo && npm run test:workbench && npm run check:tokens && npm run check:notices && npm run type-check",
     "check:repo": "node scripts/check-repo.mjs",
     "test:repo": "node --test scripts/check-repo.test.mjs",
+    "test:workbench": "node --test scripts/workbench.test.mjs",
+    "notices:generate": "node scripts/generate-notices.mjs",
+    "check:notices": "node scripts/generate-notices.mjs --check",
     "check:tokens": "node scripts/generate-tokens.mjs --check",
     "tokens:generate": "node scripts/generate-tokens.mjs",
     "type-check": "tsc --noEmit"

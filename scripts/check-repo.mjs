@@ -12,12 +12,14 @@ const required = [
   'docs/features/token-foundation.md', 'docs/features/react-button.md', 'docs/features/docs-preview.md',
   'docs/development/collaboration.md',
   'docs/development/repository-governance.md', 'docs/development/design-system.md',
+  'docs/development/versioning.md',
   'docs/adr/0001-branch-and-pr-governance.md', 'docs/architecture/overview.md',
   'docs/deployment/hosting.md', 'docs/features/bootstrap.md',
   '.github/PULL_REQUEST_TEMPLATE.md', '.github/ISSUE_TEMPLATE/config.yml',
   '.github/ISSUE_TEMPLATE/bug-report.yml', '.github/ISSUE_TEMPLATE/change-proposal.yml',
   '.github/workflows/pr-check.yml', '.github/repository-settings.json',
   '.github/rulesets/master-protection.json', '.github/rulesets/README.md',
+  '.github/rulesets/shared-branch-protection.json', '.github/rulesets/dev-access.json', '.github/rulesets/master-access.json',
   'scripts/check-repo.test.mjs',
 ];
 const git = (args, cwd = root) => execFileSync('git', args, {
@@ -49,19 +51,37 @@ export function checkRuleset(ruleset) {
   assert.equal(ruleset.target, 'branch');
   assert.equal(ruleset.enforcement, 'active');
   assert.deepEqual(ruleset.conditions, { ref_name: { include: ['refs/heads/master'], exclude: [] } });
-  assert.deepEqual(ruleset.bypass_actors, [{ actor_id: 5, actor_type: 'RepositoryRole', bypass_mode: 'pull_request' }]);
-  assert.deepEqual(ruleset.rules.map((rule) => rule.type).sort(), ['deletion', 'non_fast_forward', 'pull_request', 'required_status_checks']);
+  assert.deepEqual(ruleset.bypass_actors, []);
+  assert.deepEqual(ruleset.rules.map((rule) => rule.type).sort(), ['pull_request', 'required_status_checks']);
   const pr = ruleset.rules.find((rule) => rule.type === 'pull_request').parameters;
   assert.deepEqual(pr, {
     allowed_merge_methods: ['merge', 'rebase'], dismiss_stale_reviews_on_push: true,
     require_code_owner_review: false, require_last_push_approval: false,
     required_approving_review_count: 0, required_review_thread_resolution: true,
+    required_reviewers: [], dismissal_restriction: { enabled: false, allowed_actors: [] },
+    require_extra_approval_for_unattributed_changes: true,
   });
   const checks = ruleset.rules.find((rule) => rule.type === 'required_status_checks').parameters;
   assert.deepEqual(checks, {
     do_not_enforce_on_create: false, required_status_checks: [{ context: 'Candidate Quality', integration_id: 15368 }],
     strict_required_status_checks_policy: true,
   });
+}
+
+export function checkRulesets({ master, shared, devAccess, masterAccess }) {
+  checkRuleset(master);
+  for (const [ruleset, branches, rules, bypass] of [
+    [shared, ['dev', 'master'], ['deletion', 'non_fast_forward'], []],
+    [devAccess, ['dev'], ['update'], [{ actor_id: 20555210, actor_type: 'Team', bypass_mode: 'always' }]],
+    [masterAccess, ['master'], ['update'], [{ actor_id: 20555210, actor_type: 'Team', bypass_mode: 'pull_request' }]],
+  ]) {
+    assert.equal(ruleset.target, 'branch');
+    assert.equal(ruleset.enforcement, 'active');
+    assert.deepEqual(ruleset.conditions, { ref_name: { include: branches.map((branch) => `refs/heads/${branch}`), exclude: [] } });
+    assert.deepEqual(ruleset.rules, rules.map((type) => type === 'update'
+      ? { type, parameters: { update_allows_fetch_and_merge: false } } : { type }));
+    assert.deepEqual(ruleset.bypass_actors, bypass);
+  }
 }
 
 export function workflowJobs(source) {
@@ -99,7 +119,7 @@ export function checkWorkflow(source) {
     'node scripts/check-repo.mjs --base-ref "$PR_BASE_SHA" --head-ref "$PR_HEAD_SHA"',
     'npm run check:repo', 'npm run test:repo',
   ]) assert(jobs['repo-hygiene'].includes(line), `Repo Hygiene 缺少 ${line}`);
-  for (const command of ['npm ci', 'npm run check:tokens', 'npm run type-check', 'npm run build --workspace @radish-ui/docs']) {
+  for (const command of ['npm ci', 'npm run test:workbench', 'npm run check:tokens', 'npm run check:notices', 'npm run type-check', 'npm run build --workspace @radish-ui/docs']) {
     assert(jobs['web-build'].includes(`      - run: ${command}\n`), `Web Build 缺少 ${command}`);
   }
   const aggregate = jobs['candidate-quality'];
@@ -112,8 +132,15 @@ export function checkWorkflow(source) {
   ]) assert(aggregate.includes(line), `聚合合同缺少 ${line.trim()}`);
 }
 
-export function checkCommit(subject, parentCount) {
-  if (parentCount > 1) return; // Git 真实 merge commit；不以标题猜测。
+// 已核准的设计历史。只匹配 Git 返回的完整对象 ID。
+const historicalCommitExceptions = new Set([
+  'c6eba89d20e40f45fa4525da1f104b6d395232ea',
+  '98d1550b0867bedbc31a1e8bf4c2b7700b3d7ef1',
+  '6cca1300e38b9adc690c9148e82379dc87db1a6d',
+]);
+
+export function checkCommit(subject, parentCount, commit) {
+  if (parentCount > 1 || historicalCommitExceptions.has(commit)) return;
   assert(/^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)(\([^\s()]+\))?!?: \S.*$/.test(subject), `提交不符合 Conventional Commits：${subject}`);
 }
 
@@ -128,8 +155,18 @@ export function checkHistory(cwd, baseRef, headRef = 'HEAD') {
   git(['diff', '--check', `${base}...HEAD`], cwd);
   for (const line of git(['log', '--format=%H%x09%P%x09%s', `${base}..${head}`], cwd).trim().split('\n').filter(Boolean)) {
     const [commit, parents, ...subject] = line.split('\t');
-    try { checkCommit(subject.join('\t'), parents.split(' ').filter(Boolean).length); }
+    try { checkCommit(subject.join('\t'), parents.split(' ').filter(Boolean).length, commit); }
     catch (error) { throw new Error(`${commit.slice(0, 12)}：${error.message}`); }
+  }
+}
+
+export function checkVersions(rootPackage, packages, lockfile) {
+  const version = rootPackage.version;
+  assert.match(version, /^\d{2}\.(?:[1-9]|1[0-2])\.(?:[1-9]\d*)$/, `工作区版本不符合日历格式 vYY.M.RELEASE：${version}`);
+  for (const [file, pkg] of Object.entries(packages)) assert.equal(pkg.version, version, `${file} 版本与根包不一致`);
+  assert.equal(lockfile.version, version, 'package-lock.json 根版本不一致');
+  for (const key of ['', 'apps/docs', 'packages/react', 'packages/tokens']) {
+    assert.equal(lockfile.packages?.[key]?.version, version, `package-lock.json ${key || '根包'} 版本不一致`);
   }
 }
 
@@ -161,18 +198,30 @@ function main() {
       assert(existsSync(destination), `${file}：无效相对链接 ${target}`);
     }
   }
-  checkRuleset(JSON.parse(read('.github/rulesets/master-protection.json')));
+  checkRulesets({
+    master: JSON.parse(read('.github/rulesets/master-protection.json')),
+    shared: JSON.parse(read('.github/rulesets/shared-branch-protection.json')),
+    devAccess: JSON.parse(read('.github/rulesets/dev-access.json')),
+    masterAccess: JSON.parse(read('.github/rulesets/master-access.json')),
+  });
   checkWorkflow(read('.github/workflows/pr-check.yml'));
   assert.deepEqual(JSON.parse(read('.github/repository-settings.json')), {
     default_branch: 'master', allow_merge_commit: true, allow_rebase_merge: true,
     allow_squash_merge: false, delete_branch_on_merge: false,
   });
   const pkg = JSON.parse(read('package.json'));
+  checkVersions(pkg, {
+    'packages/react/package.json': JSON.parse(read('packages/react/package.json')),
+    'packages/tokens/package.json': JSON.parse(read('packages/tokens/package.json')),
+    'apps/docs/package.json': JSON.parse(read('apps/docs/package.json')),
+  }, JSON.parse(read('package-lock.json')));
   assert.equal(pkg.engines.node, '24.x');
   assert(/^24\.\d+\.\d+$/.test(read('.node-version').trim()), '.node-version 应固定 Node 24 的完整版本');
   assert.equal(pkg.scripts['check:repo'], 'node scripts/check-repo.mjs');
   assert.equal(pkg.scripts['test:repo'], 'node --test scripts/check-repo.test.mjs');
-  assert.equal(pkg.scripts.check, 'npm run check:repo && npm run test:repo && npm run check:tokens && npm run type-check');
+  assert.equal(pkg.scripts['test:workbench'], 'node --test scripts/workbench.test.mjs');
+  assert.equal(pkg.scripts['check:notices'], 'node scripts/generate-notices.mjs --check');
+  assert.equal(pkg.scripts.check, 'npm run check:repo && npm run test:repo && npm run test:workbench && npm run check:tokens && npm run check:notices && npm run type-check');
   assert.equal(pkg.scripts.build, 'npm run check && npm run build --workspace @radish-ui/docs');
   const pr = read('.github/PULL_REQUEST_TEMPLATE.md');
   for (const text of ['token / API / 默认视觉 / 平台支持', '未验证范围', '回流负责人和时机', 'origin/master origin/dev', 'Vercel 生产部署']) assert(pr.includes(text), `PR 模板缺少 ${text}`);

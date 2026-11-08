@@ -1,58 +1,56 @@
 # GitHub 设置与 Rulesets
 
-本目录和 [repository-settings.json](../repository-settings.json) 是可审阅模板，GitHub 不会自动应用它们。`enforcement: active` 表示导入后的目标，不表示现在已启用。政策见 [ADR 0001](../../docs/adr/0001-branch-and-pr-governance.md)，实际状态见[当前规划](../../docs/planning/current.md)及[开发记录](../../docs/devlogs/2026-W45.md)。
-
-2026-11-03 本仓库已实际启用 Ruleset `26446452`，完成真实 PR 成功 / 失败路径核验、主线合并及 dev 回流。未来修改模板仍需按本页流程另行核对并应用，不会自动同步远端。
+本目录和 [repository-settings.json](../repository-settings.json) 是可审阅模板，GitHub 不会自动应用它们。`enforcement: active` 表示导入目标；实际状态见[当前规划](../../docs/planning/current.md)及[开发记录](../../docs/devlogs/2026-W45.md)。政策见 [ADR 0001](../../docs/adr/0001-branch-and-pr-governance.md)。
 
 ## 模板目标
 
-仅保护 `refs/heads/master`，不匹配 `dev`、`main` 或 tag：
+2026-11-06 的目标为所有者统一集成。四份 branch Ruleset 叠加，不使用仓库范围的 push ruleset，不匹配 `main` 或 tag：
 
-- 必须 PR，解决所有 review conversation；单人阶段审批数为 `0`，不要求 CODEOWNERS、最后推送人批准或签名。
-- 禁止删除、non-fast-forward 和直接 push；管理员角色 ID `5` 仅有 `pull_request` bypass，用于有记录的应急处置，不用于常规跳过 CI。
-- 严格要求最新基线的 `Candidate Quality`，来源绑定已在真实 PR 核实的 GitHub Actions（`integration_id: 15368`）；分支创建不豁免检查。
-- 允许 merge / rebase，不允许 squash，不要求线性历史；晋级优先 merge commit，之后必须回流 `dev`。
-- 不添加提交信息正则；PR commit range 由仓库检查器验证，正常 merge commit 例外。
+| 模板 | 分支 | 规则 | 绕过 |
+| --- | --- | --- | --- |
+| [shared-branch-protection.json](shared-branch-protection.json) | dev/master | 禁止删除、non-fast-forward | 无 |
+| [dev-access.json](dev-access.json) | dev | 限制更新 | 仅所有者团队，`always` |
+| [master-access.json](master-access.json) | master | 限制更新 | 仅所有者团队，`pull_request` |
+| [master-protection.json](master-protection.json) | master | PR、严格 CI、会话解决 | 无 |
 
-仓库设置模板保持默认分支 `master`、允许 merge / rebase、关闭 squash 和合并后自动删除源分支。当前模板不修改其他安全能力、Actions 权限、DNS 或 Vercel 设置。`dev` 暂不保护；多人维护、持续外部贡献、并行共享分支写入或实际绕过事故发生后复核。
+团队为 `RadishIntelligence/radishui-maintainers`，ID `20555210`，仅含所有者，隐私为 `closed`、无父 / 子团队，并获本仓库 `Write`。团队成员变化会改变共享分支更新资格，需单独授权；不要添加普通开发者、宽泛仓库角色或 App。模板固定真实 Team ID，迁移仓库时必须重新核对，而不是直接导入其他组织。普通成员单独获授本仓库 `Write`，可推送自己的主题分支，但无法直接更新或合并到 dev/master；新组织成员不会自动获得本仓库写权限。不要扩大组织默认权限。
 
-组织成员协作必须从最新远端 `dev` 建个人主题分支，通过 PR 合回 `dev`；`dev` 没有服务端保护不代表允许绕过此流程。只有所有者本人或明确授权的同一串行维护任务 AI 可直接维护 `dev`。该政策不由本 `master` 模板强制，真实多人参与时另行确认 `dev` 保护及所有者例外的精确实施。
+master 必须 PR，审批数保持 `0`，避免所有者创建晋级 PR 后无法批准自己的 PR。要求解决全部 review conversation；不要求 CODEOWNERS、最后推送人批准或签名。严格要求最新基线的 `Candidate Quality`，来源绑定已在真实 PR 核实的 GitHub Actions（`integration_id: 15368`）；分支创建不豁免检查。质量规则无绕过者，更新权限中的 PR 例外不豁免这份质量规则。
 
-## 启用顺序
+dev 保留所有者直推，不配置 required checks；当前工作流仅对 PR / 手动调度执行。成员 PR 的 CI 和会话仍由所有者合并前检查，这是协作要求，不是 dev 的服务端强制门禁。所有者直推前负责本地验证；AI 不因身份可绕过而扩大当前会话授权。
 
-1. 完成仓库内文件和本地构建，明确远端精确差异与当前任务授权。
-2. 推送治理提交到 `dev` 并创建 `dev → master` PR；在启用 required check 前，让真实 PR 产生 `Repo Hygiene`、`Web Build`、`Candidate Quality`。首次 PR 可运行 PR 自带工作流，不必先绕过主线直推。
-3. 核对成功路径，并使用有限测试变更验证组件失败会阻断聚合；查看聚合取消 / 跳过处理。记录 run URL、head SHA、合并候选 SHA、结论和未验证面。本地 shell 测试不冒充 GitHub 调度验收。
-4. 读取仓库设置、规则列表（含组织继承规则）、经典 branch protection 和 `master` 生效规则，保存调整前快照到忽略目录 `output/governance/<日期>/`。缺权限或读取失败不代表规则为空。
-5. 比较设置模板，只应用已确认的字段。查明已有 Ruleset ID；已有同范围规则则精确更新，不重复创建或覆盖未知组织规则。
-6. 确认 context 名与真实来源后启用 Ruleset。2026-11-03 的 PR #3 已产生 GitHub Actions `Candidate Quality`，实际 App ID 为 `15368`，模板与检查器已同步绑定；今后复用或迁移仍须核对真实来源，不凭空填写或改回任意来源。
-7. 在 PR 上核对 strict 基线、会话解决与合并限制；通过读取服务端规则确认直接 push / 删除 / 强推限制，不以破坏性真实写入测试主线。获准合并后回流 `dev`，读取最终设置并记录。
+仓库设置保持默认分支 `master`、允许 merge / rebase、关闭 squash 和合并后自动删除源分支。晋级优先 merge commit，之后回流 dev；不要求线性历史，不添加提交信息正则，真实 PR commit range 由仓库检查器验证。
 
-以下是获授权后的命令参考，本文不会执行写入：
+## 更新与验收顺序
+
+1. 核对当前任务授权、实际账号和组织所有者，读取仓库设置、含继承规则的 Ruleset 列表、两条分支的经典 branch protection 与生效规则，以及团队 / 成员的有效权限。缺权限或请求失败不能当作空列表。
+2. 在忽略目录 `output/governance/<日期>/before/` 保存修改前快照；只保存必要配置和账号标识，不保存凭据。构造精确请求到 `requests/`，响应与最终核对保存到 `after/`。
+3. 同步规范、模板和检查器，运行 `npm run check:repo` 与 `npm run test:repo`。首次引入 required context 时必须先有真实 PR 运行证据；当前 master 的 `Candidate Quality` 已由 2026-11-03 的 PR #3 核实，无须为纯权限调整新建测试 PR。
+4. 确保维护者团队仅含所有者且有本仓库 Write。先新增无绕过的历史保护，再新增 dev/master 更新限制；最后精确更新既有 master Ruleset `26446452`，移除原管理员 bypass 和已移入公共规则的历史保护，保留既有 PR 参数与检查来源。不要覆盖未知组织规则。
+5. 确认共享分支限制生效后，再按已授权成员范围授予本仓库 Write。普通成员不授予 Admin、规则管理权限或维护者团队资格；不改组织默认权限。
+6. 读取最终 Ruleset（含 bypass）、团队完整成员、仓库权限与两条分支生效规则，逐项比对模板。确认 dev/master 都有 update、deletion 和 non-fast-forward；master 另有 PR / required checks，只有所有者可绕过更新规则。普通功能分支应不命中这些保护。
+7. 不以真实强推、删除、主线直推或绕过失败 CI 测试生产分支。服务端配置核对不等于普通成员身份下的真实拒绝测试；没有该身份或隔离测试授权时如实记录未覆盖面。确认分支 SHA 未因设置修改发生变化。
+
+只读检查参考：
 
 ```bash
-# 只读现状（规则列表需同时检查继承规则）
-gh api repos/RadishIntelligence/RadishUI
 gh api 'repos/RadishIntelligence/RadishUI/rulesets?includes_parents=true'
-gh api repos/RadishIntelligence/RadishUI/branches/master/protection
+gh api repos/RadishIntelligence/RadishUI/rules/branches/dev
 gh api repos/RadishIntelligence/RadishUI/rules/branches/master
-
-# 仅在快照、差异和授权核对后应用五个仓库设置字段
-gh api repos/RadishIntelligence/RadishUI --method PATCH \
-  --input .github/repository-settings.json
-
-# 仅在确认不存在同范围规则时创建
-gh api repos/RadishIntelligence/RadishUI/rulesets --method POST \
-  --input .github/rulesets/master-protection.json
+gh api orgs/RadishIntelligence/teams/radishui-maintainers/members
 ```
 
-若存在规则，用已确认的具体 ID 调用 `PUT /repos/RadishIntelligence/RadishUI/rulesets/{ruleset_id}`，先构造保留授权范围外设置的请求体。不要将响应中的只读字段原样当成更新 payload。
+获授权且完成快照 / 差异检查后，新规则使用 `POST /repos/RadishIntelligence/RadishUI/rulesets`；既有规则使用其具体 ID 的 `PUT`。输入只包含可写字段，不能把响应中的 ID、来源、时间等原样回传。仅当实际五字段设置与 [repository-settings.json](../repository-settings.json) 有差异时应用对应设置，不制造无变化的写入。
+
+本批不要求推送源码或合并 PR；规范修改是否提交、推送仍分别按会话授权处理。当前存在的历史提交标题问题需独立解决，不能借本次权限调整放宽提交检查或绕过 master CI。
 
 ## 回滚与边界
 
-远端回滚需要对应授权：恢复快照中的可写设置；更新既有 Ruleset 的原值，或仅禁用本次新建的精确 Ruleset ID。先诊断 context 缺失、配置错误或调度失败，不通过删除 required check 掩盖真实失败。仓库内问题以新修复或 revert 提交处理，不 force push 共享历史。
+远端回滚需对应授权。使用 before 快照恢复既有 master Ruleset 的可写字段，仅禁用本次新增的具体 Ruleset ID；先检查依赖与当前活动，避免先移除保护导致普通成员短暂获得共享分支写权限。恢复本次调整的成员权限时应保留原先已有的直接 / 团队授权，不删除无关权限；删除新建团队前先确认未被其他规则引用、未加入新成员或绑定其他仓库。
 
-本工作流没有部署、Release、包发布或 tag 触发；Vercel Git 集成独立存在，`dev` push 可能产生预览，合并到 `master` 会触发生产部署。私密漏洞报告和安全扫描属于另一组远端设置；本模板不会替维护者开启它们。
+先诊断配置、context 或调度失败，不通过移除 required checks 掩盖失败。源码问题用修复或 revert 提交处理，不 force push 共享历史。拥有规则管理权限的人能修改规则，因此“只有所有者可集成”也依赖该权限不授予普通成员。
+
+规则修改本身不推送分支、不部署、不创建 Release 或 tag。Vercel Git 集成独立存在，dev push 可能产生预览，master 合并会触发生产部署；DNS、托管、安全扫描与包发布均不在本批范围。
 
 ## 来源与官方参考
 
@@ -64,3 +62,5 @@ gh api repos/RadishIntelligence/RadishUI/rulesets --method POST \
 核对日期为 2026-11-03；SHA 固定不等于持续安全审计，升级时重新核对来源、输入与运行要求。
 
 GitHub 官方依据：[Rules API](https://docs.github.com/en/rest/repos/rules)、[可用 Ruleset 规则](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/available-rules-for-rulesets)、[Actions 安全使用](https://docs.github.com/en/actions/reference/security/secure-use)。模板字段、strict 与 bypass 含义随平台演进，远端写入前按实际 API 再核对。
+
+2026-11-06 规则更新依据另核对 [Ruleset 叠加](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/about-rulesets)、[团队与 PR-only bypass](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/creating-rulesets-for-a-repository)及 [Teams API](https://docs.github.com/en/rest/teams/teams)。更新限制请求显式设置 `update_allows_fetch_and_merge: false`；本仓库 API 回读省略该默认参数，比对时只对该缺省 false 做归一化，不忽略显式 true 或其他差异。

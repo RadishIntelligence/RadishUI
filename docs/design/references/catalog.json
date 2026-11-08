@@ -1,0 +1,808 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-11-03",
+  "uniqueReferences": 48,
+  "sourceFiles": 83,
+  "imagePolicy": "local-private-only",
+  "references": [
+    {
+      "id": "ref-01",
+      "title": "电商客户列表 + KPI 卡",
+      "learn": "KPI 卡结构（图标 + 标签 + 大数字 + 趋势小 chip）、表格行内下拉、软色状态 chip、pill 筛选器",
+      "avoid": "品牌、业务指标与完整页面组合",
+      "aliases": [
+        {
+          "project": "RadishX",
+          "path": "docs/design/family-ui/reference-ui/ui-ref-01-ecommerce-orders-table-kpi.png",
+          "sourceCommit": "c0f57aea9ca74569bd342b9bc5b46190f780bc23"
+        }
+      ]
+    },
+    {
+      "id": "ref-02",
+      "title": "同系订单表变体",
+      "learn": "行内操作图标按钮组、价格 chip、分页器形态",
+      "avoid": "品牌、配色与完整页面组合",
+      "aliases": [
+        {
+          "project": "RadishX",
+          "path": "docs/design/family-ui/reference-ui/ui-ref-02-orders-table-row-actions.png",
+          "sourceCommit": "c0f57aea9ca74569bd342b9bc5b46190f780bc23"
+        }
+      ]
+    },
+    {
+      "id": "ref-03",
+      "title": "BoardUI HR 仪表盘",
+      "learn": "侧栏导航（图标 + 文字 + 计数徽标）、人员卡、面积图的克制用色",
+      "avoid": "高饱和蓝色整块 active 态（规范用柔底）",
+      "aliases": [
+        {
+          "project": "RadishX",
+          "path": "docs/design/family-ui/reference-ui/ui-ref-03-hr-dashboard-sidebar-revenue.png",
+          "sourceCommit": "c0f57aea9ca74569bd342b9bc5b46190f780bc23"
+        }
+      ]
+    },
+    {
+      "id": "ref-04",
+      "title": "任务看板 + 详情浮层",
+      "learn": "看板卡片信息层级、详情浮层的字段行结构、子任务嵌套、评论区",
+      "avoid": "紫色 accent",
+      "aliases": [
+        {
+          "project": "RadishX",
+          "path": "docs/design/family-ui/reference-ui/ui-ref-04-kanban-task-detail-overlay.jpeg",
+          "sourceCommit": "c0f57aea9ca74569bd342b9bc5b46190f780bc23"
+        }
+      ]
+    },
+    {
+      "id": "ref-05",
+      "title": "AFFiNE 设置（中文）",
+      "learn": "设置页左导航 + 右表单分区、浅色 / 深色 / 跟随系统三态、中文界面排版密度",
+      "avoid": "品牌、配色与完整页面组合",
+      "aliases": [
+        {
+          "project": "Radish",
+          "path": "Docs/frontend/reference-ui/affine-settings-modal-appearance.png",
+          "sourceCommit": "97e9c4a696d671d768ab77f0048cc9496ac73cc8"
+        },
+        {
+          "project": "RadishFlow",
+          "path": "docs/architecture/assets/studio-ui/inspiration-20260522/affine-settings-modal-appearance.png",
+          "sourceCommit": "75635828b21620f76994cd99cdf493d61f22851d"
+        },
+        {
+          "project": "RadishMind",
+          "path": "docs/assets/ui-design-reference/affine-settings-modal-20260522210047.png",
+          "sourceCommit": "ebc614a98f10c79627a680d9607ac900e1c0c916"
+        },
+        {
+          "project": "RadishX",
+          "path": "docs/design/family-ui/reference-ui/ui-ref-05-affine-settings-appearance.png",
+          "sourceCommit": "c0f57aea9ca74569bd342b9bc5b46190f780bc23"
+        }
+      ]
+    },
+    {
+      "id": "ref-06",
+      "title": "CloseCRM 工作流列表",
+      "learn": "列表页工具条（筛选 + 视图切换 + 搜索 + 导入）、行内 toggle、Active/Paused 状态语义",
+      "avoid": "紫蓝 accent",
+      "aliases": [
+        {
+          "project": "RadishX",
+          "path": "docs/design/family-ui/reference-ui/ui-ref-06-crm-workflows-list-toggles.png",
+          "sourceCommit": "c0f57aea9ca74569bd342b9bc5b46190f780bc23"
+        }
+      ]
+    },
+    {
+      "id": "ref-07",
+      "title": "FlowAI 仪表盘",
+      "learn": "KPI 卡 + 主表格 + 模板卡三段式页面节奏、成功率数值分级着色",
+      "avoid": "品牌、配色与完整页面组合",
+      "aliases": [
+        {
+          "project": "RadishX",
+          "path": "docs/design/family-ui/reference-ui/ui-ref-07-automation-dashboard-kpi-table.png",
+          "sourceCommit": "c0f57aea9ca74569bd342b9bc5b46190f780bc23"
+        }
+      ]
+    },
+    {
+      "id": "ref-08",
+      "title": "FlowAI 通知面板",
+      "learn": "通知抽屉：severity tab 计数、条目 = 图标 + 标题 + 摘要 + 时间 + 级别 chip",
+      "avoid": "荧光色",
+      "aliases": [
+        {
+          "project": "RadishX",
+          "path": "docs/design/family-ui/reference-ui/ui-ref-08-notification-panel-severity.png",
+          "sourceCommit": "c0f57aea9ca74569bd342b9bc5b46190f780bc23"
+        }
+      ]
+    },
+    {
+      "id": "ref-09",
+      "title": "FlowAI 仪表盘全景",
+      "learn": "整页布局比例：侧栏 / 主区 / 卡片间距节奏",
+      "avoid": "品牌、配色与完整页面组合",
+      "aliases": [
+        {
+          "project": "RadishX",
+          "path": "docs/design/family-ui/reference-ui/ui-ref-09-automation-dashboard-full.png",
+          "sourceCommit": "c0f57aea9ca74569bd342b9bc5b46190f780bc23"
+        }
+      ]
+    },
+    {
+      "id": "ref-10",
+      "title": "日程可用性编辑器",
+      "learn": "极简行式表单、toggle + 多时段行 + 行内增删复制、发丝分隔线",
+      "avoid": "品牌、配色与完整页面组合",
+      "aliases": [
+        {
+          "project": "RadishX",
+          "path": "docs/design/family-ui/reference-ui/ui-ref-10-availability-schedule-editor.png",
+          "sourceCommit": "c0f57aea9ca74569bd342b9bc5b46190f780bc23"
+        }
+      ]
+    },
+    {
+      "id": "ref-11",
+      "title": "事故详情右栏",
+      "learn": "详情侧栏字段行（label 左、值右）、外部集成入口的克制形态",
+      "avoid": "品牌、配色与完整页面组合",
+      "aliases": [
+        {
+          "project": "RadishX",
+          "path": "docs/design/family-ui/reference-ui/ui-ref-11-incident-details-sidebar.jpeg",
+          "sourceCommit": "c0f57aea9ca74569bd342b9bc5b46190f780bc23"
+        }
+      ]
+    },
+    {
+      "id": "ref-12",
+      "title": "事故页 + 时间线",
+      "learn": "状态迁移时间线（旧态删除线 → 新态）、Resolved/High 状态语义并置、tab 分段",
+      "avoid": "橙色品牌 accent",
+      "aliases": [
+        {
+          "project": "RadishX",
+          "path": "docs/design/family-ui/reference-ui/ui-ref-12-incident-timeline-updates.jpeg",
+          "sourceCommit": "c0f57aea9ca74569bd342b9bc5b46190f780bc23"
+        }
+      ]
+    },
+    {
+      "id": "ref-13",
+      "title": "Lynk 订单履约",
+      "learn": "多段进度条 + 当前步骤说明 + ETA、SKU 引用 chip、金额右对齐",
+      "avoid": "蓝色 chip 配色",
+      "aliases": [
+        {
+          "project": "RadishX",
+          "path": "docs/design/family-ui/reference-ui/ui-ref-13-order-fulfillment-progress.jpeg",
+          "sourceCommit": "c0f57aea9ca74569bd342b9bc5b46190f780bc23"
+        }
+      ]
+    },
+    {
+      "id": "ref-14",
+      "title": "ATS 候选人管理",
+      "learn": "阶段漏斗 KPI 分组、表格列排序指示、来源图标 + 文本双通道表达",
+      "avoid": "紫色主按钮",
+      "aliases": [
+        {
+          "project": "RadishX",
+          "path": "docs/design/family-ui/reference-ui/ui-ref-14-ats-candidates-table-stages.jpeg",
+          "sourceCommit": "c0f57aea9ca74569bd342b9bc5b46190f780bc23"
+        }
+      ]
+    },
+    {
+      "id": "ref-15",
+      "title": "SEO 站点仪表盘",
+      "learn": "等宽字标签风格、柱线混合图、条状分布（keyword bars）、表格数值密度",
+      "avoid": "蓝橙图表色（应按自身母板转译）",
+      "aliases": [
+        {
+          "project": "RadishX",
+          "path": "docs/design/family-ui/reference-ui/ui-ref-15-seo-dashboard-charts.jpeg",
+          "sourceCommit": "c0f57aea9ca74569bd342b9bc5b46190f780bc23"
+        }
+      ]
+    },
+    {
+      "id": "ref-16",
+      "title": "数据源连接向导",
+      "learn": "四步 stepper（编号 → 完成 √ + 连线）、选择卡网格、表单双列、成功状态条、radio 组",
+      "avoid": "蓝色 accent",
+      "aliases": [
+        {
+          "project": "RadishX",
+          "path": "docs/design/family-ui/reference-ui/ui-ref-16-datasource-connection-wizard.jpeg",
+          "sourceCommit": "c0f57aea9ca74569bd342b9bc5b46190f780bc23"
+        }
+      ]
+    },
+    {
+      "id": "ref-17",
+      "title": "Wiko HR 管理仪表盘",
+      "learn": "employee manager 侧栏分组、出勤热力图（小时 × 星期）、设备占比条、KPI + 出勤表格三段",
+      "avoid": "青绿整块高饱和",
+      "aliases": [
+        {
+          "project": "RadishX",
+          "path": "docs/design/family-ui/reference-ui/ui-ref-17-hr-dashboard-attendance-heatmap.jpeg",
+          "sourceCommit": "c0f57aea9ca74569bd342b9bc5b46190f780bc23"
+        }
+      ]
+    },
+    {
+      "id": "ref-18",
+      "title": "律所 claim 工作台 Calendar",
+      "learn": "侧栏功能 + Clients 分组、大字页面标题 + 计数徽章、Day/Week/Month 分段、日历网格",
+      "avoid": "紫色 accent",
+      "aliases": [
+        {
+          "project": "RadishX",
+          "path": "docs/design/family-ui/reference-ui/ui-ref-18-legal-calendar-workspace.jpeg",
+          "sourceCommit": "c0f57aea9ca74569bd342b9bc5b46190f780bc23"
+        }
+      ]
+    },
+    {
+      "id": "ref-19",
+      "title": "文档应用账户菜单",
+      "learn": "账户下拉（头像 + 状态 + 快捷编号）、space 切换子菜单、Appearance / Settings 分组",
+      "avoid": "彩虹渐变头像",
+      "aliases": [
+        {
+          "project": "RadishX",
+          "path": "docs/design/family-ui/reference-ui/ui-ref-19-docs-account-space-switcher.jpeg",
+          "sourceCommit": "c0f57aea9ca74569bd342b9bc5b46190f780bc23"
+        }
+      ]
+    },
+    {
+      "id": "ref-20",
+      "title": "NuxtLabs 深色分析仪表盘",
+      "learn": "**深色主题**：KPI 卡趋势 chip、点阵世界地图、双色柱状图、深底表格；暗色下卡片 / 边框 / 前景层次",
+      "avoid": "品牌、配色与完整页面组合",
+      "aliases": [
+        {
+          "project": "RadishX",
+          "path": "docs/design/family-ui/reference-ui/ui-ref-20-dark-analytics-dashboard.jpeg",
+          "sourceCommit": "c0f57aea9ca74569bd342b9bc5b46190f780bc23"
+        }
+      ]
+    },
+    {
+      "id": "ref-21",
+      "title": "邮件客户端阅读态",
+      "learn": "三栏（文件夹侧栏 + 邮件列表 + 阅读区）、附件卡、存储用量条、日期分组",
+      "avoid": "品牌、配色与完整页面组合",
+      "aliases": [
+        {
+          "project": "RadishX",
+          "path": "docs/design/family-ui/reference-ui/ui-ref-21-email-client-reading.jpeg",
+          "sourceCommit": "c0f57aea9ca74569bd342b9bc5b46190f780bc23"
+        }
+      ]
+    },
+    {
+      "id": "ref-22",
+      "title": "社区发帖器",
+      "learn": "帖子类型分段（Idea/Question/Voice/Visual/Ama）、标题 + 正文 + 标签输入 + 添加、右侧 Active 线索栏",
+      "avoid": "深色主按钮",
+      "aliases": [
+        {
+          "project": "RadishX",
+          "path": "docs/design/family-ui/reference-ui/ui-ref-22-community-new-post-composer.png",
+          "sourceCommit": "c0f57aea9ca74569bd342b9bc5b46190f780bc23"
+        }
+      ]
+    },
+    {
+      "id": "ref-23",
+      "title": "社区内容流 + 成功提示",
+      "learn": "帖子卡片（类型 chip + 标题 + 摘要 + 标签 + 投票 + 反应）、右下成功 toast、Active Now 侧栏",
+      "avoid": "品牌、配色与完整页面组合",
+      "aliases": [
+        {
+          "project": "RadishX",
+          "path": "docs/design/family-ui/reference-ui/ui-ref-23-community-feed-toast.png",
+          "sourceCommit": "c0f57aea9ca74569bd342b9bc5b46190f780bc23"
+        }
+      ]
+    },
+    {
+      "id": "ref-24",
+      "title": "告警运营台",
+      "learn": "Quick Stats（Critical/Active/New/Unack）、Recent Alerts 表（头像 + 来源 + severity）、Alert Activity 双线图、自动刷新提示",
+      "avoid": "紫底展示背景",
+      "aliases": [
+        {
+          "project": "RadishX",
+          "path": "docs/design/family-ui/reference-ui/ui-ref-24-alerts-notifications-ops.jpeg",
+          "sourceCommit": "c0f57aea9ca74569bd342b9bc5b46190f780bc23"
+        }
+      ]
+    },
+    {
+      "id": "ref-25",
+      "title": "项目协作设置",
+      "learn": "账户卡（含 Dark Mode 开关）、上传进度、Invite 权限下拉（can view）、Reset Password 表单、标签 max 提示",
+      "avoid": "品牌、配色与完整页面组合",
+      "aliases": [
+        {
+          "project": "RadishX",
+          "path": "docs/design/family-ui/reference-ui/ui-ref-25-project-share-invite-settings.jpeg",
+          "sourceCommit": "c0f57aea9ca74569bd342b9bc5b46190f780bc23"
+        }
+      ]
+    },
+    {
+      "id": "ref-26",
+      "title": "邮件收件箱（tab + 附件）",
+      "learn": "图标窄侧栏、Inbox/Sent/Drafts/Archive/Spam tab 行、列表勾选、Office 附件卡、认证徽标",
+      "avoid": "品牌、配色与完整页面组合",
+      "aliases": [
+        {
+          "project": "RadishX",
+          "path": "docs/design/family-ui/reference-ui/ui-ref-26-email-inbox-tabs-attachments.jpeg",
+          "sourceCommit": "c0f57aea9ca74569bd342b9bc5b46190f780bc23"
+        }
+      ]
+    },
+    {
+      "id": "ref-27",
+      "title": "客服协作 Inbox",
+      "learn": "会话侧栏（Your inbox/Mentions 计数 + AI Agents 分组 + Team discussion 语音状态）、聊天气泡（深 / 浅双向）、纸纹背景",
+      "avoid": "品牌、配色与完整页面组合",
+      "aliases": [
+        {
+          "project": "RadishX",
+          "path": "docs/design/family-ui/reference-ui/ui-ref-27-support-inbox-chat-agents.jpeg",
+          "sourceCommit": "c0f57aea9ca74569bd342b9bc5b46190f780bc23"
+        }
+      ]
+    },
+    {
+      "id": "ref-28",
+      "title": "AFFiNE 文档列表",
+      "learn": "连续列表、导航与辅助区比例",
+      "avoid": "品牌、配色、图片、文案与完整页面组合",
+      "aliases": [
+        {
+          "project": "Radish",
+          "path": "Docs/frontend/reference-ui/affine-docs-list-three-pane.png",
+          "sourceCommit": "97e9c4a696d671d768ab77f0048cc9496ac73cc8"
+        },
+        {
+          "project": "RadishFlow",
+          "path": "docs/architecture/assets/studio-ui/inspiration-20260522/affine-doc-list-sidebar-calendar.png",
+          "sourceCommit": "75635828b21620f76994cd99cdf493d61f22851d"
+        },
+        {
+          "project": "RadishMind",
+          "path": "docs/assets/ui-design-reference/affine-docs-list-calendar-20260522210036.png",
+          "sourceCommit": "ebc614a98f10c79627a680d9607ac900e1c0c916"
+        }
+      ]
+    },
+    {
+      "id": "ref-29",
+      "title": "AFFiNE 文档编辑",
+      "learn": "正文宽度、属性与元信息关系",
+      "avoid": "品牌、配色、图片、文案与完整页面组合",
+      "aliases": [
+        {
+          "project": "Radish",
+          "path": "Docs/frontend/reference-ui/affine-document-editor-properties.png",
+          "sourceCommit": "97e9c4a696d671d768ab77f0048cc9496ac73cc8"
+        },
+        {
+          "project": "RadishFlow",
+          "path": "docs/architecture/assets/studio-ui/inspiration-20260522/affine-document-properties-editor.png",
+          "sourceCommit": "75635828b21620f76994cd99cdf493d61f22851d"
+        },
+        {
+          "project": "RadishMind",
+          "path": "docs/assets/ui-design-reference/affine-document-properties-20260522210158.png",
+          "sourceCommit": "ebc614a98f10c79627a680d9607ac900e1c0c916"
+        }
+      ]
+    },
+    {
+      "id": "ref-30",
+      "title": "Cloudflare 访问概览",
+      "learn": "任务与辅助事实分工",
+      "avoid": "品牌、配色、图片、文案与完整页面组合",
+      "aliases": [
+        {
+          "project": "Radish",
+          "path": "Docs/frontend/reference-ui/cloudflare-access-overview-workflow.png",
+          "sourceCommit": "97e9c4a696d671d768ab77f0048cc9496ac73cc8"
+        },
+        {
+          "project": "RadishFlow",
+          "path": "docs/architecture/assets/studio-ui/inspiration-20260522/cloudflare-access-overview-actions-metrics.png",
+          "sourceCommit": "75635828b21620f76994cd99cdf493d61f22851d"
+        },
+        {
+          "project": "RadishMind",
+          "path": "docs/assets/ui-design-reference/cloudflare-access-control-list-20260522214117.png",
+          "sourceCommit": "ebc614a98f10c79627a680d9607ac900e1c0c916"
+        }
+      ]
+    },
+    {
+      "id": "ref-31",
+      "title": "Cloudflare 账户分析",
+      "learn": "指标与趋势的分组关系",
+      "avoid": "品牌、配色、图片、文案与完整页面组合",
+      "aliases": [
+        {
+          "project": "Radish",
+          "path": "Docs/frontend/reference-ui/cloudflare-account-analytics-dashboard.png",
+          "sourceCommit": "97e9c4a696d671d768ab77f0048cc9496ac73cc8"
+        },
+        {
+          "project": "RadishFlow",
+          "path": "docs/architecture/assets/studio-ui/inspiration-20260522/cloudflare-account-home-analytics-cards.png",
+          "sourceCommit": "75635828b21620f76994cd99cdf493d61f22851d"
+        },
+        {
+          "project": "RadishMind",
+          "path": "docs/assets/ui-design-reference/onepanel-analytics-dashboard-20260522213828.png",
+          "sourceCommit": "ebc614a98f10c79627a680d9607ac900e1c0c916"
+        }
+      ]
+    },
+    {
+      "id": "ref-32",
+      "title": "Codex App 浏览器权限",
+      "learn": "行级设置、说明与危险操作区分",
+      "avoid": "品牌、配色、图片、文案与完整页面组合",
+      "aliases": [
+        {
+          "project": "Radish",
+          "path": "Docs/frontend/reference-ui/codex-browser-permission-settings.png",
+          "sourceCommit": "97e9c4a696d671d768ab77f0048cc9496ac73cc8"
+        },
+        {
+          "project": "RadishFlow",
+          "path": "docs/architecture/assets/studio-ui/inspiration-20260522/codex-connection-permissions-detail.png",
+          "sourceCommit": "75635828b21620f76994cd99cdf493d61f22851d"
+        },
+        {
+          "project": "RadishMind",
+          "path": "docs/assets/ui-design-reference/codexapp-browser-permissions-20260522220246.png",
+          "sourceCommit": "ebc614a98f10c79627a680d9607ac900e1c0c916"
+        }
+      ]
+    },
+    {
+      "id": "ref-33",
+      "title": "Codex App 通用设置",
+      "learn": "内容列、分组与字段留白",
+      "avoid": "品牌、配色、图片、文案与完整页面组合",
+      "aliases": [
+        {
+          "project": "Radish",
+          "path": "Docs/frontend/reference-ui/codex-settings-general-permissions.png",
+          "sourceCommit": "97e9c4a696d671d768ab77f0048cc9496ac73cc8"
+        },
+        {
+          "project": "RadishFlow",
+          "path": "docs/architecture/assets/studio-ui/inspiration-20260522/codex-settings-general-permissions.png",
+          "sourceCommit": "75635828b21620f76994cd99cdf493d61f22851d"
+        },
+        {
+          "project": "RadishMind",
+          "path": "docs/assets/ui-design-reference/codexapp-settings-general-20260522220204.png",
+          "sourceCommit": "ebc614a98f10c79627a680d9607ac900e1c0c916"
+        }
+      ]
+    },
+    {
+      "id": "ref-34",
+      "title": "Discourse 管理活动",
+      "learn": "连续统计与后台信息密度",
+      "avoid": "品牌、配色、图片、文案与完整页面组合",
+      "aliases": [
+        {
+          "project": "Radish",
+          "path": "Docs/frontend/reference-ui/discourse-admin-activity-dashboard.png",
+          "sourceCommit": "97e9c4a696d671d768ab77f0048cc9496ac73cc8"
+        },
+        {
+          "project": "RadishFlow",
+          "path": "docs/architecture/assets/studio-ui/inspiration-20260522/onepanel-file-manager-table.png",
+          "sourceCommit": "75635828b21620f76994cd99cdf493d61f22851d"
+        },
+        {
+          "project": "RadishMind",
+          "path": "docs/assets/ui-design-reference/discourse-admin-dashboard-20260522215935.png",
+          "sourceCommit": "ebc614a98f10c79627a680d9607ac900e1c0c916"
+        }
+      ]
+    },
+    {
+      "id": "ref-35",
+      "title": "Discourse 流量分析",
+      "learn": "图表、坐标、时间与分组标题",
+      "avoid": "品牌、配色、图片、文案与完整页面组合",
+      "aliases": [
+        {
+          "project": "Radish",
+          "path": "Docs/frontend/reference-ui/discourse-admin-traffic-analytics.png",
+          "sourceCommit": "97e9c4a696d671d768ab77f0048cc9496ac73cc8"
+        },
+        {
+          "project": "RadishFlow",
+          "path": "docs/architecture/assets/studio-ui/inspiration-20260522/onepanel-app-store-grid.png",
+          "sourceCommit": "75635828b21620f76994cd99cdf493d61f22851d"
+        },
+        {
+          "project": "RadishMind",
+          "path": "docs/assets/ui-design-reference/discourse-site-analytics-20260522215943.png",
+          "sourceCommit": "ebc614a98f10c79627a680d9607ac900e1c0c916"
+        }
+      ]
+    },
+    {
+      "id": "ref-36",
+      "title": "Discourse 频道聊天",
+      "learn": "频道、消息流与输入区的稳定关系",
+      "avoid": "品牌、配色、图片、文案与完整页面组合",
+      "aliases": [
+        {
+          "project": "Radish",
+          "path": "Docs/frontend/reference-ui/discourse-chat-channel-layout.png",
+          "sourceCommit": "97e9c4a696d671d768ab77f0048cc9496ac73cc8"
+        },
+        {
+          "project": "RadishFlow",
+          "path": "docs/architecture/assets/studio-ui/inspiration-20260522/discourse-chat-channel-thread.png",
+          "sourceCommit": "75635828b21620f76994cd99cdf493d61f22851d"
+        },
+        {
+          "project": "RadishMind",
+          "path": "docs/assets/ui-design-reference/discourse-chat-thread-20260522214411.png",
+          "sourceCommit": "ebc614a98f10c79627a680d9607ac900e1c0c916"
+        }
+      ]
+    },
+    {
+      "id": "ref-37",
+      "title": "Discourse 话题列表",
+      "learn": "标题、标签、计数与元信息层次",
+      "avoid": "品牌、配色、图片、文案与完整页面组合",
+      "aliases": [
+        {
+          "project": "Radish",
+          "path": "Docs/frontend/reference-ui/discourse-topic-list-community.png",
+          "sourceCommit": "97e9c4a696d671d768ab77f0048cc9496ac73cc8"
+        },
+        {
+          "project": "RadishFlow",
+          "path": "docs/architecture/assets/studio-ui/inspiration-20260522/discourse-topic-list-categories.png",
+          "sourceCommit": "75635828b21620f76994cd99cdf493d61f22851d"
+        },
+        {
+          "project": "RadishMind",
+          "path": "docs/assets/ui-design-reference/discourse-topic-list-20260522214335.png",
+          "sourceCommit": "ebc614a98f10c79627a680d9607ac900e1c0c916"
+        }
+      ]
+    },
+    {
+      "id": "ref-38",
+      "title": "GitHub 账户设置",
+      "learn": "长设置页的分组与段落节奏",
+      "avoid": "品牌、配色、图片、文案与完整页面组合",
+      "aliases": [
+        {
+          "project": "Radish",
+          "path": "Docs/frontend/reference-ui/github-account-settings-content.png",
+          "sourceCommit": "97e9c4a696d671d768ab77f0048cc9496ac73cc8"
+        },
+        {
+          "project": "RadishFlow",
+          "path": "docs/architecture/assets/studio-ui/inspiration-20260522/github-account-settings-sections.png",
+          "sourceCommit": "75635828b21620f76994cd99cdf493d61f22851d"
+        },
+        {
+          "project": "RadishMind",
+          "path": "docs/assets/ui-design-reference/github-account-settings-20260522214216.png",
+          "sourceCommit": "ebc614a98f10c79627a680d9607ac900e1c0c916"
+        }
+      ]
+    },
+    {
+      "id": "ref-39",
+      "title": "GitHub 仓库列表",
+      "learn": "对象标题与元信息的扫描顺序",
+      "avoid": "品牌、配色、图片、文案与完整页面组合",
+      "aliases": [
+        {
+          "project": "Radish",
+          "path": "Docs/frontend/reference-ui/github-profile-repository-list.png",
+          "sourceCommit": "97e9c4a696d671d768ab77f0048cc9496ac73cc8"
+        },
+        {
+          "project": "RadishFlow",
+          "path": "docs/architecture/assets/studio-ui/inspiration-20260522/github-profile-repository-list.png",
+          "sourceCommit": "75635828b21620f76994cd99cdf493d61f22851d"
+        },
+        {
+          "project": "RadishMind",
+          "path": "docs/assets/ui-design-reference/github-profile-repositories-20260522214151.png",
+          "sourceCommit": "ebc614a98f10c79627a680d9607ac900e1c0c916"
+        }
+      ]
+    },
+    {
+      "id": "ref-40",
+      "title": "GitHub 文件列表",
+      "learn": "连续行、工具栏与摘要关系",
+      "avoid": "品牌、配色、图片、文案与完整页面组合",
+      "aliases": [
+        {
+          "project": "Radish",
+          "path": "Docs/frontend/reference-ui/github-repository-code-list.png",
+          "sourceCommit": "97e9c4a696d671d768ab77f0048cc9496ac73cc8"
+        },
+        {
+          "project": "RadishFlow",
+          "path": "docs/architecture/assets/studio-ui/inspiration-20260522/github-repository-file-list-about.png",
+          "sourceCommit": "75635828b21620f76994cd99cdf493d61f22851d"
+        },
+        {
+          "project": "RadishMind",
+          "path": "docs/assets/ui-design-reference/github-repository-file-list-20260522214140.png",
+          "sourceCommit": "ebc614a98f10c79627a680d9607ac900e1c0c916"
+        }
+      ]
+    },
+    {
+      "id": "ref-41",
+      "title": "MiMo Code 桌面内容一",
+      "learn": "技术内容承托与低强度背景边界",
+      "avoid": "品牌、配色、图片、文案与完整页面组合",
+      "aliases": [
+        {
+          "project": "Radish",
+          "path": "Docs/frontend/reference-ui/mimo-code-feature-desktop-1.png",
+          "sourceCommit": "97e9c4a696d671d768ab77f0048cc9496ac73cc8"
+        }
+      ]
+    },
+    {
+      "id": "ref-42",
+      "title": "MiMo Code 桌面内容二",
+      "learn": "展示标题、正文与媒体留白",
+      "avoid": "品牌、配色、图片、文案与完整页面组合",
+      "aliases": [
+        {
+          "project": "Radish",
+          "path": "Docs/frontend/reference-ui/mimo-code-feature-desktop-2.png",
+          "sourceCommit": "97e9c4a696d671d768ab77f0048cc9496ac73cc8"
+        }
+      ]
+    },
+    {
+      "id": "ref-43",
+      "title": "MiMo Code 桌面展示",
+      "learn": "小面积强调与有限品牌表现",
+      "avoid": "品牌、配色、图片、文案与完整页面组合",
+      "aliases": [
+        {
+          "project": "Radish",
+          "path": "Docs/frontend/reference-ui/mimo-code-hero-desktop.png",
+          "sourceCommit": "97e9c4a696d671d768ab77f0048cc9496ac73cc8"
+        }
+      ]
+    },
+    {
+      "id": "ref-44",
+      "title": "MiMo Code 移动内容",
+      "learn": "窄屏图文层级与浮动入口避让",
+      "avoid": "品牌、配色、图片、文案与完整页面组合",
+      "aliases": [
+        {
+          "project": "Radish",
+          "path": "Docs/frontend/reference-ui/mimo-code-mobile-feature-list.png",
+          "sourceCommit": "97e9c4a696d671d768ab77f0048cc9496ac73cc8"
+        }
+      ]
+    },
+    {
+      "id": "ref-45",
+      "title": "MiMo Code 移动展示",
+      "learn": "移动端装饰降密与主内容优先",
+      "avoid": "品牌、配色、图片、文案与完整页面组合",
+      "aliases": [
+        {
+          "project": "Radish",
+          "path": "Docs/frontend/reference-ui/mimo-code-mobile-hero-feature.png",
+          "sourceCommit": "97e9c4a696d671d768ab77f0048cc9496ac73cc8"
+        }
+      ]
+    },
+    {
+      "id": "ref-46",
+      "title": "1Panel 应用列表",
+      "learn": "独立对象的卡片、筛选与分页关系",
+      "avoid": "品牌、配色、图片、文案与完整页面组合",
+      "aliases": [
+        {
+          "project": "Radish",
+          "path": "Docs/frontend/reference-ui/onepanel-app-store-card-grid.png",
+          "sourceCommit": "97e9c4a696d671d768ab77f0048cc9496ac73cc8"
+        },
+        {
+          "project": "RadishFlow",
+          "path": "docs/architecture/assets/studio-ui/inspiration-20260522/discourse-admin-traffic-analytics.png",
+          "sourceCommit": "75635828b21620f76994cd99cdf493d61f22851d"
+        },
+        {
+          "project": "RadishMind",
+          "path": "docs/assets/ui-design-reference/onepanel-app-store-20260522215756.png",
+          "sourceCommit": "ebc614a98f10c79627a680d9607ac900e1c0c916"
+        }
+      ]
+    },
+    {
+      "id": "ref-47",
+      "title": "1Panel 文件管理",
+      "learn": "连续表格、路径与行操作",
+      "avoid": "品牌、配色、图片、文案与完整页面组合",
+      "aliases": [
+        {
+          "project": "Radish",
+          "path": "Docs/frontend/reference-ui/onepanel-file-manager-table.png",
+          "sourceCommit": "97e9c4a696d671d768ab77f0048cc9496ac73cc8"
+        },
+        {
+          "project": "RadishFlow",
+          "path": "docs/architecture/assets/studio-ui/inspiration-20260522/discourse-admin-dashboard-activity.png",
+          "sourceCommit": "75635828b21620f76994cd99cdf493d61f22851d"
+        },
+        {
+          "project": "RadishMind",
+          "path": "docs/assets/ui-design-reference/onepanel-file-manager-20260522215732.png",
+          "sourceCommit": "ebc614a98f10c79627a680d9607ac900e1c0c916"
+        }
+      ]
+    },
+    {
+      "id": "ref-48",
+      "title": "1Panel 监控",
+      "learn": "时间范围、曲线与多图表标题",
+      "avoid": "品牌、配色、图片、文案与完整页面组合",
+      "aliases": [
+        {
+          "project": "Radish",
+          "path": "Docs/frontend/reference-ui/onepanel-monitoring-dashboard-charts.png",
+          "sourceCommit": "97e9c4a696d671d768ab77f0048cc9496ac73cc8"
+        },
+        {
+          "project": "RadishFlow",
+          "path": "docs/architecture/assets/studio-ui/inspiration-20260522/onepanel-monitoring-dashboard-charts.png",
+          "sourceCommit": "75635828b21620f76994cd99cdf493d61f22851d"
+        },
+        {
+          "project": "RadishMind",
+          "path": "docs/assets/ui-design-reference/onepanel-metrics-monitoring-20260522220028.png",
+          "sourceCommit": "ebc614a98f10c79627a680d9607ac900e1c0c916"
+        }
+      ]
+    }
+  ]
+}

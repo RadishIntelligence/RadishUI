@@ -7,6 +7,11 @@
 - [协作](development/collaboration.md)：任务执行、授权、文档归位与交接。
 - [仓库治理](development/repository-governance.md)：基础文件、Git / PR、验证与 CI 契约。
 - [设计系统契约](development/design-system.md)：通用边界、token、组件、视觉验收和版本采用。
+- [版本策略](development/versioning.md)：家族日历版本、npm 映射、tag 与发布前置。
+- [F-02 视觉与资料归集方案](features/visual-baseline-proposal.md)：兄弟项目现状、视觉基准候选、代表页、首批组件与本仓研究进度（设计优先，跨仓尝试已撤回）。
+- [家族设计资料](design/README.md)：通用基础、参考索引、原生候选及来源 / 撤回记录。
+- [设计条例与约束](design/design-rules.md)：标题、交互辨识、密度与风格的默认规则，以及参考图提炼建议和适用例外。
+- [首批 React 组件](features/react-workbench-components.md)、[三代表页运行范例](features/workbench-preview.md)：本仓实施合同、实际行为与验收进度。
 - [ADR 0001](adr/0001-branch-and-pr-governance.md)：分支、合并、回流与 Ruleset 决策。
 - [GitHub 设置与 Rulesets](../.github/rulesets/README.md)：远端目标、启用顺序和回滚。
 - [初始化目标](features/bootstrap.md)：首批范围与验收。
@@ -23,7 +28,7 @@
 | --- | --- |
 | `planning/roadmap.md` | 项目整体规划 |
 | `planning/topics.md` 的四个稳定章节 | 大专题，定义价值、能力边界、依赖和完成条件 |
-| [Token 基础](features/token-foundation.md)、[React Button](features/react-button.md)、[展示范例](features/docs-preview.md)、仓库治理、部署说明、初始化验收 | 子专题，主要归属和状态入口在专题地图登记；保留原路径 |
+| [Token 基础](features/token-foundation.md)、[首批 React 组件](features/react-workbench-components.md)、[三代表页](features/workbench-preview.md)、视觉方案、仓库治理、部署说明、初始化验收 | 子专题，主要归属和状态入口在专题地图登记；P0 Button / 展示页保留历史验收身份 |
 | 架构、设计系统契约、协作规范与 ADR | 专题共同引用的规范与决策，不强行增加功能层级 |
 | current 与 devlogs | 当前调度与历史证据，不作为平行整体规划或任务库 |
 
