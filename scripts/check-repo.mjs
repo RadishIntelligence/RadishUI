@@ -12,6 +12,7 @@ const required = [
   'docs/features/token-foundation.md', 'docs/features/react-button.md', 'docs/features/docs-preview.md',
   'docs/development/collaboration.md',
   'docs/development/repository-governance.md', 'docs/development/design-system.md',
+  'docs/development/versioning.md',
   'docs/adr/0001-branch-and-pr-governance.md', 'docs/architecture/overview.md',
   'docs/deployment/hosting.md', 'docs/features/bootstrap.md',
   '.github/PULL_REQUEST_TEMPLATE.md', '.github/ISSUE_TEMPLATE/config.yml',
@@ -152,6 +153,16 @@ export function checkHistory(cwd, baseRef, headRef = 'HEAD') {
   }
 }
 
+export function checkVersions(rootPackage, packages, lockfile) {
+  const version = rootPackage.version;
+  assert.match(version, /^\d{2}\.(?:[1-9]|1[0-2])\.(?:[1-9]\d*)$/, `工作区版本不符合日历格式 vYY.M.RELEASE：${version}`);
+  for (const [file, pkg] of Object.entries(packages)) assert.equal(pkg.version, version, `${file} 版本与根包不一致`);
+  assert.equal(lockfile.version, version, 'package-lock.json 根版本不一致');
+  for (const key of ['', 'apps/docs', 'packages/react', 'packages/tokens']) {
+    assert.equal(lockfile.packages?.[key]?.version, version, `package-lock.json ${key || '根包'} 版本不一致`);
+  }
+}
+
 function main() {
   const args = process.argv.slice(2);
   const options = {};
@@ -192,6 +203,11 @@ function main() {
     allow_squash_merge: false, delete_branch_on_merge: false,
   });
   const pkg = JSON.parse(read('package.json'));
+  checkVersions(pkg, {
+    'packages/react/package.json': JSON.parse(read('packages/react/package.json')),
+    'packages/tokens/package.json': JSON.parse(read('packages/tokens/package.json')),
+    'apps/docs/package.json': JSON.parse(read('apps/docs/package.json')),
+  }, JSON.parse(read('package-lock.json')));
   assert.equal(pkg.engines.node, '24.x');
   assert(/^24\.\d+\.\d+$/.test(read('.node-version').trim()), '.node-version 应固定 Node 24 的完整版本');
   assert.equal(pkg.scripts['check:repo'], 'node scripts/check-repo.mjs');

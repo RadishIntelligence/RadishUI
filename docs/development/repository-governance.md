@@ -14,7 +14,7 @@
 | `.github/workflows/pr-check.yml` | 现有工程能力的 PR 检查 |
 | `.github/rulesets/` 与 `.github/repository-settings.json` | 可审阅的远端目标模板，均不自动生效 |
 
-当前不新增 `LICENSE` 或声明开源许可。字体、图标、截图、第三方和兄弟项目资产须逐项确认来源与许可；公共仓库、内部 workspace 包名和 `0.1.0` 均不代表发行承诺。
+当前不新增 `LICENSE` 或声明开源许可。字体、图标、截图、第三方和兄弟项目资产须逐项确认来源与许可；公共仓库、内部 workspace 包名和当前内部版本 `26.11.1` 均不代表发行承诺；版本规则见[版本策略](versioning.md)。
 
 ## Git 与 PR 闭环
 

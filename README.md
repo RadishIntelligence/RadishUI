@@ -46,6 +46,6 @@ npm run build
 
 在线工程预览：[ui.radishx.com](https://ui.radishx.com/)。本轮工作区尚未部署，线上仍是此前 master 的工程预览；当前实现与验收见[三代表页专题](docs/features/workbench-preview.md)。
 
-[整体规划](docs/planning/roadmap.md) · [专题地图](docs/planning/topics.md) · [当前规划](docs/planning/current.md) · [文档索引](docs/README.md) · [架构](docs/architecture/overview.md) · [协作方式](docs/development/collaboration.md) · [仓库治理](docs/development/repository-governance.md) · [设计系统契约](docs/development/design-system.md) · [贡献指南](CONTRIBUTING.md) · [部署说明](docs/deployment/hosting.md)
+[整体规划](docs/planning/roadmap.md) · [专题地图](docs/planning/topics.md) · [当前规划](docs/planning/current.md) · [文档索引](docs/README.md) · [架构](docs/architecture/overview.md) · [协作方式](docs/development/collaboration.md) · [仓库治理](docs/development/repository-governance.md) · [设计系统契约](docs/development/design-system.md) · [版本策略](docs/development/versioning.md) · [贡献指南](CONTRIBUTING.md) · [部署说明](docs/deployment/hosting.md)
 
 仓库：[RadishIntelligence/RadishUI](https://github.com/RadishIntelligence/RadishUI)。展示站首选 Vercel，GitHub Pages 作为备选；RadishX 提供介绍与入口。具体执行与验证状态以当前规划和部署说明为准。

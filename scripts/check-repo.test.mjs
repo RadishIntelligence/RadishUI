@@ -4,7 +4,7 @@ import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import test from 'node:test';
-import { checkCommit, checkHistory, checkRuleset, checkRulesets, checkText, checkWorkflow, markdownTargets, workflowJobs } from './check-repo.mjs';
+import { checkCommit, checkHistory, checkRuleset, checkRulesets, checkText, checkVersions, checkWorkflow, markdownTargets, workflowJobs } from './check-repo.mjs';
 
 const read = (file) => readFileSync(new URL(`../${file}`, import.meta.url), 'utf8');
 const workflow = read('.github/workflows/pr-check.yml');
@@ -97,6 +97,22 @@ test('真实聚合 shell 仅接受两个组件均成功，拒绝失败、取消�
       }
     }
   } finally { rmSync(directory, { recursive: true, force: true }); }
+});
+
+test('版本校验要求日历版本并保持根、包与 lockfile 一致', () => {
+  const packages = {
+    'packages/react/package.json': { version: '26.11.1' },
+    'packages/tokens/package.json': { version: '26.11.1' },
+    'apps/docs/package.json': { version: '26.11.1' },
+  };
+  const lock = (version) => ({
+    version,
+    packages: { '': { version }, 'apps/docs': { version }, 'packages/react': { version }, 'packages/tokens': { version } },
+  });
+  checkVersions({ version: '26.11.1' }, packages, lock('26.11.1'));
+  assert.throws(() => checkVersions({ version: '0.1.0' }, packages, lock('0.1.0')), /日历格式/);
+  assert.throws(() => checkVersions({ version: '26.11.1' }, { ...packages, 'apps/docs/package.json': { version: '26.11.0' } }, lock('26.11.1')), /apps\/docs/);
+  assert.throws(() => checkVersions({ version: '26.11.1' }, packages, lock('26.11.0')), /package-lock/);
 });
 
 test('提交校验依据真实父节点识别 merge，不接受伪造标题', () => {

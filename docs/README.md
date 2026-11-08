@@ -7,6 +7,7 @@
 - [协作](development/collaboration.md)：任务执行、授权、文档归位与交接。
 - [仓库治理](development/repository-governance.md)：基础文件、Git / PR、验证与 CI 契约。
 - [设计系统契约](development/design-system.md)：通用边界、token、组件、视觉验收和版本采用。
+- [版本策略](development/versioning.md)：家族日历版本、npm 映射、tag 与发布前置。
 - [F-02 视觉与资料归集方案](features/visual-baseline-proposal.md)：兄弟项目现状、视觉基准候选、代表页、首批组件与本仓研究进度（设计优先，跨仓尝试已撤回）。
 - [家族设计资料](design/README.md)：通用基础、参考索引、原生候选及来源 / 撤回记录。
 - [设计条例与约束](design/design-rules.md)：标题、交互辨识、密度与风格的默认规则，以及参考图提炼建议和适用例外。

@@ -1,9 +1,17 @@
 {
   "name": "@radish-ui/tokens",
-  "version": "0.1.0",
+  "version": "26.11.1",
   "private": true,
   "type": "module",
-  "files": ["dist/tokens.css", "src/tokens.json"],
-  "exports": { "./tokens.css": "./dist/tokens.css", "./json": "./src/tokens.json" },
-  "sideEffects": ["**/*.css"]
+  "files": [
+    "dist/tokens.css",
+    "src/tokens.json"
+  ],
+  "exports": {
+    "./tokens.css": "./dist/tokens.css",
+    "./json": "./src/tokens.json"
+  },
+  "sideEffects": [
+    "**/*.css"
+  ]
 }

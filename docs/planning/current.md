@@ -12,6 +12,8 @@
 
 2026-11-08 核对远端与 P2 前置：`dev` 已与 `origin/dev` 同步于 `5d241ed`，领先 `master`（`535e8d7`）37 个提交；11 月 7 日各批“未推送”仅代表当时状态。P2 外部消费 smoke test 已在忽略目录 `output/p2-consumer/` 完成：原样 tarball 中 `@radish-ui/tokens` 缺少 `dist/tokens.css`，外部 `vite build` 失败；给 tokens 包副本增加 `files` 后，Vite 8 + React 19 构建通过，Chrome 156 上 23 项检查通过（明暗 token、filled Select、Dialog 焦点、Toast、loading、Switch、390 无溢出、无 pageerror）。`@radish-ui/react` 仍为源码直发、无 `dist` / 类型声明；严格 tsconfig 下可通过，但更广的消费环境未验证。P2 试点候选、tarball 方案与需要所有者决定的事项见 `output/p2-consumer/PILOT-DECISION.md`；tokens `files` 已修复并复验，所有者选定 RadishX 作为 P2 首个试点产品。About 入口卡已在 RadishX `feature/radishui-about-entry` 实现（`5beaf69`、`3aa32db`），本地构建与 28 项浏览器检查通过，所有者已确认视觉；分支保留，未推送 / 部署，React 包仍源码直发并记录为例外。
 
+2026-11-08 按所有者确认采用家族日历版本策略：RadishUI 内部版本对齐为 `26.11.1`（npm `26.11.1`，文档 / tag 用 `v26.11.1`），根、`@radish-ui/react`、`@radish-ui/tokens`、`@radish-ui/docs` 固定同版本；`private: true` 与 P4 发行门禁不变。规则、格式映射与校验见[版本策略](../development/versioning.md)。
+
 长期目标和阶段出口见[整体规划](roadmap.md)，四个大专题与子专题归属见[专题地图](topics.md)；本页只维护当前顺位，不复制子专题任务表。
 
 本轮构建、依赖审计与三页组合检查见[本周记录](../devlogs/2026-W45.md)；以下远端信息为此前治理 / 部署验收，不代表本轮工作区已上线。
