@@ -1,5 +1,5 @@
 import { useRef, useState, type ReactNode } from 'react';
-import { Avatar, Button, IconButton, FormField, Input, InputOTP, Textarea, Select, RadioGroup, Checkbox, Switch, Tabs, TabsList, TabsContent, StatusBadge, Tag, Skeleton, ConfirmDialog, Dialog, Drawer, Menu, InlineAlert, Toast, Tooltip } from '@radish-ui/react';
+import { Avatar, Button, IconButton, FormField, Input, InputOTP, Textarea, Select, RadioGroup, Checkbox, Switch, Tabs, TabsList, TabsContent, ToggleGroup, StatusBadge, Tag, Skeleton, ConfirmDialog, Dialog, Drawer, Menu, InlineAlert, Toast, Tooltip } from '@radish-ui/react';
 import { ArrowLeft, Check, MoreHorizontal, Plus } from 'lucide-react';
 import type { Translate } from './model';
 import './components.css';
@@ -92,6 +92,8 @@ function SelectionExamples() {
   const [enabled, setEnabled] = useState(true);
   const [radio, setRadio] = useState('standard');
   const [radioHorizontal, setRadioHorizontal] = useState('compact');
+  const [displayOptions, setDisplayOptions] = useState<string[]>(['standard']);
+  const displayLabels: Record<string, string> = { compact: '紧凑', standard: '标准', spacious: '宽松' };
   return <>
     <Example name="RadioGroup" contract="受控 value / onValueChange；options: { value, label, disabled? }[]；orientation: vertical（默认）| horizontal；name、required、disabled。FormField 内自动关联标签、说明与错误。"
       keyboard="Tab 进入当前项，方向键移动并选中，Space 选中；禁用项跳过。"
@@ -118,6 +120,14 @@ function SelectionExamples() {
       keyboard="不进入 Tab 顺序；标签不是操作，除非外层提供真实操作。"
       code={'<Tag>排版</Tag><Tag>English tag</Tag>'}>
       <div className="component-row"><Tag>排版</Tag><Tag>English tag</Tag><Tag>较长标签用于检查窄屏换行与边界</Tag></div>
+    </Example>
+    <Example name="ToggleGroup" contract="type: single（默认）| multiple；value / onValueChange；items: { value, label, disabled? }[]；label、disabled。单选返回 string，多选返回 string[]。"
+      keyboard="Tab 进入组；方向键在项间移动，Space / Enter 切换；禁用项跳过。"
+      code={'<ToggleGroup type="multiple" label="显示选项" value={value} onValueChange={setValue} items={items} />'}>
+      <ToggleGroup type="multiple" label="显示选项" value={displayOptions} onValueChange={setDisplayOptions} items={[
+        { value: 'compact', label: '紧凑' }, { value: 'standard', label: '标准' }, { value: 'spacious', label: '宽松' },
+      ]} />
+      <p role="status">当前：{displayOptions.length ? displayOptions.map(value => displayLabels[value]).join('、') : '未选择'}</p>
     </Example>
     <Example name="Checkbox" contract="原生 checked / defaultChecked、onChange、disabled、required；children 提供可见标签。"
       keyboard="Tab 聚焦、Space 切换；点击整段标签可切换。不提供只读交互，静态结果用文字表达。"
@@ -226,7 +236,7 @@ export function ComponentsPage({ t }: { t: Translate }) {
     <div className="page-title"><h1>{t('组件用法', 'Components')}</h1><a className="text-link component-back" href="#/resources"><ArrowLeft size={16} aria-hidden="true" />{t('资源库', 'Resources')}</a></div>
     <Tabs defaultValue="actions" className="component-groups">
       <TabsList label={t('组件分组', 'Component groups')} items={[{ value: 'actions', label: t('操作', 'Actions') }, { value: 'fields', label: t('字段', 'Fields') }, { value: 'selection', label: t('选择', 'Choice') }, { value: 'feedback', label: t('反馈', 'Feedback') }]} />
-      <p className="component-scope">22 个共享组件 · React 19 内部预览。示例状态仅保留在当前分组，切换分组或离开页面会重置；文案使用中文与 English 合成内容。</p>
+      <p className="component-scope">23 个共享组件 · React 19 内部预览。示例状态仅保留在当前分组，切换分组或离开页面会重置；文案使用中文与 English 合成内容。</p>
       <TabsContent value="actions"><ActionExamples /></TabsContent><TabsContent value="fields"><FieldExamples /></TabsContent><TabsContent value="selection"><SelectionExamples /></TabsContent><TabsContent value="feedback"><FeedbackExamples /></TabsContent>
     </Tabs>
   </section>;

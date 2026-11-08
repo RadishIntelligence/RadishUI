@@ -124,7 +124,6 @@ h1 { font-size: var(--rd-font-size-title); line-height: 1.2; font-weight: 680; l
 .resource-search { position: relative; display: block; width: 236px; }
 .resource-search > svg { position: absolute; top: 50%; left: 12px; transform: translateY(-50%); color: var(--rd-text-secondary); pointer-events: none; }
 .resource-search > .rd-input { border-radius: var(--rd-radius-pill); background: var(--rd-bg-muted); padding-left: 36px; }
-.resources-tabs > .rd-tabs-content[data-state="active"] { display: flex; flex-direction: column; flex: 1; min-height: 0; }
 .resources-layout { flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(0, 1fr) 280px; grid-template-rows: minmax(0, 1fr); gap: 16px; align-items: start; }
 .resources-layout.is-empty { grid-template-columns: minmax(0, 1fr); }
 .resource-table-panel { min-width: 0; min-height: 0; height: 100%; display: flex; flex-direction: column; border: 1px solid var(--rd-border-soft); border-radius: var(--rd-radius-panel); overflow: hidden; }
@@ -132,8 +131,7 @@ h1 { font-size: var(--rd-font-size-title); line-height: 1.2; font-weight: 680; l
 .resource-table-scroll > .empty-state { min-height: 100%; }
 /* Degraded R1: the page becomes the single scroll owner when the list would be unusably short. */
 .resources-page.is-scroll-fallback { height: auto; overflow: visible; }
-.resources-page.is-scroll-fallback .resources-tabs,
-.resources-page.is-scroll-fallback .resources-tabs > .rd-tabs-content[data-state="active"] { flex: none; }
+.resources-page.is-scroll-fallback .resources-tabs { flex: none; }
 .resources-page.is-scroll-fallback .resources-layout { flex: none; }
 .resources-page.is-scroll-fallback .resource-table-panel { height: auto; overflow: visible; }
 .resources-page.is-scroll-fallback .resource-table-scroll { overflow: visible; }
@@ -279,7 +277,7 @@ h1 { font-size: var(--rd-font-size-title); line-height: 1.2; font-weight: 680; l
   .resource-search-tools { flex: auto; width: 100%; justify-content: stretch; gap: 8px; }
   .resource-search { flex: 1; width: auto; min-width: 0; }
   .resource-search-tools > .rd-select { width: auto; min-width: 128px; max-width: 100%; }
-  .resources-tabs .rd-tabs-list { width: fit-content; }
+  .resources-tabs .rd-toggle-group { width: fit-content; }
   .resource-table { display: none; }
   .resource-mobile-list { display: block; list-style: none; padding: 0; }
   .resource-mobile-list > li { display: flex; align-items: center; gap: 8px; padding: 12px; border-bottom: 1px solid var(--rd-border-soft); }

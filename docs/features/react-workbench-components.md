@@ -22,6 +22,7 @@
 | Checkbox / Switch | Checkbox 保留原生表单与键盘行为，Switch 使用受控 checked / onCheckedChange；标签、禁用、焦点与选择状态分别表达 |
 | InputOTP | 受控 value / onValueChange、label、length（默认 6）、hint / error、required、disabled、autoFocus、name、onEnterPress；数字输入、自动前进、退格 / 方向键 / Home / End、粘贴；每格为标准正方格并可访问，`name` 提交隐藏的完整值 |
 | RadioGroup | 受控 value / onValueChange，options: { value, label, disabled? }[]；orientation: vertical（默认）/ horizontal；name、required、disabled；FormField 内自动关联标签、说明与错误；方向键移动即选中，单项 label 使用字符串保证可访问名称 |
+| ToggleGroup | 单选使用 radiogroup / radio 语义，多选使用 toolbar / button + aria-pressed；受控 value / onValueChange，items: { value, label, disabled? }[]，label、disabled |
 | Tabs | 受控或非受控 Root，配合 TabsList / TabsContent，保持 tab / tabpanel 关联、方向键、选择与焦点；列表在极窄 + 大字号下可换行，避免入口被裁切；辅助导出不另算组件数量 |
 | StatusBadge | neutral / info / success / warning / danger 表达展示语义，文字与图标由调用方提供，不伪装为交互按钮 |
 | Avatar | name 提供可访问名称与首字回退；src、fallback、shape: circle（默认）/ square、size: sm / md / lg、decorative；图片加载失败回退；纯展示不进入 Tab 顺序 |
@@ -33,7 +34,7 @@
 | InlineAlert | info / success / warning / danger，错误以 alert 播报，其余状态使用 status；必要说明不只放在 Tooltip |
 | Toast / Tooltip | Toast 以顶部胶囊提供可关闭的短时反馈，关闭按钮显示剩余时间，悬停 / 聚焦暂停，超时自动关闭；Tooltip 补充已有可访问名称；不替代持久错误、字段帮助或必要操作入口 |
 
-A 批 10 个基础组件与 B 批 6 个反馈 / 浮层组件由三代表页实际消费；当前共 22 个共享组件；RadioGroup 是 2026-11-08 为设置页新增的第 17 个，Avatar / Tag 是第 18 / 19 个，Skeleton 是第 20 个，InputOTP 是第 21 个，ConfirmDialog 是第 22 个；AppShell、表格、分页、目录和业务数据仍属于展示站组合，不提前承诺通用 DataGrid、服务器分页、富文本或权限能力。
+A 批 10 个基础组件与 B 批 6 个反馈 / 浮层组件由三代表页实际消费；当前共 23 个共享组件；RadioGroup 是 2026-11-08 为设置页新增的第 17 个，Avatar / Tag 是第 18 / 19 个，Skeleton 是第 20 个，InputOTP 是第 21 个，ConfirmDialog 是第 22 个，ToggleGroup 是第 23 个；AppShell、表格、分页、目录和业务数据仍属于展示站组合，不提前承诺通用 DataGrid、服务器分页、富文本或权限能力。
 
 ## 视觉与失败路径
 
@@ -48,7 +49,7 @@ A 批 10 个基础组件与 B 批 6 个反馈 / 浮层组件由三代表页实�
 | C-02.1 A 批控件与语义样式 | 已完成（本地 React 19 范例） | 十个基础组件由三页直接消费；类型、真实表单与明暗 / 窄屏检查通过 |
 | C-02.2 B 批浮层与反馈 | 已完成（本地 React 19 范例） | 六个反馈 / 浮层组件由 E-02 消费；Select 键盘、不透明菜单、Dialog / Drawer 焦点约束与恢复、失败反馈通过 |
 | C-02.3 状态与兼容验证 | 已完成（本轮限定范围） | 模型测试、浏览器流程和组合检查通过；具体证据与其他平台 / 辅助技术等未覆盖面归开发记录 |
-| C-02.4 组件用法与状态展示 | 已完成（本地 React 19 用例） | `#/components` 提供 22 个共享组件的实际用例、关键 props / 事件、代码与键盘说明；适用的禁用 / 加载 / 错误 / 只读和长内容可操作；11 月 7 日同步顶部通知与倒计时说明，明暗 / 窄屏验证见开发记录 |
+| C-02.4 组件用法与状态展示 | 已完成（本地 React 19 用例） | `#/components` 提供 23 个共享组件的实际用例、关键 props / 事件、代码与键盘说明；适用的禁用 / 加载 / 错误 / 只读和长内容可操作；11 月 7 日同步顶部通知与倒计时说明，明暗 / 窄屏验证见开发记录 |
 
 前三项完成指本轮真实页面的有限组合验收，C-02.4 已补齐独立用法页；这仍不等于每个组件的所有组合或所有消费环境均已验收。之后按页面需求决定新增组件，不以复制组件实现或静态截图替代运行用例。
 
@@ -144,3 +145,13 @@ Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前
 - 接入：组件页反馈组、资源删除、文档放弃修改；危险操作用 danger tone，破坏性说明放在 description / children。
 - 验证：`type-check` / `build` 通过；定向浏览器 18/18（alertdialog、标题 / 描述、初始焦点取消、确认结果、Escape 与回焦、真实文档放弃 / 继续编辑、390 无溢出、无 pageerror / 4xx）。
 - 未覆盖：`loading` 异步确认的实际业务路径、屏幕阅读器实际朗读、Safari / Firefox 单独复验。
+
+
+## ToggleGroup（2026-11-08）
+
+- 定位：单选 / 多选分段组，参考 shadcn/ui ToggleGroup 与 Radix 语义；不新增运行时依赖。
+- API：`type: single（默认）| multiple`、`value` / `onValueChange`、`items: { value, label, disabled? }[]`、`label`、`disabled`、`className`。
+- 语义：单选由 Radix 提供 `radiogroup` / `radio` 与 `aria-checked`；多选使用 `toolbar` / `button` + `aria-pressed`；`label` 必填，禁用项不响应。
+- 接入：资源库类型筛选使用单选（全部 / 文档 / 清单），保留原筛选结果；组件页展示多选、方向键、Space 与状态文本。它替代了原资源页的 Tabs 过滤，Tabs 仍用于设置 / 组件页。
+- 验证：`type-check` / `build` 通过；定向浏览器 15/15（单选筛选、多选追加 / 取消、方向键、Space、390 无横向溢出、无 pageerror / 4xx）。
+- 未覆盖：多选在真实产品页面、屏幕阅读器实际朗读、Safari / Firefox 单独复验。

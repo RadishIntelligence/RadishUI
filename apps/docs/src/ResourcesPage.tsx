@@ -1,5 +1,5 @@
 import { useEffect, useLayoutEffect, useRef, useState, type FormEvent } from 'react';
-import { Button, Checkbox, ConfirmDialog, Dialog, Drawer, FormField, IconButton, InlineAlert, Input, Menu, Select, Tabs, TabsContent, TabsList, Textarea, Tag } from '@radish-ui/react';
+import { Button, Checkbox, ConfirmDialog, Dialog, Drawer, FormField, IconButton, InlineAlert, Input, Menu, Select, Textarea, Tag, ToggleGroup } from '@radish-ui/react';
 import { ArrowUpRight, ChevronLeft, ChevronRight, FileText, History, ListChecks, LockKeyhole, MoreHorizontal, Palette, PanelsTopLeft, Plus, RefreshCw, Search, Trash2 } from 'lucide-react';
 import { filterResources, formatDate, kindLabel, pageCount, pageNumbers, statusLabel, validatePage, type Preferences, type Resource, type ResourceKind, type Translate } from './model';
 
@@ -150,8 +150,8 @@ export function ResourcesPage({ resources, error, save, retry, t, locale, notify
         <Button onClick={() => setCreateOpen(true)} disabled={resources === undefined || Boolean(error)}><Plus />{t('新建资源', 'New resource')}</Button>
       </div>
     </div>
-    <Tabs value={kind} onValueChange={value => { setKind(value); resetPage(); }} className="resources-tabs">
-      <div className="resource-toolbar"><TabsList label={t('资源类型', 'Resource type')} items={[
+    <div className="resources-tabs">
+      <div className="resource-toolbar"><ToggleGroup label={t('资源类型', 'Resource type')} value={kind} onValueChange={value => { setKind(value); resetPage(); }} items={[
         { value: 'all', label: t('全部', 'All') },
         { value: 'document', label: t('文档', 'Docs') },
         { value: 'checklist', label: t('清单', 'Lists') },
@@ -162,8 +162,8 @@ export function ResourcesPage({ resources, error, save, retry, t, locale, notify
           ]} />
         </div>
       </div>
-      {['all', 'document', 'checklist'].map(value => <TabsContent key={value} value={value}>{value === kind && content}</TabsContent>)}
-    </Tabs>
+      {content}
+    </div>
     <Drawer className="resource-sheet" open={drawerOpen && Boolean(selected)} onOpenChange={setDrawerOpen} title={selected?.name ?? t('资源详情', 'Resource details')} closeLabel={t('关闭', 'Close')}>{drawerDetails}</Drawer>
     <CreateResource open={createOpen} onOpenChange={setCreateOpen} t={t} resources={resources ?? []} save={next => {
       const failure = save(next);

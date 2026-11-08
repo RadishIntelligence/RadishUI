@@ -99,6 +99,7 @@ F-02.4 基准登记后，`#/components` 顶部的 Surface & state spike 完成�
 
 - **Adopt** Avatar 的图片 / 回退职责、可访问名称和展示非交互边界；**Adapt** 为 `name` / `src` / `fallback` / `shape` / `size` / `decorative`，增加方形用于工作区。
 - **Adapt** Tag 为中性标签；状态继续由 `StatusBadge` 承担，Tag 不伪装状态，也不进入 Tab 顺序。
+- **Adapt** ToggleGroup 的单选 / 多选语义：单选用 radiogroup / radio，多选用 toolbar / button + aria-pressed；资源筛选采用单选，组件页展示多选。
 - **Adapt** ConfirmDialog 的确认职责：RadishUI 组合现有 Dialog，`alertdialog` + 初始焦点取消 + loading 拦截关闭；不复用 Radish 的 Modal 领域实现。
 - **Adapt** InputOTP 的六位输入、自动前进、粘贴与每格可访问名称；RadishUI 用受控多输入实现，不引入 `input-otp` 运行时依赖。
 - **Adopt** Skeleton 的纯展示占位职责；**Adapt** 为 `width` / `height` / `className` / `style`，组件 `aria-hidden`，由外层 `aria-busy` / `status` 说明加载，减少动效时静态；不把动画当作唯一反馈。

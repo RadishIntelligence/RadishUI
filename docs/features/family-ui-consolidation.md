@@ -1,6 +1,6 @@
 # 家族 UI 通用组件与视觉统一
 
-状态：进行中（2026-11-08，只读盘点第一版 + Avatar / Tag / Skeleton / InputOTP / ConfirmDialog 已落地；字体包与图标策略已定）
+状态：进行中（2026-11-08，只读盘点第一版 + Avatar / Tag / Skeleton / InputOTP / ConfirmDialog / ToggleGroup 已落地；字体包与图标策略已定）
 主要归属：F：视觉基础 / C：跨平台通用组件
 协同：E：展示与页面范例、F-02 设计来源、G：工程与交付
 
@@ -20,7 +20,7 @@
 
 | 仓库 / 包 | UI 技术栈 | 通用组件与视觉来源 | 图标 | 字体 | 备注 |
 | --- | --- | --- | --- | --- | --- |
-| RadishUI | React 19.2.7；Radix；lucide-react 1.68 | 22 个共享组件；`--rd-*`；Inter / JetBrains 优先，系统回退 | lucide-react | Inter / JetBrains 优先，系统回退 | 本仓，统一目标；Web 范例已引 fontsource |
+| RadishUI | React 19.2.7；Radix；lucide-react 1.68 | 23 个共享组件；`--rd-*`；Inter / JetBrains 优先，系统回退 | lucide-react | Inter / JetBrains 优先，系统回退 | 本仓，统一目标；Web 范例已引 fontsource |
 | Radish `Frontend/radish.ui` | React 19.2.7；`@radish/ui` 26.8.2；AntD 6.1 封装 | Button、Input、Modal、Toast、Select、ContextMenu、Skeleton、PasscodeInput、ConfirmDialog、BottomSheet、Markdown 编辑器 / 渲染器、图表、图片裁切等 | Iconify + MDI；部分 AntD 图标 | `--theme-font-*` | 组件量最大，含产品领域组件；AntD 封装不整体迁入 |
 | RadishX | React 19.2.7 | 官网外壳；family-ui `--rd-*` 副本 + `--rx-*` 映射 | 内联 SVG | `--rx-font-*` | 已有本地临时消费测试，不作为正式采用 |
 | RadishMind | React 19 | 控制平面面板；`--rm-*` + `--rd-*` 别名 | 内联 SVG | Inter + 系统 CJK | 面向工作流 / 管理，面板多 |
@@ -54,7 +54,7 @@
 以 shadcn/ui 组件目录和交互状态为首要参考，按“家族共性 + 本仓页面真实位置”排序；不为了组件数量补空壳。
 
 1. **本轮已完成**：Avatar、Tag。
-2. **下一批候选**：ToggleGroup（多选一短选项，已有 RadioGroup 先覆盖）、进度 / 可折叠 / 日期 / 滑块 / 上传 / 标签输入 / Combobox（等真实页面）。Skeleton、InputOTP、ConfirmDialog 已完成组件页示例。
+2. **下一批候选**：进度 / 可折叠 / 日期 / 滑块 / 上传 / 标签输入 / Combobox（等真实页面）。Skeleton、InputOTP、ConfirmDialog、ToggleGroup 已完成组件页示例，ToggleGroup 已用于资源筛选。
 3. **后续**：表格、分页、图表、编辑器、图片处理等领域能力不进入通用核心，除非重新确认边界。
 
 ## 图标
@@ -101,7 +101,7 @@
 
 - 只读盘点与本文档。
 - 当前规划顺位改为“本仓组件 / 示例页面 / 视觉定稿优先”，P2 外部产品采用后置。
-- Avatar、Tag 已进入 C-02，并落到本仓组件页、资源库和文档页；Skeleton 已加入组件页反馈组；InputOTP 已加入字段组，使用标准正方形格；ConfirmDialog 已接入删除 / 放弃路径。定向浏览器 26/26 + InputOTP 18/18 + ConfirmDialog 18/18（含正常 / 减少动效、字体加载、390 无横向溢出）；表单 19/19、RadioGroup 28/28 复跑通过。
+- Avatar、Tag 已进入 C-02，并落到本仓组件页、资源库和文档页；Skeleton 已加入组件页反馈组；InputOTP 已加入字段组，使用标准正方形格；ConfirmDialog 已接入删除 / 放弃路径；ToggleGroup 已用于资源筛选。定向浏览器 26/26 + InputOTP 18/18 + ConfirmDialog 18/18 + ToggleGroup 15/15（含正常 / 减少动效、字体加载、390 无横向溢出）；表单 19/19、RadioGroup 28/28 复跑通过。
 - 字体栈 token 已更新，Web 范例字体包已引入，图标策略已定稿；未改产品仓。
 - 图标 / 字体只出策略，不加依赖、不改 token；等所有者确认后再定稿。
 

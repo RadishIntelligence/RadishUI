@@ -1,5 +1,5 @@
 import type { ComponentPropsWithRef, ComponentPropsWithoutRef, ReactNode } from 'react';
-import { Switch as SwitchPrimitive, Tabs as TabsPrimitive } from 'radix-ui';
+import { Switch as SwitchPrimitive, Tabs as TabsPrimitive, ToggleGroup as ToggleGroupPrimitive } from 'radix-ui';
 import { Check } from 'lucide-react';
 
 export interface CheckboxProps extends Omit<ComponentPropsWithRef<'input'>, 'type'> { children?: ReactNode }
@@ -36,4 +36,20 @@ export function TabsContent({ className = '', ...props }: ComponentPropsWithoutR
 export type StatusTone = 'neutral' | 'success' | 'warning' | 'danger' | 'info';
 export function StatusBadge({ tone = 'neutral', children, className = '' }: { tone?: StatusTone; children: ReactNode; className?: string }) {
   return <span className={`rd-badge rd-badge--${tone} ${className}`}>{children}</span>;
+}
+
+export interface ToggleGroupItem { value: string; label: ReactNode; disabled?: boolean }
+interface ToggleGroupBase { label: string; items: readonly ToggleGroupItem[]; disabled?: boolean; className?: string }
+export interface ToggleGroupSingleProps extends ToggleGroupBase { type?: 'single'; value: string; onValueChange(value: string): void }
+export interface ToggleGroupMultipleProps extends ToggleGroupBase { type: 'multiple'; value: string[]; onValueChange(value: string[]): void }
+export type ToggleGroupProps = ToggleGroupSingleProps | ToggleGroupMultipleProps;
+
+export function ToggleGroup(props: ToggleGroupProps) {
+  const { label, items, disabled = false, className = '' } = props;
+  const content = items.map(item => <ToggleGroupPrimitive.Item key={item.value} value={item.value} disabled={item.disabled || disabled} className="rd-toggle-group__item">
+    {item.label}
+  </ToggleGroupPrimitive.Item>);
+  const cls = `rd-toggle-group ${className}`.trim();
+  if (props.type === 'multiple') return <ToggleGroupPrimitive.Root type="multiple" value={props.value} onValueChange={props.onValueChange} disabled={disabled} aria-label={label} className={cls}>{content}</ToggleGroupPrimitive.Root>;
+  return <ToggleGroupPrimitive.Root type="single" value={props.value} onValueChange={value => { if (value) props.onValueChange(value); }} disabled={disabled} aria-label={label} className={cls}>{content}</ToggleGroupPrimitive.Root>;
 }
