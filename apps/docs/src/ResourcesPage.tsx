@@ -1,5 +1,5 @@
 import { useEffect, useLayoutEffect, useRef, useState, type FormEvent } from 'react';
-import { Button, Checkbox, Dialog, Drawer, FormField, IconButton, InlineAlert, Input, Menu, Select, Tabs, TabsContent, TabsList, Textarea, Tag } from '@radish-ui/react';
+import { Button, Checkbox, ConfirmDialog, Dialog, Drawer, FormField, IconButton, InlineAlert, Input, Menu, Select, Tabs, TabsContent, TabsList, Textarea, Tag } from '@radish-ui/react';
 import { ArrowUpRight, ChevronLeft, ChevronRight, FileText, History, ListChecks, LockKeyhole, MoreHorizontal, Palette, PanelsTopLeft, Plus, RefreshCw, Search, Trash2 } from 'lucide-react';
 import { filterResources, formatDate, kindLabel, pageCount, pageNumbers, statusLabel, validatePage, type Preferences, type Resource, type ResourceKind, type Translate } from './model';
 
@@ -170,11 +170,11 @@ export function ResourcesPage({ resources, error, save, retry, t, locale, notify
       if (!failure) { setQuery(''); setKind('all'); setStatus('all'); resetPage(); setSelectedId(next[0].id); notify(t('资源已创建', 'Resource created')); }
       return failure;
     }} />
-    <Dialog open={Boolean(deleteTarget)} onOpenChange={open => { if (!open) setDeleteTarget(undefined); }} title={t('删除资源？', 'Delete resource?')}
+    <ConfirmDialog open={Boolean(deleteTarget)} onOpenChange={open => { if (!open) setDeleteTarget(undefined); }} title={t('删除资源？', 'Delete resource?')}
       description={t('这会删除当前浏览器中的资源记录，无法撤销。', 'This removes the resource record from this browser and cannot be undone.')} closeLabel={t('关闭', 'Close')}
-      footer={<><Button variant="secondary" onClick={() => setDeleteTarget(undefined)}>{t('取消', 'Cancel')}</Button><Button variant="danger" onClick={remove}>{t('删除资源', 'Delete resource')}</Button></>}>
+      confirmLabel={t('删除资源', 'Delete resource')} cancelLabel={t('取消', 'Cancel')} tone="danger" onConfirm={remove}>
       <p className="break-word">{deleteTarget?.name}</p>{mutationError && <InlineAlert tone="danger">{mutationError}</InlineAlert>}
-    </Dialog>
+    </ConfirmDialog>
     <Dialog open={Boolean(versionTarget)} onOpenChange={open => { if (!open) setVersionTarget(undefined); }} title={t('版本信息', 'Version information')} closeLabel={t('关闭', 'Close')}>
       {versionTarget && <><dl className="property-list"><div><dt>{t('版本', 'Version')}</dt><dd>{versionTarget.version}</dd></div><div><dt>{t('最近更新', 'Updated')}</dt><dd>{formatDate(versionTarget.updatedAt, locale)}</dd></div></dl><p className="field-help">{t('此本地范例只提供当前版本，没有远端版本历史。', 'This local example provides only the current version, without remote history.')}</p></>}
     </Dialog>

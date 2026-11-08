@@ -132,6 +132,9 @@
 .rd-dialog-close.rd-icon-button::after { content: ''; position: absolute; inset: -7px; }
 .rd-dialog-close.rd-icon-button:hover:not(:disabled) { background: var(--rd-bg-muted); color: var(--rd-text-primary); }
 .rd-dialog-description { margin: var(--rd-space-2) 0 0; color: var(--rd-text-secondary); font-size: var(--rd-font-size-sm); line-height: 1.6; }
+.rd-confirm:empty { display: none; }
+.rd-confirm > :first-child { margin-top: 0; }
+.rd-confirm > :last-child { margin-bottom: 0; }
 .rd-dialog-body { min-height: 0; overflow: auto; padding: 0 var(--rd-space-4) var(--rd-space-4); overscroll-behavior: contain; }
 .rd-dialog-footer { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: var(--rd-space-2); padding: var(--rd-space-3) var(--rd-space-4); border-top: 1px solid var(--rd-border-soft); }
 .rd-drawer { left: auto; right: 8px; top: 8px; bottom: 8px; transform: none; width: min(400px, calc(100vw - 16px)); max-height: none; }

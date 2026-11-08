@@ -20,9 +20,9 @@
 
 2026-11-08 按所有者确认调整方向：优先扩充本仓通用组件（shadcn/ui 首要参考）、完成示例页面 / Web 页面示例组件，并把 Radish 系列的通用组件、视觉、图标、字体需求只读盘点后统一收拢到本仓；产品仓只读，不接应用，不做 P2 外部试点。盘点、边界与候选清单见[家族 UI 通用组件与视觉统一](../features/family-ui-consolidation.md)。
 
-2026-11-08 继续补 Skeleton（第 20 个）与 InputOTP（第 21 个），组件页提供加载占位和标准正方格六位验证码示例；字体栈改为 Inter / JetBrains Mono 优先、系统回退，并在 Web 范例引入 OFL fontsource 变量字体包；图标策略定为 lucide 1.68。未新增图标依赖、未改产品仓。
+2026-11-08 继续补 Skeleton（第 20 个）、InputOTP（第 21 个）与 ConfirmDialog（第 22 个），组件页提供加载占位、标准正方格六位验证码和危险确认示例；字体栈改为 Inter / JetBrains Mono 优先、系统回退，并在 Web 范例引入 OFL fontsource 变量字体包；图标策略定为 lucide 1.68。未新增图标依赖、未改产品仓。
 
-2026-11-08 按家族 UI 方向新增 Avatar、Tag：侧栏账号 / 工作区改用 Avatar，资源 / 文档标签改用 Tag，组件用法页扩到 19；随后补 Skeleton（第 20 个）与 InputOTP（第 21 个），提供加载占位和六位验证码示例。只读盘点发现 Radish 的 `@radish/ui` + Iconify / AntD、Ink 的旧 lucide、Mind / Nexus 的 Inter 与各产品 token 前缀分歧；字体栈已改为 Inter / JetBrains Mono 优先并保留系统回退，Web 范例已引入 OFL fontsource 包，图标策略定为 lucide 1.68；未改任何产品仓。
+2026-11-08 按家族 UI 方向新增 Avatar、Tag：侧栏账号 / 工作区改用 Avatar，资源 / 文档标签改用 Tag，组件用法页扩到 19；随后补 Skeleton（第 20 个）、InputOTP（第 21 个）与 ConfirmDialog（第 22 个），提供加载占位、六位验证码和危险确认示例。只读盘点发现 Radish 的 `@radish/ui` + Iconify / AntD、Ink 的旧 lucide、Mind / Nexus 的 Inter 与各产品 token 前缀分歧；字体栈已改为 Inter / JetBrains Mono 优先并保留系统回退，Web 范例已引入 OFL fontsource 包，图标策略定为 lucide 1.68；未改任何产品仓。
 
 2026-11-08 按所有者确认收口 [E-02.5](../features/workbench-preview.md#e-025-补验检查项)。桌面采用 Safari / Firefox 扩展矩阵和回归结果，移动端采用既有 iPhone 模拟器抽查。VoiceOver 实际朗读和实体 iPhone 验收移出本轮范围。Windows + NVDA 留待具备环境并明确支持范围后安排。
 
@@ -42,7 +42,7 @@ PR #3 最终候选的真实 CI 与 Vercel 预览通过，隔离 PR #4 已验证�
 
 ## 后续顺位
 
-1. **扩充共享组件与示例页面。** 以 shadcn/ui 为首要参考，Avatar、Tag、Skeleton、InputOTP 已落地（2026-11-08）；下一批按家族盘点结果优先评估 ConfirmDialog 等有真实位置的组件，继续落到组件用法页与页面示例，不提前堆 API。P2 外部产品采用后置，RadishX 只保留本机临时测试。
+1. **扩充共享组件与示例页面。** 以 shadcn/ui 为首要参考，Avatar、Tag、Skeleton、InputOTP、ConfirmDialog 已落地（2026-11-08）；下一批按家族盘点结果优先评估 ToggleGroup 等有真实位置的组件，继续落到组件用法页与页面示例，不提前堆 API。P2 外部产品采用后置，RadishX 只保留本机临时测试。
 2. **家族 UI 只读盘点与统一设计。** 首轮只读盘点已完成，见[家族 UI 通用组件与视觉统一](../features/family-ui-consolidation.md)；后续按盘点结果补通用组件、图标、字体与 token，产品仓不改、不接、不发布。
 3. **统一并定稿视觉基础。** 以 `--rd-*` 为语义源，定稿组件、tokens、图标、字体、状态、密度、明暗与示例；F-02.4 的 RadioGroup / 表单修订一并登记。字体栈、Web 字体包与 lucide 策略已定；组件包发行时的字体依赖、是否迁移产品图标库仍需单独确认。
 4. **本地验证后再处理晋级。** 2026-11-08 核对：`origin/dev` 为 `14d81d5`；本地 `dev` 在验收后领先 7 个提交（后续本地提交继续累积），未推送；`master` 仍为 `535e8d7`。本轮只做本仓验收，不扩大 11 月 6 日的 G-01.4 授权。推送、PR 与主线晋级的时机和方式待所有者单独确认；历史 `design(workbench)` 提交的允许类型问题仍会阻塞 dev→master 晋级 PR 的完整区间检查，日常 dev 直推不受该 PR 检查影响；晋级前先约定合规处理方式，不改写既有历史或放宽检查。

@@ -1,5 +1,5 @@
 import { useRef, useState, type ReactNode } from 'react';
-import { Avatar, Button, IconButton, FormField, Input, InputOTP, Textarea, Select, RadioGroup, Checkbox, Switch, Tabs, TabsList, TabsContent, StatusBadge, Tag, Skeleton, Dialog, Drawer, Menu, InlineAlert, Toast, Tooltip } from '@radish-ui/react';
+import { Avatar, Button, IconButton, FormField, Input, InputOTP, Textarea, Select, RadioGroup, Checkbox, Switch, Tabs, TabsList, TabsContent, StatusBadge, Tag, Skeleton, ConfirmDialog, Dialog, Drawer, Menu, InlineAlert, Toast, Tooltip } from '@radish-ui/react';
 import { ArrowLeft, Check, MoreHorizontal, Plus } from 'lucide-react';
 import type { Translate } from './model';
 import './components.css';
@@ -153,6 +153,8 @@ function FeedbackExamples() {
   const [menuResult, setMenuResult] = useState('尚未执行菜单动作');
   const [toast, setToast] = useState(false);
   const [toastCount, setToastCount] = useState(0);
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [confirmResult, setConfirmResult] = useState('尚未确认');
   const nameRef = useRef<HTMLInputElement>(null);
   return <>
     <Example name="Dialog" contract="open / onOpenChange、title、description、footer、closeLabel；initialFocusRef 指定初始焦点。保存逻辑由调用方处理。"
@@ -164,6 +166,14 @@ function FeedbackExamples() {
         <div className="component-stack"><FormField label="浮层名称" error={error}><Input ref={nameRef} value={draft} maxLength={120} onChange={event => { setDraft(event.target.value); setError(''); }} /></FormField>
           <FormField label="浮层类型"><Select value={category} onValueChange={setCategory} options={[{ value: 'document', label: '文档' }, { value: 'checklist', label: '清单' }]} /></FormField></div>
       </Dialog>
+    </Example>
+    <Example name="ConfirmDialog" contract="基于 Dialog 的确认组合：open / onOpenChange、title、description、confirmLabel、cancelLabel、tone: default | danger、loading、onConfirm；初始焦点在取消，loading 时关闭被拦截。"
+      keyboard="打开后焦点进入取消按钮；Tab 在两个操作间移动，Escape / 关闭按钮关闭并回到入口；确认动作由调用方执行。"
+      code={'<ConfirmDialog open={open} onOpenChange={setOpen} title="删除资源？" confirmLabel="删除" cancelLabel="取消" tone="danger" onConfirm={remove} />'}>
+      <div className="component-row"><Button variant="danger" onClick={() => setConfirmOpen(true)}>删除示例资源</Button><span>{confirmResult}</span></div>
+      <ConfirmDialog open={confirmOpen} onOpenChange={setConfirmOpen} title="删除示例资源？" description="仅修改本页内存，刷新后恢复。" confirmLabel="删除" cancelLabel="取消" tone="danger" onConfirm={() => { setConfirmOpen(false); setConfirmResult('已确认删除（仅本页状态）'); }}>
+        <p>此操作无法撤销。示例不会写入浏览器数据。</p>
+      </ConfirmDialog>
     </Example>
     <Example name="Drawer" contract="与 Dialog 相同的输入与关闭合同，以侧向浮层展示辅助内容。"
       keyboard="焦点进入 / 约束 / 恢复、Escape 与 Dialog 一致；长内容在浮层正文内滚动。"
@@ -216,7 +226,7 @@ export function ComponentsPage({ t }: { t: Translate }) {
     <div className="page-title"><h1>{t('组件用法', 'Components')}</h1><a className="text-link component-back" href="#/resources"><ArrowLeft size={16} aria-hidden="true" />{t('资源库', 'Resources')}</a></div>
     <Tabs defaultValue="actions" className="component-groups">
       <TabsList label={t('组件分组', 'Component groups')} items={[{ value: 'actions', label: t('操作', 'Actions') }, { value: 'fields', label: t('字段', 'Fields') }, { value: 'selection', label: t('选择', 'Choice') }, { value: 'feedback', label: t('反馈', 'Feedback') }]} />
-      <p className="component-scope">21 个共享组件 · React 19 内部预览。示例状态仅保留在当前分组，切换分组或离开页面会重置；文案使用中文与 English 合成内容。</p>
+      <p className="component-scope">22 个共享组件 · React 19 内部预览。示例状态仅保留在当前分组，切换分组或离开页面会重置；文案使用中文与 English 合成内容。</p>
       <TabsContent value="actions"><ActionExamples /></TabsContent><TabsContent value="fields"><FieldExamples /></TabsContent><TabsContent value="selection"><SelectionExamples /></TabsContent><TabsContent value="feedback"><FeedbackExamples /></TabsContent>
     </Tabs>
   </section>;

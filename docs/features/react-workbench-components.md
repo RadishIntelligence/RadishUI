@@ -27,12 +27,13 @@
 | Avatar | name 提供可访问名称与首字回退；src、fallback、shape: circle（默认）/ square、size: sm / md / lg、decorative；图片加载失败回退；纯展示不进入 Tab 顺序 |
 | Tag | 中性标签文本；纯展示，不进入 Tab 顺序；状态用 StatusBadge，不用 Tag 伪装状态 |
 | Skeleton | width / height（CSS 长度或数字）、className / style；纯展示占位并 aria-hidden；外层用 aria-busy / status 说明加载中，加载完成移除；减少动效时保持静态 |
-| Dialog / Drawer | 受控 open / onOpenChange，标题、可选说明、正文与 footer；支持 Escape、焦点约束、可指定初始焦点并恢复入口；关闭按钮 32px 可视、44px 命中由共享组件提供。Drawer 是同一弹层合同的侧向编排 |
+| Dialog / Drawer | 受控 open / onOpenChange，标题、可选说明、正文与 footer；role: dialog（默认）/ alertdialog；支持 Escape、焦点约束、可指定初始焦点并恢复入口；关闭按钮 32px 可视、44px 命中由共享组件提供。Drawer 是同一弹层合同的侧向编排 |
 | Menu | trigger 与具名 items，支持禁用、危险项、分隔与链接 / 动作；键盘、关闭与焦点由行为基础维护 |
+| ConfirmDialog | 基于 Dialog 的确认组合：open / onOpenChange、title、description、children、confirmLabel / cancelLabel、tone: default | danger、loading、onConfirm；初始焦点在取消，loading 时拦截关闭，role=alertdialog |
 | InlineAlert | info / success / warning / danger，错误以 alert 播报，其余状态使用 status；必要说明不只放在 Tooltip |
 | Toast / Tooltip | Toast 以顶部胶囊提供可关闭的短时反馈，关闭按钮显示剩余时间，悬停 / 聚焦暂停，超时自动关闭；Tooltip 补充已有可访问名称；不替代持久错误、字段帮助或必要操作入口 |
 
-A 批 10 个基础组件与 B 批 6 个反馈 / 浮层组件由三代表页实际消费；当前共 21 个共享组件；RadioGroup 是 2026-11-08 为设置页新增的第 17 个，Avatar / Tag 是第 18 / 19 个，Skeleton 是第 20 个，InputOTP 是第 21 个；AppShell、表格、分页、目录和业务数据仍属于展示站组合，不提前承诺通用 DataGrid、服务器分页、富文本或权限能力。
+A 批 10 个基础组件与 B 批 6 个反馈 / 浮层组件由三代表页实际消费；当前共 22 个共享组件；RadioGroup 是 2026-11-08 为设置页新增的第 17 个，Avatar / Tag 是第 18 / 19 个，Skeleton 是第 20 个，InputOTP 是第 21 个，ConfirmDialog 是第 22 个；AppShell、表格、分页、目录和业务数据仍属于展示站组合，不提前承诺通用 DataGrid、服务器分页、富文本或权限能力。
 
 ## 视觉与失败路径
 
@@ -47,7 +48,7 @@ A 批 10 个基础组件与 B 批 6 个反馈 / 浮层组件由三代表页实�
 | C-02.1 A 批控件与语义样式 | 已完成（本地 React 19 范例） | 十个基础组件由三页直接消费；类型、真实表单与明暗 / 窄屏检查通过 |
 | C-02.2 B 批浮层与反馈 | 已完成（本地 React 19 范例） | 六个反馈 / 浮层组件由 E-02 消费；Select 键盘、不透明菜单、Dialog / Drawer 焦点约束与恢复、失败反馈通过 |
 | C-02.3 状态与兼容验证 | 已完成（本轮限定范围） | 模型测试、浏览器流程和组合检查通过；具体证据与其他平台 / 辅助技术等未覆盖面归开发记录 |
-| C-02.4 组件用法与状态展示 | 已完成（本地 React 19 用例） | `#/components` 提供 21 个共享组件的实际用例、关键 props / 事件、代码与键盘说明；适用的禁用 / 加载 / 错误 / 只读和长内容可操作；11 月 7 日同步顶部通知与倒计时说明，明暗 / 窄屏验证见开发记录 |
+| C-02.4 组件用法与状态展示 | 已完成（本地 React 19 用例） | `#/components` 提供 22 个共享组件的实际用例、关键 props / 事件、代码与键盘说明；适用的禁用 / 加载 / 错误 / 只读和长内容可操作；11 月 7 日同步顶部通知与倒计时说明，明暗 / 窄屏验证见开发记录 |
 
 前三项完成指本轮真实页面的有限组合验收，C-02.4 已补齐独立用法页；这仍不等于每个组件的所有组合或所有消费环境均已验收。之后按页面需求决定新增组件，不以复制组件实现或静态截图替代运行用例。
 
@@ -133,3 +134,13 @@ Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前
 - 接入：组件用法页字段组示例；本仓暂无真实登录页，未伪造验证码页面。家族 Radish 的 PasscodeInput 是后续真实接入参考。
 - 验证：`type-check` / `build` 通过；定向浏览器 18/18（6 格、正方形、与标准控件同高、自动前进、Backspace、粘贴、无障碍名称、Inter / JetBrains 字体、390 无溢出、无 pageerror / 4xx）。
 - 未覆盖：真实登录 / 验证码流程、`name` 隐藏字段在真实表单中的提交、屏幕阅读器实际朗读、Safari / Firefox 单独复验。
+
+
+## ConfirmDialog（2026-11-08）
+
+- 定位：基于现有 `Dialog` 的确认组合，不新增浮层原语；复用叠层、焦点约束、关闭与恢复。
+- API：`open` / `onOpenChange`、`title`、`description`、`children`、`confirmLabel` / `cancelLabel`、`tone: default | danger`、`loading`、`onConfirm`、`closeLabel`。
+- 交互：`role="alertdialog"`；初始焦点在取消按钮；Tab 在两个操作间移动；Escape / 关闭按钮关闭并回到入口；`loading` 时取消、关闭与遮罩关闭被拦截，确认按钮显示加载。
+- 接入：组件页反馈组、资源删除、文档放弃修改；危险操作用 danger tone，破坏性说明放在 description / children。
+- 验证：`type-check` / `build` 通过；定向浏览器 18/18（alertdialog、标题 / 描述、初始焦点取消、确认结果、Escape 与回焦、真实文档放弃 / 继续编辑、390 无溢出、无 pageerror / 4xx）。
+- 未覆盖：`loading` 异步确认的实际业务路径、屏幕阅读器实际朗读、Safari / Firefox 单独复验。

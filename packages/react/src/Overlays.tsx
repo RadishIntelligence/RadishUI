@@ -12,16 +12,17 @@ export interface DialogProps {
   footer?: ReactNode;
   closeLabel?: string;
   initialFocusRef?: RefObject<HTMLElement | null>;
+  role?: 'dialog' | 'alertdialog';
   className?: string;
 }
 
-function DialogSurface({ open, onOpenChange, title, description, children, footer, initialFocusRef, closeLabel = '关闭', className = '', drawer = false }: DialogProps & { drawer?: boolean }) {
+function DialogSurface({ open, onOpenChange, title, description, children, footer, initialFocusRef, role = 'dialog', closeLabel = '关闭', className = '', drawer = false }: DialogProps & { drawer?: boolean }) {
   const descriptionId = useId();
   const previousFocus = useRef<HTMLElement | null>(null);
   return <DialogPrimitive.Root open={open} onOpenChange={onOpenChange}>
     <DialogPrimitive.Portal>
       <DialogPrimitive.Overlay className="rd-dialog-overlay" />
-      <DialogPrimitive.Content className={`rd-dialog ${drawer ? 'rd-drawer' : ''} ${className}`}
+      <DialogPrimitive.Content role={role} className={`rd-dialog ${drawer ? 'rd-drawer' : ''} ${className}`}
         aria-describedby={description ? descriptionId : undefined}
         onOpenAutoFocus={event => {
           previousFocus.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;

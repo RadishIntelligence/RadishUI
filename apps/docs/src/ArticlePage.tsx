@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent, type RefObject } from 'react';
-import { Button, Dialog, FormField, InlineAlert, Input, StatusBadge, Textarea, Tag } from '@radish-ui/react';
+import { Button, ConfirmDialog, Dialog, FormField, InlineAlert, Input, StatusBadge, Textarea, Tag } from '@radish-ui/react';
 import { Check, ChevronLeft, Copy, Info, LockKeyhole, Pencil, Share2 } from 'lucide-react';
 import { articleForResource, welcomeArticle } from './document-seed';
 import { formatDate, isArticles, parseArticle, type Article, type Preferences, type Resource, type Translate } from './model';
@@ -175,10 +175,10 @@ function DocumentReader({ resourceId = 'welcome', resource, preferences, section
         <div className="document-properties"><span>{t('文档属性', 'Document properties')}</span><dl className="property-list"><div><dt>{t('状态', 'Status')}</dt><dd>{readonly ? t('只读', 'Read only') : t('已保存', 'Saved')}</dd></div><div><dt>{t('创建者', 'Created by')}</dt><dd>{resource?.creator ?? t('林杏', 'Lin Xing')}</dd></div><div><dt>{t('最近更新', 'Updated')}</dt><dd>{formatDate(article.updatedAt, preferences.locale)}</dd></div></dl><div className="document-tags"><Tag>{t('排版', 'Typography')}</Tag><Tag>{t('交互', 'Interaction')}</Tag></div></div>
       </aside>
     </div>}
-    <Dialog open={discardOpen} onOpenChange={setDiscardOpen} title={t('放弃文档修改？', 'Discard document edits?')} closeLabel={t('关闭', 'Close')}
-      footer={<><Button variant="secondary" onClick={() => setDiscardOpen(false)}>{t('继续编辑', 'Keep editing')}</Button><Button variant="danger" onClick={() => { setDiscardOpen(false); setDraft(article); exitEditing(); }}>{t('放弃修改', 'Discard edits')}</Button></>}>
+    <ConfirmDialog open={discardOpen} onOpenChange={setDiscardOpen} title={t('放弃文档修改？', 'Discard document edits?')} closeLabel={t('关闭', 'Close')}
+      confirmLabel={t('放弃修改', 'Discard edits')} cancelLabel={t('继续编辑', 'Keep editing')} tone="danger" onConfirm={() => { setDiscardOpen(false); setDraft(article); exitEditing(); }}>
       <p>{t('当前未保存的文字会丢失。', 'Your unsaved text will be lost.')}</p>
-    </Dialog>
+    </ConfirmDialog>
     <Dialog open={shareOpen} onOpenChange={setShareOpen} title={t('分享文档链接', 'Share document link')} closeLabel={t('关闭', 'Close')}
       description={t('链接打开这份范例；你在本机保存的修改不会随链接发送。', 'The link opens this example. Edits saved in your browser are not included.')}>
       <div className="resource-form"><FormField label={t('链接', 'Link')}><Input readOnly value={shareUrl} onFocus={event => event.currentTarget.select()} /></FormField>
