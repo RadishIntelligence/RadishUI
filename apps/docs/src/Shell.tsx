@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { Avatar, IconButton, Menu, Tooltip } from '@radish-ui/react';
-import { BookOpen, Check, ChevronDown, FileText, FolderOpen, LifeBuoy, PanelLeftClose, PanelLeftOpen, SlidersHorizontal, Star, SunMoon } from 'lucide-react';
+import { BookOpen, Check, ChevronDown, FileText, FolderOpen, LifeBuoy, Palette, PanelLeftClose, PanelLeftOpen, SlidersHorizontal, Star, SunMoon } from 'lucide-react';
 import type { Page, Translate } from './model';
 
 interface ShellProps {
@@ -31,6 +31,7 @@ export function Shell({ page, collapsed, onCollapse, onHelp, onTheme, t, childre
   } items={[
     { id: 'preferences', label: t('外观与偏好', 'Appearance & preferences'), icon: <SlidersHorizontal />, href: '#/settings' },
     { id: 'components', label: t('组件用法', 'Components'), icon: <BookOpen />, href: '#/components' },
+    { id: 'foundations', label: t('视觉基础', 'Foundations'), icon: <Palette />, href: '#/foundations' },
     { id: 'project', label: t('项目文档', 'Project documentation'), icon: <BookOpen />, href: 'https://github.com/RadishIntelligence/RadishUI/tree/master/docs', separatorBefore: true },
   ]} />;
   return <div className={`workbench ${collapsed ? 'is-collapsed' : ''}`}>
@@ -64,6 +65,9 @@ export function Shell({ page, collapsed, onCollapse, onHelp, onTheme, t, childre
           <span className="rail-group-label rail-label">{t('开发参考', 'Developer reference')}</span>
           <a className={`rail-link ${page === 'components' ? 'is-active' : ''}`} href="#/components" aria-current={page === 'components' ? 'page' : undefined} aria-label={t('组件用法', 'Components')}>
             <BookOpen aria-hidden="true" /><span className="rail-label">{t('组件用法', 'Components')}</span>
+          </a>
+          <a className={`rail-link ${page === 'foundations' ? 'is-active' : ''}`} href="#/foundations" aria-current={page === 'foundations' ? 'page' : undefined} aria-label={t('视觉基础', 'Foundations')}>
+            <Palette aria-hidden="true" /><span className="rail-label">{t('视觉基础', 'Foundations')}</span>
           </a>
         </nav>
         <div className="rail-spacer" />
