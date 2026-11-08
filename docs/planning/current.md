@@ -20,7 +20,7 @@
 
 2026-11-08 按所有者确认调整方向：优先扩充本仓通用组件（shadcn/ui 首要参考）、完成示例页面 / Web 页面示例组件，并把 Radish 系列的通用组件、视觉、图标、字体需求只读盘点后统一收拢到本仓；产品仓只读，不接应用，不做 P2 外部试点。盘点、边界与候选清单见[家族 UI 通用组件与视觉统一](../features/family-ui-consolidation.md)。
 
-2026-11-08 继续补 Skeleton（第 20 个）与 InputOTP（第 21 个），组件页提供加载占位和六位验证码示例；字体栈改为 Inter / JetBrains Mono 优先、系统回退，并在 Web 范例引入 OFL fontsource 变量字体包；图标策略定为 lucide 1.68。未新增图标依赖、未改产品仓。
+2026-11-08 继续补 Skeleton（第 20 个）与 InputOTP（第 21 个），组件页提供加载占位和标准正方格六位验证码示例；字体栈改为 Inter / JetBrains Mono 优先、系统回退，并在 Web 范例引入 OFL fontsource 变量字体包；图标策略定为 lucide 1.68。未新增图标依赖、未改产品仓。
 
 2026-11-08 按家族 UI 方向新增 Avatar、Tag：侧栏账号 / 工作区改用 Avatar，资源 / 文档标签改用 Tag，组件用法页扩到 19；随后补 Skeleton（第 20 个）与 InputOTP（第 21 个），提供加载占位和六位验证码示例。只读盘点发现 Radish 的 `@radish/ui` + Iconify / AntD、Ink 的旧 lucide、Mind / Nexus 的 Inter 与各产品 token 前缀分歧；字体栈已改为 Inter / JetBrains Mono 优先并保留系统回退，Web 范例已引入 OFL fontsource 包，图标策略定为 lucide 1.68；未改任何产品仓。
 

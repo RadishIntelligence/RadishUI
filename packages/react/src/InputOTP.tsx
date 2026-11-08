@@ -111,8 +111,7 @@ export function InputOTP({ value, onValueChange, label, length = 6, hint, error,
 
   return <div className={`rd-field rd-otp ${className}`.trim()}>
     <label className="rd-label" id={labelId} htmlFor={firstId}>{label}{required && <span className="rd-label__required" aria-hidden="true"> *</span>}</label>
-    <div className="rd-otp__digits" role="group" aria-labelledby={labelId} aria-describedby={error || hint ? descriptionId : undefined} aria-invalid={error ? true : undefined} aria-required={required || undefined}
-      style={{ gridTemplateColumns: `repeat(${count}, minmax(0, 1fr))` }}>
+    <div className="rd-otp__digits" role="group" aria-labelledby={labelId} aria-describedby={error || hint ? descriptionId : undefined} aria-invalid={error ? true : undefined} aria-required={required || undefined}>
       {digits.map((digit, index) => <input
         key={index}
         ref={element => { inputRefs.current[index] = element; }}

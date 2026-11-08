@@ -20,7 +20,7 @@
 | FormField / Input / Textarea | FormField 提供 label、hint / error、required 与稳定 id；Input / Textarea 读取字段上下文关联 aria-describedby / aria-invalid，也可独立传入原生属性；可选 surface: outline（默认）| filled。Switch 等其他控件由调用方显式关联 id / 标签及所需说明。失败不清空输入 |
 | Select | 受控 value / onValueChange、options、placeholder、disabled / required；可选 surface: outline（默认）| filled；触发值和箭头分离，浮层不透明，支持当前值、键盘、滚动与碰撞避让；已展开时再次点按触发器收起，触控关闭以同一次点按开始时的展开状态为准 |
 | Checkbox / Switch | Checkbox 保留原生表单与键盘行为，Switch 使用受控 checked / onCheckedChange；标签、禁用、焦点与选择状态分别表达 |
-| InputOTP | 受控 value / onValueChange、label、length（默认 6）、hint / error、required、disabled、autoFocus、name、onEnterPress；数字输入、自动前进、退格 / 方向键 / Home / End、粘贴；每格可访问名称，`name` 提交隐藏的完整值 |
+| InputOTP | 受控 value / onValueChange、label、length（默认 6）、hint / error、required、disabled、autoFocus、name、onEnterPress；数字输入、自动前进、退格 / 方向键 / Home / End、粘贴；每格为标准正方格并可访问，`name` 提交隐藏的完整值 |
 | RadioGroup | 受控 value / onValueChange，options: { value, label, disabled? }[]；orientation: vertical（默认）/ horizontal；name、required、disabled；FormField 内自动关联标签、说明与错误；方向键移动即选中，单项 label 使用字符串保证可访问名称 |
 | Tabs | 受控或非受控 Root，配合 TabsList / TabsContent，保持 tab / tabpanel 关联、方向键、选择与焦点；列表在极窄 + 大字号下可换行，避免入口被裁切；辅助导出不另算组件数量 |
 | StatusBadge | neutral / info / success / warning / danger 表达展示语义，文字与图标由调用方提供，不伪装为交互按钮 |
@@ -127,8 +127,9 @@ Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前
 
 - 目标：为家族登录 / 验证码类场景提供通用输入；参考 Radish `@radish/ui` 的 PasscodeInput 行为，但不搬产品实现。
 - API：受控 `value` / `onValueChange`；`label` 必填，`length` 默认 6；`hint` / `error`、`required`、`disabled`、`autoFocus`、`name`、`onEnterPress`。
+- 视觉：每格为正方形，与标准控件同高；细指针 32×32（`--rd-control-height`），粗指针 44×44（`--rd-touch-height`）；数字使用 mono 字体。
 - 键盘 / 输入：数字自动前进；Backspace 清除当前或上一格；Delete、方向键、Home / End；粘贴按位填充；每格有独立可访问名称，组用 `aria-labelledby` / `aria-describedby` 关联标签与说明。
 - 表单：`name` 时额外提交完整值的隐藏字段；错误状态通过 `aria-invalid` 与 danger 边框表达。
 - 接入：组件用法页字段组示例；本仓暂无真实登录页，未伪造验证码页面。家族 Radish 的 PasscodeInput 是后续真实接入参考。
-- 验证：`type-check` / `build` 通过；定向浏览器 16/16（6 格、自动前进、Backspace、粘贴、无障碍名称、Inter / JetBrains 字体、390 无溢出、无 pageerror / 4xx）。
+- 验证：`type-check` / `build` 通过；定向浏览器 18/18（6 格、正方形、与标准控件同高、自动前进、Backspace、粘贴、无障碍名称、Inter / JetBrains 字体、390 无溢出、无 pageerror / 4xx）。
 - 未覆盖：真实登录 / 验证码流程、`name` 隐藏字段在真实表单中的提交、屏幕阅读器实际朗读、Safari / Firefox 单独复验。

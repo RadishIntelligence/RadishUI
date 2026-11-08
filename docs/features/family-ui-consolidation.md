@@ -42,7 +42,7 @@
 | Tag / Badge | 资源、文档、状态 | StatusBadge 已有；Tag 已有 | 本轮补 Tag；状态继续用 StatusBadge |
 | Avatar | 账号、工作区、创建者 | 已有 | 本轮补 Avatar（图片 / 首字回退、圆形 / 方形、尺寸） |
 | Skeleton | Radish 工作区加载 | 已有（组件页示例） | 本仓无真实异步页面，未伪造加载态；真实页面需要时再接入 |
-| PasscodeInput / InputOTP | Radish 登录 / 验证 | 已有 InputOTP | 组件页字段示例；真实登录页后续接入 |
+| PasscodeInput / InputOTP | Radish 登录 / 验证 | 已有 InputOTP | 标准正方格（32 / 粗指针 44）；组件页字段示例；真实登录页后续接入 |
 | ConfirmDialog / AlertDialog | 多产品删除 / 危险操作 | Dialog 可组合 | 候选：先抽确认文案与焦点合同，非新视觉 |
 | ContextMenu | Radish、RadishUI Menu | Menu 已有 | 不新增第二套菜单 |
 | Markdown 编辑器 / 渲染器 | Radish、RadishUI 文档 | 页面内简版 | 候选：文档能力单独评估，不整体迁入 |
@@ -101,7 +101,7 @@
 
 - 只读盘点与本文档。
 - 当前规划顺位改为“本仓组件 / 示例页面 / 视觉定稿优先”，P2 外部产品采用后置。
-- Avatar、Tag 已进入 C-02，并落到本仓组件页、资源库和文档页；Skeleton 已加入组件页反馈组；InputOTP 已加入字段组。定向浏览器 26/26 + InputOTP 16/16（含正常 / 减少动效、字体加载、390 无横向溢出）；表单 19/19、RadioGroup 28/28 复跑通过。
+- Avatar、Tag 已进入 C-02，并落到本仓组件页、资源库和文档页；Skeleton 已加入组件页反馈组；InputOTP 已加入字段组，使用标准正方形格。定向浏览器 26/26 + InputOTP 18/18（含正常 / 减少动效、字体加载、390 无横向溢出）；表单 19/19、RadioGroup 28/28 复跑通过。
 - 字体栈 token 已更新，Web 范例字体包已引入，图标策略已定稿；未改产品仓。
 - 图标 / 字体只出策略，不加依赖、不改 token；等所有者确认后再定稿。
 
