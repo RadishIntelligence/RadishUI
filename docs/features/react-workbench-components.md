@@ -20,6 +20,7 @@
 | FormField / Input / Textarea | FormField 提供 label、hint / error、required 与稳定 id；Input / Textarea 读取字段上下文关联 aria-describedby / aria-invalid，也可独立传入原生属性；可选 surface: outline（默认）| filled。Switch 等其他控件由调用方显式关联 id / 标签及所需说明。失败不清空输入 |
 | Select | 受控 value / onValueChange、options、placeholder、disabled / required；可选 surface: outline（默认）| filled；触发值和箭头分离，浮层不透明，支持当前值、键盘、滚动与碰撞避让；已展开时再次点按触发器收起，触控关闭以同一次点按开始时的展开状态为准 |
 | Checkbox / Switch | Checkbox 保留原生表单与键盘行为，Switch 使用受控 checked / onCheckedChange；标签、禁用、焦点与选择状态分别表达 |
+| RadioGroup | 受控 value / onValueChange，options: { value, label, disabled? }[]；orientation: vertical（默认）/ horizontal；name、required、disabled；FormField 内自动关联标签、说明与错误；方向键移动即选中，单项 label 使用字符串保证可访问名称 |
 | Tabs | 受控或非受控 Root，配合 TabsList / TabsContent，保持 tab / tabpanel 关联、方向键、选择与焦点；列表在极窄 + 大字号下可换行，避免入口被裁切；辅助导出不另算组件数量 |
 | StatusBadge | neutral / info / success / warning / danger 表达展示语义，文字与图标由调用方提供，不伪装为交互按钮 |
 | Dialog / Drawer | 受控 open / onOpenChange，标题、可选说明、正文与 footer；支持 Escape、焦点约束、可指定初始焦点并恢复入口；关闭按钮 32px 可视、44px 命中由共享组件提供。Drawer 是同一弹层合同的侧向编排 |
@@ -27,7 +28,7 @@
 | InlineAlert | info / success / warning / danger，错误以 alert 播报，其余状态使用 status；必要说明不只放在 Tooltip |
 | Toast / Tooltip | Toast 以顶部胶囊提供可关闭的短时反馈，关闭按钮显示剩余时间，悬停 / 聚焦暂停，超时自动关闭；Tooltip 补充已有可访问名称；不替代持久错误、字段帮助或必要操作入口 |
 
-A 批 10 个基础组件与 B 批 6 个反馈 / 浮层组件由三代表页实际消费；AppShell、表格、分页、目录和业务数据仍属于展示站组合，不提前承诺通用 DataGrid、服务器分页、富文本或权限能力。
+A 批 10 个基础组件与 B 批 6 个反馈 / 浮层组件由三代表页实际消费；RadioGroup 是 2026-11-08 为设置页新增的第 17 个共享组件；AppShell、表格、分页、目录和业务数据仍属于展示站组合，不提前承诺通用 DataGrid、服务器分页、富文本或权限能力。
 
 ## 视觉与失败路径
 
@@ -42,7 +43,7 @@ A 批 10 个基础组件与 B 批 6 个反馈 / 浮层组件由三代表页实�
 | C-02.1 A 批控件与语义样式 | 已完成（本地 React 19 范例） | 十个基础组件由三页直接消费；类型、真实表单与明暗 / 窄屏检查通过 |
 | C-02.2 B 批浮层与反馈 | 已完成（本地 React 19 范例） | 六个反馈 / 浮层组件由 E-02 消费；Select 键盘、不透明菜单、Dialog / Drawer 焦点约束与恢复、失败反馈通过 |
 | C-02.3 状态与兼容验证 | 已完成（本轮限定范围） | 模型测试、浏览器流程和组合检查通过；具体证据与其他平台 / 辅助技术等未覆盖面归开发记录 |
-| C-02.4 组件用法与状态展示 | 已完成（本地 React 19 用例） | `#/components` 提供 16 个共享组件的实际用例、关键 props / 事件、代码与键盘说明；适用的禁用 / 加载 / 错误 / 只读和长内容可操作；11 月 7 日同步顶部通知与倒计时说明，明暗 / 窄屏验证见开发记录 |
+| C-02.4 组件用法与状态展示 | 已完成（本地 React 19 用例） | `#/components` 提供 17 个共享组件的实际用例、关键 props / 事件、代码与键盘说明；适用的禁用 / 加载 / 错误 / 只读和长内容可操作；11 月 7 日同步顶部通知与倒计时说明，明暗 / 窄屏验证见开发记录 |
 
 前三项完成指本轮真实页面的有限组合验收，C-02.4 已补齐独立用法页；这仍不等于每个组件的所有组合或所有消费环境均已验收。之后按页面需求决定新增组件，不以复制组件实现或静态截图替代运行用例。
 
@@ -56,8 +57,9 @@ A 批 10 个基础组件与 B 批 6 个反馈 / 浮层组件由三代表页实�
 
 - 新增 `control-surface-filled` token（浅色 `#F0F2F5` / 深色 `#272C33`），由 token 管线生成。
 - `Input` / `Textarea` / `Select` 增加可选 `surface?: 'outline' | 'filled'`，默认仍为 `outline`；填充态使用 token 表面、透明边框，hover 用 85% 表面 + 文本色混合，focus 回到 surface + `border-control`，invalid 保持 danger 边框，readonly 使用 muted。
-- 组件示例与设置页使用真实 `surface="filled"`；Textarea 示例保留一条填充字段。分组表面与状态层未进入共享组件，Button 沿用现有 action / bg-selected / inset 状态，不新增状态 token。
-- 设置页作为首个采用页面，4 个 Select 改为 filled；资源库搜索、文档与其他页面仍为 outline。所有者已确认该采用，设置页 filled 纳入 F-02.4 基准修订。
+- 组件示例使用真实 `surface="filled"`；Textarea 示例保留一条填充字段。分组表面与状态层未进入共享组件，Button 沿用现有 action / bg-selected / inset 状态，不新增状态 token。
+- 设置页当时作为首个采用页面，4 个 Select 改为 filled；资源库搜索、文档与其他页面仍为 outline。所有者已确认该采用，设置页 filled 纳入 F-02.4 基准修订。
+- 2026-11-08 RadioGroup 修订：设置页界面语言、显示密度、正文字号、段落行距改为 RadioGroup；设置页不再使用 filled Select，filled 字段保留在组件示例与其他页面。原 B2 记录保留为历史采用，不删除 token 或 API。
 
 按所有者“桌面按钮、输入框、选择器偏大”的反馈，展示站默认偏好改用已有 compact 档；共享 token 值与 API 未改。Input / Select 的纵向内边距随现有高度计算，普通字号时三档实际对齐到 28 / 32 / 36px（2026-11-07 重命名为紧凑 / 标准 / 宽松）；Textarea 保留多行留白，大字号允许自然撑高，coarse / none pointer 保留至少 44px 控件范围，fine pointer 不再仅因窗口变窄而放大。Button 长文案可换行，避免大字号溢出。
 
@@ -84,3 +86,14 @@ Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前
 - 组件用法页的 FormField 示例改为失焦或提交校验，展示输入时清除、失焦显示的节奏。
 - 验证码、上传、日期、滑块、自动补全、级联、标签、密码与单选组只登记为候选，等真实页面需要时再进入 C-02；本轮不因截图新增组件。
 - 验证：`npm run type-check`、`npm run build` 通过；资源弹窗、文档标题、组件示例定向浏览器检查 19/19；未覆盖 Safari / Firefox、屏幕阅读器与复杂表单组件。必填星号颜色属于 F-02.4 候选修订，待所有者视觉确认。
+
+
+## RadioGroup 与设置页单选（2026-11-08）
+
+按表单可用性规则 #10，新增 `RadioGroup` 并替换设置页 4 个 2–4 项字段；5 项以上仍用 Select，可搜索 Combobox 仍为候选。
+
+- API：受控 `value` / `onValueChange`，`options: { value, label, disabled? }[]`，`orientation: vertical（默认）| horizontal`，`name`、`required`、`disabled`；FormField 内自动关联 label、hint / error 与 invalid 状态。
+- 键盘：Tab 进入当前选中项；方向键移动并选中（焦点驱动）；Space 选中；禁用项跳过。字段标签的 `htmlFor` 锚定当前选中项，点击字段标签不会误选第一项。
+- 视觉：列表单选使用 18px 圆点，选中用 action 色填充；粗指针 / 无指针设备每个选项至少 44px 行高。设置页保持左侧说明 / 右侧控件的行式布局，窄屏堆叠。
+- 验证：type-check、build 通过；设置页与组件页定向浏览器检查 24/24（四组单选、方向键即选中、字段标签不误选、保存、语言切换、390 / 1440、无溢出、无 pageerror / 4xx）。
+- 未覆盖：Safari / Firefox、屏幕阅读器实际朗读、设置页明暗矩阵；设置页 RadioGroup 视觉作为 F-02.4 候选修订，待所有者确认。

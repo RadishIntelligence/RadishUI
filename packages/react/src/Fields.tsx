@@ -1,8 +1,8 @@
 import { createContext, useContext, useId, useRef, useState, type ComponentPropsWithRef, type ReactNode } from 'react';
-import { Select as SelectPrimitive } from 'radix-ui';
+import { RadioGroup as RadioGroupPrimitive, Select as SelectPrimitive } from 'radix-ui';
 import { Check, ChevronDown, ChevronUp } from 'lucide-react';
 
-interface FieldState { id: string; describedBy?: string; invalid: boolean; required?: boolean }
+interface FieldState { id: string; labelId: string; describedBy?: string; invalid: boolean; required?: boolean }
 export type FieldSurface = 'outline' | 'filled';
 const FieldContext = createContext<FieldState | undefined>(undefined);
 
@@ -20,14 +20,53 @@ export function FormField({ id: suppliedId, label, hint, error, required, classN
   const generatedId = useId();
   const id = suppliedId ?? generatedId;
   const describedBy = error ? `${id}-error` : hint ? `${id}-hint` : undefined;
-  return <FieldContext.Provider value={{ id, describedBy, invalid: Boolean(error), required }}>
+  const labelId = `${id}-label`;
+  return <FieldContext.Provider value={{ id, labelId, describedBy, invalid: Boolean(error), required }}>
     <div className={`rd-field ${className}`}>
-      <label className="rd-label" htmlFor={id}>{label}{required && <span className="rd-label__required" aria-hidden="true"> *</span>}</label>
+      <label className="rd-label" id={labelId} htmlFor={id}>{label}{required && <span className="rd-label__required" aria-hidden="true"> *</span>}</label>
       {children}
       {error ? <p className="rd-field-error" id={`${id}-error`} role="alert">{error}</p>
         : hint ? <p className="rd-field-hint" id={`${id}-hint`}>{hint}</p> : null}
     </div>
   </FieldContext.Provider>;
+}
+
+export interface RadioOption { value: string; label: string; disabled?: boolean }
+export interface RadioGroupProps {
+  value: string;
+  onValueChange(value: string): void;
+  options: readonly RadioOption[];
+  label?: string;
+  name?: string;
+  disabled?: boolean;
+  required?: boolean;
+  orientation?: 'vertical' | 'horizontal';
+  className?: string;
+  id?: string;
+}
+export function RadioGroup({ value, onValueChange, options, label, name, disabled, required, orientation = 'vertical', className = '', id: suppliedId }: RadioGroupProps) {
+  const field = useContext(FieldContext);
+  const generatedId = useId();
+  const groupId = suppliedId ?? field?.id ?? generatedId;
+  const selectedIndex = options.findIndex(option => option.value === value);
+  const anchorIndex = selectedIndex === -1 ? 0 : selectedIndex;
+  return <RadioGroupPrimitive.Root value={value} onValueChange={onValueChange} name={name} disabled={disabled}
+    required={required ?? field?.required} orientation={orientation}
+    aria-label={field ? undefined : label} aria-labelledby={field?.labelId}
+    aria-describedby={field?.describedBy} aria-invalid={field?.invalid || undefined}
+    className={`rd-radio-group ${orientation === 'horizontal' ? 'rd-radio-group--horizontal' : ''} ${className}`.trim()}>
+    {options.map((option, index) => {
+      const itemId = index === anchorIndex ? groupId : `${groupId}-${index + 1}`;
+      return <div className="rd-radio" key={option.value}>
+        <RadioGroupPrimitive.Item id={itemId} value={option.value} disabled={option.disabled}
+          aria-label={option.label} className="rd-radio__item"
+          onFocus={() => { if (value !== option.value) onValueChange(option.value); }}>
+          <RadioGroupPrimitive.Indicator className="rd-radio__indicator" />
+        </RadioGroupPrimitive.Item>
+        <label className="rd-radio__label" htmlFor={itemId}>{option.label}</label>
+      </div>;
+    })}
+  </RadioGroupPrimitive.Root>;
 }
 
 export function Input({ className = '', surface = 'outline', id, required, 'aria-describedby': description, 'aria-invalid': invalid, ...props }: ComponentPropsWithRef<'input'> & { surface?: FieldSurface }) {
