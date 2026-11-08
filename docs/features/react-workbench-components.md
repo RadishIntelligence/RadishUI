@@ -67,7 +67,7 @@ Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前
 
 ## 顶部通知与倒计时（2026-11-07）
 
-按所有者对底部通知的反馈，Toast 改为顶部居中的深色胶囊：关闭按钮的边框即 4500ms 倒计时环，走完后自动关闭；悬停或聚焦时暂停，离开后继续。Escape、关闭按钮与向上滑动都可关闭，F8 仍进入通知区域；`prefers-reduced-motion` 下取消进出场动画但保留倒计时。公开 API（open / onOpenChange / message / label / closeLabel）未变，其他页面与 ComponentsPage 示例直接获得同一形态。
+按所有者对底部通知的反馈，Toast 改为顶部居中的深色胶囊：关闭按钮的边框即 4500ms 倒计时环，走完后自动关闭；悬停或聚焦时暂停，离开后继续。Escape、关闭按钮与向上滑动都可关闭，F8 仍进入通知区域。减少动效时，进出场动画和边框进度动画停止，关闭按钮显示静态边框，仍在 4500ms 后自动关闭。其他页面与 ComponentsPage 示例直接获得同一形态。
 
 倒计时环使用 `pathLength="1"` 的圆角矩形描边，随时间增加 `stroke-dashoffset`；暂停状态由 Radix Toast 的 `onPause` / `onResume` 同步到 `data-paused`，避免动画与自动关闭时间脱节。通知不进入页面布局，也不改变固定单屏的滚动所有者。
 
@@ -93,7 +93,7 @@ Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前
 按表单可用性规则 #10，新增 `RadioGroup` 并替换设置页 4 个 2–4 项字段；5 项以上仍用 Select，可搜索 Combobox 仍为候选。
 
 - API：受控 `value` / `onValueChange`，`options: { value, label, disabled? }[]`，`orientation: vertical（默认）| horizontal`，`name`、`required`、`disabled`；FormField 内自动关联 label、hint / error 与 invalid 状态。
-- 键盘：Tab 进入当前选中项；方向键移动并选中（焦点驱动）；Space 选中；禁用项跳过。字段标签的 `htmlFor` 锚定当前选中项，点击字段标签不会误选第一项。
+- 键盘：Tab 进入当前选中项；方向键移动并选中，鼠标点选后改用方向键也会显示焦点环；Space 选中；禁用项跳过。字段标签的 `htmlFor` 锚定当前选中项，点击字段标签不会误选第一项。
 - 视觉：列表单选使用 18px 圆点，选中用 action 色填充；粗指针 / 无指针设备每个选项至少 44px 行高。设置页使用横向单选组，桌面控件列放宽到 320px 并右对齐，窄容器换行；移动单列左对齐。
 - 验证：type-check、build 通过；设置页与组件页定向浏览器检查 28/28（四组单选、方向键即选中、字段标签不误选、保存、语言切换、桌面右对齐 / 移动左对齐、390 / 514 / 1440、514 + 200% 基础字号、无溢出、无 pageerror / 4xx）。
-- 未覆盖：Safari / Firefox、屏幕阅读器实际朗读、设置页明暗矩阵；设置页 RadioGroup 视觉作为 F-02.4 候选修订，待所有者确认。
+- Safari / Firefox 后续复验见 [E-02.5](workbench-preview.md#e-025-补验检查项)。设置页 RadioGroup 视觉作为 F-02.4 候选修订，待所有者确认。

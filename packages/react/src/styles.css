@@ -31,7 +31,8 @@
 .rd-radio__item { box-sizing: border-box; appearance: none; display: grid; place-items: center; position: relative; flex: 0 0 auto; width: 18px; height: 18px; padding: 0; border: 1px solid var(--rd-border-control); border-radius: 50%; background: var(--rd-bg-surface); cursor: pointer; }
 .rd-radio__item:hover:not(:disabled) { border-color: var(--rd-text-secondary); }
 .rd-radio__item[data-state="checked"] { border-color: var(--rd-action-primary); background: var(--rd-action-primary); }
-.rd-radio__item:focus-visible { outline: 2px solid var(--rd-focus-ring); outline-offset: 3px; }
+.rd-radio__item:focus-visible,
+.rd-radio-group[data-keyboard-focus] .rd-radio__item:focus { outline: 2px solid var(--rd-focus-ring); outline-offset: 3px; }
 .rd-radio-group[aria-invalid="true"] .rd-radio__item { border-color: var(--rd-state-danger); }
 .rd-radio__indicator { display: block; width: 6px; height: 6px; border-radius: 50%; background: var(--rd-bg-surface); }
 .rd-radio__label { min-width: 0; color: var(--rd-text-primary); font-size: var(--rd-font-size-sm); line-height: 1.4; overflow-wrap: anywhere; cursor: pointer; }
@@ -165,5 +166,5 @@
   .rd-button, .rd-switch-thumb { transition: none; }
   .rd-button__spinner { animation: none; }
   .rd-dialog-overlay { animation: none; }
-  .rd-toast[data-state="open"], .rd-toast[data-state="closed"] { animation: none; }
+  .rd-toast[data-state="open"], .rd-toast[data-state="closed"], .rd-toast-ring-progress { animation: none; }
 }

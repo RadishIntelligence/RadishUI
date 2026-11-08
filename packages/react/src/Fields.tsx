@@ -47,6 +47,7 @@ export interface RadioGroupProps {
 export function RadioGroup({ value, onValueChange, options, label, name, disabled, required, orientation = 'vertical', className = '', id: suppliedId }: RadioGroupProps) {
   const field = useContext(FieldContext);
   const generatedId = useId();
+  const [keyboardFocus, setKeyboardFocus] = useState(false);
   const groupId = suppliedId ?? field?.id ?? generatedId;
   const selectedIndex = options.findIndex(option => option.value === value);
   const anchorIndex = selectedIndex === -1 ? 0 : selectedIndex;
@@ -54,6 +55,10 @@ export function RadioGroup({ value, onValueChange, options, label, name, disable
     required={required ?? field?.required} orientation={orientation}
     aria-label={field ? undefined : label} aria-labelledby={field?.labelId}
     aria-describedby={field?.describedBy} aria-invalid={field?.invalid || undefined}
+    data-keyboard-focus={keyboardFocus || undefined}
+    onKeyDownCapture={event => { if (event.key.startsWith('Arrow')) setKeyboardFocus(true); }}
+    onPointerDownCapture={() => setKeyboardFocus(false)}
+    onBlur={event => { if (!event.currentTarget.contains(event.relatedTarget)) setKeyboardFocus(false); }}
     className={`rd-radio-group ${orientation === 'horizontal' ? 'rd-radio-group--horizontal' : ''} ${className}`.trim()}>
     {options.map((option, index) => {
       const itemId = index === anchorIndex ? groupId : `${groupId}-${index + 1}`;

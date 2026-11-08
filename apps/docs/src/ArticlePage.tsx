@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, type FormEvent, type RefObject } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent, type RefObject } from 'react';
 import { Button, Dialog, FormField, InlineAlert, Input, StatusBadge, Textarea } from '@radish-ui/react';
 import { Check, ChevronLeft, Copy, Info, LockKeyhole, Pencil, Share2 } from 'lucide-react';
 import { articleForResource, welcomeArticle } from './document-seed';
@@ -10,6 +10,14 @@ interface ArticlePageProps {
   scrollRoot: RefObject<HTMLElement | null>; t: Translate; notify(message: string): void;
   onDirtyChange(dirty: boolean): void; externalChange: boolean;
 }
+
+function headingScrollTop(root: HTMLElement, heading: HTMLElement) {
+  const padding = parseFloat(getComputedStyle(root).scrollPaddingTop) || 0;
+  const margin = parseFloat(getComputedStyle(heading).scrollMarginTop) || 0;
+  const offset = root.scrollTop + heading.getBoundingClientRect().top - root.getBoundingClientRect().top - padding - margin;
+  return Math.max(0, Math.min(offset, root.scrollHeight - root.clientHeight));
+}
+
 export function ArticlePage(props: ArticlePageProps) {
   const resource = props.resources?.find(item => item.id === props.resourceId);
   if (props.resourceId && props.resourceId !== 'welcome' && !resource) {
@@ -37,6 +45,9 @@ function DocumentReader({ resourceId = 'welcome', resource, preferences, section
   const [copied, setCopied] = useState(false);
   const editButton = useRef<HTMLButtonElement>(null);
   const titleInput = useRef<HTMLInputElement>(null);
+  const headingScroll = useRef<{
+    target: HTMLElement; start: number; top: number; phase: 'pending' | 'scrolling' | 'settled';
+  } | undefined>(undefined);
   const blocks = useMemo(() => parseArticle(article.body), [article.body]);
   const headings = blocks.filter(block => block.type === 'heading');
   const [activeHeading, setActiveHeading] = useState('');
@@ -47,22 +58,55 @@ function DocumentReader({ resourceId = 'welcome', resource, preferences, section
   useEffect(() => onDirtyChange(dirty), [dirty, onDirtyChange]);
   useEffect(() => () => onDirtyChange(false), [onDirtyChange]);
   useEffect(() => { if (editing) titleInput.current?.focus(); }, [editing]);
+  const scrollToHeading = useCallback((id: string) => {
+    const root = scrollRoot.current;
+    const target = document.getElementById(id);
+    if (!root || !target || !root.contains(target)) return;
+    const top = headingScrollTop(root, target);
+    const start = root.scrollTop;
+    const smooth = 'onscrollend' in root && Math.abs(start - top) > 1
+      && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    headingScroll.current = { target, start, top, phase: smooth ? 'pending' : 'settled' };
+    setActiveHeading(id);
+    root.scrollTo({ top, behavior: smooth ? 'smooth' : 'instant' });
+  }, [scrollRoot]);
   useEffect(() => {
     if (editing) return;
     const root = scrollRoot.current;
     if (!root) return;
-    const observer = new IntersectionObserver(entries => {
-      const visible = entries.filter(entry => entry.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
-      if (visible[0]) setActiveHeading(visible[0].target.id);
-    }, { root, rootMargin: '-20px 0px -60% 0px', threshold: 0 });
-    root.querySelectorAll('.article-heading').forEach(heading => observer.observe(heading));
-    return () => observer.disconnect();
+    const articleHeadings = Array.from(root.querySelectorAll<HTMLElement>('.article-heading')).reverse();
+    const updateActiveHeading = () => {
+      const requested = headingScroll.current;
+      if (requested?.phase === 'pending' && Math.abs(root.scrollTop - requested.start) > 1) requested.phase = 'scrolling';
+      // Expanding the outline can move the destination while the browser keeps the old offset.
+      if (requested && (requested.phase !== 'settled' || Math.abs(root.scrollTop - requested.top) <= 1
+        || Math.abs(root.scrollTop - headingScrollTop(root, requested.target)) <= 1)) return;
+      headingScroll.current = undefined;
+      const readingLine = root.getBoundingClientRect().top + 32;
+      const current = articleHeadings.find(heading => heading.getBoundingClientRect().top <= readingLine)
+        ?? articleHeadings[articleHeadings.length - 1];
+      setActiveHeading(current?.id ?? '');
+    };
+    const finishHeadingScroll = () => {
+      // An earlier scroll can end just before the new navigation starts moving.
+      if (headingScroll.current?.phase !== 'scrolling') return;
+      headingScroll.current.phase = 'settled';
+      updateActiveHeading();
+    };
+    updateActiveHeading();
+    root.addEventListener('scroll', updateActiveHeading, { passive: true });
+    root.addEventListener('scrollend', finishHeadingScroll);
+    return () => {
+      headingScroll.current = undefined;
+      root.removeEventListener('scroll', updateActiveHeading);
+      root.removeEventListener('scrollend', finishHeadingScroll);
+    };
   }, [article.body, editing, scrollRoot]);
   useEffect(() => {
     if (!section || editing) return;
-    const target = document.getElementById(section);
-    if (target) { target.scrollIntoView({ block: 'start', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' }); setActiveHeading(section); }
-  }, [section, editing]);
+    const frame = requestAnimationFrame(() => scrollToHeading(section));
+    return () => cancelAnimationFrame(frame);
+  }, [section, editing, article.body, scrollToHeading]);
 
   function exitEditing() { onDirtyChange(false); setEditing(false); setFormError(''); setTitleError(''); requestAnimationFrame(() => editButton.current?.focus()); }
   function validateTitle() {
@@ -89,9 +133,16 @@ function DocumentReader({ resourceId = 'welcome', resource, preferences, section
     setArticle(next); setDraft(next); setStoreError(undefined); exitEditing(); notify(t('文档已保存到当前浏览器', 'Document saved in this browser'));
   }
 
+  const currentHeading = activeHeading || headings[0]?.id;
   const outline = <nav aria-label={t('本文目录', 'Document outline')}><ol>{headings.map(heading => <li key={heading.id} data-level={heading.level}>
-    <a href={`#/document/${resourceId}/${heading.id}`} className={(activeHeading || headings[0]?.id) === heading.id ? 'is-active' : ''}
-      aria-current={(activeHeading || headings[0]?.id) === heading.id ? 'location' : undefined} onClick={() => setActiveHeading(heading.id)}>{heading.text}</a>
+    <a href={`#/document/${resourceId}/${heading.id}`} className={currentHeading === heading.id ? 'is-active' : ''}
+      aria-current={currentHeading === heading.id ? 'location' : undefined}
+      onClick={event => {
+        if (section === heading.id && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey) {
+          event.preventDefault();
+          scrollToHeading(heading.id);
+        }
+      }}>{heading.text}</a>
   </li>)}</ol></nav>;
   return <section className="document-page">
     <div className="document-toolbar"><a className="document-back" href="#/resources"><ChevronLeft size={16} aria-hidden="true" />{t('资源库', 'Resources')}</a>
