@@ -59,7 +59,7 @@ A 批 10 个基础组件与 B 批 6 个反馈 / 浮层组件由三代表页实�
 - `Input` / `Textarea` / `Select` 增加可选 `surface?: 'outline' | 'filled'`，默认仍为 `outline`；填充态使用 token 表面、透明边框，hover 用 85% 表面 + 文本色混合，focus 回到 surface + `border-control`，invalid 保持 danger 边框，readonly 使用 muted。
 - 组件示例使用真实 `surface="filled"`；Textarea 示例保留一条填充字段。分组表面与状态层未进入共享组件，Button 沿用现有 action / bg-selected / inset 状态，不新增状态 token。
 - 设置页当时作为首个采用页面，4 个 Select 改为 filled；资源库搜索、文档与其他页面仍为 outline。所有者已确认该采用，设置页 filled 纳入 F-02.4 基准修订。
-- 2026-11-08 RadioGroup 修订：设置页界面语言、显示密度、正文字号、段落行距改为 RadioGroup；设置页不再使用 filled Select，filled 字段保留在组件示例与其他页面。原 B2 记录保留为历史采用，不删除 token 或 API。
+- 2026-11-08 RadioGroup 修订：设置页界面语言、显示密度、正文字号、段落行距改为横向 RadioGroup；设置页不再使用 filled Select，filled 字段保留在组件示例与其他页面。原 B2 记录保留为历史采用，不删除 token 或 API。
 
 按所有者“桌面按钮、输入框、选择器偏大”的反馈，展示站默认偏好改用已有 compact 档；共享 token 值与 API 未改。Input / Select 的纵向内边距随现有高度计算，普通字号时三档实际对齐到 28 / 32 / 36px（2026-11-07 重命名为紧凑 / 标准 / 宽松）；Textarea 保留多行留白，大字号允许自然撑高，coarse / none pointer 保留至少 44px 控件范围，fine pointer 不再仅因窗口变窄而放大。Button 长文案可换行，避免大字号溢出。
 
@@ -94,6 +94,6 @@ Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前
 
 - API：受控 `value` / `onValueChange`，`options: { value, label, disabled? }[]`，`orientation: vertical（默认）| horizontal`，`name`、`required`、`disabled`；FormField 内自动关联 label、hint / error 与 invalid 状态。
 - 键盘：Tab 进入当前选中项；方向键移动并选中（焦点驱动）；Space 选中；禁用项跳过。字段标签的 `htmlFor` 锚定当前选中项，点击字段标签不会误选第一项。
-- 视觉：列表单选使用 18px 圆点，选中用 action 色填充；粗指针 / 无指针设备每个选项至少 44px 行高。设置页保持左侧说明 / 右侧控件的行式布局，窄屏堆叠。
-- 验证：type-check、build 通过；设置页与组件页定向浏览器检查 24/24（四组单选、方向键即选中、字段标签不误选、保存、语言切换、390 / 1440、无溢出、无 pageerror / 4xx）。
+- 视觉：列表单选使用 18px 圆点，选中用 action 色填充；粗指针 / 无指针设备每个选项至少 44px 行高。设置页使用横向单选组，桌面控件列放宽到 320px，窄容器换行；窄屏单列堆叠。
+- 验证：type-check、build 通过；设置页与组件页定向浏览器检查 26/26（四组单选、方向键即选中、字段标签不误选、保存、语言切换、390 / 514 / 1440、514 + 200% 基础字号、无溢出、无 pageerror / 4xx）。
 - 未覆盖：Safari / Firefox、屏幕阅读器实际朗读、设置页明暗矩阵；设置页 RadioGroup 视觉作为 F-02.4 候选修订，待所有者确认。

@@ -109,4 +109,4 @@ B1 进一步把运行版外壳改为平面：去掉 8px 外沿和双层圆角卡
 - **填充字段**：`Input` / `Textarea` / `Select` 可选 `surface="filled"`，默认 `outline` 不变。填充态用 `control-surface-filled`、透明边框；hover 用 85% 填充表面 + 文本色混合，focus 回到 `bg-surface` + `border-control`，invalid 保留 danger 边框，readonly 用 muted。
 - **分组表面**：候选卡片用 muted header / footer、1px 分隔和内容白底，表达一组有明确头尾的设置；不新增 Card 组件，避免为单页组合过早抽象。
 - **状态层**：Button 继续使用现有 `action-hover` / `bg-selected` / inset 阴影；填充字段的 hover / focus 只在本组件内用 color-mix，不新增独立状态 token。
-- **采用边界**：组件示例使用可选 filled；设置页 2026-11-07 作为首个真实页面采用 filled，2026-11-08 改为 RadioGroup，filled Select 保留在组件示例与其他页面；资源库搜索等仍为 outline，是否扩大待定。对照用的 spike 已在采用后移除。
+- **采用边界**：组件示例使用可选 filled；设置页 2026-11-07 作为首个真实页面采用 filled，2026-11-08 改为横向 RadioGroup，filled Select 保留在组件示例与其他页面；资源库搜索等仍为 outline，是否扩大待定。对照用的 spike 已在采用后移除。
