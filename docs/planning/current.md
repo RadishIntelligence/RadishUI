@@ -26,6 +26,8 @@
 
 2026-11-08 按所有者确认收口 [E-02.5](../features/workbench-preview.md#e-025-补验检查项)。桌面采用 Safari / Firefox 扩展矩阵和回归结果，移动端采用既有 iPhone 模拟器抽查。VoiceOver 实际朗读和实体 iPhone 验收移出本轮范围。Windows + NVDA 留待具备环境并明确支持范围后安排。
 
+2026-11-08 组件页补入 InputOTP 错误 / 禁用、ToggleGroup / Accordion 禁用、ConfirmDialog loading 状态示例，并抽查暗色 / 390；复用第二版样式，不改变视觉语言。
+
 2026-11-08 所有者确认登记 F-02.4 第二版运行基线（`cc722db`，本地未推送）：覆盖资源库 / 设置 / 文档、24 个共享组件、表单与新增组件、字体 / 图标策略及 E-02.5 跨浏览器修复；VoiceOver / 实体 iPhone / NVDA、`.pen` 同步、新增组件的 Safari / Firefox 单独复验、字体包发行依赖和真实产品采用仍为范围外。详见[F-02.4](../features/visual-baseline-proposal.md#第二版运行基线登记2026-11-08)。
 
 长期目标和阶段出口见[整体规划](roadmap.md)，四个大专题与子专题归属见[专题地图](topics.md)；本页只维护当前顺位，不复制子专题任务表。

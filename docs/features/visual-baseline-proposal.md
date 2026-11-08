@@ -251,4 +251,5 @@ B1 继续把运行版外壳、字阶与内容密度作为一次新的视觉候�
 - **视觉基础**：`--rd-*` 语义 token、Inter Variable / JetBrains Mono Variable 字体栈、lucide 1.68 图标策略、桌面 32 / 移动 36 chrome、触屏 44px 命中、密度三档。
 - **跨浏览器证据**：E-02.5 的 Safari 27.0.1 / Firefox 159.0.1 本轮矩阵、状态与回归各 248 / 248，减少动效 11 / 11；移动端采用既有 iPhone 17 / iOS 26.5 模拟器抽查。
 - **例外 / 不覆盖**：VoiceOver 实际朗读、实体 iPhone、Windows + NVDA；Safari / Firefox 对本轮新增组件的单独复验；`.pen` 仍不同步；字体包目前只进入 Web 范例，组件包发行依赖未定；Skeleton / InputOTP / ConfirmDialog loading / ToggleGroup 多选 / Accordion 多选尚无真实产品流程；不构成产品采用或正式发行。
+- **状态示例补充**：2026-11-08 组件页补入 InputOTP 错误 / 禁用、ToggleGroup / Accordion 禁用、ConfirmDialog loading；复用第二版已登记样式，不改变页面 / 组件视觉语言。
 - **变更规则**：后续视觉调整仍按页面 / 状态记录；修改本基线需新的所有者确认，不把局部调整自动视为新基线。

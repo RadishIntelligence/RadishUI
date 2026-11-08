@@ -70,7 +70,11 @@ function FieldExamples() {
     <Example name="InputOTP" contract="受控 value / onValueChange，label 必填，length（默认 6）、hint / error、required、disabled、autoFocus、name、onEnterPress。数字输入、自动前进、退格 / 方向键、粘贴填充。"
       keyboard="每个数字格可聚焦；输入自动前进，Backspace 清除当前或上一格，方向键 / Home / End 移动，粘贴按位填充；错误通过 aria-describedby 关联。"
       code={'<InputOTP label="六位验证码" value={otp} onValueChange={setOtp} />'}>
-      <InputOTP label="六位验证码" hint="输入发送到当前账号的 6 位数字。" value={otp} onValueChange={setOtp} />
+      <div className="component-fields">
+        <InputOTP label="六位验证码" hint="输入发送到当前账号的 6 位数字。" value={otp} onValueChange={setOtp} />
+        <InputOTP label="验证码错误" value="123" error="请输入完整的 6 位验证码。" onValueChange={() => {}} />
+        <InputOTP label="验证码禁用" value="123456" disabled onValueChange={() => {}} />
+      </div>
       <p role="status">已输入 {otp.length} / 6 位</p>
     </Example>
     <Example name="Select" contract="受控 value / onValueChange；options: { value, label, disabled? }[]；placeholder、disabled、required、name。无 readOnly prop。"
@@ -93,7 +97,7 @@ function SelectionExamples() {
   const [radio, setRadio] = useState('standard');
   const [radioHorizontal, setRadioHorizontal] = useState('compact');
   const [displayOptions, setDisplayOptions] = useState<string[]>(['standard']);
-  const displayLabels: Record<string, string> = { compact: '紧凑', standard: '标准', spacious: '宽松' };
+  const displayLabels: Record<string, string> = { compact: '紧凑', standard: '标准', spacious: '宽松', unavailable: '不可用' };
   return <>
     <Example name="RadioGroup" contract="受控 value / onValueChange；options: { value, label, disabled? }[]；orientation: vertical（默认）| horizontal；name、required、disabled。FormField 内自动关联标签、说明与错误。"
       keyboard="Tab 进入当前项，方向键移动并选中，Space 选中；禁用项跳过。"
@@ -101,7 +105,7 @@ function SelectionExamples() {
       <div className="component-stack">
         <FormField label="示例密度" hint="单选组在 FormField 内共享标签与说明。">
           <RadioGroup value={radio} onValueChange={setRadio} options={[
-            { value: 'compact', label: '紧凑' }, { value: 'standard', label: '标准' }, { value: 'spacious', label: '宽松' }, { value: 'disabled', label: '不可用示例', disabled: true },
+            { value: 'compact', label: '紧凑' }, { value: 'standard', label: '标准' }, { value: 'spacious', label: '宽松' }, { value: 'unavailable', label: '不可用', disabled: true }, { value: 'disabled', label: '不可用示例', disabled: true },
           ]} />
         </FormField>
         <FormField label="水平单选">
@@ -125,7 +129,7 @@ function SelectionExamples() {
       keyboard="Tab 进入组；方向键在项间移动，Space / Enter 切换；禁用项跳过。"
       code={'<ToggleGroup type="multiple" label="显示选项" value={value} onValueChange={setValue} items={items} />'}>
       <ToggleGroup type="multiple" label="显示选项" value={displayOptions} onValueChange={setDisplayOptions} items={[
-        { value: 'compact', label: '紧凑' }, { value: 'standard', label: '标准' }, { value: 'spacious', label: '宽松' },
+        { value: 'compact', label: '紧凑' }, { value: 'standard', label: '标准' }, { value: 'spacious', label: '宽松' }, { value: 'unavailable', label: '不可用', disabled: true },
       ]} />
       <p role="status">当前：{displayOptions.length ? displayOptions.map(value => displayLabels[value]).join('、') : '未选择'}</p>
     </Example>
@@ -165,6 +169,8 @@ function FeedbackExamples() {
   const [toastCount, setToastCount] = useState(0);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [confirmResult, setConfirmResult] = useState('尚未确认');
+  const [loadingConfirmOpen, setLoadingConfirmOpen] = useState(false);
+  const [confirming, setConfirming] = useState(false);
   const nameRef = useRef<HTMLInputElement>(null);
   return <>
     <Example name="Dialog" contract="open / onOpenChange、title、description、footer、closeLabel；initialFocusRef 指定初始焦点。保存逻辑由调用方处理。"
@@ -180,9 +186,12 @@ function FeedbackExamples() {
     <Example name="ConfirmDialog" contract="基于 Dialog 的确认组合：open / onOpenChange、title、description、confirmLabel、cancelLabel、tone: default | danger、loading、onConfirm；初始焦点在取消，loading 时关闭被拦截。"
       keyboard="打开后焦点进入取消按钮；Tab 在两个操作间移动，Escape / 关闭按钮关闭并回到入口；确认动作由调用方执行。"
       code={'<ConfirmDialog open={open} onOpenChange={setOpen} title="删除资源？" confirmLabel="删除" cancelLabel="取消" tone="danger" onConfirm={remove} />'}>
-      <div className="component-row"><Button variant="danger" onClick={() => setConfirmOpen(true)}>删除示例资源</Button><span>{confirmResult}</span></div>
+      <div className="component-row"><Button variant="danger" onClick={() => setConfirmOpen(true)}>删除示例资源</Button><Button variant="secondary" onClick={() => { setConfirming(false); setLoadingConfirmOpen(true); }}>打开加载确认</Button><span>{confirmResult}</span></div>
       <ConfirmDialog open={confirmOpen} onOpenChange={setConfirmOpen} title="删除示例资源？" description="仅修改本页内存，刷新后恢复。" confirmLabel="删除" cancelLabel="取消" tone="danger" onConfirm={() => { setConfirmOpen(false); setConfirmResult('已确认删除（仅本页状态）'); }}>
         <p>此操作无法撤销。示例不会写入浏览器数据。</p>
+      </ConfirmDialog>
+      <ConfirmDialog open={loadingConfirmOpen} onOpenChange={setLoadingConfirmOpen} title="发布更新？" description="本页模拟 900ms 处理；loading 时不能关闭。" confirmLabel="发布" cancelLabel="取消" loading={confirming} onConfirm={() => { setConfirming(true); window.setTimeout(() => { setConfirming(false); setLoadingConfirmOpen(false); setConfirmResult('模拟确认完成'); }, 900); }}>
+        <p>这是状态示例，不写入浏览器数据。</p>
       </ConfirmDialog>
     </Example>
     <Example name="Accordion" contract="type: single（默认）| multiple；items: { value, label, content, disabled? }[]；value / defaultValue / onValueChange；single 可 collapsible。"
@@ -192,6 +201,7 @@ function FeedbackExamples() {
         { value: 'basics', label: '选择依据', content: <p>用内容层级决定是否折叠，不把必要状态藏进折叠区。</p> },
         { value: 'states', label: '状态说明', content: <p>展开后仍保留标题、焦点与当前项；单次只展开一项。</p> },
         { value: 'keyboard', label: '键盘操作', content: <p>Tab 进入标题，Enter / Space 切换；方向键在标题间移动。</p> },
+        { value: 'unavailable', label: '不可用项', content: <p>禁用项不进入键盘顺序。</p>, disabled: true },
       ]} />
     </Example>
     <Example name="Drawer" contract="与 Dialog 相同的输入与关闭合同，以侧向浮层展示辅助内容。"

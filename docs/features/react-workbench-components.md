@@ -134,7 +134,7 @@ Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前
 - 键盘 / 输入：数字自动前进；Backspace 清除当前或上一格；Delete、方向键、Home / End；粘贴按位填充；每格有独立可访问名称，组用 `aria-labelledby` / `aria-describedby` 关联标签与说明。
 - 表单：`name` 时额外提交完整值的隐藏字段；错误状态通过 `aria-invalid` 与 danger 边框表达。
 - 接入：组件用法页字段组示例；本仓暂无真实登录页，未伪造验证码页面。家族 Radish 的 PasscodeInput 是后续真实接入参考。
-- 验证：`type-check` / `build` 通过；定向浏览器 18/18（6 格、正方形、与标准控件同高、自动前进、Backspace、粘贴、无障碍名称、Inter / JetBrains 字体、390 无溢出、无 pageerror / 4xx）。
+- 验证：`type-check` / `build` 通过；定向浏览器 21/21（6 格、正方形、与标准控件同高、自动前进、Backspace、粘贴、无障碍名称、错误 / 禁用状态、Inter / JetBrains 字体、390 无溢出、无 pageerror / 4xx）。
 - 未覆盖：真实登录 / 验证码流程、`name` 隐藏字段在真实表单中的提交、屏幕阅读器实际朗读、Safari / Firefox 单独复验。
 
 
@@ -144,7 +144,7 @@ Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前
 - API：`open` / `onOpenChange`、`title`、`description`、`children`、`confirmLabel` / `cancelLabel`、`tone: default | danger`、`loading`、`onConfirm`、`closeLabel`。
 - 交互：`role="alertdialog"`；初始焦点在取消按钮；Tab 在两个操作间移动；Escape / 关闭按钮关闭并回到入口；`loading` 时取消、关闭与遮罩关闭被拦截，确认按钮显示加载。
 - 接入：组件页反馈组、资源删除、文档放弃修改；危险操作用 danger tone，破坏性说明放在 description / children。
-- 验证：`type-check` / `build` 通过；定向浏览器 18/18（alertdialog、标题 / 描述、初始焦点取消、确认结果、Escape 与回焦、真实文档放弃 / 继续编辑、390 无溢出、无 pageerror / 4xx）。
+- 验证：`type-check` / `build` 通过；定向浏览器 24/24（alertdialog、标题 / 描述、初始焦点取消、确认结果、Escape 与回焦、loading 拦截关闭、真实文档放弃 / 继续编辑、390 无溢出、无 pageerror / 4xx）。
 - 未覆盖：`loading` 异步确认的实际业务路径、屏幕阅读器实际朗读、Safari / Firefox 单独复验。
 
 
@@ -154,7 +154,7 @@ Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前
 - API：`type: single（默认）| multiple`、`value` / `onValueChange`、`items: { value, label, disabled? }[]`、`label`、`disabled`、`className`。
 - 语义：单选由 Radix 提供 `radiogroup` / `radio` 与 `aria-checked`；多选使用 `toolbar` / `button` + `aria-pressed`；`label` 必填，禁用项不响应。
 - 接入：资源库类型筛选使用单选（全部 / 文档 / 清单），保留原筛选结果；组件页展示多选、方向键、Space 与状态文本。它替代了原资源页的 Tabs 过滤，Tabs 仍用于设置 / 组件页。
-- 验证：`type-check` / `build` 通过；定向浏览器 15/15（单选筛选、多选追加 / 取消、方向键、Space、390 无横向溢出、无 pageerror / 4xx）。
+- 验证：`type-check` / `build` 通过；定向浏览器 16/16（单选筛选、多选追加 / 取消、禁用项、方向键、Space、390 无横向溢出、无 pageerror / 4xx）。
 - 未覆盖：多选在真实产品页面、屏幕阅读器实际朗读、Safari / Firefox 单独复验。
 
 
@@ -164,5 +164,5 @@ Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前
 - API：`type: single（默认）/ multiple`、`items: { value, label, content, disabled? }[]`、`value` / `defaultValue` / `onValueChange`、`label`、`className`；single 可 `collapsible`。
 - 交互：标题为 button，Tab 进入，Enter / Space 展开 / 收起，方向键在标题间移动；内容区域由 Radix 关联，禁用项跳过；减少动效时箭头不旋转。
 - 接入：文档页移动端“本文目录”取代原生 `<details>`，保留原目录链接与 44px 顶栏；组件页新增单选折叠示例。桌面目录仍是常驻侧栏。
-- 验证：`type-check` / `build` 通过；定向浏览器 13/13（默认可展开项、单次一项、Space、移动目录展开 / 收起、390 无横向溢出、无 pageerror / 4xx）。
+- 验证：`type-check` / `build` 通过；定向浏览器 14/14（默认可展开项、单次一项、禁用项、Space、移动目录展开 / 收起、390 无横向溢出、无 pageerror / 4xx）。
 - 未覆盖：多选折叠在真实产品页面、屏幕阅读器实际朗读、Safari / Firefox 单独复验。Progress 暂缓，等真实异步进度流程。

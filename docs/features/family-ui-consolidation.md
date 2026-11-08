@@ -101,7 +101,7 @@
 
 - 只读盘点与本文档。
 - 当前规划顺位改为“本仓组件 / 示例页面 / 视觉定稿优先”，P2 外部产品采用后置。
-- Avatar、Tag 已进入 C-02，并落到本仓组件页、资源库和文档页；Skeleton 已加入组件页反馈组；InputOTP 已加入字段组，使用标准正方形格；ConfirmDialog 已接入删除 / 放弃路径；ToggleGroup 已用于资源筛选；Accordion 已用于移动目录。定向浏览器 26/26 + InputOTP 18/18 + ConfirmDialog 18/18 + ToggleGroup 15/15 + Accordion 13/13（含正常 / 减少动效、字体加载、390 无横向溢出）；表单 19/19、RadioGroup 28/28 复跑通过。
+- Avatar、Tag 已进入 C-02，并落到本仓组件页、资源库和文档页；Skeleton 已加入组件页反馈组；InputOTP 已加入字段组，使用标准正方形格；ConfirmDialog 已接入删除 / 放弃路径；ToggleGroup 已用于资源筛选；Accordion 已用于移动目录。定向浏览器 26/26 + InputOTP 21/21 + ConfirmDialog 24/24 + ToggleGroup 16/16 + Accordion 14/14（含正常 / 减少动效、字体加载、390 无横向溢出）；表单 19/19、RadioGroup 28/28 复跑通过。
 - 字体栈 token 已更新，Web 范例字体包已引入，图标策略已定稿；未改产品仓；视觉已纳入 F-02.4 第二版运行基线。
 - 图标 / 字体只出策略，不加依赖、不改 token；等所有者确认后再定稿。
 
