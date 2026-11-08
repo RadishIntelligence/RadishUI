@@ -1,5 +1,5 @@
 import { useRef, useState, type ReactNode } from 'react';
-import { Avatar, Button, IconButton, FormField, Input, Textarea, Select, RadioGroup, Checkbox, Switch, Tabs, TabsList, TabsContent, StatusBadge, Tag, Skeleton, Dialog, Drawer, Menu, InlineAlert, Toast, Tooltip } from '@radish-ui/react';
+import { Avatar, Button, IconButton, FormField, Input, InputOTP, Textarea, Select, RadioGroup, Checkbox, Switch, Tabs, TabsList, TabsContent, StatusBadge, Tag, Skeleton, Dialog, Drawer, Menu, InlineAlert, Toast, Tooltip } from '@radish-ui/react';
 import { ArrowLeft, Check, MoreHorizontal, Plus } from 'lucide-react';
 import type { Translate } from './model';
 import './components.css';
@@ -42,6 +42,7 @@ function FieldExamples() {
   const [message, setMessage] = useState('');
   const [selection, setSelection] = useState('');
   const [selectionChecked, setSelectionChecked] = useState(false);
+  const [otp, setOtp] = useState('');
   const options = [{ value: 'document', label: '文档' }, { value: 'long', label: '中文与 English 长名称：用于验证选择器浮层的折行与边界' }, { value: 'unavailable', label: '暂不可选', disabled: true }];
   const nameInvalid = (submitted || nameTouched) && !name.trim();
   return <>
@@ -65,6 +66,12 @@ function FieldExamples() {
       keyboard="Enter 换行，Tab 离开；错误不清空内容。长正文在输入区滚动，支持拖动调整高度。"
       code={'<FormField label="说明"><Textarea rows={4} maxLength={1000} /></FormField>'}>
       <div className="component-fields"><FormField label="多行说明"><Textarea rows={3} defaultValue={'第一行中文说明。\nSecond line in English.'} /></FormField><FormField label="只读摘要"><Textarea rows={3} readOnly value="这是可以选择和复制的只读长文案。内容按可用宽度自然换行。" /></FormField><FormField label="禁用正文"><Textarea rows={3} disabled value="不可编辑" /></FormField><FormField label="待修订说明" error="示例错误：请补充适用范围。"><Textarea rows={3} defaultValue="保留这段草稿继续修改。" /></FormField><FormField label="填充说明（候选）" hint="surface=&quot;filled&quot;；默认仍是 outline。"><Textarea surface="filled" rows={3} defaultValue="填充表面只作为可选形态，不改变默认字段。" /></FormField></div>
+    </Example>
+    <Example name="InputOTP" contract="受控 value / onValueChange，label 必填，length（默认 6）、hint / error、required、disabled、autoFocus、name、onEnterPress。数字输入、自动前进、退格 / 方向键、粘贴填充。"
+      keyboard="每个数字格可聚焦；输入自动前进，Backspace 清除当前或上一格，方向键 / Home / End 移动，粘贴按位填充；错误通过 aria-describedby 关联。"
+      code={'<InputOTP label="六位验证码" value={otp} onValueChange={setOtp} />'}>
+      <InputOTP label="六位验证码" hint="输入发送到当前账号的 6 位数字。" value={otp} onValueChange={setOtp} />
+      <p role="status">已输入 {otp.length} / 6 位</p>
     </Example>
     <Example name="Select" contract="受控 value / onValueChange；options: { value, label, disabled? }[]；placeholder、disabled、required、name。无 readOnly prop。"
       keyboard="Space / Enter 展开；方向键、Home / End 选择；Enter 确认；Escape 关闭并恢复焦点。只读场景可直接显示已选文字。"
@@ -209,7 +216,7 @@ export function ComponentsPage({ t }: { t: Translate }) {
     <div className="page-title"><h1>{t('组件用法', 'Components')}</h1><a className="text-link component-back" href="#/resources"><ArrowLeft size={16} aria-hidden="true" />{t('资源库', 'Resources')}</a></div>
     <Tabs defaultValue="actions" className="component-groups">
       <TabsList label={t('组件分组', 'Component groups')} items={[{ value: 'actions', label: t('操作', 'Actions') }, { value: 'fields', label: t('字段', 'Fields') }, { value: 'selection', label: t('选择', 'Choice') }, { value: 'feedback', label: t('反馈', 'Feedback') }]} />
-      <p className="component-scope">20 个共享组件 · React 19 内部预览。示例状态仅保留在当前分组，切换分组或离开页面会重置；文案使用中文与 English 合成内容。</p>
+      <p className="component-scope">21 个共享组件 · React 19 内部预览。示例状态仅保留在当前分组，切换分组或离开页面会重置；文案使用中文与 English 合成内容。</p>
       <TabsContent value="actions"><ActionExamples /></TabsContent><TabsContent value="fields"><FieldExamples /></TabsContent><TabsContent value="selection"><SelectionExamples /></TabsContent><TabsContent value="feedback"><FeedbackExamples /></TabsContent>
     </Tabs>
   </section>;

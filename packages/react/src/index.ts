@@ -4,3 +4,4 @@ export { Checkbox, Switch, Tabs, TabsList, TabsContent, StatusBadge, type Checkb
 export { Dialog, Drawer, Menu, Tooltip, type DialogProps, type MenuProps, type MenuItem } from './Overlays';
 export { InlineAlert, Toast, type InlineAlertProps, type ToastProps } from './Feedback';
 export { Avatar, Skeleton, Tag, type AvatarProps, type SkeletonProps, type TagProps } from './Display';
+export { InputOTP, type InputOTPProps } from './InputOTP';

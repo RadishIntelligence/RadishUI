@@ -20,6 +20,7 @@
 | FormField / Input / Textarea | FormField 提供 label、hint / error、required 与稳定 id；Input / Textarea 读取字段上下文关联 aria-describedby / aria-invalid，也可独立传入原生属性；可选 surface: outline（默认）| filled。Switch 等其他控件由调用方显式关联 id / 标签及所需说明。失败不清空输入 |
 | Select | 受控 value / onValueChange、options、placeholder、disabled / required；可选 surface: outline（默认）| filled；触发值和箭头分离，浮层不透明，支持当前值、键盘、滚动与碰撞避让；已展开时再次点按触发器收起，触控关闭以同一次点按开始时的展开状态为准 |
 | Checkbox / Switch | Checkbox 保留原生表单与键盘行为，Switch 使用受控 checked / onCheckedChange；标签、禁用、焦点与选择状态分别表达 |
+| InputOTP | 受控 value / onValueChange、label、length（默认 6）、hint / error、required、disabled、autoFocus、name、onEnterPress；数字输入、自动前进、退格 / 方向键 / Home / End、粘贴；每格可访问名称，`name` 提交隐藏的完整值 |
 | RadioGroup | 受控 value / onValueChange，options: { value, label, disabled? }[]；orientation: vertical（默认）/ horizontal；name、required、disabled；FormField 内自动关联标签、说明与错误；方向键移动即选中，单项 label 使用字符串保证可访问名称 |
 | Tabs | 受控或非受控 Root，配合 TabsList / TabsContent，保持 tab / tabpanel 关联、方向键、选择与焦点；列表在极窄 + 大字号下可换行，避免入口被裁切；辅助导出不另算组件数量 |
 | StatusBadge | neutral / info / success / warning / danger 表达展示语义，文字与图标由调用方提供，不伪装为交互按钮 |
@@ -31,7 +32,7 @@
 | InlineAlert | info / success / warning / danger，错误以 alert 播报，其余状态使用 status；必要说明不只放在 Tooltip |
 | Toast / Tooltip | Toast 以顶部胶囊提供可关闭的短时反馈，关闭按钮显示剩余时间，悬停 / 聚焦暂停，超时自动关闭；Tooltip 补充已有可访问名称；不替代持久错误、字段帮助或必要操作入口 |
 
-A 批 10 个基础组件与 B 批 6 个反馈 / 浮层组件由三代表页实际消费；当前共 20 个共享组件；RadioGroup 是 2026-11-08 为设置页新增的第 17 个，Avatar / Tag 是第 18 / 19 个，Skeleton 是第 20 个；AppShell、表格、分页、目录和业务数据仍属于展示站组合，不提前承诺通用 DataGrid、服务器分页、富文本或权限能力。
+A 批 10 个基础组件与 B 批 6 个反馈 / 浮层组件由三代表页实际消费；当前共 21 个共享组件；RadioGroup 是 2026-11-08 为设置页新增的第 17 个，Avatar / Tag 是第 18 / 19 个，Skeleton 是第 20 个，InputOTP 是第 21 个；AppShell、表格、分页、目录和业务数据仍属于展示站组合，不提前承诺通用 DataGrid、服务器分页、富文本或权限能力。
 
 ## 视觉与失败路径
 
@@ -46,7 +47,7 @@ A 批 10 个基础组件与 B 批 6 个反馈 / 浮层组件由三代表页实�
 | C-02.1 A 批控件与语义样式 | 已完成（本地 React 19 范例） | 十个基础组件由三页直接消费；类型、真实表单与明暗 / 窄屏检查通过 |
 | C-02.2 B 批浮层与反馈 | 已完成（本地 React 19 范例） | 六个反馈 / 浮层组件由 E-02 消费；Select 键盘、不透明菜单、Dialog / Drawer 焦点约束与恢复、失败反馈通过 |
 | C-02.3 状态与兼容验证 | 已完成（本轮限定范围） | 模型测试、浏览器流程和组合检查通过；具体证据与其他平台 / 辅助技术等未覆盖面归开发记录 |
-| C-02.4 组件用法与状态展示 | 已完成（本地 React 19 用例） | `#/components` 提供 20 个共享组件的实际用例、关键 props / 事件、代码与键盘说明；适用的禁用 / 加载 / 错误 / 只读和长内容可操作；11 月 7 日同步顶部通知与倒计时说明，明暗 / 窄屏验证见开发记录 |
+| C-02.4 组件用法与状态展示 | 已完成（本地 React 19 用例） | `#/components` 提供 21 个共享组件的实际用例、关键 props / 事件、代码与键盘说明；适用的禁用 / 加载 / 错误 / 只读和长内容可操作；11 月 7 日同步顶部通知与倒计时说明，明暗 / 窄屏验证见开发记录 |
 
 前三项完成指本轮真实页面的有限组合验收，C-02.4 已补齐独立用法页；这仍不等于每个组件的所有组合或所有消费环境均已验收。之后按页面需求决定新增组件，不以复制组件实现或静态截图替代运行用例。
 
@@ -120,3 +121,14 @@ Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前
 - 视觉：`--rd-bg-muted` 表面 + 低对比高光扫过；`prefers-reduced-motion: reduce` 时保留静态占位、停止动画。
 - 接入：组件用法页反馈组；本仓没有真实异步页面，未伪造加载态。家族 Radish 工作区有 Skeleton 使用位置，后续真实页面需要时再接入。
 - 验证：`npm run type-check`、`npm run build` 通过；定向浏览器 26/26（含 Avatar / Tag / Skeleton、正常 / 减少动效、390 无横向溢出）；表单 19/19、RadioGroup 28/28 复跑通过。
+
+
+## InputOTP（2026-11-08）
+
+- 目标：为家族登录 / 验证码类场景提供通用输入；参考 Radish `@radish/ui` 的 PasscodeInput 行为，但不搬产品实现。
+- API：受控 `value` / `onValueChange`；`label` 必填，`length` 默认 6；`hint` / `error`、`required`、`disabled`、`autoFocus`、`name`、`onEnterPress`。
+- 键盘 / 输入：数字自动前进；Backspace 清除当前或上一格；Delete、方向键、Home / End；粘贴按位填充；每格有独立可访问名称，组用 `aria-labelledby` / `aria-describedby` 关联标签与说明。
+- 表单：`name` 时额外提交完整值的隐藏字段；错误状态通过 `aria-invalid` 与 danger 边框表达。
+- 接入：组件用法页字段组示例；本仓暂无真实登录页，未伪造验证码页面。家族 Radish 的 PasscodeInput 是后续真实接入参考。
+- 验证：`type-check` / `build` 通过；定向浏览器 16/16（6 格、自动前进、Backspace、粘贴、无障碍名称、Inter / JetBrains 字体、390 无溢出、无 pageerror / 4xx）。
+- 未覆盖：真实登录 / 验证码流程、`name` 隐藏字段在真实表单中的提交、屏幕阅读器实际朗读、Safari / Firefox 单独复验。

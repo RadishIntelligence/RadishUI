@@ -1,6 +1,6 @@
 # 03 字体与排版
 
-Web 使用本机已安装字体，优先 Inter / JetBrains Mono，缺失时回退系统栈；不新增网络字体、字体包或字体文件。桌面、自绘或 Flutter 如需打包字体，另行确认字体来源、字重、许可证和体积。
+Web 范例使用 OFL 字体包 `@fontsource-variable/inter` / `@fontsource-variable/jetbrains-mono` 5.3.0，字体族为 `'Inter Variable'` / `'JetBrains Mono Variable'`，CJK 回退系统。组件包消费时的字体依赖方式与 Flutter 字体另行确认；不复制字体文件进仓库。
 
 | 角色 | Workbench 候选 | 说明 |
 | --- | --- | --- |
@@ -12,9 +12,9 @@ Web 使用本机已安装字体，优先 Inter / JetBrains Mono，缺失时回�
 
 ## 家族字体栈（2026-11-08）
 
-- Sans：`Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif`。
-- Mono：`'JetBrains Mono', 'SFMono-Regular', Consolas, monospace`。
-- Inter / JetBrains Mono 尚未随项目打包；已安装时优先，缺失时回退。是否以 OFL 字体包提供，需另行确认许可、体积、加载和版本策略。
+- Sans：`'Inter Variable', Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif`。
+- Mono：`'JetBrains Mono Variable', 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace`。
+- Web 范例已引入 `@fontsource-variable` 字体包（OFL-1.1）；CJK 使用系统字体。组件包发行时是否把字体包作为 dependency / peer / 可选资源，仍需单独确认。
 - 中文、English、数字、代码、长名称与 200% 基础字号共同检查；不通过负字距、超小字号或 `vw` 字号硬塞。
 
 以上保留早期 Workbench 候选的角色参考。当前现代圆角 Web 实施的具名字级与 rem 映射以 [F-01](../../features/token-foundation.md)为准，正文随可用宽度编排；不把本表视为已冻结的发行 API。Brand 可在大标题使用少量衬线；表单、按钮、列表和工作面正文使用无衬线。代码、路径、标识与对齐数值使用 Mono 栈。
