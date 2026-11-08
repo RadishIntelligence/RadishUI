@@ -121,6 +121,19 @@ test('提交校验依据真实父节点识别 merge，不接受伪造标题', ()
   for (const subject of ['update', 'Merge pull request #3', 'fix: ', 'unknown: change']) assert.throws(() => checkCommit(subject, 1));
 });
 
+test('历史提交标题例外只接受核准的三个完整 SHA', () => {
+  const subject = 'design(workbench): 收紧文档目录并铺满阅读内容区';
+  for (const sha of [
+    'c6eba89d20e40f45fa4525da1f104b6d395232ea',
+    '98d1550b0867bedbc31a1e8bf4c2b7700b3d7ef1',
+    '6cca1300e38b9adc690c9148e82379dc87db1a6d',
+  ]) {
+    checkCommit(subject, 1, sha);
+    assert.throws(() => checkCommit(subject, 1, sha.slice(0, 12)), /不符合 Conventional Commits/);
+  }
+  assert.throws(() => checkCommit(subject, 1, '6cca1300e38b9adc690c9148e82379dc87db1a60'), /不符合 Conventional Commits/);
+});
+
 test('PR 完整区间拒绝早先坏提交、已提交空白和无效 base', () => {
   const directory = mkdtempSync(join(tmpdir(), 'radishui-history-'));
   const git = (...args) => execFileSync('git', args, { cwd: directory, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).trim();
@@ -135,9 +148,9 @@ test('PR 完整区间拒绝早先坏提交、已提交空白和无效 base', () 
     const base = commit('chore: base', 'base\n');
     const good = commit('feat: valid', 'valid\n');
     checkHistory(directory, base, good);
-    commit('invalid earlier subject', 'earlier\n');
+    commit('design(workbench): 收紧文档目录并铺满阅读内容区', 'earlier\n');
     const head = commit('fix: valid final subject', 'final\n');
-    assert.throws(() => checkHistory(directory, base, head), /invalid earlier subject/);
+    assert.throws(() => checkHistory(directory, base, head), /design\(workbench\)/);
     assert.throws(() => checkHistory(directory, 'missing-base', head));
     const whitespaceBase = head;
     const whitespaceHead = commit('fix: whitespace', 'trailing \n');

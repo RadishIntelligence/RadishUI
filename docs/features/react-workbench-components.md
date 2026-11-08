@@ -131,7 +131,7 @@ Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前
 - 目标：为家族登录 / 验证码类场景提供通用输入；参考 Radish `@radish/ui` 的 PasscodeInput 行为，但不搬产品实现。
 - API：受控 `value` / `onValueChange`；`label` 必填，`length` 默认 6；`hint` / `error`、`required`、`disabled`、`autoFocus`、`name`、`onEnterPress`。
 - 视觉：每格为正方形，与标准控件同高；细指针 32×32（`--rd-control-height`），粗指针 44×44（`--rd-touch-height`）；数字使用 mono 字体。
-- 键盘 / 输入：数字自动前进；Backspace 清除当前或上一格；Delete、方向键、Home / End；粘贴按位填充；每格有独立可访问名称，组用 `aria-labelledby` / `aria-describedby` 关联标签与说明。
+- 键盘 / 输入：数字自动前进，Backspace 清除当前或上一格，Delete 清除当前格。清空中间格时，右侧数字保留原位，`onValueChange` 继续返回连续数字字符串。支持方向键、Home / End 和系统粘贴快捷键，粘贴按位填充。每格有独立可访问名称，组用 `aria-labelledby` / `aria-describedby` 关联标签与说明。
 - 表单：`name` 时额外提交完整值的隐藏字段；错误状态通过 `aria-invalid` 与 danger 边框表达。
 - 接入：组件用法页字段组示例；本仓暂无真实登录页，未伪造验证码页面。家族 Radish 的 PasscodeInput 是后续真实接入参考。
 - 验证：`type-check` / `build` 通过；定向浏览器 21/21（6 格、正方形、与标准控件同高、自动前进、Backspace、粘贴、无障碍名称、错误 / 禁用状态、Inter / JetBrains 字体、390 无溢出、无 pageerror / 4xx）。

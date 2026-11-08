@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef, type ClipboardEvent, type KeyboardEvent } from 'react';
+import { useEffect, useId, useRef, useState, type ClipboardEvent, type KeyboardEvent } from 'react';
 
 function sanitizeDigits(value: string) {
   return value.replace(/\D/g, '');
@@ -28,8 +28,13 @@ export function InputOTP({ value, onValueChange, label, length = 6, hint, error,
   const descriptionId = `${generatedId}-description`;
   const firstId = id ?? `${generatedId}-0`;
   const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
-  const digits = Array.from({ length: count }, (_, index) => sanitizeDigits(value)[index] ?? '');
-  const currentDigits = () => Array.from({ length: count }, (_, index) => inputRefs.current[index]?.value ?? digits[index] ?? '');
+  const [editedSlots, setEditedSlots] = useState<string[]>();
+  const code = sanitizeDigits(value).slice(0, count);
+  // Keep empty slots for local edits while the controlled value stays a digit string.
+  const matchesEdit = editedSlots && editedSlots.length === count && editedSlots.join('') === code;
+  if (editedSlots && !matchesEdit) setEditedSlots(undefined);
+  const digits = matchesEdit ? editedSlots : Array.from({ length: count }, (_, index) => code[index] ?? '');
+  const currentDigits = () => Array.from({ length: count }, (_, index) => inputRefs.current[index]?.value ?? digits[index]);
 
   useEffect(() => {
     if (!autoFocus || disabled) return;
@@ -46,7 +51,10 @@ export function InputOTP({ value, onValueChange, label, length = 6, hint, error,
     target?.select();
   };
 
-  const emit = (nextDigits: string[]) => onValueChange(nextDigits.join('').slice(0, count));
+  const emit = (nextDigits: string[]) => {
+    setEditedSlots(nextDigits);
+    onValueChange(nextDigits.join(''));
+  };
 
   const fillDigits = (startIndex: number, rawValue: string) => {
     const incoming = sanitizeDigits(rawValue).slice(0, count - startIndex).split('');
@@ -76,6 +84,7 @@ export function InputOTP({ value, onValueChange, label, length = 6, hint, error,
   };
 
   const handleKeyDown = (index: number, event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.metaKey || event.ctrlKey || event.altKey || event.nativeEvent.isComposing) return;
     if (event.key === 'Backspace') {
       event.preventDefault();
       const nextDigits = currentDigits();

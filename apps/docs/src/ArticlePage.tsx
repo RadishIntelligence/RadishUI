@@ -176,9 +176,8 @@ function DocumentReader({ resourceId = 'welcome', resource, preferences, section
       </aside>
     </div>}
     <ConfirmDialog open={discardOpen} onOpenChange={setDiscardOpen} title={t('放弃文档修改？', 'Discard document edits?')} closeLabel={t('关闭', 'Close')}
-      confirmLabel={t('放弃修改', 'Discard edits')} cancelLabel={t('继续编辑', 'Keep editing')} tone="danger" onConfirm={() => { setDiscardOpen(false); setDraft(article); exitEditing(); }}>
-      <p>{t('当前未保存的文字会丢失。', 'Your unsaved text will be lost.')}</p>
-    </ConfirmDialog>
+      description={t('当前未保存的文字会丢失。', 'Your unsaved text will be lost.')}
+      confirmLabel={t('放弃修改', 'Discard edits')} cancelLabel={t('继续编辑', 'Keep editing')} tone="danger" onConfirm={() => { setDiscardOpen(false); setDraft(article); exitEditing(); }} />
     <Dialog open={shareOpen} onOpenChange={setShareOpen} title={t('分享文档链接', 'Share document link')} closeLabel={t('关闭', 'Close')}
       description={t('链接打开这份范例；你在本机保存的修改不会随链接发送。', 'The link opens this example. Edits saved in your browser are not included.')}>
       <div className="resource-form"><FormField label={t('链接', 'Link')}><Input readOnly value={shareUrl} onFocus={event => event.currentTarget.select()} /></FormField>

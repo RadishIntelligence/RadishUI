@@ -132,8 +132,15 @@ export function checkWorkflow(source) {
   ]) assert(aggregate.includes(line), `聚合合同缺少 ${line.trim()}`);
 }
 
-export function checkCommit(subject, parentCount) {
-  if (parentCount > 1) return; // Git 真实 merge commit；不以标题猜测。
+// 已核准的设计历史。只匹配 Git 返回的完整对象 ID。
+const historicalCommitExceptions = new Set([
+  'c6eba89d20e40f45fa4525da1f104b6d395232ea',
+  '98d1550b0867bedbc31a1e8bf4c2b7700b3d7ef1',
+  '6cca1300e38b9adc690c9148e82379dc87db1a6d',
+]);
+
+export function checkCommit(subject, parentCount, commit) {
+  if (parentCount > 1 || historicalCommitExceptions.has(commit)) return;
   assert(/^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)(\([^\s()]+\))?!?: \S.*$/.test(subject), `提交不符合 Conventional Commits：${subject}`);
 }
 
@@ -148,7 +155,7 @@ export function checkHistory(cwd, baseRef, headRef = 'HEAD') {
   git(['diff', '--check', `${base}...HEAD`], cwd);
   for (const line of git(['log', '--format=%H%x09%P%x09%s', `${base}..${head}`], cwd).trim().split('\n').filter(Boolean)) {
     const [commit, parents, ...subject] = line.split('\t');
-    try { checkCommit(subject.join('\t'), parents.split(' ').filter(Boolean).length); }
+    try { checkCommit(subject.join('\t'), parents.split(' ').filter(Boolean).length, commit); }
     catch (error) { throw new Error(`${commit.slice(0, 12)}：${error.message}`); }
   }
 }

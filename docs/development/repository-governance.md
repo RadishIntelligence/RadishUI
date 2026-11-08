@@ -77,6 +77,12 @@ git rev-list --left-right --count origin/master...origin/dev
 - `Web Build`：Node 24，`npm ci` 后执行工作面模型测试、token / 第三方声明、类型检查与展示站构建。只支持当前 React 工程，不推断其他平台可用；工作流文件存在或已推送不代表本批已在远端执行，真实 run 证据另记。
 - `Candidate Quality`：以 `if: always()` 汇总，所有组件必须为 `success`。required context 只绑定它，新增真实组件时同步聚合依赖与检查器。
 
+2026-11-08 所有者核准三个设计历史提交的标题例外。检查器仅按 Git 提供的完整 SHA 识别下列记录，提交区间的空白检查及其他提交的标题检查照常执行。
+
+- `c6eba89d20e40f45fa4525da1f104b6d395232ea`
+- `98d1550b0867bedbc31a1e8bf4c2b7700b3d7ef1`
+- `6cca1300e38b9adc690c9148e82379dc87db1a6d`
+
 工作流使用 `contents: read`、不持久化 checkout 凭据、GitHub 官方 Actions 的完整 SHA，不使用 `pull_request_target` 执行 PR 代码，不读取发布凭据或执行部署。依赖安装仅发生在配置的临时 CI runner；本地安装仍遵循协作授权。Actions 来源见[Rulesets 说明](../../.github/rulesets/README.md#来源与官方参考)。
 
 CI 不进行人工视觉批准，也不验证 Flutter、React 18、真实产品接入或生产站点。视觉与交互验收遵循[设计系统契约](design-system.md)。

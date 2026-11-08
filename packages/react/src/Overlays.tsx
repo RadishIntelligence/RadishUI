@@ -1,4 +1,4 @@
-import { useId, useRef, type ReactElement, type ReactNode, type RefObject } from 'react';
+import { useRef, type ReactElement, type ReactNode, type RefObject } from 'react';
 import { Dialog as DialogPrimitive, DropdownMenu, Tooltip as TooltipPrimitive } from 'radix-ui';
 import { X } from 'lucide-react';
 import { IconButton } from './Button';
@@ -17,13 +17,11 @@ export interface DialogProps {
 }
 
 function DialogSurface({ open, onOpenChange, title, description, children, footer, initialFocusRef, role = 'dialog', closeLabel = '关闭', className = '', drawer = false }: DialogProps & { drawer?: boolean }) {
-  const descriptionId = useId();
   const previousFocus = useRef<HTMLElement | null>(null);
   return <DialogPrimitive.Root open={open} onOpenChange={onOpenChange}>
     <DialogPrimitive.Portal>
       <DialogPrimitive.Overlay className="rd-dialog-overlay" />
       <DialogPrimitive.Content role={role} className={`rd-dialog ${drawer ? 'rd-drawer' : ''} ${className}`}
-        aria-describedby={description ? descriptionId : undefined}
         onOpenAutoFocus={event => {
           previousFocus.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
           if (initialFocusRef?.current) { event.preventDefault(); initialFocusRef.current.focus(); }
@@ -33,7 +31,7 @@ function DialogSurface({ open, onOpenChange, title, description, children, foote
         }}>
         <header className="rd-dialog-header">
           <div><DialogPrimitive.Title className="rd-dialog-title">{title}</DialogPrimitive.Title>
-            {description && <DialogPrimitive.Description id={descriptionId} className="rd-dialog-description">{description}</DialogPrimitive.Description>}
+            {description && <DialogPrimitive.Description className="rd-dialog-description">{description}</DialogPrimitive.Description>}
           </div>
           <DialogPrimitive.Close asChild><IconButton className="rd-dialog-close" label={closeLabel}><X /></IconButton></DialogPrimitive.Close>
         </header>

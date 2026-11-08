@@ -18,7 +18,7 @@ RadishUI 已有 `master` / `dev`、真实构建和 Vercel 展示站，需要让�
 - `dev` 所有者直推承担本地验证责任，不增加 required checks，以免当前仅在 PR 触发的 CI 阻断正常直推。成员贡献仍必须 PR，由所有者检查最新候选后合并；这项 CI 要求属于协作政策，不冒充 dev 的服务端门禁。
 - PR 目标为 `dev` / `master` 时运行 `PR Checks`，并保留手动触发；普通 push / tag 不触发该 Actions 工作流。Vercel 的 Git 集成独立运行，`dev` push 仍可能产生预览，`master` 合并会触发生产部署。
 - 聚合门禁包含 `Repo Hygiene` 与 `Web Build`，二者必须成功；失败、取消、跳过和缺失结果均拒绝。没有路径过滤或占位成功 job，尚未实现的 Flutter 不加入门禁。
-- Conventional Commits 在 PR 的实际提交区间校验，不添加远端提交信息正则，避免阻断 GitHub 生成的 merge commit。
+- Conventional Commits 在 PR 的实际提交区间校验，不添加远端提交信息正则，避免阻断 GitHub 生成的 merge commit。2026-11-08 核准的三条设计历史标题按完整 SHA 识别，见[仓库治理](../development/repository-governance.md#验证入口与-ci)。
 
 ## 分阶段落地
 
