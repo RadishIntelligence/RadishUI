@@ -61,11 +61,15 @@ test('stored articles validate title, size and dates without rejecting a deliber
   assert.equal(isArticles({ '../invalid': article }), false);
 });
 test('routes distinguish pages, resource ids and section anchors', () => {
+  assert.deepEqual(parseRoute(''), { page: 'overview', resourceId: undefined, section: undefined });
+  assert.deepEqual(parseRoute('#/overview'), { page: 'overview', resourceId: undefined, section: undefined });
+  assert.deepEqual(parseRoute('#/platforms'), { page: 'platforms', resourceId: undefined, section: undefined });
+  assert.equal(parseRoute('#/resources').page, 'resources');
   assert.deepEqual(parseRoute('#/document/theme-colors/section-2'), { page: 'document', resourceId: 'theme-colors', section: 'section-2' });
   assert.equal(parseRoute('#/settings').page, 'settings');
   assert.deepEqual(parseRoute('#/components'), { page: 'components', resourceId: undefined, section: undefined });
   assert.deepEqual(parseRoute('#/foundations'), { page: 'foundations', resourceId: undefined, section: undefined });
-  assert.equal(parseRoute('#/unknown').page, 'resources');
+  assert.equal(parseRoute('#/unknown').page, 'overview');
   assert.equal(parseRoute('#/document/%2Fetc/section-x').resourceId, undefined);
   assert.equal(parseRoute('#/document/welcome/section-x').section, undefined);
 });

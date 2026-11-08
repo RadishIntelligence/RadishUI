@@ -1,4 +1,4 @@
-export type Page = 'resources' | 'settings' | 'document' | 'components' | 'foundations';
+export type Page = 'overview' | 'resources' | 'settings' | 'document' | 'components' | 'foundations' | 'platforms';
 export type Translate = (chinese: string, english: string) => string;
 export interface Preferences {
   theme: 'light' | 'dark' | 'system';
@@ -97,7 +97,7 @@ export function parseArticle(body: string): ArticleBlock[] {
 }
 export function parseRoute(hash: string): { page: Page; resourceId?: string; section?: string } {
   const parts = hash.replace(/^#\/?/, '').split('/');
-  const page: Page = parts[0] === 'components' ? 'components' : parts[0] === 'foundations' ? 'foundations' : parts[0] === 'settings' ? 'settings' : parts[0] === 'document' ? 'document' : 'resources';
+  const page: Page = parts[0] === 'overview' || parts[0] === '' ? 'overview' : parts[0] === 'components' ? 'components' : parts[0] === 'foundations' ? 'foundations' : parts[0] === 'platforms' ? 'platforms' : parts[0] === 'resources' ? 'resources' : parts[0] === 'settings' ? 'settings' : parts[0] === 'document' ? 'document' : 'overview';
   return { page, resourceId: page === 'document' && parts[1] && /^[a-zA-Z0-9-]+$/.test(parts[1]) ? parts[1] : undefined,
     section: page === 'document' && /^section-\d+$/.test(parts[2] ?? '') ? parts[2] : undefined };
 }

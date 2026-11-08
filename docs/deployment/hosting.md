@@ -58,3 +58,6 @@ npm run build --workspace @radish-ui/docs -- --mode github-pages
 治理 [PR #3](https://github.com/RadishIntelligence/RadishUI/pull/3) 正常 merge commit 合入 `master`，合并提交为 `9b43c70ec891545a8e56bc80e59b7715b6f0a156`，随后已快进回流并推送 `dev`。GitHub 的 Vercel 状态为 success / Deployment has completed，[生产部署记录](https://vercel.com/dabailuobo/radish-ui/2YrQ65x2inhZwGiiCTTmA89EGL4N)。
 
 这是该提交的部署快照，不替代未来提交验证；本批未更改组件视觉、页面内容、运行依赖、域名、DNS 或托管侧配置，也没有新做一轮视觉批准。
+
+
+2026-11-08 合并说明：本地 `dev` 已将概览、视觉基础、组件用法、平台与接入与 Workbench 三页演示合并为唯一 Web 应用；`master` 生产分支仍是旧的官网 `0.1.0`，本批未推送、未合并 master、未触发部署。后续获准晋级 master 时，生产站会由新的单一 Workbench 入口替换；在此之前 `ui.radishx.com` 仍显示旧官网。
