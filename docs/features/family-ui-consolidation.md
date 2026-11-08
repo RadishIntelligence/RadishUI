@@ -14,7 +14,7 @@
 - 不复制产品源码、素材、字体、图标或私有实现；只提炼通用需求和交互规则。
 - 不把 Ant Design 封装、业务组件、图表、聊天、编辑器等领域实现整体搬入 RadishUI。
 - 不为没有页面承载的组件提前堆 API；候选先登记触发条件。
-- 正式发行、master 晋级、tag 与部署继续冻结。
+- 正式发行、tag 与部署按各自流程确认。已完成的展示站晋级见[部署说明](../deployment/hosting.md)。
 
 ## 只读来源盘点
 
@@ -53,15 +53,15 @@
 
 以 shadcn/ui 组件目录和交互状态为首要参考，按“家族共性 + 本仓页面真实位置”排序；不为了组件数量补空壳。
 
-1. **本轮已完成**：Avatar、Tag。
-2. **暂缓 / 候选**：Progress 等真实异步进度流程；日期 / 滑块 / 上传 / 标签输入 / Combobox 等真实页面。Skeleton、InputOTP、ConfirmDialog、ToggleGroup、Accordion 已完成组件页示例。
+1. **本轮已完成**：Avatar、Tag、Skeleton、InputOTP、ConfirmDialog、ToggleGroup、Accordion 已进入共享组件和组件用法页。各组件的页面接入及验收范围见 [C-02](react-workbench-components.md)。
+2. **暂缓 / 候选**：Progress 等真实异步进度流程；日期 / 滑块 / 上传 / 标签输入 / Combobox 由实际页面需求触发。实施顺位见[当前规划](../planning/current.md#接下来的事项)。
 3. **后续**：表格、分页、图表、编辑器、图片处理等领域能力不进入通用核心，除非重新确认边界。
 
 ## 图标
 
 当前分歧：
 
-- RadishUI：`lucide-react` 1.68，9 处导入。
+- RadishUI：`lucide-react` 1.68。
 - Radish：`@iconify/react` 6.0.2 + MDI，`@radish/ui` 的 Icon 组件。
 - RadishInk：`lucide-react` 0.555，24 处导入。
 - Mind / Nexus / RadishX：以内联 SVG 为主，没有统一图标包。
@@ -77,7 +77,7 @@
 
 当前分歧：
 
-- RadishUI：系统 sans / mono 栈。
+- RadishUI：Inter Variable / JetBrains Mono Variable 优先，系统 sans / mono 回退。
 - Mind / Nexus：Inter 优先，但仓库未看到字体包或字体文件。
 - Ink：JetBrains Mono + 系统字体。
 - Radish：`--theme-font-*`；RadishX：`--rx-font-*`。
@@ -86,7 +86,7 @@
 
 - 家族 sans 栈：`'Inter Variable', Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif`。
 - 等宽栈：`'JetBrains Mono Variable', 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace`。
-- 2026-11-08 已更新 `--rd-font-sans` / `--rd-font-mono`；本机已安装时优先，缺失时回退。
+- 2026-11-08 已更新 `--rd-font-sans` / `--rd-font-mono`。Web 范例加载变量字体，其他消费方使用其提供的字体与 token 回退栈。
 - 衬线仅用于品牌 / 阅读长文，按页面单独指定，不进入所有组件默认。
 - Web 范例已安装 `@fontsource-variable/inter` / `@fontsource-variable/jetbrains-mono` 5.3.0（OFL-1.1），导入 `index.css`，字体族为 `'Inter Variable'` / `'JetBrains Mono Variable'`；CJK 回退系统。组件包发行时的依赖 / peer 策略仍待确认，未把字体文件复制进仓库。
 - 字体定稿前先做字形覆盖、中文回退、等宽代码、数字对齐和明暗对比检查。
@@ -103,7 +103,6 @@
 - 当前规划顺位改为“本仓组件 / 示例页面 / 视觉定稿优先”，P2 外部产品采用后置。
 - Avatar、Tag 已进入 C-02，并落到本仓组件页、资源库和文档页；Skeleton 已加入组件页反馈组；InputOTP 已加入字段组，使用标准正方形格；ConfirmDialog 已接入删除 / 放弃路径；ToggleGroup 已用于资源筛选；Accordion 已用于移动目录。定向浏览器 26/26 + InputOTP 21/21 + ConfirmDialog 24/24 + ToggleGroup 16/16 + Accordion 14/14（含正常 / 减少动效、字体加载、390 无横向溢出）；表单 19/19、RadioGroup 28/28 复跑通过。
 - 字体栈 token 已更新，Web 范例字体包已引入，图标策略已定稿；未改产品仓；视觉已纳入 F-02.4 第二版运行基线。
-- 图标 / 字体只出策略，不加依赖、不改 token；等所有者确认后再定稿。
 
 ## 验收
 
@@ -117,4 +116,3 @@
 - 不改任何产品仓、不建产品迁移分支、不做 P2 外部试点。
 - 不引入未经确认的 AntD、Iconify 或新的字体 / 图标依赖。
 - 不把领域组件（聊天、图表、图片裁切、贴纸、Markdown 编辑器）整体搬入通用包。
-- 不正式发行、不晋级 master、不创建 tag 或部署。

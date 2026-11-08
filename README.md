@@ -2,7 +2,7 @@
 
 Radish 家族共享设计系统：集中维护视觉基础、通用组件与可运行的界面范例，让设计改进通过版本升级服务多个产品。
 
-已实现以 Workbench 为单一入口的本地 Web 范例：概览、视觉基础、组件用法、平台与接入，以及资源库、设置和文档三页演示；亮暗语义 token、24 个共享 React 组件。使用本地合成数据，不接产品服务；运行效果待评审，下一步建议见[当前规划](docs/planning/current.md)，组件包尚未发布，Flutter 暂为预留目录。
+Workbench 是 Web 范例的单一入口，包含概览、视觉基础、组件用法、平台与接入，以及资源库、设置和文档三页演示。范例使用合成数据、亮暗语义 token 和 24 个共享 React 组件。三代表页的第二版运行基线已登记，后续顺位见[当前规划](docs/planning/current.md)。组件包尚未发布，Flutter 暂为预留目录。
 
 ## 项目结构
 
@@ -44,7 +44,7 @@ npm run build
 
 ## 文档与托管
 
-在线工程预览：[ui.radishx.com](https://ui.radishx.com/)。本轮工作区尚未部署，线上仍是此前 master 的工程预览；当前实现与验收见[三代表页专题](docs/features/workbench-preview.md)。
+在线工程预览 [ui.radishx.com](https://ui.radishx.com/) 由 `master` 自动部署。生产版本与核验见[部署说明](docs/deployment/hosting.md#2026-11-08-单一-web-入口晋级)，页面实现与验收见[三代表页专题](docs/features/workbench-preview.md)。
 
 [整体规划](docs/planning/roadmap.md) · [专题地图](docs/planning/topics.md) · [当前规划](docs/planning/current.md) · [文档索引](docs/README.md) · [架构](docs/architecture/overview.md) · [协作方式](docs/development/collaboration.md) · [仓库治理](docs/development/repository-governance.md) · [设计系统契约](docs/development/design-system.md) · [版本策略](docs/development/versioning.md) · [贡献指南](CONTRIBUTING.md) · [部署说明](docs/deployment/hosting.md)
 

@@ -59,5 +59,8 @@ npm run build --workspace @radish-ui/docs -- --mode github-pages
 
 这是该提交的部署快照，不替代未来提交验证；本批未更改组件视觉、页面内容、运行依赖、域名、DNS 或托管侧配置，也没有新做一轮视觉批准。
 
+## 2026-11-08 单一 Web 入口晋级
 
-2026-11-08 合并说明：本地 `dev` 已将概览、视觉基础、组件用法、平台与接入与 Workbench 三页演示合并为唯一 Web 应用；`master` 生产分支仍是旧的官网 `0.1.0`，本批未推送、未合并 master、未触发部署。后续获准晋级 master 时，生产站会由新的单一 Workbench 入口替换；在此之前 `ui.radishx.com` 仍显示旧官网。
+所有者将 [PR #6](https://github.com/RadishIntelligence/RadishUI/pull/6) 合入 `master`，生产源码提交为 `030ffdf7e09a0069eb8aaf7d986f27f548e246d8`，随后快进回流 `dev`。Vercel 自动部署成功，Workbench `26.11.1` 替换旧官网 `0.1.0`。[Vercel 部署记录](https://vercel.com/dabailuobo/radish-ui/FfHVFDgACuMj6yceP2V3MiExBSdj)
+
+公开域名的 HTML、入口 JS 和 CSS 请求均返回 200。HTML canonical 为 `https://ui.radishx.com/`，入口 JS 包含 `v26.11.1`、F-02.4 第二版标记和视觉基础、平台与接入路由。此处记录生产资源核验，交互证据见 [E-02](../features/workbench-preview.md)。组件包仍为内部版本。

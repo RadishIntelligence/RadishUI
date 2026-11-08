@@ -43,6 +43,8 @@ git push -u origin feature/member-button
 
 稳定 PR 应说明共享 API、token、默认视觉与跨平台影响，实际验证、未验证面、风险和回滚；目标为 `master` 时还应说明 Vercel 自动部署影响及回流负责人。优先使用 merge commit；rebase merge 后仍以普通 merge 回流，不能改写共享历史。
 
+若最新候选已通过质量门禁、审阅会话已解决，且 GitHub 仅因 `master` 的 `Restrict updates` 阻止合并，所有者可通过网页使用维护者团队的 PR bypass。已获所有者合并授权并使用其账号执行时，命令行可用 `gh pr merge <PR> --admin --merge --match-head-commit <已审阅的完整 head SHA>` 请求同一权限。独立的 `master` 质量规则无绕过者。PR #6 已验证网页路径，CLI 路径尚无本仓合并记录。[GitHub CLI 手册](https://cli.github.com/manual/gh_pr_merge)
+
 主线合并后的操作示例（执行 push 前须已有对应授权，且工作区需允许安全切换）：
 
 ```bash
