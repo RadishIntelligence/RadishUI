@@ -3,4 +3,4 @@ export { Input, Textarea, FormField, Select, RadioGroup, type FormFieldProps, ty
 export { Checkbox, Switch, Tabs, TabsList, TabsContent, StatusBadge, type CheckboxProps, type TabOption, type TabsListProps, type StatusTone } from './Controls';
 export { Dialog, Drawer, Menu, Tooltip, type DialogProps, type MenuProps, type MenuItem } from './Overlays';
 export { InlineAlert, Toast, type InlineAlertProps, type ToastProps } from './Feedback';
-export { Avatar, Tag, type AvatarProps, type TagProps } from './Display';
+export { Avatar, Skeleton, Tag, type AvatarProps, type SkeletonProps, type TagProps } from './Display';

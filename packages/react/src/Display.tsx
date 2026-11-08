@@ -34,3 +34,12 @@ export interface TagProps extends ComponentPropsWithoutRef<'span'> { children: R
 export function Tag({ className = '', children, ...props }: TagProps) {
   return <span {...props} className={`rd-tag ${className}`.trim()}>{children}</span>;
 }
+
+export interface SkeletonProps extends ComponentPropsWithoutRef<'div'> {
+  width?: string | number;
+  height?: string | number;
+}
+
+export function Skeleton({ width, height, className = '', style, ...props }: SkeletonProps) {
+  return <div {...props} aria-hidden="true" className={`rd-skeleton ${className}`.trim()} style={{ width, height, ...style }} />;
+}

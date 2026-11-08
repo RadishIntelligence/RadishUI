@@ -104,6 +104,10 @@
 .rd-avatar--md { width: 32px; height: 32px; }
 .rd-avatar--lg { width: 36px; height: 36px; font-size: var(--rd-font-size-sm); }
 .rd-avatar img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.rd-skeleton { position: relative; overflow: hidden; min-height: 12px; border-radius: var(--rd-radius-small); background: var(--rd-bg-muted); }
+.rd-skeleton::after { content: ''; position: absolute; inset: 0; transform: translateX(-100%); background: linear-gradient(90deg, transparent, var(--rd-bg-surface), transparent); animation: rd-skeleton-shimmer 1.6s ease-in-out infinite; }
+@keyframes rd-skeleton-shimmer { 100% { transform: translateX(100%); } }
+@media (prefers-reduced-motion: reduce) { .rd-skeleton::after { animation: none; display: none; } }
 .rd-tag { display: inline-flex; align-items: center; max-width: 100%; padding: 3px 8px; border: 1px solid var(--rd-border-soft); border-radius: var(--rd-radius-pill); background: var(--rd-bg-muted); color: var(--rd-text-secondary); font-size: var(--rd-font-size-xs); line-height: 1.4; overflow-wrap: anywhere; }
 .rd-badge { display: inline-flex; align-items: center; gap: 4px; max-width: 100%; padding: 4px 8px; border-radius: var(--rd-radius-pill); background: var(--rd-bg-muted); color: var(--rd-text-secondary); font-size: var(--rd-font-size-xs); line-height: 1.4; white-space: nowrap; }
 .rd-badge svg { width: 13px; height: 13px; }

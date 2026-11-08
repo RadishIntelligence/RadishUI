@@ -1,5 +1,5 @@
 import { useRef, useState, type ReactNode } from 'react';
-import { Avatar, Button, IconButton, FormField, Input, Textarea, Select, RadioGroup, Checkbox, Switch, Tabs, TabsList, TabsContent, StatusBadge, Tag, Dialog, Drawer, Menu, InlineAlert, Toast, Tooltip } from '@radish-ui/react';
+import { Avatar, Button, IconButton, FormField, Input, Textarea, Select, RadioGroup, Checkbox, Switch, Tabs, TabsList, TabsContent, StatusBadge, Tag, Skeleton, Dialog, Drawer, Menu, InlineAlert, Toast, Tooltip } from '@radish-ui/react';
 import { ArrowLeft, Check, MoreHorizontal, Plus } from 'lucide-react';
 import type { Translate } from './model';
 import './components.css';
@@ -181,6 +181,15 @@ function FeedbackExamples() {
       code={'<InlineAlert tone="danger" title="未能保存">草稿已保留，请检查后重试。</InlineAlert>'}>
       <div className="component-stack"><InlineAlert title="信息示例">这里展示持久的上下文说明。</InlineAlert><InlineAlert tone="success" title="成功状态示例">成功说明应对应实际操作结果。</InlineAlert><InlineAlert tone="warning" title="警告状态示例">此处说明操作前需要注意的具体影响。</InlineAlert><InlineAlert tone="danger" title="错误状态示例">输入应保留，并提供继续处理的方法。</InlineAlert></div>
     </Example>
+    <Example name="Skeleton" contract="width / height（CSS 长度或数字）、className / style；纯展示占位，aria-hidden；由外层用 aria-busy / status 说明加载中，加载完成移除占位。"
+      keyboard="不进入 Tab 顺序；减少动效时保留静态占位，不依赖动画表达加载。"
+      code={'<div aria-busy="true"><Skeleton width={180} height={12} /><Skeleton width="60%" height={12} /></div>'}>
+      <div className="component-stack" role="status" aria-busy="true" aria-label="加载占位示例">
+        <Skeleton width={180} height={12} />
+        <Skeleton width="60%" height={12} />
+        <div className="component-row"><Skeleton width={40} height={40} style={{ borderRadius: '50%' }} /><Skeleton width={120} height={12} /></div>
+      </div>
+    </Example>
     <Example name="Toast" contract="open / onOpenChange、message、label、closeLabel；顶部胶囊提示，关闭按钮显示剩余时间，4500ms 后自动关闭。"
       keyboard="F8 进入通知区域，可聚焦关闭按钮；Escape 或关闭按钮关闭，支持向上滑动。悬停 / 聚焦时暂停自动关闭与倒计时。"
       code={'<Toast open={open} onOpenChange={setOpen} message="本页计数已增加" closeLabel="关闭提示" />'}>
@@ -200,7 +209,7 @@ export function ComponentsPage({ t }: { t: Translate }) {
     <div className="page-title"><h1>{t('组件用法', 'Components')}</h1><a className="text-link component-back" href="#/resources"><ArrowLeft size={16} aria-hidden="true" />{t('资源库', 'Resources')}</a></div>
     <Tabs defaultValue="actions" className="component-groups">
       <TabsList label={t('组件分组', 'Component groups')} items={[{ value: 'actions', label: t('操作', 'Actions') }, { value: 'fields', label: t('字段', 'Fields') }, { value: 'selection', label: t('选择', 'Choice') }, { value: 'feedback', label: t('反馈', 'Feedback') }]} />
-      <p className="component-scope">19 个共享组件 · React 19 内部预览。示例状态仅保留在当前分组，切换分组或离开页面会重置；文案使用中文与 English 合成内容。</p>
+      <p className="component-scope">20 个共享组件 · React 19 内部预览。示例状态仅保留在当前分组，切换分组或离开页面会重置；文案使用中文与 English 合成内容。</p>
       <TabsContent value="actions"><ActionExamples /></TabsContent><TabsContent value="fields"><FieldExamples /></TabsContent><TabsContent value="selection"><SelectionExamples /></TabsContent><TabsContent value="feedback"><FeedbackExamples /></TabsContent>
     </Tabs>
   </section>;

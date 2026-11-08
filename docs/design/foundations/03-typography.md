@@ -1,6 +1,6 @@
 # 03 字体与排版
 
-Web 使用现有系统字体栈，不为统一观感增加网络字体。桌面、自绘或 Flutter 如需打包字体，另行确认字体来源、字重、许可证和体积。
+Web 使用本机已安装字体，优先 Inter / JetBrains Mono，缺失时回退系统栈；不新增网络字体、字体包或字体文件。桌面、自绘或 Flutter 如需打包字体，另行确认字体来源、字重、许可证和体积。
 
 | 角色 | Workbench 候选 | 说明 |
 | --- | --- | --- |
@@ -10,7 +10,14 @@ Web 使用现有系统字体栈，不为统一观感增加网络字体。桌面�
 | 辅助信息 | 12–13px / 400 | 必要信息仍须清楚可读 |
 | 阅读正文 | 16px / 400 | 行高约 1.75–1.85，控制行宽 |
 
-以上保留早期 Workbench 候选的角色参考。当前现代圆角 Web 实施的具名字级与 rem 映射以 [F-01](../../features/token-foundation.md)为准，正文随可用宽度编排；不把本表视为已冻结的发行 API。Brand 可在大标题使用少量衬线；表单、按钮、列表和工作面正文使用无衬线。代码、路径、标识与对齐数值按需使用系统等宽栈。
+## 家族字体栈（2026-11-08）
+
+- Sans：`Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif`。
+- Mono：`'JetBrains Mono', 'SFMono-Regular', Consolas, monospace`。
+- Inter / JetBrains Mono 尚未随项目打包；已安装时优先，缺失时回退。是否以 OFL 字体包提供，需另行确认许可、体积、加载和版本策略。
+- 中文、English、数字、代码、长名称与 200% 基础字号共同检查；不通过负字距、超小字号或 `vw` 字号硬塞。
+
+以上保留早期 Workbench 候选的角色参考。当前现代圆角 Web 实施的具名字级与 rem 映射以 [F-01](../../features/token-foundation.md)为准，正文随可用宽度编排；不把本表视为已冻结的发行 API。Brand 可在大标题使用少量衬线；表单、按钮、列表和工作面正文使用无衬线。代码、路径、标识与对齐数值使用 Mono 栈。
 
 页面、区域、分组等标题下的说明文字，按[DR-01：标题下尽量不放描述性文字](../design-rules.md#dr-01)处理，保留特殊需求或特殊设计的例外；具体条件统一在该条维护。
 
