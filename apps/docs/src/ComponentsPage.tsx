@@ -1,5 +1,5 @@
 import { useRef, useState, type ReactNode } from 'react';
-import { Avatar, Button, IconButton, FormField, Input, InputOTP, Textarea, Select, RadioGroup, Checkbox, Switch, Tabs, TabsList, TabsContent, ToggleGroup, StatusBadge, Tag, Skeleton, ConfirmDialog, Dialog, Drawer, Menu, InlineAlert, Toast, Tooltip } from '@radish-ui/react';
+import { Accordion, Avatar, Button, IconButton, FormField, Input, InputOTP, Textarea, Select, RadioGroup, Checkbox, Switch, Tabs, TabsList, TabsContent, ToggleGroup, StatusBadge, Tag, Skeleton, ConfirmDialog, Dialog, Drawer, Menu, InlineAlert, Toast, Tooltip } from '@radish-ui/react';
 import { ArrowLeft, Check, MoreHorizontal, Plus } from 'lucide-react';
 import type { Translate } from './model';
 import './components.css';
@@ -185,6 +185,15 @@ function FeedbackExamples() {
         <p>此操作无法撤销。示例不会写入浏览器数据。</p>
       </ConfirmDialog>
     </Example>
+    <Example name="Accordion" contract="type: single（默认）| multiple；items: { value, label, content, disabled? }[]；value / defaultValue / onValueChange；single 可 collapsible。"
+      keyboard="Tab 到标题，Enter / Space 展开或收起；标题间方向键移动；禁用项跳过。"
+      code={'<Accordion type="single" defaultValue="basics" collapsible items={items} />'}>
+      <Accordion type="single" defaultValue="basics" collapsible items={[
+        { value: 'basics', label: '选择依据', content: <p>用内容层级决定是否折叠，不把必要状态藏进折叠区。</p> },
+        { value: 'states', label: '状态说明', content: <p>展开后仍保留标题、焦点与当前项；单次只展开一项。</p> },
+        { value: 'keyboard', label: '键盘操作', content: <p>Tab 进入标题，Enter / Space 切换；方向键在标题间移动。</p> },
+      ]} />
+    </Example>
     <Example name="Drawer" contract="与 Dialog 相同的输入与关闭合同，以侧向浮层展示辅助内容。"
       keyboard="焦点进入 / 约束 / 恢复、Escape 与 Dialog 一致；长内容在浮层正文内滚动。"
       code={'<Drawer open={open} onOpenChange={setOpen} title="资源详情">详情正文</Drawer>'}>
@@ -236,7 +245,7 @@ export function ComponentsPage({ t }: { t: Translate }) {
     <div className="page-title"><h1>{t('组件用法', 'Components')}</h1><a className="text-link component-back" href="#/resources"><ArrowLeft size={16} aria-hidden="true" />{t('资源库', 'Resources')}</a></div>
     <Tabs defaultValue="actions" className="component-groups">
       <TabsList label={t('组件分组', 'Component groups')} items={[{ value: 'actions', label: t('操作', 'Actions') }, { value: 'fields', label: t('字段', 'Fields') }, { value: 'selection', label: t('选择', 'Choice') }, { value: 'feedback', label: t('反馈', 'Feedback') }]} />
-      <p className="component-scope">23 个共享组件 · React 19 内部预览。示例状态仅保留在当前分组，切换分组或离开页面会重置；文案使用中文与 English 合成内容。</p>
+      <p className="component-scope">24 个共享组件 · React 19 内部预览。示例状态仅保留在当前分组，切换分组或离开页面会重置；文案使用中文与 English 合成内容。</p>
       <TabsContent value="actions"><ActionExamples /></TabsContent><TabsContent value="fields"><FieldExamples /></TabsContent><TabsContent value="selection"><SelectionExamples /></TabsContent><TabsContent value="feedback"><FeedbackExamples /></TabsContent>
     </Tabs>
   </section>;

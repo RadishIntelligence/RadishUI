@@ -1,6 +1,6 @@
 import type { ComponentPropsWithRef, ComponentPropsWithoutRef, ReactNode } from 'react';
-import { Switch as SwitchPrimitive, Tabs as TabsPrimitive, ToggleGroup as ToggleGroupPrimitive } from 'radix-ui';
-import { Check } from 'lucide-react';
+import { Accordion as AccordionPrimitive, Switch as SwitchPrimitive, Tabs as TabsPrimitive, ToggleGroup as ToggleGroupPrimitive } from 'radix-ui';
+import { Check, ChevronDown } from 'lucide-react';
 
 export interface CheckboxProps extends Omit<ComponentPropsWithRef<'input'>, 'type'> { children?: ReactNode }
 export function Checkbox({ children, className = '', ...props }: CheckboxProps) {
@@ -52,4 +52,26 @@ export function ToggleGroup(props: ToggleGroupProps) {
   const cls = `rd-toggle-group ${className}`.trim();
   if (props.type === 'multiple') return <ToggleGroupPrimitive.Root type="multiple" value={props.value} onValueChange={props.onValueChange} disabled={disabled} aria-label={label} className={cls}>{content}</ToggleGroupPrimitive.Root>;
   return <ToggleGroupPrimitive.Root type="single" value={props.value} onValueChange={value => { if (value) props.onValueChange(value); }} disabled={disabled} aria-label={label} className={cls}>{content}</ToggleGroupPrimitive.Root>;
+}
+
+export interface AccordionItem { value: string; label: ReactNode; content: ReactNode; disabled?: boolean }
+interface AccordionBase { items: readonly AccordionItem[]; label?: string; className?: string }
+export interface AccordionSingleProps extends AccordionBase { type?: 'single'; value?: string; defaultValue?: string; onValueChange?(value: string): void; collapsible?: boolean }
+export interface AccordionMultipleProps extends AccordionBase { type: 'multiple'; value?: string[]; defaultValue?: string[]; onValueChange?(value: string[]): void }
+export type AccordionProps = AccordionSingleProps | AccordionMultipleProps;
+
+function accordionItems(items: readonly AccordionItem[]) {
+  return items.map(item => <AccordionPrimitive.Item key={item.value} value={item.value} disabled={item.disabled} className="rd-accordion__item">
+    <AccordionPrimitive.Header className="rd-accordion__header">
+      <AccordionPrimitive.Trigger className="rd-accordion__trigger">{item.label}<ChevronDown size={16} aria-hidden="true" /></AccordionPrimitive.Trigger>
+    </AccordionPrimitive.Header>
+    <AccordionPrimitive.Content className="rd-accordion__content"><div className="rd-accordion__content-inner">{item.content}</div></AccordionPrimitive.Content>
+  </AccordionPrimitive.Item>);
+}
+
+export function Accordion(props: AccordionProps) {
+  const { items, label, className = '' } = props;
+  const cls = `rd-accordion ${className}`.trim();
+  if (props.type === 'multiple') return <AccordionPrimitive.Root type="multiple" value={props.value} defaultValue={props.defaultValue} onValueChange={props.onValueChange} aria-label={label} className={cls}>{accordionItems(items)}</AccordionPrimitive.Root>;
+  return <AccordionPrimitive.Root type="single" value={props.value} defaultValue={props.defaultValue} onValueChange={props.onValueChange} collapsible={props.collapsible} aria-label={label} className={cls}>{accordionItems(items)}</AccordionPrimitive.Root>;
 }
