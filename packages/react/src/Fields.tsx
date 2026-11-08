@@ -22,7 +22,7 @@ export function FormField({ id: suppliedId, label, hint, error, required, classN
   const describedBy = error ? `${id}-error` : hint ? `${id}-hint` : undefined;
   return <FieldContext.Provider value={{ id, describedBy, invalid: Boolean(error), required }}>
     <div className={`rd-field ${className}`}>
-      <label className="rd-label" htmlFor={id}>{label}{required && <span aria-hidden="true"> *</span>}</label>
+      <label className="rd-label" htmlFor={id}>{label}{required && <span className="rd-label__required" aria-hidden="true"> *</span>}</label>
       {children}
       {error ? <p className="rd-field-error" id={`${id}-error`} role="alert">{error}</p>
         : hint ? <p className="rd-field-hint" id={`${id}-hint`}>{hint}</p> : null}

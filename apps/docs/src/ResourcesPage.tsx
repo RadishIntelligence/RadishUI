@@ -222,12 +222,18 @@ function CreateResource({ open, onOpenChange, t, resources, save }: { open: bool
   const [saveError, setSaveError] = useState('');
   const nameInput = useRef<HTMLInputElement>(null);
   useEffect(() => { if (open) { setName(''); setSummary(''); setKind('document'); setReady(false); setNameError(''); setSaveError(''); } }, [open]);
+  function validateName() {
+    const trimmed = name.trim();
+    if (!trimmed) { setNameError(t('请输入资源名称。', 'Enter a resource name.')); return false; }
+    if (resources.some(item => item.name.toLocaleLowerCase() === trimmed.toLocaleLowerCase())) { setNameError(t('这个名称已存在，请换一个。', 'That name already exists. Choose another.')); return false; }
+    setNameError('');
+    return true;
+  }
   function submit(event: FormEvent) {
     event.preventDefault();
-    const trimmed = name.trim();
-    if (!trimmed) { setNameError(t('请输入资源名称。', 'Enter a resource name.')); nameInput.current?.focus(); return; }
-    if (resources.some(item => item.name.toLocaleLowerCase() === trimmed.toLocaleLowerCase())) { setNameError(t('这个名称已存在，请换一个。', 'That name already exists. Choose another.')); nameInput.current?.focus(); return; }
+    if (!validateName()) { nameInput.current?.focus(); return; }
     if (resources.length >= 500) { setSaveError(t('本地演示最多保存 500 项资源。', 'The local demo supports up to 500 resources.')); return; }
+    const trimmed = name.trim();
     const resource: Resource = { id: crypto.randomUUID(), name: trimmed, kind, status: ready ? 'ready' : 'draft', summary: summary.trim(), creator: '林杏', updatedAt: new Date().toISOString(), version: 'v0.1', tags: [] };
     const failure = save([resource, ...resources]);
     if (failure) setSaveError(failure); else onOpenChange(false);
@@ -235,9 +241,9 @@ function CreateResource({ open, onOpenChange, t, resources, save }: { open: bool
   return <Dialog open={open} onOpenChange={onOpenChange} title={t('新建资源', 'New resource')} closeLabel={t('关闭', 'Close')} initialFocusRef={nameInput}
     footer={<><Button variant="secondary" onClick={() => onOpenChange(false)}>{t('取消', 'Cancel')}</Button><Button type="submit" form="create-resource">{t('创建资源', 'Create resource')}</Button></>}>
     <form id="create-resource" className="resource-form" onSubmit={submit} noValidate>
-      <FormField id="resource-name" label={t('资源名称', 'Resource name')} required error={nameError}><Input ref={nameInput} value={name} maxLength={120} onChange={event => { setName(event.target.value); setNameError(''); }} /></FormField>
+      <FormField id="resource-name" label={t('资源名称', 'Resource name')} required hint={t('最多 120 个字符；名称不可重复。', 'Up to 120 characters; names must be unique.')} error={nameError}><Input ref={nameInput} value={name} maxLength={120} onBlur={validateName} onChange={event => { setName(event.target.value); setNameError(''); }} /></FormField>
       <FormField label={t('资源类型', 'Resource type')}><Select value={kind} onValueChange={value => setKind(value as ResourceKind)} options={(['document', 'spec', 'checklist', 'example'] as const).map(value => ({ value, label: kindLabel(value, t) }))} /></FormField>
-      <FormField label={t('摘要', 'Summary')}><Textarea value={summary} maxLength={1000} rows={3} onChange={event => setSummary(event.target.value)} /></FormField>
+      <FormField label={t('摘要', 'Summary')} hint={t('最多 1000 个字符。', 'Up to 1,000 characters.')}><Textarea value={summary} maxLength={1000} rows={3} onChange={event => setSummary(event.target.value)} /></FormField>
       <Checkbox checked={ready} onChange={event => setReady(event.target.checked)}>{t('标记为已就绪', 'Mark as ready')}</Checkbox>
       {saveError && <InlineAlert tone="danger">{saveError}</InlineAlert>}
     </form>

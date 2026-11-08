@@ -37,20 +37,22 @@ function ActionExamples() {
 
 function FieldExamples() {
   const [name, setName] = useState('');
+  const [nameTouched, setNameTouched] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [message, setMessage] = useState('');
   const [selection, setSelection] = useState('');
   const [selectionChecked, setSelectionChecked] = useState(false);
   const options = [{ value: 'document', label: '文档' }, { value: 'long', label: '中文与 English 长名称：用于验证选择器浮层的折行与边界' }, { value: 'unavailable', label: '暂不可选', disabled: true }];
+  const nameInvalid = (submitted || nameTouched) && !name.trim();
   return <>
     <Example name="FormField" contract="label、hint / error、required、id、children。Input / Textarea / Select 自动关联标签、说明与错误；其他控件显式关联 id。"
-      keyboard="点击标签聚焦控件；错误保留输入。error 优先于 hint；required 同时传给支持字段上下文的控件。"
-      code={'<FormField label="名称" required error={error}><Input value={name} onChange={e => setName(e.target.value)} /></FormField>'}>
+      keyboard="点击标签聚焦控件；失焦或提交时校验，错误保留输入。error 优先于 hint；required 同时传给支持字段上下文的控件。"
+      code={'<FormField label="名称" required error={error}><Input value={name} onBlur={validate} onChange={e => setName(e.target.value)} /></FormField>'}>
       <form className="component-stack" noValidate onSubmit={event => { event.preventDefault(); setSubmitted(true); setMessage(name.trim() ? `本地校验通过：${name.trim()}` : ''); }}>
-        <FormField label="示例名称" required hint="留空提交可检查错误状态。" error={submitted && !name.trim() ? '请输入名称，已输入内容会保留。' : undefined}>
-          <Input value={name} maxLength={120} onChange={event => { setName(event.target.value); setMessage(''); }} />
+        <FormField label="示例名称" required hint="必填，最多 120 个字符；失焦或提交时校验。" error={nameInvalid ? '请输入名称，已输入内容会保留。' : undefined}>
+          <Input value={name} maxLength={120} onBlur={() => setNameTouched(true)} onChange={event => { setName(event.target.value); setMessage(''); }} />
         </FormField>
-        <div className="component-row"><Button type="submit">校验名称</Button><Button variant="secondary" onClick={() => { setName(''); setSubmitted(false); setMessage(''); }}>重置</Button></div>
+        <div className="component-row"><Button type="submit">校验名称</Button><Button variant="secondary" onClick={() => { setName(''); setNameTouched(false); setSubmitted(false); setMessage(''); }}>重置</Button></div>
         <p role="status">{message}</p>
       </form>
     </Example>

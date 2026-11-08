@@ -24,6 +24,7 @@
 .rd-button__spinner { width: 14px; height: 14px; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: rd-spin .8s linear infinite; }
 .rd-field { display: grid; gap: var(--rd-space-2); min-width: 0; }
 .rd-label { font-size: var(--rd-font-size-base); font-weight: 500; color: var(--rd-text-primary); }
+.rd-label__required { color: var(--rd-state-danger); }
 .rd-field-hint, .rd-field-error { margin: 0; font-size: var(--rd-font-size-xs); line-height: 1.6; }
 .rd-field-hint { color: var(--rd-text-secondary); }
 .rd-field-error { color: var(--rd-state-danger); }
