@@ -179,4 +179,4 @@ Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前
 - 资源已有标签数据、详情和搜索，新建表单接入 [TagInput](workbench-preview.md#新建资源的标签)。共享组件复用 Input、Button、IconButton 和 Tag，调用方决定如何解析、验证和提交草稿。
 - 调用方控制 `value` 和 `draft`。`onValueChange` 接收删除后的标签，`onDraftChange` 接收正在编辑的文字，`onAdd` 由调用方校验并提交草稿。添加按钮和逐项删除按钮的名称由 `addLabel` 与 `removeLabel(tag)` 提供。在 FormField 内由现有 Input 关联字段标签、帮助和错误，独立使用时传 `label`。禁用时输入、添加、删除均不可操作。
 - 添加与删除后焦点回输入框，输入为空时 Backspace 一次删除一项，组合输入期间保留 IME 按键。长标签在窄容器换行，粗指针下操作沿用 44px 目标。组件页可尝试有效输入、超限错误与禁用状态。
-- Chrome 首验后，Safari 27.0.1 与 Firefox 159.0.1 各通过 12 组布局与 4 组功能流程。原生键盘与焦点环在 Safari 的 Option+Tab 和 Firefox 前台的 Tab 路径验证。Safari / Firefox 的粗指针 44px 命中、真实输入法、实体设备和屏幕阅读器朗读待验证。[开发记录](../devlogs/2026-W46.md#taginput-跨浏览器补验2026-11-09)
+- Chrome 首验后，Safari 27.0.1 与 Firefox 159.0.1 各通过 12 组布局与 4 组功能流程。原生键盘与焦点环在 Safari 的 Option+Tab 和 Firefox 前台的 Tab 路径验证。Safari / Firefox 的粗指针 44px 命中、真实输入法、实体设备和屏幕阅读器朗读待验证。视觉已由所有者复审确认并登记为 [F-02.4 修订](visual-baseline-proposal.md#taginput-修订登记2026-11-09)。[开发记录](../devlogs/2026-W46.md#taginput-跨浏览器补验2026-11-09)
