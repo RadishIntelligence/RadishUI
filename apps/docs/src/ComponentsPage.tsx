@@ -1,7 +1,7 @@
 import { useRef, useState, type ReactNode } from 'react';
-import { Accordion, Avatar, Button, IconButton, FormField, Input, InputOTP, Textarea, Select, RadioGroup, Checkbox, Switch, Tabs, TabsList, TabsContent, ToggleGroup, StatusBadge, Tag, Skeleton, ConfirmDialog, Dialog, Drawer, Menu, InlineAlert, Toast, Tooltip } from '@radish-ui/react';
+import { Accordion, Avatar, Button, IconButton, FormField, Input, InputOTP, TagInput, Textarea, Select, RadioGroup, Checkbox, Switch, Tabs, TabsList, TabsContent, ToggleGroup, StatusBadge, Tag, Skeleton, ConfirmDialog, Dialog, Drawer, Menu, InlineAlert, Toast, Tooltip } from '@radish-ui/react';
 import { ArrowLeft, Check, MoreHorizontal, Plus } from 'lucide-react';
-import type { Translate } from './model';
+import { appendResourceTags, resourceTagError, type Translate } from './model';
 import './components.css';
 
 function Example({ name, contract, keyboard, code, children }: { name: string; contract: string; keyboard: string; code: string; children: ReactNode }) {
@@ -86,7 +86,35 @@ function FieldExamples() {
       <div className="component-row"><Button variant="secondary" onClick={() => setSelectionChecked(true)}>校验选择</Button><Button variant="ghost" onClick={() => { setSelection(''); setSelectionChecked(false); }}>清空选择</Button></div>
       <p>当前值：{selection || '未选择'}</p>
     </Example>
+    <TagInputExample />
   </>;
+}
+
+function TagInputExample() {
+  const [tags, setTags] = useState(['组件']);
+  const [draft, setDraft] = useState('');
+  const [error, setError] = useState('');
+  const removeLabel = (tag: string) => `移除标签 ${tag}`;
+  function add() {
+    const result = appendResourceTags(tags, draft);
+    if (result.error) { setError(resourceTagError(result.error, chinese => chinese)); return; }
+    setTags(result.tags);
+    setDraft('');
+    setError('');
+  }
+  return <Example name="TagInput" contract="受控 value / onValueChange、draft / onDraftChange、onAdd；addLabel、removeLabel、label、disabled。FormField 提供标签、帮助和错误关联。"
+    keyboard="Enter 或添加按钮提交草稿；输入为空时 Backspace 移除末项；Tab 到逐项移除按钮，删除后回到输入框。"
+    code={'<FormField label="标签">\n  <TagInput value={tags} onValueChange={setTags} draft={draft} onDraftChange={setDraft}\n    onAdd={add} addLabel="添加" removeLabel={tag => `移除标签 ${tag}`} />\n</FormField>'}>
+    <div className="component-fields">
+      <FormField label="示例标签" hint="用逗号分隔。每个标签最多 40 个字符，共 8 个。" error={error}>
+        <TagInput value={tags} onValueChange={value => { setTags(value); setError(''); }}
+          draft={draft} onDraftChange={value => { setDraft(value); setError(''); }} onAdd={add} addLabel="添加" removeLabel={removeLabel} />
+      </FormField>
+      <FormField label="不可用的标签" hint="禁用时仍可阅读现有标签。">
+        <TagInput value={['只读示例']} onValueChange={() => {}} draft="" onDraftChange={() => {}} onAdd={() => {}} addLabel="添加" removeLabel={removeLabel} disabled />
+      </FormField>
+    </div>
+  </Example>;
 }
 
 const avatarImage = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%232B3F55'/%3E%3Ccircle cx='32' cy='23' r='11' fill='%23DCE6F1'/%3E%3Cpath d='M12 62c3-14 11-20 20-20s17 6 20 20' fill='%23DCE6F1'/%3E%3C/svg%3E";
@@ -255,7 +283,7 @@ export function ComponentsPage({ t }: { t: Translate }) {
     <div className="page-title"><h1>{t('组件用法', 'Components')}</h1><a className="text-link component-back" href="#/overview"><ArrowLeft size={16} aria-hidden="true" />{t('概览', 'Overview')}</a></div>
     <Tabs defaultValue="actions" className="component-groups">
       <TabsList label={t('组件分组', 'Component groups')} items={[{ value: 'actions', label: t('操作', 'Actions') }, { value: 'fields', label: t('字段', 'Fields') }, { value: 'selection', label: t('选择', 'Choice') }, { value: 'feedback', label: t('反馈', 'Feedback') }]} />
-      <p className="component-scope">24 个共享组件 · React 19 内部预览。示例状态仅保留在当前分组，切换分组或离开页面会重置；文案使用中文与 English 合成内容。</p>
+      <p className="component-scope">25 个共享组件 · React 19 内部预览。示例状态仅保留在当前分组，切换分组或离开页面会重置；文案使用中文与 English 合成内容。</p>
       <TabsContent value="actions"><ActionExamples /></TabsContent><TabsContent value="fields"><FieldExamples /></TabsContent><TabsContent value="selection"><SelectionExamples /></TabsContent><TabsContent value="feedback"><FeedbackExamples /></TabsContent>
     </Tabs>
   </section>;

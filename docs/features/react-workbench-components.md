@@ -28,6 +28,7 @@
 | StatusBadge | neutral / info / success / warning / danger 表达展示语义，文字与图标由调用方提供，不伪装为交互按钮 |
 | Avatar | name 提供可访问名称与首字回退；src、fallback、shape: circle（默认）/ square、size: sm / md / lg、decorative；图片加载失败回退；纯展示不进入 Tab 顺序 |
 | Tag | 中性标签文本；纯展示，不进入 Tab 顺序；状态用 StatusBadge，不用 Tag 伪装状态 |
+| TagInput | 受控标签与草稿。Enter 或添加按钮调用 `onAdd`，空输入的 Backspace 移除末项，每个标签可单独删除。添加规则与表单提交由调用方负责，使用 FormField 关联帮助和错误 |
 | Skeleton | width / height（CSS 长度或数字）、className / style；纯展示占位并 aria-hidden；外层用 aria-busy / status 说明加载中，加载完成移除；减少动效时保持静态 |
 | Dialog / Drawer | 受控 open / onOpenChange，标题、可选说明、正文与 footer；role: dialog（默认）/ alertdialog；支持 Escape、焦点约束、可指定初始焦点并恢复入口；关闭按钮 32px 可视、44px 命中由共享组件提供。Drawer 是同一弹层合同的侧向编排 |
 | Menu | trigger 与具名 items，支持禁用、危险项、分隔与链接 / 动作；键盘、关闭与焦点由行为基础维护 |
@@ -35,7 +36,7 @@
 | InlineAlert | info / success / warning / danger，错误以 alert 播报，其余状态使用 status；必要说明不只放在 Tooltip |
 | Toast / Tooltip | Toast 以顶部胶囊提供可关闭的短时反馈，关闭按钮显示剩余时间，悬停 / 聚焦暂停，超时自动关闭；Tooltip 补充已有可访问名称；不替代持久错误、字段帮助或必要操作入口 |
 
-A 批 10 个基础组件与 B 批 6 个反馈 / 浮层组件由三代表页实际消费；当前共 24 个共享组件；RadioGroup 是 2026-11-08 为设置页新增的第 17 个，Avatar / Tag 是第 18 / 19 个，Skeleton 是第 20 个，InputOTP 是第 21 个，ConfirmDialog 是第 22 个，ToggleGroup 是第 23 个，Accordion 是第 24 个；AppShell、表格、分页、目录和业务数据仍属于展示站组合，不提前承诺通用 DataGrid、服务器分页、富文本或权限能力。
+A 批 10 个基础组件与 B 批 6 个反馈 / 浮层组件由三代表页实际消费。第二版运行基线累计 24 个组件，随后为资源新建新增 TagInput，当前共 25 个。AppShell、表格、分页、目录和业务数据仍属于展示站组合。
 
 ## 视觉与失败路径
 
@@ -50,7 +51,7 @@ A 批 10 个基础组件与 B 批 6 个反馈 / 浮层组件由三代表页实�
 | C-02.1 A 批控件与语义样式 | 已完成（本地 React 19 范例） | 十个基础组件由三页直接消费；类型、真实表单与明暗 / 窄屏检查通过 |
 | C-02.2 B 批浮层与反馈 | 已完成（本地 React 19 范例） | 六个反馈 / 浮层组件由 E-02 消费；Select 键盘、不透明菜单、Dialog / Drawer 焦点约束与恢复、失败反馈通过 |
 | C-02.3 状态与兼容验证 | 已完成（本轮限定范围） | 模型测试、浏览器流程和组合检查通过；具体证据与其他平台 / 辅助技术等未覆盖面归开发记录 |
-| C-02.4 组件用法与状态展示 | 已完成（本地 React 19 用例） | `#/components` 提供 24 个共享组件的实际用例、关键 props / 事件、代码与键盘说明；适用的禁用 / 加载 / 错误 / 只读和长内容可操作；11 月 7 日同步顶部通知与倒计时说明，明暗 / 窄屏验证见开发记录 |
+| C-02.4 组件用法与状态展示 | 已完成（本地 React 19 用例） | `#/components` 提供 25 个共享组件的实际用例、关键 props / 事件、代码与键盘说明；适用的禁用 / 加载 / 错误 / 只读和长内容可操作；11 月 7 日同步顶部通知与倒计时说明，明暗 / 窄屏验证见开发记录 |
 
 前三项完成指本轮真实页面的有限组合验收，C-02.4 已补齐独立用法页；这仍不等于每个组件的所有组合或所有消费环境均已验收。之后按页面需求决定新增组件，不以复制组件实现或静态截图替代运行用例。
 
@@ -172,3 +173,10 @@ Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前
 - Avatar 在 Safari 的损坏内联图片上收到错误事件，却仍保留损坏的 `img`。移除会清空快速失败的挂载 effect，按当前图片源记录失败。两款浏览器均验证有效图片、损坏内联图片、损坏 URL 图片、换图恢复和重新切回失败源。
 - Skeleton 在 Safari 与 Firefox 的默认模式保留扫光，减少动效时显示静态占位并保留 `aria-hidden`。InputOTP 在组件示例验证粘贴处理、删格保留后续位置和补位，独立表单验证 `name` 只提交一项并保留前导零。Safari 另用原生粘贴、键盘和点击提交，得到 `012945`。
 - ConfirmDialog 在文档编辑中验证描述关联、取消按钮初始焦点、继续编辑时回焦并保留草稿、放弃后回到编辑入口。资源类型筛选和移动目录定位通过页面组合验收。浏览器版本、布局与本轮限制见 [E-02](workbench-preview.md#单一入口补验2026-11-09) 和[开发记录](../devlogs/2026-W46.md)。
+
+## TagInput（2026-11-09）
+
+- 资源已有标签数据、详情和搜索，新建表单接入 [TagInput](workbench-preview.md#新建资源的标签)。共享组件复用 Input、Button、IconButton 和 Tag，调用方决定如何解析、验证和提交草稿。
+- 调用方控制 `value` 和 `draft`。`onValueChange` 接收删除后的标签，`onDraftChange` 接收正在编辑的文字，`onAdd` 由调用方校验并提交草稿。添加按钮和逐项删除按钮的名称由 `addLabel` 与 `removeLabel(tag)` 提供。在 FormField 内由现有 Input 关联字段标签、帮助和错误，独立使用时传 `label`。禁用时输入、添加、删除均不可操作。
+- 添加与删除后焦点回输入框，输入为空时 Backspace 一次删除一项，组合输入期间保留 IME 按键。长标签在窄容器换行，粗指针下操作沿用 44px 目标。组件页可尝试有效输入、超限错误与禁用状态。
+- 验收范围和未覆盖面见[开发记录](../devlogs/2026-W46.md#资源新建标签)。

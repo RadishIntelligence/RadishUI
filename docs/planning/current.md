@@ -8,6 +8,8 @@
 
 [E-02.5](../features/workbench-preview.md#e-025-补验检查项)已按所有者确认的范围完成，移动证据采用既有 iPhone 17 / iOS 26.5 模拟器抽查。11 月 9 日完成[单一入口](../features/workbench-preview.md#单一入口补验2026-11-09)与[新增组件](../features/react-workbench-components.md#单一入口组件补验2026-11-09)的 Safari / Firefox 定向复验，修复窄屏英文底栏断词和 Avatar 快速加载失败回退。VoiceOver 实际朗读与实体 iPhone 已移出本轮验收，Windows + NVDA 另行评估。
 
+[资源新建](../features/workbench-preview.md#新建资源的标签)已使用共享 [TagInput](../features/react-workbench-components.md#taginput2026-11-09) 接入现有标签字段，保存后的标签可在详情查看和搜索。组件用法页提供添加、删除、超限和禁用状态。
+
 [PR #6](https://github.com/RadishIntelligence/RadishUI/pull/6) 已由所有者合入 `master`，合并提交 `030ffdf` 已快进回流并推送 `dev`，两条远端分支核对为 `0 0`。[生产展示站](../deployment/hosting.md#2026-11-08-单一-web-入口晋级)已提供 `26.11.1` 的 Workbench 单一入口。当前内部版本及发行边界见[版本策略](../development/versioning.md)。
 
 [家族 UI 只读盘点](../features/family-ui-consolidation.md)已完成首轮。Web 范例加载 Inter Variable / JetBrains Mono Variable，图标沿用 lucide-react，视觉语义以 `--rd-*` 为准。P2 外部消费 smoke test 已完成并修复 tokens CSS 打包；RadishX About 入口卡在本机通过验证，仅作临时消费证据。[F-02.6 有限产品试点](../features/visual-baseline-proposal.md)尚未开始。
@@ -16,8 +18,8 @@
 
 ## 接下来的事项
 
-1. **用本仓页面需求决定下一项组件。** 复用现有资源库、偏好或文档场景，从[家族盘点](../features/family-ui-consolidation.md#shadcnui-缺口优先级)选一个已有控件解决不了的问题。先说明页面位置、交互和状态，再决定是否增加组件。需要在长选项中搜索时评估 Combobox，Progress 等真实异步进度流程。交付同时包含页面用法和组件页状态示例，按第二版运行基线核对明暗、字号、键盘与反馈。
-2. **保留 P2 为下一阶段出口。** 本仓组件与范例收口后，另行确认一个产品和一个有限页面，明确版本、token 映射、例外与回滚再做实际消费。RadishX 临时测试只提供消费路径证据。Flutter 验证与正式发行继续按 P3 / P4 各自的出口推进。
+1. **确认 P2 有限试点范围。** 另行确认一个产品和一个有限页面，明确版本、token 映射、例外与回滚再做实际消费。RadishX 临时测试只提供消费路径证据。Flutter 验证与正式发行继续按 P3 / P4 各自的出口推进。
+2. **组件候选由页面需求触发。** 从[家族盘点](../features/family-ui-consolidation.md#shadcnui-缺口优先级)选择已有控件解决不了的交互。需要在长选项中搜索时评估 Combobox，Progress 等真实异步进度流程。新增组件同时交付页面用法和状态示例。
 
 ## 当前停止线
 

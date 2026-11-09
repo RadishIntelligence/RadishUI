@@ -20,7 +20,7 @@
 
 | 仓库 / 包 | UI 技术栈 | 通用组件与视觉来源 | 图标 | 字体 | 备注 |
 | --- | --- | --- | --- | --- | --- |
-| RadishUI | React 19.2.7；Radix；lucide-react 1.68 | 24 个共享组件；`--rd-*`；Inter / JetBrains 优先，系统回退 | lucide-react | Inter / JetBrains 优先，系统回退 | 本仓，统一目标；Web 范例已引 fontsource |
+| RadishUI | React 19.2.7；Radix；lucide-react 1.68 | 25 个共享组件；`--rd-*`；Inter / JetBrains 优先，系统回退 | lucide-react | Inter / JetBrains 优先，系统回退 | 本仓，统一目标；Web 范例已引 fontsource |
 | Radish `Frontend/radish.ui` | React 19.2.7；`@radish/ui` 26.8.2；AntD 6.1 封装 | Button、Input、Modal、Toast、Select、ContextMenu、Skeleton、PasscodeInput、ConfirmDialog、BottomSheet、Markdown 编辑器 / 渲染器、图表、图片裁切等 | Iconify + MDI；部分 AntD 图标 | `--theme-font-*` | 组件量最大，含产品领域组件；AntD 封装不整体迁入 |
 | RadishX | React 19.2.7 | 官网外壳；family-ui `--rd-*` 副本 + `--rx-*` 映射 | 内联 SVG | `--rx-font-*` | 已有本地临时消费测试，不作为正式采用 |
 | RadishMind | React 19 | 控制平面面板；`--rm-*` + `--rd-*` 别名 | 内联 SVG | Inter + 系统 CJK | 面向工作流 / 管理，面板多 |
@@ -53,8 +53,8 @@
 
 以 shadcn/ui 组件目录和交互状态为首要参考，按“家族共性 + 本仓页面真实位置”排序；不为了组件数量补空壳。
 
-1. **本轮已完成**：Avatar、Tag、Skeleton、InputOTP、ConfirmDialog、ToggleGroup、Accordion 已进入共享组件和组件用法页。各组件的页面接入及验收范围见 [C-02](react-workbench-components.md)。
-2. **暂缓 / 候选**：Progress 等真实异步进度流程；日期 / 滑块 / 上传 / 标签输入 / Combobox 由实际页面需求触发。实施顺位见[当前规划](../planning/current.md#接下来的事项)。
+1. **本轮已完成**：Avatar、Tag、Skeleton、InputOTP、ConfirmDialog、ToggleGroup、Accordion 和 TagInput 已进入共享组件和组件用法页。各组件的页面接入及验收范围见 [C-02](react-workbench-components.md)。
+2. **暂缓 / 候选**：Progress 等真实异步进度流程；日期 / 滑块 / 上传 / Combobox 由实际页面需求触发。实施顺位见[当前规划](../planning/current.md#接下来的事项)。
 3. **后续**：表格、分页、图表、编辑器、图片处理等领域能力不进入通用核心，除非重新确认边界。
 
 ## 图标
