@@ -12,13 +12,13 @@
 
 [PR #6](https://github.com/RadishIntelligence/RadishUI/pull/6) 已由所有者合入 `master`，合并提交 `030ffdf` 已快进回流并推送 `dev`，两条远端分支核对为 `0 0`。[生产展示站](../deployment/hosting.md#2026-11-08-单一-web-入口晋级)已提供 `26.11.1` 的 Workbench 单一入口。当前内部版本及发行边界见[版本策略](../development/versioning.md)。
 
-[家族 UI 只读盘点](../features/family-ui-consolidation.md)已完成首轮。Web 范例加载 Inter Variable / JetBrains Mono Variable，图标沿用 lucide-react，视觉语义以 `--rd-*` 为准。P2 外部消费 smoke test 已完成并修复 tokens CSS 打包；RadishX About 入口卡在本机通过验证，仅作临时消费证据。[F-02.6 有限产品试点](../features/visual-baseline-proposal.md)尚未开始。
+[家族 UI 只读盘点](../features/family-ui-consolidation.md)已完成首轮。Web 范例加载 Inter Variable / JetBrains Mono Variable，图标沿用 lucide-react，视觉语义以 `--rd-*` 为准。P2 外部消费 smoke test 已完成并修复 tokens CSS 打包；RadishX About 入口卡的延迟加载原型已在临时副本完成构建、回滚与浏览器验证，仍只作临时消费证据。[F-02.6 有限产品试点](../features/visual-baseline-proposal.md)尚未进入正式试点；RadishX 分支与产品仓写入范围明日再定。
 
 长期阶段和专题归属见[整体规划](roadmap.md)与[专题地图](topics.md)。本轮证据见[本周开发记录](../devlogs/2026-W46.md)，晋级历史见[上周收尾记录](../devlogs/2026-W45.md#2026-11-08-收尾提交回顾与文档复核)。
 
 ## 接下来的事项
 
-1. **确认 P2 有限试点范围。** 另行确认一个产品和一个有限页面，明确版本、token 映射、例外与回滚再做实际消费。RadishX 临时测试只提供消费路径证据。Flutter 验证与正式发行继续按 P3 / P4 各自的出口推进。
+1. **推进 RadishX About 入口卡正式试点（2026-11-10 继续）。** 范围保持 `/about` 入口卡、共享 `Button` + `Dialog`，并采用已验证的修正版延迟加载外壳：加载成功时把焦点从直达链接交接到共享按钮，失败时保留原链接。先固定 RadishUI `83e4f0f` 与两份 tarball 的 SHA-256，决定是否推送 `dev` 或记录本地提交例外；`feature/radishui-about-entry` 的复用 / 新建分支明日再定。随后在试点分支做干净安装与 lockfile 校验，验证 1440 / 390 / 320 + 200%、明暗、加载中与失败回退、Dialog 初始焦点 / Tab / Escape / 回焦，并实际执行一次回滚。产品仓写入、依赖安装和分支操作需单独授权；不推送产品分支、不部署、不合并 `master`。通过后由所有者视觉确认，再登记 F-02.6 采用。
 2. **组件候选由页面需求触发。** 从[家族盘点](../features/family-ui-consolidation.md#shadcnui-缺口优先级)选择已有控件解决不了的交互。需要在长选项中搜索时评估 Combobox，Progress 等真实异步进度流程。新增组件同时交付页面用法和状态示例。
 
 ## 当前停止线

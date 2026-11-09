@@ -26,7 +26,7 @@
 | Accordion | type: single（默认）/ multiple；items: { value, label, content, disabled? }[]；value / defaultValue / onValueChange；single 可 collapsible；标题按钮与内容区域由 Radix 维护，键盘可展开 / 收起 |
 | Tabs | 受控或非受控 Root，配合 TabsList / TabsContent，保持 tab / tabpanel 关联、方向键、选择与焦点；列表在极窄 + 大字号下可换行，避免入口被裁切；辅助导出不另算组件数量 |
 | StatusBadge | neutral / info / success / warning / danger 表达展示语义，文字与图标由调用方提供，不伪装为交互按钮 |
-| Avatar | name 提供可访问名称与首字回退；src、fallback、shape: circle（默认）/ square、size: sm / md / lg、decorative；图片加载失败回退；纯展示不进入 Tab 顺序 |
+| Avatar | name 提供可访问名称与首字回退；src、fallback、shape: circle（默认）/ square、size: sm / md / lg、decorative；图片加载失败回退，图片源变化后重试；纯展示不进入 Tab 顺序 |
 | Tag | 中性标签文本；纯展示，不进入 Tab 顺序；状态用 StatusBadge，不用 Tag 伪装状态 |
 | TagInput | 受控标签与草稿。Enter 或添加按钮调用 `onAdd`，空输入的 Backspace 移除末项，每个标签可单独删除。添加规则与表单提交由调用方负责，使用 FormField 关联帮助和错误 |
 | Skeleton | width / height（CSS 长度或数字）、className / style；纯展示占位并 aria-hidden；外层用 aria-busy / status 说明加载中，加载完成移除；减少动效时保持静态 |
@@ -111,11 +111,11 @@ Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前
 
 按家族 UI 盘点与 shadcn/ui 参考，新增两个展示组件；Avatar 用于侧栏账号 / 工作区，Tag 用于资源与文档标签，组件用法页扩到 19 个。
 
-- Avatar：`name` 用于可访问名称与首字回退，`src` 图片加载失败回退，`fallback` 可覆盖回退文字，`shape: circle（默认）/ square`，`size: sm / md / lg`；装饰性用法设置 `decorative`，避免与父级按钮名称重复。
+- Avatar：`name` 用于可访问名称与首字回退，`src` 图片加载失败回退，图片源变化后重新尝试，`fallback` 可覆盖回退文字，`shape: circle（默认）/ square`，`size: sm / md / lg`；装饰性用法设置 `decorative`，避免与父级按钮名称重复。
 - Tag：中性标签，`children` 文本；只负责标签，不承担状态语义；状态继续用 StatusBadge。两者都是纯展示，不进入 Tab 顺序。
 - 接入：侧栏账号 / 工作区头像、资源详情标签、文档属性标签；组件用法页提供回退、图片、方形 / 圆形、尺寸与长文本示例。
 - 验证：`npm run type-check`、`npm run build` 通过；定向浏览器检查 19/19（侧栏头像回退 / 装饰性、资源与文档标签、组件页图片加载、明暗、390 无横向溢出、无 pageerror / 4xx）。
-- 未覆盖：图片加载失败路径未做浏览器定向；屏幕阅读器实际朗读、Safari / Firefox 本轮未单独复验。视觉已纳入 F-02.4 第二版运行基线。
+- 未覆盖：屏幕阅读器实际朗读。图片失败、损坏 URL 与换源重试的 Safari / Firefox 结果见[单一入口组件补验](#单一入口组件补验2026-11-09)。视觉已纳入 F-02.4 第二版运行基线。
 
 
 ## Skeleton（2026-11-08）
