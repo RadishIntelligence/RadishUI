@@ -16,7 +16,7 @@
 - [GitHub 设置与 Rulesets](../.github/rulesets/README.md)：远端目标、启用顺序和回滚。
 - [初始化目标](features/bootstrap.md)：首批范围与验收。
 - [部署](deployment/hosting.md)：Vercel 配置与 GitHub Pages 备选。
-- [本周记录](devlogs/2026-W45.md)：日期化执行证据。
+- [本周记录](devlogs/2026-W46.md)、[2026-W45](devlogs/2026-W45.md)：日期化执行证据。
 
 仓库对外入口：[贡献指南](../CONTRIBUTING.md)、[行为规范](../CODE_OF_CONDUCT.md)、[安全报告](../SECURITY.md)。根协作入口只放必须立即生效的长期规则，当前规划只放状态与顺位，验证事实进入开发记录。
 
