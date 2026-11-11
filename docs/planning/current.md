@@ -1,6 +1,6 @@
 # 当前规划
 
-更新日期：2026-11-10。
+更新日期：2026-11-11。
 
 ## 当前范围
 
@@ -12,18 +12,18 @@
 
 [PR #6](https://github.com/RadishIntelligence/RadishUI/pull/6) 已由所有者合入 `master`，合并提交 `030ffdf` 已快进回流并推送 `dev`，两条远端分支核对为 `0 0`。[生产展示站](../deployment/hosting.md#2026-11-08-单一-web-入口晋级)已提供 `26.11.1` 的 Workbench 单一入口。当前内部版本及发行边界见[版本策略](../development/versioning.md)。
 
-[家族 UI 只读盘点](../features/family-ui-consolidation.md)已完成首轮。Web 范例加载 Inter Variable / JetBrains Mono Variable，图标沿用 lucide-react，视觉语义以 `--rd-*` 为准。P2 外部消费 smoke test 已完成并修复 tokens CSS 打包；RadishX About 入口卡的延迟加载原型已在临时副本完成构建、回滚与浏览器验证，仍只作临时消费证据。[F-02.6 有限产品试点](../features/visual-baseline-proposal.md#finite-product-adoption)的有限收口方案已于 11 月 10 日获确认，正式产品实施与采用验收待开始；本轮仅修改两库文档。RadishX 旧试验分支与临时副本结果不自动成为正式采用。
+[家族 UI 只读盘点](../features/family-ui-consolidation.md)已完成首轮。Web 范例加载 Inter Variable / JetBrains Mono Variable，图标沿用 lucide-react，视觉语义以 `--rd-*` 为准。P2 外部消费 smoke test 已完成并修复 tokens CSS 打包；RadishX About 入口卡的延迟加载原型已在临时副本完成构建、回滚与浏览器验证。[F-02.6 有限产品试点](../features/visual-baseline-proposal.md#finite-product-adoption)的有限收口方案已于 11 月 10 日获确认；11 月 11 日按授权在 RadishX 既有本地分支完成正式实施、干净安装、跨浏览器验证与实际回滚，视觉与采用决定待所有者。产品分支未推送，临时原型结果不自动成为正式采用。
 
 长期阶段和专题归属见[整体规划](roadmap.md)与[专题地图](topics.md)。本轮证据见[本周开发记录](../devlogs/2026-W46.md)，晋级历史见[上周收尾记录](../devlogs/2026-W45.md#2026-11-08-收尾提交回顾与文档复核)。
 
 ## 接下来的事项
 
-1. **完成一次 RadishX About 有限试点收口。** 范围保持入口卡、共享 `Button` + `Dialog` 与已验证的延迟加载外壳。先确认产品分支及完整源提交 / 产物身份，在获对应操作授权后完成产品接入、干净安装、限定浏览器与回滚验收；产品侧清单由 RadishX `docs/features/radishui-pilot.md` 维护，采用判断见 [F-02.6](../features/visual-baseline-proposal.md#finite-product-adoption)。不再重复开同范围临时原型。技术通过后由所有者分别确认视觉和采用收益，允许保留技术证据但暂不采用；收益明确后才选择下一个有真实交互需求的产品场景。RadishX 的内容 / 质量与不含试点的发布候选独立推进。
+1. **完成 About 有限试点的采用判断。** 产品仓本地实施与技术验收已于 11 月 11 日完成（RadishX `0ad9190`、RadishUI `83e4f0f`，证据见[本周记录](../devlogs/2026-W46.md#radishx-about-有限试点实施与验收)）。请所有者比较原直达链接与 Dialog 的信息价值、访问步骤、维护收益和依赖 / 首包成本，分别记录视觉确认与「正式采用 / 技术成立但暂不采用」；产品侧清单由 RadishX `docs/features/radishui-pilot.md` 维护，采用出口见 [F-02.6](../features/visual-baseline-proposal.md#finite-product-adoption)。不重复同范围原型；收益明确后才选择下一个有真实交互需求的产品场景。产品分支保持本地，推送、部署与合并仍需对应授权。RadishX 的内容 / 质量与不含试点的发布候选独立推进。
 2. **组件候选由页面需求触发。** 从[家族盘点](../features/family-ui-consolidation.md#shadcnui-缺口优先级)选择已有控件解决不了的交互。需要在长选项中搜索时评估 Combobox，Progress 等真实异步进度流程。新增组件同时交付页面用法和状态示例。
 
 ## 当前停止线
 
-- 本轮跨仓授权仅覆盖 RadishUI / RadishX 规划文档收口。正式产品接入、依赖安装、服务启动和分支选择尚待对应实施授权；不推送产品分支、不部署、不合并 `master`。
+- 本轮跨仓授权覆盖 RadishUI / RadishX 规划文档，以及已确认的 About 有限试点产品本地实施、依赖安装和本地服务验证。推送、部署、合并 `master`、推送产品分支以及其他产品 / 页面接入仍未授权，不执行。
 - React 18 / Flutter 支持、组件包发行、字体策略、全站 token 与 family-ui 资料迁移不随试点自动进入，也不作为本次有限采用的前置条件。未覆盖平台与辅助技术如实记录；影响所选关键路径的缺陷仍需处理。
 - 原生稿十二组合及两个控件板属于静态设计证据。受限参考留在仓库外的私有本地库，外部截图和私人材料不进入公开资产。
 - 晋级历史标题例外限定于所有者核准的三个完整 SHA。后续 PR 仍按[仓库治理](../development/repository-governance.md#稳定主线晋级与回流)审阅与合并。

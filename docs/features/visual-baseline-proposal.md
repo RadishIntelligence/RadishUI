@@ -172,7 +172,7 @@ F-02 继续维护本仓研究 / 定稿进度和来源边界，设计正文在上
 | F-02.3 本仓资料整理与来源仓边界 | 本仓保留，跨仓尝试已撤回 | [撤回记录](../design/sources/2026-11-03-centralization.md)：本仓通用正文、索引和私有参考副本保留；四仓原文档、原图、原分支恢复，临时分支已删除。第一版满意前不修改产品仓库 |
 | F-02.4 三代表页视觉基准 | 已完成（2026-11-08 所有者确认第二版运行基线） | [现代圆角](../design/patterns/modern-rounded-v1.md)保留 12 个主组合 + 2 控件板及原生 QA；[E-02](workbench-preview.md)维护运行版验收。两次运行基线的提交、范围与限制见下文 |
 | F-02.5 token 差异与首批组件实施边界 | 已授权本仓实施，转交对应专题 | [F-01](token-foundation.md)维护语义映射，[C-02](react-workbench-components.md)维护组件合同，[E-02](workbench-preview.md)维护三页与组合验收；本表不重复其任务状态 |
-| F-02.6 有限产品试点 | 临时副本原型已验证；11 月 10 日有限收口方案已确认，产品实施与采用验收待开始 | [采用出口与分工](#finite-product-adoption)；历史[浏览器证据](../devlogs/2026-W46.md#p2-延迟加载原型浏览器验证2026-11-09)不代替正式产品验收 |
+| F-02.6 有限产品试点 | 产品仓本地实施与技术验收已完成（2026-11-11，未推送）；视觉与采用决定待所有者 | [采用出口与分工](#finite-product-adoption)、[输入冻结与技术验收](#2026-11-11-试点输入冻结与技术验收)；历史[浏览器证据](../devlogs/2026-W46.md#p2-延迟加载原型浏览器验证2026-11-09)不代替正式产品验收 |
 
 此前曾建立四仓临时分支实施入口替换与参考文件迁移，已按所有者要求完整撤回。第一版运行基线随后已获确认；未来产品采用仍需重新确认产品、版本、资料与运行时范围，从实施时核对的集成基线开始，不复用已撤回的迁移状态。
 
@@ -189,6 +189,21 @@ F-02 继续维护本仓研究 / 定稿进度和来源边界，设计正文在上
 - **技术与价值分别裁决。** 技术结果绑定产品提交、包哈希、环境和证据；随后确认视觉，并比较原直达链接与 Dialog 的信息价值、访问步骤、维护收益和依赖 / 首包成本。允许“技术验证成立，当前产品收益有限，暂不正式采用”。所选范围验收通过且所有者确认继续采用后才登记 F-02.6，不用工程 smoke 代替采用判断。
 - **后续扩展由真实场景触发。** 收口后先选择一个有真实交互需求的产品场景；没有明确收益时暂停扩展。单一 About 试点不代表整个 P2、全家族、React 18 或 Flutter 完成；完整组件目录、Flutter 与正式发行不是本次前置。
 - **两库独立交付。** RadishX 保留 Brand、`--rx-*` 和产品适配职责；不自动迁移全站 token、family-ui 资料或其他页面。官网可收口内容 / 质量并形成不含试点的候选，不等待本库组件扩充。两库引用同一批证据，各自维护本方结果，不重复维护进度表。
+
+#### 2026-11-11 试点输入冻结与技术验收
+
+在所有者确认的有限范围内，RadishX 从 `master` / `c0f57ae` 复用既有 `feature/radishui-about-entry` 分支实施；RadishUI 固定 `dev` / `83e4f0f`，该提交已在 `origin/dev`。产品实现提交为 RadishX `0ad9190`，仅改 `/about` 入口卡、延迟加载外壳、组件样式引入位置、两份 vendored tarball 与 lockfile integrity；未改其他页面、全局 token 或路由。
+
+| 包 | 产物 SHA-256 | lockfile integrity |
+| --- | --- | --- |
+| `@radish-ui/react` | `7014e222405a4faf99f28c4f35aa0561908ec1efa38bea53fbe8a3f7db558717` | `sha512-LuCLexxA0XhxBh7YUT1jBsJm8alBXkZRfNGLuB7MiV0xaBf/1nORIlOaq8MtQu6EIlzIqad1rvqhIuGc3H79Bg==` |
+| `@radish-ui/tokens` | `9c43c48fe89b48590b988560e44d2341751bab3858bf67952c538ad65991ca48` | `sha512-atGi5puLDaKsjhp5xFnTLz0Zkyb8IuCrbpTjl6lqxySBZF2u4bzpLkxaxOruWBOLt49/9ofdELJJbTHLRA3PLQ==` |
+
+- 两份产物由 `83e4f0f` 的包源码产出，15 个文件逐个与源提交一致，且与 11 月 9 日演练产物及原型 lockfile integrity 相同；旧 `984b471` 产物不再用于本试点。
+- 产品仓相对 `master` 新增 76 条 lockfile 包记录、无删除；`npm ci` 干净安装 101 包后构建通过，产物哈希与 11 月 9 日修正版原型一致。
+- HTML 直引 JS / CSS 的 gzip 合计 96,194 字节，`master` 同口径 94,380 字节，首包增加 1,814 字节；入口 chunk 为 15,474 JS + 4,125 CSS gzip 字节，只在 `/about` 请求。
+- Chrome 231 / 231、Safari 9 / 9、Firefox 9 / 9；覆盖 1440 / 390 / 320 与 32px 基础字号、明暗、延迟 / JS / CSS 失败、Dialog 焦点与回焦、其他页不加载入口 chunk、返回后样式驻留。实际回滚在 `master` worktree 验证直达入口与构建，未删除分支或源码。
+- 结论为技术消费成立；视觉确认与采用收益由所有者分别判断，允许「技术成立、暂不采用」。产品分支仅本地，未推送、未部署、未合并。证据与未覆盖面见[本周记录](../devlogs/2026-W46.md#radishx-about-有限试点实施与验收)；产品侧执行与验收清单由 RadishX `docs/features/radishui-pilot.md` 维护。
 
 ## 8. 已确认范围与当前评审点
 
