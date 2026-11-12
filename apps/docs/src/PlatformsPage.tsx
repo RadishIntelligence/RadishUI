@@ -14,13 +14,13 @@ export function PlatformsPage({ t }: { t: Translate }) {
     <p className="platforms-intro">{t('同源设计，分别实现。RadishUI 先提供通用视觉基础与 React 范例；产品采用、Flutter 与正式发行分别评估。', 'Shared design, separate implementations. RadishUI starts with visual foundations and React examples; product adoption, Flutter, and release are evaluated separately.')}</p>
     <div className="platforms-grid">{platforms.map(({ icon: Icon, title, text, status, tone, href }) => <a className="platform-card" href={href} key={title}>
       <div className="platform-card-head"><span className="platform-icon"><Icon size={20} aria-hidden="true" /></span><StatusBadge tone={tone}>{status}</StatusBadge></div>
-      <h2>{title}</h2><p>{text}</p><span className="platform-link">{t('查看范围', 'View scope')}<ArrowUpRight size={15} aria-hidden="true" /></span>
+      <h2>{title}</h2><p>{text}</p><span className="platform-link">{t('查看范围', 'View scope')}<ArrowUpRight size={16} aria-hidden="true" /></span>
     </a>)}</div>
     <section className="platform-boundary" aria-labelledby="platform-boundary-title"><div><span className="platform-eyebrow">Boundary</span><h2 id="platform-boundary-title">{t('接入边界', 'Adoption boundary')}</h2></div><div>
       <p>{t('RadishUI 是家族通用 UI 源；产品仓只读参考，不自动接入、不建迁移分支、不做 P2 外部试点。', 'RadishUI is the family UI source; product repos are read-only references. No automatic adoption, migration branch, or external P2 pilot.')}</p>
       <div className="platform-tags"><Tag>{t('内部预览', 'Internal preview')}</Tag><Tag>{t('未发行', 'Unreleased')}</Tag><Tag>{t('产品只读', 'Products read-only')}</Tag></div>
-      <a className="platforms-doc-link" href="https://github.com/RadishIntelligence/RadishUI/tree/master/docs">{t('阅读架构与接入文档', 'Read architecture and adoption docs')}<ArrowUpRight size={15} aria-hidden="true" /></a>
+      <a className="platforms-doc-link" href="https://github.com/RadishIntelligence/RadishUI/tree/master/docs">{t('阅读架构与接入文档', 'Read architecture and adoption docs')}<ArrowUpRight size={16} aria-hidden="true" /></a>
     </div></section>
-    <div className="platform-footer"><span>v26.11.1</span><span>{t('React 19 内部预览', 'React 19 internal preview')}</span><span><Boxes size={14} aria-hidden="true" />{t('Flutter 预留', 'Flutter reserved')}</span></div>
+    <div className="platform-footer"><span>v26.11.1</span><span>{t('React 19 内部预览', 'React 19 internal preview')}</span><span><Boxes size={16} aria-hidden="true" />{t('Flutter 预留', 'Flutter reserved')}</span></div>
   </section>;
 }

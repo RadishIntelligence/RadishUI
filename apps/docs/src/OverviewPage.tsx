@@ -31,18 +31,18 @@ export function OverviewPage({ t }: { t: Translate }) {
         </div>
       </div>
       <div className="overview-palette" aria-label={t('视觉基础颜色', 'Foundation colors')}>
-        <div className="overview-palette-head"><span>{t('视觉基础', 'Foundations')}</span><a href="#/foundations">{t('查看全部', 'View all')}<ArrowUpRight size={14} aria-hidden="true" /></a></div>
+        <div className="overview-palette-head"><span>{t('视觉基础', 'Foundations')}</span><a href="#/foundations">{t('查看全部', 'View all')}<ArrowUpRight size={16} aria-hidden="true" /></a></div>
         <div className="overview-swatches">{swatches.map(([token, zh, en]) => <div className="overview-swatch" key={token}><span className="overview-swatch-color" style={{ background: `var(--rd-${token})` }} aria-hidden="true" /><strong>{t(zh, en)}</strong><code>--rd-{token}</code></div>)}</div>
         <p className="overview-palette-note">{t('同一组语义，浅色与深色各自成对。', 'One set of roles, paired across light and dark.')}</p>
       </div>
     </div>
-    <div className="overview-section-head"><h2>{t('设计系统', 'Design system')}</h2><a className="overview-link" href="#/components">{t('全部组件', 'All components')}<ArrowRight size={15} aria-hidden="true" /></a></div>
+    <div className="overview-section-head"><h2>{t('设计系统', 'Design system')}</h2><a className="overview-link" href="#/components">{t('全部组件', 'All components')}<ArrowRight size={16} aria-hidden="true" /></a></div>
     <div className="overview-card-grid">{system.map(({ href, icon: Icon, title, text, meta }) => <a className="overview-card" href={href} key={href}>
-      <div className="overview-card-icon"><Icon size={20} aria-hidden="true" /></div><div><h3>{title}</h3><p>{text}</p><code>{meta}</code></div><ArrowUpRight className="overview-card-arrow" size={17} aria-hidden="true" />
+      <div className="overview-card-icon"><Icon size={20} aria-hidden="true" /></div><div><h3>{title}</h3><p>{text}</p><code>{meta}</code></div><ArrowUpRight className="overview-card-arrow" size={18} aria-hidden="true" />
     </a>)}</div>
     <div className="overview-section-head"><h2>{t('Workbench 演示', 'Workbench demo')}</h2><span>{t('本地合成数据', 'Local synthetic data')}</span></div>
     <div className="overview-demo-grid">{demo.map(({ href, icon: Icon, title, text }) => <a className="overview-demo" href={href} key={href}>
-      <Icon size={19} aria-hidden="true" /><div><h3>{title}</h3><p>{text}</p></div><ArrowUpRight size={16} aria-hidden="true" />
+      <Icon size={20} aria-hidden="true" /><div><h3>{title}</h3><p>{text}</p></div><ArrowUpRight size={16} aria-hidden="true" />
     </a>)}</div>
     <footer className="overview-footer"><span>{t('工程预览 · v26.11.1', 'Engineering preview · v26.11.1')}</span><span>{t('F-02.4 第二版 · 2026-11-08', 'F-02.4 revision 2 · 2026-11-08')}</span><a href="https://github.com/RadishIntelligence/RadishUI">{t('项目文档', 'Project docs')} ↗</a></footer>
   </section>;

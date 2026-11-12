@@ -7,7 +7,7 @@ const kindIcons = { document: FileText, spec: Palette, checklist: ListChecks, ex
 function openResource(resource: Resource) { window.location.hash = resource.id === 'settings-example' ? '/settings' : `/document/${resource.id}`; }
 function ResourceStatus({ resource, t }: { resource: Resource; t: Translate }) {
   return <span className={`resource-status is-${resource.status}`}>
-    {resource.status === 'readonly' ? <LockKeyhole size={12} aria-hidden="true" /> : <span className="resource-status-dot" aria-hidden="true" />}
+    {resource.status === 'readonly' ? <LockKeyhole size={16} aria-hidden="true" /> : <span className="resource-status-dot" aria-hidden="true" />}
     {statusLabel(resource.status, t)}
   </span>;
 }

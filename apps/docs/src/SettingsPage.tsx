@@ -42,7 +42,7 @@ export function SettingsPage({ preferences, save, t, onDirtyChange }: SettingsPa
                     <span className="theme-preview-rail"><b /><i className="is-active" /><i /><i /></span>
                     <span className="theme-preview-main"><span className="theme-preview-bar is-title" /><span className="theme-preview-bar" /><span className="theme-preview-bar is-short" /><span className="theme-preview-button" /></span>
                   </span>
-                  <span className="theme-option-caption">{{ light: t('浅色', 'Light'), dark: t('深色', 'Dark'), system: t('跟随系统', 'System') }[theme]}{draft.theme === theme && <Check size={14} aria-hidden="true" />}</span>
+                  <span className="theme-option-caption">{{ light: t('浅色', 'Light'), dark: t('深色', 'Dark'), system: t('跟随系统', 'System') }[theme]}{draft.theme === theme && <Check size={16} aria-hidden="true" />}</span>
                 </label>)}
               </div>
             </div>
@@ -87,9 +87,9 @@ export function SettingsPage({ preferences, save, t, onDirtyChange }: SettingsPa
             <Button type="submit" disabled={!dirty}>{t('保存更改', 'Save changes')}</Button>
           </div>
         </form>
-        <aside className="settings-help"><SlidersHorizontal size={22} aria-hidden="true" />
+        <aside className="settings-help"><SlidersHorizontal size={20} aria-hidden="true" />
           <p>{t('这些偏好只影响当前浏览器。选择跟随系统后，外观会随设备自动切换。', 'These preferences apply to this browser. System appearance follows your device automatically.')}</p>
-          <div><Info size={15} aria-hidden="true" /><p>{t('调整完成后，保存更改即可。', 'Save your changes when you are ready.')}</p></div>
+          <div><Info size={16} aria-hidden="true" /><p>{t('调整完成后，保存更改即可。', 'Save your changes when you are ready.')}</p></div>
         </aside>
       </div>
     </Tabs>

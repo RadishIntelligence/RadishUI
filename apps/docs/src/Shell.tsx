@@ -23,7 +23,7 @@ export function Shell({ page, collapsed, onCollapse, onHelp, onTheme, t, childre
   const workspace = <Menu align="start" label={t('当前工作区', 'Current workspace')} trigger={
     <button className="workspace-switch" aria-label={t('工作区菜单', 'Workspace menu')}>
       <Avatar name={t('演示空间', 'Demo space')} fallback={t('演', 'D')} shape="square" size="md" decorative />
-      <strong className="rail-label">{t('演示空间', 'Demo space')}</strong><ChevronDown className="rail-label" size={15} />
+      <strong className="rail-label">{t('演示空间', 'Demo space')}</strong><ChevronDown className="rail-label" size={16} />
     </button>
   } items={[
     { id: 'demo', label: t('演示空间', 'Demo space'), icon: <Check />, disabled: true },
@@ -33,7 +33,7 @@ export function Shell({ page, collapsed, onCollapse, onHelp, onTheme, t, childre
     <button className="account-switch" aria-label={t('账号菜单', 'Account menu')}>
       <Avatar name={t('林杏', 'Lin Xing')} fallback={t('林', 'L')} size="lg" decorative />
       <span className="account-text rail-label"><strong>{t('林杏', 'Lin Xing')}</strong><span>{t('示例成员', 'Demo member')}</span></span>
-      <ChevronDown className="rail-label" size={15} />
+      <ChevronDown className="rail-label" size={16} />
     </button>
   } items={[
     { id: 'overview', label: t('概览', 'Overview'), icon: <Compass />, href: '#/overview' },
