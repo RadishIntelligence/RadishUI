@@ -18,12 +18,31 @@
 
 ## 2026-11-12 组件与视觉完善成为当前主成果
 
-所有者要求先把 RadishUI 自身的展示站、共享组件与视觉做到满意，参照 shadcn/ui 等成熟组件库；在本站满意前不再试点接入其他兄弟产品。
+所有者要求先把 RadishUI 自身的展示站、共享组件与视觉做到满意，参照 shadcn/ui、lucide.dev、ant.design 的官网、组件展示与文档页设计；在本站满意前不再试点接入其他兄弟产品。
 
-- 工作方式：以现有 25 个组件为起点，逐项对照 shadcn/ui 的组件范围、状态、键盘 / 焦点、明暗、密度和 Workbench 页面承载；先审计，再按页面影响与复用面分批实施。
-- 每批交付 Workbench 页面或组件页的真实用法与状态示例；不新增没有页面承载的空壳 API，不把组件数量当完成度。
+- 参考定位：shadcn/ui 的组件页、实时预览 / 代码切换与文档结构；lucide.dev 的图标检索、尺寸 / 颜色 / 描边与复制；ant.design 的组件演示、API 表、表格 / 分页与设计语言。三者都是设计参考，不新增依赖；图标继续 lucide-react，字体继续 Inter Variable / JetBrains Mono Variable（补齐 CJK 回退与字重 / 行高角色，新增依赖另行确认）。
+- 工作方式：以现有 25 个组件为起点，先统一基础尺度与页面模板，再按页面影响与复用面分批实施；每批交付 Workbench 页面或组件页的真实用法与状态示例，不新增没有页面承载的空壳 API，不把组件数量当完成度。
 - About 有限采用已于 2026-11-12 上线并闭环；不因本站组件增加自动扩展到其他产品，后续采用按新的真实场景单独确认。
-- 下一步：产出审计矩阵（现有组件 vs shadcn/ui 缺口、视觉 / 状态 / 可访问性问题、页面覆盖），据此确定第一批。
+
+### 首轮一致性审计（2026-11-12）
+
+- 页面 H1：26px（foundations / components / platforms / resources / settings）、32px（document 文章）、40px（overview landing），与 token `--rd-font-size-title` 28px 不一致。
+- Button：28px 与 32px 高度并存；页面组合里同时出现 10px 与 999px 圆角（`rd-button` 基准是 pill，10px 来自页面类覆盖）。
+- 控件高度：rd-tab 28、Button 28 / 32、rail-link 32、workspace-switch 36、account-switch 50；表格行 52 / 53、表头 36、分页 49。
+- 图标：12 / 13 / 14 / 15 / 16 / 17 / 18 / 19 / 20 / 22 十种尺寸。
+- 圆角：8 / 10 / 12 / 16 / 999；卡片内边距 12 / 16 / 20 / 26。
+- 根因：共享组件消费 token，但 rail、表格、分页、卡片、目录、设置等页面组合层硬编码；图标尺寸由页面各自传入；缺少统一的 page / section / card / table / pagination / TOC 原语与使用规则。
+- 证据：`output/design-audit/2026-11-12/inventory.json` 与逐页截图。首轮覆盖页面 shell 与首屏可见元素，组件示例区的完整滚动审计下一轮补。
+
+### 统一尺度提案（待所有者确认）
+
+- 页面 H1 28px（token）；overview 40px landing、document 32px 阅读标题作为两个显式例外；H2 18px、正文 13–16px。
+- 控件高度 28 / 32 / 36（sm / md / lg）；rail 32、workspace 36、account 卡片 48、表格行 52、表头 36、分页 48、移动底栏 52（命中区至少 44）。
+- 图标 16 / 18 / 20；不再使用 12–15 / 17 / 19 / 22。
+- 圆角 8 / 10 / 16 / pill；Button 全变体 pill；字段 10；卡片 16；不使用 12 / 18 / 24 / 30。
+- 卡片内边距 16（紧凑 12）；页面 / 区块间距 24 / 32；字重与行高按角色。
+- 页面模板：PageHeader（eyebrow / 标题 / 说明 / 动作）、Section、Card、Table、Pagination、TOC、Demo / Code 块；所有 Workbench 页面复用。
+- 第一批：先落尺度契约与共享 Button / 图标 / 控件 / 页面标题修正；再替换资源库、文档、设置为共享原语；随后组件页改为预览 / 代码 / API 模板，最后 overview / foundations / platforms。每批 1440 / 390 / 320+200%、明暗、键盘证据。
 
 ## 只读来源盘点
 
