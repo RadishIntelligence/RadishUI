@@ -17,6 +17,15 @@ React 与 Flutter 分别实现，保持颜色角色、层级、状态含义及�
 
 主题通过正式 token 与组件变体表达。产品的直接 CSS 覆盖只作为有范围、原因和退出条件的例外，不默认为共享 API。已有 family-ui 和产品样式是参考输入，迁移需逐项识别来源、授权、通用语义及保留的产品行为。
 
+## 同类控件的尺寸与复用
+
+- 同一视觉模式只允许一个共享实现和一组共享尺寸变量；页面通过 `size` / variant 等语义参数选择尺寸，不得用页面 CSS 改 padding、font-size、height、radius 或覆盖共享变量。
+- 分段控件（Tabs / ToggleGroup）由同一组 `--rd-segmented-*` 变量驱动。`md`：list padding 4px、item 28px、item padding 4px 10px、font 13px、line-height 1.5；`sm`：list 2px、item 24px、item padding 2px 8px、font `--rd-font-size-xs`。工作台默认 `md`，页面只传 `size`。
+- 页面组合必须使用 PageHeader / Section / Segmented / Table / Pagination / TOC 等页面原语；尺寸、间距、分割线与卡片内边距由原语/变量决定，页面不写一次性尺寸。
+- 内容与分割线之间至少 16px（`--rd-space-4`）；分割线属于区块边界，不能紧贴文字或导航。
+- 视觉验收必须比较同一组件在不同页面的同一视口、同一缩放下的计算值（宽、高、padding、font-size、line-height），并检查分割线/卡片间距；页面级尺寸覆盖没有书面例外不得合入。
+- 确实需要不同尺寸时，新增/使用共享 `size` 变体并同步 token/契约，不在页面内写死。
+
 ## 变更评审
 
 具体设计判断按[设计条例与约束](../design/design-rules.md)引用已确认的默认原则、例外和待审参考建议；后者不自动升格为家族强制规范。条款不替代本文的来源、兼容性与真实交互验收要求。

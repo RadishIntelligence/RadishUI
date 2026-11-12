@@ -35,6 +35,7 @@
 - 证据：`output/design-audit/2026-11-12/inventory.json` 与逐页截图。首轮覆盖页面 shell 与首屏可见元素，组件示例区的完整滚动审计下一轮补。
 - 第一批后（2026-11-12）：页面 H1 28（overview 40 / document 32 例外）；页面级图标 16 / 18 / 20；account 48、分页 48、workspace 10 / account 16 / theme 10 / outline、callout 16；7 页 42 组与键盘验证通过。控件内部 glyph 12 / 13 / 14 保留；卡片内边距与页面原语仍待下一批。
 - 审阅修订（同日）：分段控件统一 pill / 36px / 内容宽，item 统一 `4px 10px` / 28px（资源 / 设置 46×28，组件 46×28）；新增共享 PageHeader（标题 / 返回 / 动作槽）；组件页移除内部说明。42 组回归再次通过；Table / Pagination / TOC / Card 与组件页模板仍待下一批。
+- 尺寸根因（同日）：PC 端设置 / 组件 tabs 还有页级 `padding: 2px`，资源筛选没有；移动端还有 `padding-inline: 10px` 等覆盖。已改为共享 `--rd-segmented-*` + `size` 参数，删除页面尺寸覆盖，资源 / 设置 150×36、item 46×28，组件 198×36，1440 / 390 一致；分割线 16px。原因与防复发写入设计系统契约「同类控件的尺寸与复用」。
 
 ### 统一尺度提案（待所有者确认）
 

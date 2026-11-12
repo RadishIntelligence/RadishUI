@@ -238,6 +238,14 @@ F-02 继续维护本仓研究 / 定稿进度和来源边界，设计正文在上
 - 验证：7 页 × 1440 / 390 / 320+200% × 明暗 42 组，无横向溢出、无 pageerror；键盘 10 个落点可见且 `:focus-visible`。尺寸复核后再次 42 组通过；审阅截图在 `output/design-audit/2026-11-12/after3-review-*` 与 `after4-review-*`。
 - 仍待下一批：Table / Pagination / TOC / Card 原语、组件页 preview / code / API 模板、完整组件示例滚动审计。
 
+### 2026-11-12 分段控件尺寸根因（再次修订）
+
+- 现象：PC 设置 / 组件 tabs 为 32px（页级 `padding: 2px` + `padding-block: 4px`），资源筛选为 36px；移动端又出现 `padding-inline: 10px` 等页级覆盖。同一视觉模式由 Tabs / ToggleGroup 两个组件和页面 CSS 拼成。
+- 修复：共享 `--rd-segmented-*` 变量 + `size` 参数；`TabsList` / `ToggleGroup` 支持 `size="md"`；删除所有页级 padding / font / height 覆盖；资源 / 设置 150×36、item 46×28，组件 198×36（4 item），1440 / 390 一致；分割线间距 16px。
+- 原因：设计系统契约缺少分段控件尺寸标准与“不得页面覆盖”的执行规则；审计只看形状与首屏，没有比较跨页 computed 值；截图宽度 / 缩放不同（818 vs 716、842 vs 826），掩盖了 PC 上的页级覆盖。
+- 防复发：见 `docs/development/design-system.md` 的「同类控件的尺寸与复用」；页面原语与跨页一致性检查进入下一批。
+- 验证：42 组 0 失败；键盘 10 个落点；1440 / 390 计算值一致；截图在 `output/design-audit/2026-11-12/after5-*`。
+
 ## 8. 已确认范围与当前评审点
 
 以下保留早期设计评审约束及日期演进；当前运行基线状态见[当前规划](../planning/current.md)，本次产品试点以 [F-02.6 有限采用出口](#finite-product-adoption)为准，不重新等待已完成的第一版评审。
