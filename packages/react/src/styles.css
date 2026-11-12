@@ -102,11 +102,11 @@
 .rd-switch[data-state="checked"] .rd-switch-thumb { transform: translateX(14px); background: var(--rd-text-on-action); }
 .rd-tabs { min-width: 0; }
 .rd-tabs-list { display: inline-flex; flex-wrap: wrap; max-width: 100%; gap: 2px; padding: var(--rd-space-1); background: var(--rd-bg-muted); border-radius: var(--rd-radius-pill); }
-.rd-tab { flex-shrink: 0; border: 0; border-radius: var(--rd-radius-pill); padding: 6px var(--rd-space-3); background: transparent; color: var(--rd-text-secondary); font-size: var(--rd-font-size-sm); line-height: 1.5; }
+.rd-tab { flex-shrink: 0; border: 0; border-radius: var(--rd-radius-pill); padding: 4px 10px; background: transparent; color: var(--rd-text-secondary); font-size: var(--rd-font-size-sm); line-height: 1.5; }
 .rd-tab[data-state="active"] { background: var(--rd-bg-surface); color: var(--rd-text-primary); box-shadow: var(--rd-shadow-raised); }
 .rd-tab:hover:not(:disabled) { color: var(--rd-text-primary); }
 .rd-toggle-group { box-sizing: border-box; display: inline-flex; align-items: center; gap: 2px; padding: var(--rd-space-1); border: 0; border-radius: var(--rd-radius-pill); background: var(--rd-bg-muted); }
-.rd-toggle-group__item { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-width: 0; min-height: 28px; padding: 0 var(--rd-space-3); border: 0; border-radius: var(--rd-radius-pill); background: transparent; color: var(--rd-text-secondary); font-family: var(--rd-font-sans); font-size: var(--rd-font-size-sm); line-height: 1.4; cursor: pointer; }
+.rd-toggle-group__item { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-width: 0; min-height: 28px; padding: 4px 10px; border: 0; border-radius: var(--rd-radius-pill); background: transparent; color: var(--rd-text-secondary); font-family: var(--rd-font-sans); font-size: var(--rd-font-size-sm); line-height: 1.5; cursor: pointer; }
 .rd-toggle-group__item:hover:not(:disabled) { color: var(--rd-text-primary); }
 .rd-toggle-group__item[data-state="on"] { background: var(--rd-bg-surface); color: var(--rd-text-primary); box-shadow: var(--rd-shadow-raised); }
 .rd-toggle-group__item:focus-visible { outline: 2px solid var(--rd-focus-ring); outline-offset: 3px; }
