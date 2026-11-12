@@ -16,7 +16,7 @@ React 与 Flutter 分别实现，共享设计语义与关键状态；egui、自�
 | --- | --- | --- |
 | P0 工程基线 | workspace、token 管线、首个组件、真实展示和部署路径能构建、审阅与复验；规划功能不算实现 | [初始化验收](../features/bootstrap.md)、[工程与交付](topics.md#engineering) |
 | P1 视觉基准 | 从真实需求确认代表页面、通用状态与设计来源；萝卜SAMA确认后才成为正式视觉基准 | [视觉基础](topics.md#foundations)、[范例与接入](topics.md#examples) |
-| P2 React 有限复用 | 确认首批组件，在有限产品页面实际消费；记录版本、迁移、例外、视觉与交互结果 | [跨平台组件](topics.md#components)、[范例与接入](topics.md#examples) |
+| P2 React 有限复用 | 确认首批组件，在有限产品页面实际消费；记录版本、迁移、例外、视觉与交互结果，比较实际收益与接入成本后决定是否继续采用；单一试点不代表全家族完成 | [跨平台组件](topics.md#components)、[范例与接入](topics.md#examples) |
 | P3 Flutter 验证 | 确认试点和产物格式后验证同一设计语义，明确平台差异与真实支持范围 | [跨平台组件](topics.md#components) |
 | P4 正式发行 | 先确认许可证、包名、构建与导出、支持矩阵、回滚及发布门禁；版本策略已定，见[版本策略](../development/versioning.md) | [工程与交付](topics.md#engineering)、[设计系统契约](../development/design-system.md#版本产品采用与回滚) |
 

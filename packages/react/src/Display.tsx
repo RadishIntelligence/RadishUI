@@ -1,4 +1,4 @@
-import { useEffect, useState, type ComponentPropsWithoutRef, type ReactNode } from 'react';
+import { useState, type ComponentPropsWithoutRef, type ReactNode } from 'react';
 
 function fallbackInitials(name: string) {
   const trimmed = name.trim();
@@ -19,13 +19,13 @@ export interface AvatarProps extends Omit<ComponentPropsWithoutRef<'span'>, 'chi
 }
 
 export function Avatar({ name, src, fallback, shape = 'circle', size = 'md', decorative = false, className = '', ...props }: AvatarProps) {
-  const [failed, setFailed] = useState(false);
-  useEffect(() => setFailed(false), [src]);
-  const showImage = Boolean(src) && !failed;
+  const [failedSrc, setFailedSrc] = useState<string>();
+  if (failedSrc !== undefined && failedSrc !== src) setFailedSrc(undefined);
+  const showImage = src && src !== failedSrc;
   return <span {...props} role={decorative ? undefined : 'img'} aria-label={decorative ? undefined : name}
     aria-hidden={decorative ? true : undefined}
     className={`rd-avatar rd-avatar--${size} rd-avatar--${shape} ${className}`.trim()}>
-    {showImage ? <img src={src} alt="" onError={() => setFailed(true)} /> : <span className="rd-avatar__fallback" aria-hidden="true">{fallback ?? fallbackInitials(name)}</span>}
+    {showImage ? <img key={src} src={src} alt="" onError={() => setFailedSrc(src)} /> : <span className="rd-avatar__fallback" aria-hidden="true">{fallback ?? fallbackInitials(name)}</span>}
   </span>;
 }
 

@@ -1,14 +1,15 @@
 # 运行时依赖与第三方声明
 
-2026-11-04。依赖由根 lockfile 锁定，本轮仅用于 RadishUI 本仓的 React / Web 范例，不代表 Flutter 或产品采用。当前版本由 npm 元数据与实际安装包核对，组件行为再由真实页面验收。
+更新日期：2026-11-08。依赖由根 lockfile 锁定，以下范围为 RadishUI 本仓的 React / Web 范例。
 
 | 依赖 | 版本与许可 | 使用范围与来源 |
 | --- | --- | --- |
 | radix-ui | 1.8.1，MIT | 共享组件的无样式交互基础，不采用 Radix Themes；[官方介绍](https://www.radix-ui.com/primitives/docs/overview/introduction) |
 | lucide-react | 1.68.0，ISC；部分 Feather 派生图标保留 MIT | 共享控件与展示站按需导入，统一尺寸 / 线宽；[React 文档](https://lucide.dev/guide/react)、[许可](https://lucide.dev/license) |
 | React / React DOM | 沿用 19.2.7，MIT | 既有 Web 运行时，未借本轮升级主版本 |
+| `@fontsource-variable/inter` / `@fontsource-variable/jetbrains-mono` | 均为 5.3.0，OFL-1.1 | 由展示站入口导入，分别用于界面正文与等宽内容；回退栈和发行边界见[字体与排版](../design/foundations/03-typography.md) |
 
-新依赖的 peer 范围包含 React 19，本轮实际验证锁定版本；peer 声明不等于所有消费环境兼容。未引入 antd、新字体、HTTP、编辑器或测试框架运行依赖。
+React 组件以锁定的 React 19 版本验收。两个 Fontsource 包是展示站运行时依赖，组件包使用语义字体 token。
 
 `npm run notices:generate` 从 lockfile 中的 production 依赖及实际安装包生成 `apps/docs/public/third-party-notices.txt`，包含可能被 tree shaking 去掉的已安装运行时依赖；`npm run check:notices` 校验一致性。展示站的帮助入口可读取该声明，Vite 将它随构建分发。
 

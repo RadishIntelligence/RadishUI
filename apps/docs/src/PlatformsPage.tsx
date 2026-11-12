@@ -6,7 +6,7 @@ import './site-pages.css';
 export function PlatformsPage({ t }: { t: Translate }) {
   const platforms = [
     { icon: Package, title: 'Tokens', text: t('JSON 单一来源，生成 CSS 语义变量；颜色、字体、间距、圆角与状态共用一套角色。', 'A single JSON source generates CSS semantic variables for color, type, space, radius, and state.'), status: t('已建立', 'Established'), tone: 'success' as const, href: 'https://github.com/RadishIntelligence/RadishUI/tree/master/packages/tokens' },
-    { icon: Code2, title: 'React', text: t('24 个共享组件，展示站直接引用 workspace 源码；内部预览，尚未发行。', '24 shared components referenced directly from the workspace; internal preview, not released.'), status: t('内部预览', 'Internal preview'), tone: 'info' as const, href: '#/components' },
+    { icon: Code2, title: 'React', text: t('25 个共享组件，展示站直接引用 workspace 源码。当前为内部预览。', 'The preview imports 25 shared components directly from the workspace.'), status: t('内部预览', 'Internal preview'), tone: 'info' as const, href: '#/components' },
     { icon: Layers, title: 'Flutter', text: t('预留主题与组件适配目录；等真实试点、范围和产物格式确认。', 'Reserved theme and component adapter directory, pending a real pilot, scope, and output format.'), status: t('待建设', 'Planned'), tone: 'neutral' as const, href: 'https://github.com/RadishIntelligence/RadishUI/tree/master/packages/flutter' },
   ] as const;
   return <section className="platforms-page">

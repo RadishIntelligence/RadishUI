@@ -1,70 +1,29 @@
 # 当前规划
 
-更新日期：2026-11-08。
+更新日期：2026-11-12。
 
 ## 当前范围
 
-2026-11-06 按所有者授权完成 [G-01.4](../development/repository-governance.md#实施与验收)：其他成员在本仓库以 Write 开发主题分支，仅所有者可直接推送 dev 和合并 dev/master；master 保持 PR / CI 强制门禁。4 份远端 Ruleset 均已 active，所有者团队仅 1 人、5 位普通成员已获本仓库 Write；模板、文档和远端设置一并核对，实际验收见[本周记录](../devlogs/2026-W45.md)。所有者随后追加授权将本批治理文件提交并推送到 dev，暂不合并 master；不新建 PR，不执行正式发布，dev 推送可能触发既有 Vercel 预览；下述 11 月 4–5 日记录中的“未推送”仅代表当时批次状态。本批提交前，11 月 6 日实时读取远端 dev 为 `edc98cc`，与本地 HEAD / 缓存 origin/dev 一致，master 仍为 `535e8d7`；此前推送的执行时间与主体不在本次结论内。
+[P0 工程基线](roadmap.md)已建立，P1 的 [F-02.4 第二版运行基线](../features/visual-baseline-proposal.md#第二版运行基线登记2026-11-08)已由所有者确认。代码锚点为 `cc722db`，包括资源库、外观与偏好、文档以及 24 个共享 React 组件。随后补齐组件状态示例、视觉基础与单一 Web 入口；11 月 11 日按所有者确认完成 `#/overview` 密度修订（主标题 40px、内容宽 1200px、hero 与卡片收紧），实际工作台页面、组件与密度三档未改，登记见 [F-02.4](../features/visual-baseline-proposal.md#overview-密度修订登记2026-11-11)。原生 `.pen` 继续保留为设计参考。
 
-2026-11-07 按所有者确认推进 E-02.5 / 页面遗留缺口：R1 固定单屏在列表可保留高度不足时退回整页滚动（320×568 + 200% 由内容区被压到 0 恢复为可滚动页面），桌面右侧详情改为内容高度面板，标题操作组可换行，状态 / 页大小选择器与移动底栏按内容放宽，English 长标签不再被逐字换行或省略号截断。随后按运行反馈把 Toast 改为顶部高对比胶囊并在关闭按钮显示 4500ms 倒计时，窄屏分页收为单行（页码与跳页在 ≤799px 隐藏），跨标签页冲突提示改为对话框，避免破坏固定单屏。改动只涉及 `apps/docs`、共享 Toast 视觉 / 暂停同步与配套文档，公开 API、token、依赖和原生 `.pen` 未变；Chrome 230 项布局矩阵、27 项行为检查、Toast 13 项、分页 34 项、冲突弹窗 7 项、命中区 12 项通过，生产构建通过（生产预览为此前批次结果）；真机、屏幕阅读器与 Safari / Firefox 矩阵仍缺。该批已作为 `f9d545f` 本地提交，未推送；提交后按反馈把窄屏分页再收一档（`edd0185`），并确认把页头、标题、tabs、搜索 / 筛选、侧栏与分页统一到桌面 32 / 移动 36 的 chrome 尺度（DR-17），触屏命中保持 44px。所有者已认可 chrome 统一效果；本批作为本日第三个本地提交保存（提交号以 Git 历史为准），未推送。随后继续按确认把设置 / 组件页 tabs、Dialog chrome 与设置页主题缩略图收口：tabs 桌面 31.5 / 移动 36，Dialog 关闭 32 可视 + 44 命中进入共享组件，footer 桌面 32 / 移动 36，主题缩略图 16:10 靠右成组；设置页的选择 / 开关 / footer 操作随后也收到桌面 32 / 移动 36（触屏 44 命中）；文本输入与 Dialog 正文表单仍按密度。该批作为本日第五个本地提交保存（提交号以 Git 历史为准），未推送，待复评。随后按所有者要求把显示密度的原“紧凑”改名为“标准”作为默认，新增更小的“紧凑（28px）”与更大的“宽松（36px）”；标准使用收紧间距、紧凑再紧一档、宽松回到基础间距；偏好信封升到 v2 并迁移旧值（compact → standard、comfortable → spacious），设置页 chrome 外观不变、内容控件统一到标准 32。该批作为本日第六个本地提交保存（提交号以 Git 历史为准），未推送。随后完成 F-02.4 第一轮自查：三代表页 / 关键状态 / 320 + 200% / 组件四组无页面溢出与 pageerror；修复 320 + 200% 下设置 / 组件 tabs 被裁切（Tabs 列表改为可换行）。复核又修正设置页保存反馈与关闭辅助说明后的字段空行：保存只保留 Toast / footer 状态，关闭说明后字段行回到紧凑对齐。该批作为独立本地提交保存（提交号以 Git 历史为准），未推送；所有者已确认，F-02.4 第一版视觉基准已登记（不含原生 `.pen`）。
+[E-02.5](../features/workbench-preview.md#e-025-补验检查项)已按所有者确认的范围完成，移动证据采用既有 iPhone 17 / iOS 26.5 模拟器抽查。11 月 9 日完成[单一入口](../features/workbench-preview.md#单一入口补验2026-11-09)与[新增组件](../features/react-workbench-components.md#单一入口组件补验2026-11-09)的 Safari / Firefox 定向复验，修复窄屏英文底栏断词和 Avatar 快速加载失败回退。VoiceOver 实际朗读与实体 iPhone 已移出本轮验收，Windows + NVDA 另行评估。
 
-最小工程、仓库协作、三级规划和远端治理已建立。所有者已将[现代圆角版](../design/patterns/modern-rounded-v1.md)暂定为本轮实现起点，并明确授权在 RadishUI 的 Web 展示站落实三代表页。[F-01 token 映射](../features/token-foundation.md)、[C-02 首批 React 组件](../features/react-workbench-components.md)和 [E-02 三代表页](../features/workbench-preview.md)已完成本轮本地实现与限定浏览器验收，整体运行效果已获所有者大部分认可，本轮信息密度与底部导航调整已获认可；按所有者确认的 A 档去装饰清理已作为 `8c4c635` 本地提交；B1 平面外壳、字阶、12 条种子、固定单屏（DR-15）、移动底栏（约 252×52px 胶囊、20 / 10 图标文字、约 76px 活动胶囊、1px 边框、3px 胶囊间距、8px 内容间距）、响应式输入方式（DR-16）、弹窗关闭缩小、移动目录折叠和文档工具栏返回 / 状态归位已作为 `ca22c5a` 本地提交，并随第一版基准登记。F-02.4 已完成登记，[F-02](../features/visual-baseline-proposal.md)继续维护设计与来源。此前四仓迁移已撤回，兄弟仓继续只读，产品接入仍需单独评估。
+[资源新建](../features/workbench-preview.md#新建资源的标签)已使用共享 [TagInput](../features/react-workbench-components.md#taginput2026-11-09) 接入现有标签字段，保存后的标签可在详情查看和搜索。组件用法页提供添加、删除、超限和禁用状态。TagInput 已完成 Safari / Firefox 定向补验，并由所有者复审确认，登记为 [F-02.4 修订](../features/visual-baseline-proposal.md#taginput-修订登记2026-11-09)；第二版运行基线仍以 `cc722db` 为主登记对象。粗指针命中、真实输入法与屏幕阅读器朗读仍待验证。
 
-2026-11-08 核对远端与 P2 前置：远端 `origin/dev` 为 `14d81d5`，领先 `master`（`535e8d7`）42 个提交；本地另有状态修正提交待推送。11 月 7 日各批“未推送”仅代表当时状态。P2 外部消费 smoke test 已在忽略目录 `output/p2-consumer/` 完成：原样 tarball 中 `@radish-ui/tokens` 缺少 `dist/tokens.css`，外部 `vite build` 失败；给 tokens 包副本增加 `files` 后，Vite 8 + React 19 构建通过，Chrome 156 上 23 项检查通过（明暗 token、filled Select、Dialog 焦点、Toast、loading、Switch、390 无溢出、无 pageerror）。`@radish-ui/react` 仍为源码直发、无 `dist` / 类型声明；严格 tsconfig 下可通过，但更广的消费环境未验证。P2 试点候选、tarball 方案与需要所有者决定的事项见 `output/p2-consumer/PILOT-DECISION.md`；tokens `files` 已修复并复验。所有者用 RadishX 做临时消费测试（不计入 P2 产品采用，未进入正式发布）：About 入口卡已在 RadishX `feature/radishui-about-entry` 实现（`5beaf69`、`3aa32db`），本地构建与 28 项浏览器检查通过，所有者已确认视觉；分支仅在本机，未推送 / 部署；RadishX 临时测试依赖已同步 `26.11.1`（`f66b5e0`），28 项浏览器检查复跑通过；React 包仍源码直发并记录为例外。F-02.6 仍未开始，P2 试点产品 / 页面待选择。
+[PR #6](https://github.com/RadishIntelligence/RadishUI/pull/6) 已由所有者合入 `master`，合并提交 `030ffdf` 已快进回流并推送 `dev`，两条远端分支核对为 `0 0`。[生产展示站](../deployment/hosting.md#2026-11-08-单一-web-入口晋级)已提供 `26.11.1` 的 Workbench 单一入口。当前内部版本及发行边界见[版本策略](../development/versioning.md)。
 
-2026-11-08 按所有者确认采用家族日历版本策略：RadishUI 内部版本对齐为 `26.11.1`（npm `26.11.1`，文档 / tag 用 `v26.11.1`），根、`@radish-ui/react`、`@radish-ui/tokens`、`@radish-ui/docs` 固定同版本；`private: true` 与 P4 发行门禁不变。规则、格式映射与校验见[版本策略](../development/versioning.md)。
+[家族 UI 只读盘点](../features/family-ui-consolidation.md)已完成首轮。Web 范例加载 Inter Variable / JetBrains Mono Variable，图标沿用 lucide-react，视觉语义以 `--rd-*` 为准。P2 外部消费 smoke test 已完成并修复 tokens CSS 打包；RadishX About 入口卡的延迟加载原型已在临时副本完成构建、回滚与浏览器验证。[F-02.6 有限产品试点](../features/visual-baseline-proposal.md#finite-product-adoption)的有限收口方案已于 11 月 10 日获确认；11 月 11 日按授权在 RadishX 既有本地分支完成正式实施、干净安装、跨浏览器验证与实际回滚，11 月 12 日所有者确认有限采用；RadishX PR #1 已合并（`72bdcfd`）并部署，生产核验通过。临时原型结果不自动成为正式采用。
 
-2026-11-08 按外部移动端表单清单吸纳可落地部分：`FormField` 必填星号使用 danger 色；资源新建的名称 / 摘要、文档标题补常驻 hint；资源名称与文档标题改为失焦校验；组件示例同步。复杂表单组件（验证码、上传、日期、滑块、自动补全、级联、标签、密码）只登记为候选，等真实页面需要，不因截图新增；RadioGroup 已按规则落地到设置页 4 个 2–4 项字段。规则见[表单可用性规则](../design/patterns/forms.md)。必填星号与设置页 RadioGroup 视觉已纳入 F-02.4 第二版运行基线（2026-11-08）。
+长期阶段和专题归属见[整体规划](roadmap.md)与[专题地图](topics.md)。本轮证据见[本周开发记录](../devlogs/2026-W46.md)，晋级历史见[上周收尾记录](../devlogs/2026-W45.md#2026-11-08-收尾提交回顾与文档复核)。
 
-2026-11-08 新增 `RadioGroup`（列表 / 水平、方向键移动即选中、FormField 内自动关联 label / hint / error）；设置页界面语言、显示密度、正文字号、段落行距 4 个字段改为横向单选组，桌面控件列放宽到 320px 并右对齐，移动左对齐；组件用法页扩到 17 个组件。设置页与组件页定向浏览器检查 28/28（含桌面右对齐 / 移动左对齐、514 + 200% 基础字号）；未覆盖屏幕阅读器实际朗读；设置页视觉已纳入 F-02.4 第二版。
+## 接下来的事项
 
-2026-11-08 按所有者确认调整方向：优先扩充本仓通用组件（shadcn/ui 首要参考）、完成示例页面 / Web 页面示例组件，并把 Radish 系列的通用组件、视觉、图标、字体需求只读盘点后统一收拢到本仓；产品仓只读，不接应用，不做 P2 外部试点。盘点、边界与候选清单见[家族 UI 通用组件与视觉统一](../features/family-ui-consolidation.md)。
-
-2026-11-08 继续补 Skeleton（第 20 个）、InputOTP（第 21 个）、ConfirmDialog（第 22 个）、ToggleGroup（第 23 个）与 Accordion（第 24 个），组件页提供加载占位、标准正方格六位验证码、危险确认、分段筛选和折叠示例；字体栈改为 Inter / JetBrains Mono 优先、系统回退，并在 Web 范例引入 OFL fontsource 变量字体包；图标策略定为 lucide 1.68。未新增图标依赖、未改产品仓。
-
-2026-11-08 按家族 UI 方向新增 Avatar、Tag：侧栏账号 / 工作区改用 Avatar，资源 / 文档标签改用 Tag，组件用法页扩到 19；随后补 Skeleton（第 20 个）、InputOTP（第 21 个）、ConfirmDialog（第 22 个）、ToggleGroup（第 23 个）与 Accordion（第 24 个），提供加载占位、六位验证码、危险确认、分段筛选和折叠示例。只读盘点发现 Radish 的 `@radish/ui` + Iconify / AntD、Ink 的旧 lucide、Mind / Nexus 的 Inter 与各产品 token 前缀分歧；字体栈已改为 Inter / JetBrains Mono 优先并保留系统回退，Web 范例已引入 OFL fontsource 包，图标策略定为 lucide 1.68；未改任何产品仓。
-
-2026-11-08 按所有者确认收口 [E-02.5](../features/workbench-preview.md#e-025-补验检查项)。桌面采用 Safari / Firefox 扩展矩阵和回归结果，移动端采用既有 iPhone 模拟器抽查。VoiceOver 实际朗读和实体 iPhone 验收移出本轮范围。Windows + NVDA 留待具备环境并明确支持范围后安排。
-
-2026-11-08 组件页补入 InputOTP 错误 / 禁用、ToggleGroup / Accordion 禁用、ConfirmDialog loading 状态示例，并抽查暗色 / 390；复用第二版样式，不改变视觉语言。
-
-2026-11-08 单一 Web 入口复核通过：默认概览、设计系统 / 演示两组导航、概览链接语义、平台卡编号、390 浅色与 320 + 200% 已修正 / 复验；移动端设计系统入口保留在概览卡和账号菜单；底栏按复核新增“概览”，变为概览 / 资源 / 文档 / 偏好四项。审阅复验与晋级安排见后续顺位。
-
-2026-11-08 按所有者确认合并为单一 Web 入口：Workbench 为唯一应用，新增概览 `#/overview` 与平台与接入 `#/platforms`，默认入口改为概览，侧栏分为设计系统 / 演示；组件用法与视觉基础保留。生产仍为 `master` 的旧官网 `0.1.0`，`dev` 的 `26.11.1` 是本次晋级候选。
-
-2026-11-08 新增本仓开发参考页 `#/foundations`（视觉基础）：语义颜色、字体、图标、空间 / 圆角 / 阴影与组件状态；接入侧栏和移动账号菜单，1440 / 390 与明暗定向检查 17/17。它不改变三代表页、产品范围或组件数量。
-
-2026-11-08 所有者确认登记 F-02.4 第二版运行基线（`cc722db`）：覆盖资源库 / 设置 / 文档、24 个共享组件、表单与新增组件、字体 / 图标策略及 E-02.5 跨浏览器修复；VoiceOver / 实体 iPhone / NVDA、`.pen` 同步、新增组件的 Safari / Firefox 单独复验、字体包发行依赖和真实产品采用仍为范围外。详见[F-02.4](../features/visual-baseline-proposal.md#第二版运行基线登记2026-11-08)。
-
-长期目标和阶段出口见[整体规划](roadmap.md)，四个大专题与子专题归属见[专题地图](topics.md)；本页只维护当前顺位，不复制子专题任务表。
-
-本轮构建、依赖审计与三页组合检查见[本周记录](../devlogs/2026-W45.md)；以下远端信息为此前治理 / 部署验收，不代表本轮工作区已上线。
-
-11 月 4 日的设计与 Web 实施已在本地提交保存，实现锚点为 `f1c2eef`，文档收尾为 `184132c`。11 月 5 日从干净 `dev` / `184132c` 继续；本地与缓存 `origin/dev` 为 `0 0`，未刷新远端。本轮已实施桌面控件密度收敛、C-02.4 用法页及 E-02.5 部分环境补验，已按所有者要求随本批提交本地保存，该批本地提交为 `3043c2d`；随后按侧窗对照继续调整整页密度，所有者已认可本轮调整并要求随本批本地提交保存。P1 的正式视觉批准仍待完成；本仓 React 范例不满足 P2 所要求的真实产品消费出口。同日按所有者确认实施 A 档去装饰清理，仅改展示站资源库、设置、文档提示与配套样式：资源行去掉图标底 / 就绪胶囊 / 常驻打开按钮底，状态色收敛到圆点（就绪成功色、草稿警告色、只读锁），单页分页只保留总数、页大小与 1/1，详情改白底左线并上移打开动作，移动详情在 ≤799px 改为底部弹层（资源名为标题、状态与动作合并一行），tabs 去计数，主题预览改小界面缩略图并补充保存态；未改共享 token、组件 API、整体外壳或内容种子。A 档已以 `8c4c635` 本地提交，未推送；B1 与移动细节修复已以 `ca22c5a` 本地提交。
-
-`RadishIntelligence/RadishUI` 已连接并推送 `master` / `dev`，GitHub 默认分支为 `master`。首次 Vercel 生产部署已完成并通过公开页面与静态资源访问检查，当前首选地址为 [ui.radishx.com](https://ui.radishx.com/)，HTML canonical 与分享 URL 同步使用新域名。GitHub Pages 保留为备选，未启用；版本与验收快照见[部署说明](../deployment/hosting.md)。
-
-所有者于 2026-11-02 完成域名绑定与 Vercel 名称调整；当前控制台为 `DaBaiLuoBo / radish-ui`。本批同步官网和组织入口，保留既有工程预览边界；真实 Chrome 已访问新域名，命令行请求的 Cloudflare 403 限制见部署说明。
-
-前一批 [G-01 仓库与协作治理](../development/repository-governance.md#实施与验收)已收口：通用基础、根入口、三级规划和组织成员流程通过 [PR #3](https://github.com/RadishIntelligence/RadishUI/pull/3) 合入主线，[PR #5](https://github.com/RadishIntelligence/RadishUI/pull/5) 同步验收记录。治理收口基线为 `535e8d7`；之后的方案与设计提交见 Git 历史。11 月 4 日早期设计任务启动时，本地与缓存远端一致；本轮 Web 实施启动于干净 `dev` / `6cca130`，较缓存 `origin/dev` ahead 3，未 fetch 或操作远端。详细证据见[本周记录](../devlogs/2026-W45.md)。
-
-PR #3 最终候选的真实 CI 与 Vercel 预览通过，隔离 PR #4 已验证类型错误使 Web Build 与 Candidate Quality 失败并关闭。远端已关闭 squash，启用精确保护 master 的 Ruleset `26446452`，检查来源绑定实际 GitHub Actions `15368`。治理主线合并后已快进回流 dev，远端祖先关系与 `0 0` 分叉计数通过，Vercel 生产部署成功；本次收口不代表组件包发行或家族视觉定稿。
-
-## 后续顺位
-
-1. **扩充共享组件与示例页面。** 以 shadcn/ui 为首要参考，Avatar、Tag、Skeleton、InputOTP、ConfirmDialog、ToggleGroup、Accordion 已落地（2026-11-08）；Progress 暂缓到真实异步进度流程，下一批只评估有真实页面位置的组件，避免为数量堆展示。P2 外部产品采用后置，RadishX 只保留本机临时测试。
-2. **家族 UI 只读盘点与统一设计。** 首轮只读盘点已完成，见[家族 UI 通用组件与视觉统一](../features/family-ui-consolidation.md)；后续按盘点结果补通用组件、图标、字体与 token，产品仓不改、不接、不发布。
-3. **统一并定稿视觉基础。** 以 `--rd-*` 为语义源，定稿组件、tokens、图标、字体、状态、密度、明暗与示例；F-02.4 第二版运行基线已于 2026-11-08 登记（`cc722db`）；字体栈、Web 字体包与 lucide 策略已定；组件包发行时的字体依赖、是否迁移产品图标库仍需单独确认。
-4. **审阅本次 `dev → master` 晋级。** 2026-11-08 所有者授权在审阅修复及完整区间检查通过后推送 `dev` 并发起晋级 PR。所有者在确认 `Candidate Quality`、审阅会话和 Vercel 预览后决定何时合并。
+1. **About 有限采用已上线（2026-11-12）。** 技术、视觉与采用收益已记录（RadishX `72bdcfd`、RadishUI `83e4f0f`；采用范围与生产证据见 [F-02.6](../features/visual-baseline-proposal.md#2026-11-12-有限采用登记)）。生产 `/about` 核验通过；下一步选择一个有真实交互需求的产品场景，另行确认范围，不重复同范围原型。RadishX 的内容 / 质量与不含试点的发布候选独立推进。
+2. **组件候选由页面需求触发。** 从[家族盘点](../features/family-ui-consolidation.md#shadcnui-缺口优先级)选择已有控件解决不了的交互。需要在长选项中搜索时评估 Combobox，Progress 等真实异步进度流程。新增组件同时交付页面用法和状态示例。
 
 ## 当前停止线
 
-- **晋级历史检查**：所有者核准三条 `design(workbench)` 历史标题按完整 SHA 登记例外。其他提交仍执行现有 Conventional Commits 校验，完整区间仍检查空白问题。见[仓库治理](../development/repository-governance.md#验证入口与-ci)。
-- Pen 中的十二组合、两个控件板及旧状态仍是静态设计证据；实际 Web 能力以 C-02 / E-02 的验证为准，不推断 Flutter、React 18 或产品采用。
-- 当前只推进本仓设计、token、共享组件和 Web 范例；`~/Code` 产品仓只读参考，不改、不接、不做 P2 外部试点，也不自动建立产品迁移分支；RadishX 仅保留本机临时测试。
-- 本仓设计使用的受限参考副本保留在已确认的仓库外本地私有库，不建 Git、不上传；来源仓原图与原入口已恢复。私人材料排除，外部截图不进 `.pen`、产品或本仓公开素材。
-- 本次 G-01.4 已授权协作规范、远端权限 / 分支保护设置，以及本批治理文件的提交 / dev 推送；暂不合并 master，不新建 PR、不正式发行、不修改 DNS 或托管设置，dev 推送可能触发既有预览部署；上一轮四仓临时分支已删除，没有待提交的跨仓迁移。
-- 11 月 5 日组件用法与首轮尺寸收敛已本地提交为 `3043c2d`；其后的侧窗信息密度与纵向底栏调整按所有者要求随本批本地提交保存；A 档已提交为 `8c4c635`。11 月 5 日收尾时 B1 平面外壳、字阶、12 条种子、固定单屏（DR-15）与移动细节修复已作为 `ca22c5a` 本地提交，已随第一版基准登记；11 月 6 日远端状态以本页开头的新快照为准；它们不改变共享 token、组件 API 或依赖。推送、远端 PR / 合并与主线自动部署留待明确授权。正式发行、其他平台和真实产品试点仍按独立出口确认。
-- B2 填充字段仍以可选 API 落地（默认 outline）；设置页 4 个字段已在 2026-11-08 改为横向 RadioGroup，不再以 filled Select 作为采用页面；filled 字段保留在组件示例与其他页面。
-- 2026-11-08 的 P2 smoke test 与 RadishX 临时测试证据在忽略目录 `output/p2-consumer/`；tokens `files` 已修复并复验，未发布。所有者用 RadishX 做临时消费测试，不计入 P2 产品采用；About 入口卡已在 RadishX `feature/radishui-about-entry` 实现并完成本地构建与 28 项浏览器检查，所有者已确认视觉；RadishX 临时测试依赖已同步 `26.11.1`（`f66b5e0`）；分支仅在本机，未推送 / 部署。RadishX 已有旧 family-ui token 副本，组件依赖的 42 个 `--rd-*` 中缺 21 个，临时测试只做 token 桥接、未全量替换；React 包源码直发已记录为例外。F-02.6 仍待选择产品与页面。
-- 11 月 7 日的布局与运行时反馈已作为 `f9d545f`、`edd0185` 等本地提交保存，已推送；chrome 尺度、设置 / 弹窗 / 主题缩略图、密度三档、tabs 换行与设置页布局已收口；F-02.4 第一版视觉基准已登记（原登记对象 `2f64984`，B2 修订以 `1a36109` 为准；原生 `.pen` 本轮不同步）；2026-11-08 第二版运行基线已登记（`cc722db`）。设置页文本输入与 Dialog 正文表单仍按密度，未纳入本轮。E-02.5 已按本轮范围完成。本轮晋级按上方顺位处理。
+- 本轮跨仓授权覆盖 RadishUI / RadishX 规划文档、About 有限试点的本地实施与验证，以及 2026-11-12 的发布：RadishX PR #1 已由所有者合并并部署，RadishUI `dev` 推送与 `master` PR 按上线后授权执行。其他产品 / 页面接入、新的产品发布、Flutter 与正式包发行仍未授权。
+- React 18 / Flutter 支持、组件包发行、字体策略、全站 token 与 family-ui 资料迁移不随试点自动进入，也不作为本次有限采用的前置条件。未覆盖平台与辅助技术如实记录；影响所选关键路径的缺陷仍需处理。
+- 原生稿十二组合及两个控件板属于静态设计证据。受限参考留在仓库外的私有本地库，外部截图和私人材料不进入公开资产。
+- 晋级历史标题例外限定于所有者核准的三个完整 SHA。后续 PR 仍按[仓库治理](../development/repository-governance.md#稳定主线晋级与回流)审阅与合并。

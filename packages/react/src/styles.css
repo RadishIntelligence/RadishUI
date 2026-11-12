@@ -138,6 +138,15 @@
 @keyframes rd-skeleton-shimmer { 100% { transform: translateX(100%); } }
 @media (prefers-reduced-motion: reduce) { .rd-skeleton::after { animation: none; display: none; } }
 .rd-tag { display: inline-flex; align-items: center; max-width: 100%; padding: 3px 8px; border: 1px solid var(--rd-border-soft); border-radius: var(--rd-radius-pill); background: var(--rd-bg-muted); color: var(--rd-text-secondary); font-size: var(--rd-font-size-xs); line-height: 1.4; overflow-wrap: anywhere; }
+.rd-tag-input { display: grid; min-width: 0; gap: var(--rd-space-2); }
+.rd-tag-input__entry { display: flex; min-width: 0; gap: var(--rd-space-2); }
+.rd-tag-input__entry > .rd-button { max-width: 50%; }
+.rd-tag-input__list { display: flex; flex-wrap: wrap; gap: var(--rd-space-2); min-width: 0; padding: 0; margin: 0; list-style: none; }
+.rd-tag-input__list > li { min-width: 0; max-width: 100%; }
+.rd-tag-input__tag { box-sizing: border-box; gap: var(--rd-space-1); padding: 0 0 0 var(--rd-space-2); }
+.rd-tag-input__text { min-width: 0; }
+.rd-tag-input__tag > .rd-icon-button { border-color: transparent; border-radius: var(--rd-radius-pill); }
+.rd-tag-input__tag > .rd-icon-button:focus-visible { outline-offset: -2px; }
 .rd-badge { display: inline-flex; align-items: center; gap: 4px; max-width: 100%; padding: 4px 8px; border-radius: var(--rd-radius-pill); background: var(--rd-bg-muted); color: var(--rd-text-secondary); font-size: var(--rd-font-size-xs); line-height: 1.4; white-space: nowrap; }
 .rd-badge svg { width: 13px; height: 13px; }
 .rd-badge--success { color: var(--rd-state-success); background: var(--rd-state-success-soft); }

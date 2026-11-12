@@ -1,7 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState, type FormEvent } from 'react';
-import { Button, Checkbox, ConfirmDialog, Dialog, Drawer, FormField, IconButton, InlineAlert, Input, Menu, Select, Textarea, Tag, ToggleGroup } from '@radish-ui/react';
+import { Button, Checkbox, ConfirmDialog, Dialog, Drawer, FormField, IconButton, InlineAlert, Input, Menu, Select, Textarea, Tag, TagInput, ToggleGroup } from '@radish-ui/react';
 import { ArrowUpRight, ChevronLeft, ChevronRight, FileText, History, ListChecks, LockKeyhole, MoreHorizontal, Palette, PanelsTopLeft, Plus, RefreshCw, Search, Trash2 } from 'lucide-react';
-import { filterResources, formatDate, kindLabel, pageCount, pageNumbers, statusLabel, validatePage, type Preferences, type Resource, type ResourceKind, type Translate } from './model';
+import { appendResourceTags, filterResources, formatDate, kindLabel, pageCount, pageNumbers, resourceTagError, resourceTagLimits, statusLabel, validatePage, type Preferences, type Resource, type ResourceKind, type Translate } from './model';
 
 const kindIcons = { document: FileText, spec: Palette, checklist: ListChecks, example: PanelsTopLeft };
 function openResource(resource: Resource) { window.location.hash = resource.id === 'settings-example' ? '/settings' : `/document/${resource.id}`; }
@@ -217,11 +217,18 @@ function CreateResource({ open, onOpenChange, t, resources, save }: { open: bool
   const [name, setName] = useState('');
   const [kind, setKind] = useState<ResourceKind>('document');
   const [summary, setSummary] = useState('');
+  const [tags, setTags] = useState<string[]>([]);
+  const [tagDraft, setTagDraft] = useState('');
+  const [tagError, setTagError] = useState('');
   const [ready, setReady] = useState(false);
   const [nameError, setNameError] = useState('');
   const [saveError, setSaveError] = useState('');
   const nameInput = useRef<HTMLInputElement>(null);
-  useEffect(() => { if (open) { setName(''); setSummary(''); setKind('document'); setReady(false); setNameError(''); setSaveError(''); } }, [open]);
+  useEffect(() => {
+    if (!open) return;
+    setName(''); setSummary(''); setKind('document'); setReady(false); setNameError(''); setSaveError('');
+    setTags([]); setTagDraft(''); setTagError('');
+  }, [open]);
   function validateName() {
     const trimmed = name.trim();
     if (!trimmed) { setNameError(t('请输入资源名称。', 'Enter a resource name.')); return false; }
@@ -229,12 +236,25 @@ function CreateResource({ open, onOpenChange, t, resources, save }: { open: bool
     setNameError('');
     return true;
   }
-  function submit(event: FormEvent) {
+  function validateTags() {
+    const result = appendResourceTags(tags, tagDraft);
+    setTagError(result.error ? resourceTagError(result.error, t) : '');
+    return result.tags;
+  }
+  function addTags() {
+    const next = validateTags();
+    if (!next) return;
+    setTags(next);
+    setTagDraft('');
+  }
+  function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!validateName()) { nameInput.current?.focus(); return; }
+    const nextTags = validateTags();
+    if (!nextTags) { event.currentTarget.querySelector<HTMLInputElement>('#resource-tags')?.focus(); return; }
     if (resources.length >= 500) { setSaveError(t('本地演示最多保存 500 项资源。', 'The local demo supports up to 500 resources.')); return; }
     const trimmed = name.trim();
-    const resource: Resource = { id: crypto.randomUUID(), name: trimmed, kind, status: ready ? 'ready' : 'draft', summary: summary.trim(), creator: '林杏', updatedAt: new Date().toISOString(), version: 'v0.1', tags: [] };
+    const resource: Resource = { id: crypto.randomUUID(), name: trimmed, kind, status: ready ? 'ready' : 'draft', summary: summary.trim(), creator: '林杏', updatedAt: new Date().toISOString(), version: 'v0.1', tags: nextTags };
     const failure = save([resource, ...resources]);
     if (failure) setSaveError(failure); else onOpenChange(false);
   }
@@ -244,6 +264,13 @@ function CreateResource({ open, onOpenChange, t, resources, save }: { open: bool
       <FormField id="resource-name" label={t('资源名称', 'Resource name')} required hint={t('最多 120 个字符；名称不可重复。', 'Up to 120 characters; names must be unique.')} error={nameError}><Input ref={nameInput} value={name} maxLength={120} onBlur={validateName} onChange={event => { setName(event.target.value); setNameError(''); }} /></FormField>
       <FormField label={t('资源类型', 'Resource type')}><Select value={kind} onValueChange={value => setKind(value as ResourceKind)} options={(['document', 'spec', 'checklist', 'example'] as const).map(value => ({ value, label: kindLabel(value, t) }))} /></FormField>
       <FormField label={t('摘要', 'Summary')} hint={t('最多 1000 个字符。', 'Up to 1,000 characters.')}><Textarea value={summary} maxLength={1000} rows={3} onChange={event => setSummary(event.target.value)} /></FormField>
+      <FormField id="resource-tags" label={t('标签', 'Tags')} error={tagError}
+        hint={t(`可选。用逗号分隔，回车或点“添加”。最多 ${resourceTagLimits.count} 个，每个不超过 ${resourceTagLimits.length} 个字符。`,
+          `Optional. Separate tags with commas, then press Enter or Add. Up to ${resourceTagLimits.count} tags, ${resourceTagLimits.length} characters each.`)}>
+        <TagInput value={tags} onValueChange={value => { setTags(value); setTagError(''); }}
+          draft={tagDraft} onDraftChange={value => { setTagDraft(value); setTagError(''); }} onAdd={addTags}
+          addLabel={t('添加', 'Add')} removeLabel={tag => t(`移除标签 ${tag}`, `Remove tag ${tag}`)} />
+      </FormField>
       <Checkbox checked={ready} onChange={event => setReady(event.target.checked)}>{t('标记为已就绪', 'Mark as ready')}</Checkbox>
       {saveError && <InlineAlert tone="danger">{saveError}</InlineAlert>}
     </form>

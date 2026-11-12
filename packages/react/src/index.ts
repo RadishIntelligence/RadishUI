@@ -5,4 +5,5 @@ export { Dialog, Drawer, Menu, Tooltip, type DialogProps, type MenuProps, type M
 export { InlineAlert, Toast, type InlineAlertProps, type ToastProps } from './Feedback';
 export { Avatar, Skeleton, Tag, type AvatarProps, type SkeletonProps, type TagProps } from './Display';
 export { InputOTP, type InputOTPProps } from './InputOTP';
+export { TagInput, type TagInputProps } from './TagInput';
 export { ConfirmDialog, type ConfirmDialogProps } from './ConfirmDialog';

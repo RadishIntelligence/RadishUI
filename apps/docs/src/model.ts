@@ -20,6 +20,7 @@ export interface Resource {
   id: string; name: string; kind: ResourceKind; status: ResourceStatus;
   summary: string; creator: string; updatedAt: string; version: string; tags: string[];
 }
+export const resourceTagLimits = { count: 8, length: 40 } as const;
 export interface Article { title: string; body: string; updatedAt: string }
 export type ArticleBlock = { type: 'heading'; level: 2 | 3; text: string; id: string }
   | { type: 'paragraph' | 'callout'; text: string };
@@ -48,8 +49,8 @@ export function isResource(value: unknown): value is Resource {
     && oneOf(value.kind, ['document', 'spec', 'checklist', 'example'])
     && oneOf(value.status, ['ready', 'draft', 'readonly']) && isDate(value.updatedAt)
     && typeof value.summary === 'string' && value.summary.length <= 1000 && typeof value.creator === 'string' && value.creator.length <= 120
-    && typeof value.version === 'string' && value.version.length <= 40 && Array.isArray(value.tags) && value.tags.length <= 8
-    && value.tags.every(tag => typeof tag === 'string' && tag.length <= 40);
+    && typeof value.version === 'string' && value.version.length <= 40 && Array.isArray(value.tags) && value.tags.length <= resourceTagLimits.count
+    && value.tags.every(tag => typeof tag === 'string' && tag.length <= resourceTagLimits.length);
 }
 export function isResources(value: unknown): value is Resource[] {
   return Array.isArray(value) && value.length <= 500 && value.every(isResource)
@@ -62,6 +63,27 @@ export function isArticle(value: unknown): value is Article {
 export function isArticles(value: unknown): value is Record<string, Article> {
   return isRecord(value) && Object.keys(value).length <= 500
     && Object.entries(value).every(([key, article]) => /^[a-zA-Z0-9-]{1,80}$/.test(key) && isArticle(article));
+}
+
+export function appendResourceTags(current: readonly string[], draft: string) {
+  const tags = [...current];
+  const seen = new Set(current.map(tag => tag.toLowerCase()));
+  for (const part of draft.split(/[,，]/)) {
+    const tag = part.trim();
+    const key = tag.toLowerCase();
+    if (!tag || seen.has(key)) continue;
+    if (tag.length > resourceTagLimits.length) return { error: 'length' } as const;
+    if (tags.length >= resourceTagLimits.count) return { error: 'count' } as const;
+    tags.push(tag);
+    seen.add(key);
+  }
+  return { tags } as const;
+}
+
+export function resourceTagError(error: 'length' | 'count', t: Translate) {
+  return error === 'length'
+    ? t(`请将每个标签缩短到 ${resourceTagLimits.length} 个字符以内。`, `Shorten each tag to ${resourceTagLimits.length} characters or fewer.`)
+    : t(`请将标签总数减到 ${resourceTagLimits.count} 个以内。`, `Keep at most ${resourceTagLimits.count} tags.`);
 }
 
 export function filterResources(resources: readonly Resource[], query: string, kind: string, status: string): Resource[] {

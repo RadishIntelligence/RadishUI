@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { defaultPreferences, filterResources, isArticle, isArticles, isLegacyPreferences, isPreferences, isResources, migratePreferences, pageCount, pageNumbers, parseArticle, parseRoute, validatePage } from '../apps/docs/src/model.ts';
+import { appendResourceTags, defaultPreferences, filterResources, isArticle, isArticles, isLegacyPreferences, isPreferences, isResources, migratePreferences, pageCount, pageNumbers, parseArticle, parseRoute, resourceTagLimits, validatePage } from '../apps/docs/src/model.ts';
 
 const resource = { id: 'release-notes', name: '发布 Release Notes', kind: 'document', status: 'ready', summary: 'Upgrade guide', creator: '示例成员', updatedAt: '2026-11-04T10:00:00Z', version: 'v1', tags: ['发布'] };
 
@@ -29,6 +29,21 @@ test('resource filters combine text, type and state without mutating the source'
   assert.deepEqual(filterResources(items, 'UPGRADE', 'document', 'all'), [resource]);
   assert.equal(filterResources(items, '', 'checklist', 'ready').length, 0);
   assert.equal(items.length, 2);
+});
+test('resource tag drafts deduplicate in order and enforce the saved data limits atomically', () => {
+  const current = Object.freeze(['发布', 'Token']);
+  const result = appendResourceTags(current, ' token, 键盘，键盘, , Safari ');
+  assert.deepEqual(result, { tags: ['发布', 'Token', '键盘', 'Safari'] });
+  const saved = { ...resource, tags: result.tags };
+  assert(isResources([saved]));
+  assert.deepEqual(filterResources([saved], 'safari', 'all', 'all'), [saved]);
+  const full = Array.from({ length: resourceTagLimits.count }, (_, index) => String(index));
+  assert.deepEqual(appendResourceTags(full, '0，  '), { tags: full });
+  assert.deepEqual(appendResourceTags(full, 'another'), { error: 'count' });
+  const longest = '字'.repeat(resourceTagLimits.length);
+  assert.deepEqual(appendResourceTags([], longest), { tags: [longest] });
+  assert.deepEqual(appendResourceTags(current, `键盘，${longest}字`), { error: 'length' });
+  assert.deepEqual(current, ['发布', 'Token']);
 });
 test('pagination has one empty page, clamps page counts and rejects ambiguous input', () => {
   assert.equal(pageCount(0, 10), 1); assert.equal(pageCount(8, 5), 2); assert.equal(pageCount(11, 10), 2);
