@@ -4,7 +4,7 @@
 
 ## 当前范围
 
-[P0 工程基线](roadmap.md)已建立，P1 的 [F-02.4 第二版运行基线](../features/visual-baseline-proposal.md#第二版运行基线登记2026-11-08)已由所有者确认。代码锚点为 `cc722db`，包括资源库、外观与偏好、文档以及 24 个共享 React 组件。随后补齐组件状态示例、视觉基础与单一 Web 入口；11 月 11 日按所有者确认完成 `#/overview` 密度修订（主标题 40px、内容宽 1200px、hero 与卡片收紧），实际工作台页面、组件与密度三档未改，登记见 [F-02.4](../features/visual-baseline-proposal.md#overview-密度修订登记2026-11-11)。原生 `.pen` 继续保留为设计参考。
+[P0 工程基线](roadmap.md)已建立，P1 的 [F-02.4 第二版运行基线](../features/visual-baseline-proposal.md#第二版运行基线登记2026-11-08)已由所有者确认。代码锚点为 `cc722db`，包括资源库、外观与偏好、文档以及 24 个共享 React 组件。随后补齐组件状态示例、视觉基础与单一 Web 入口；11 月 11 日按所有者确认完成 `#/overview` 密度修订（主标题 40px、内容宽 1200px、hero 与卡片收紧），实际工作台页面、组件与密度三档未改，PR #7 已合并（`809be89`）并完成线上核验，登记见 [F-02.4](../features/visual-baseline-proposal.md#overview-密度修订登记2026-11-11)。原生 `.pen` 继续保留为设计参考。
 
 [E-02.5](../features/workbench-preview.md#e-025-补验检查项)已按所有者确认的范围完成，移动证据采用既有 iPhone 17 / iOS 26.5 模拟器抽查。11 月 9 日完成[单一入口](../features/workbench-preview.md#单一入口补验2026-11-09)与[新增组件](../features/react-workbench-components.md#单一入口组件补验2026-11-09)的 Safari / Firefox 定向复验，修复窄屏英文底栏断词和 Avatar 快速加载失败回退。VoiceOver 实际朗读与实体 iPhone 已移出本轮验收，Windows + NVDA 另行评估。
 
