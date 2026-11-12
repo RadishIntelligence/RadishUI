@@ -170,7 +170,7 @@ F-02 继续维护本仓研究 / 定稿进度和来源边界，设计正文在上
 | F-02.1 现状梳理与本方案 | 已完成（方案工作） | 来源、样本、重复、语义冲突与限制已记录；不等于视觉批准 |
 | F-02.2 资料清单与本仓整理范围 | 已完成 | 公开 / 受限 / 私人 / 产品分工已确认；[48 参考 / 83 alias](../design/references/catalog.json)与[14 个文档 / token 来源](../design/sources/family-ui-v26.7.3.json)可追溯 |
 | F-02.3 本仓资料整理与来源仓边界 | 本仓保留，跨仓尝试已撤回 | [撤回记录](../design/sources/2026-11-03-centralization.md)：本仓通用正文、索引和私有参考副本保留；四仓原文档、原图、原分支恢复，临时分支已删除。第一版满意前不修改产品仓库 |
-| F-02.4 三代表页视觉基准 | 已完成（2026-11-08 第二版运行基线；2026-11-11 [overview 密度修订](#overview-密度修订登记2026-11-11)；2026-11-12 第一批基础尺度修订（已实施；页面原语待续）） | [现代圆角](../design/patterns/modern-rounded-v1.md)保留 12 个主组合 + 2 控件板及原生 QA；[E-02](workbench-preview.md)维护运行版验收。两次运行基线的提交、范围与限制见下文 |
+| F-02.4 三代表页视觉基准 | 已完成（2026-11-08 第二版运行基线；2026-11-11 [overview 密度修订](#overview-密度修订登记2026-11-11)；2026-11-12 第一批基础尺度 + PageHeader/分段控件（已实施；Table/Pagination/TOC 与组件页模板待续）） | [现代圆角](../design/patterns/modern-rounded-v1.md)保留 12 个主组合 + 2 控件板及原生 QA；[E-02](workbench-preview.md)维护运行版验收。两次运行基线的提交、范围与限制见下文 |
 | F-02.5 token 差异与首批组件实施边界 | 已授权本仓实施，转交对应专题 | [F-01](token-foundation.md)维护语义映射，[C-02](react-workbench-components.md)维护组件合同，[E-02](workbench-preview.md)维护三页与组合验收；本表不重复其任务状态 |
 | F-02.6 有限产品试点 | 有限采用已上线（2026-11-12）；生产核验通过；后续试点暂停 | [采用出口与分工](#finite-product-adoption)、[输入冻结与技术验收](#2026-11-11-试点输入冻结与技术验收)、[有限采用登记](#2026-11-12-有限采用登记)；历史[浏览器证据](../devlogs/2026-W46.md#p2-延迟加载原型浏览器验证2026-11-09)不代替正式产品验收 |
 
@@ -226,6 +226,16 @@ F-02 继续维护本仓研究 / 定稿进度和来源边界，设计正文在上
 - **控件与圆角**：account 50→48px、圆角 16；workspace 圆角 12→10；分页 49→48px；theme option 10；document outline / article callout 16；IconButton 保留 10px control radius，文本 Button 全 pill；rail 32、workspace 36、tab 28、表格 52 / 36 保持。
 - **验证**：`npm run check`、`npm run build` 通过；Chrome 157.0.8103.40 在 1440 / 390 / 320+200% × 明暗 7 页 42 组，无横向溢出、无 pageerror；键盘 10 个 Tab 落点可见且 `:focus-visible`。审计前后数据在 `output/design-audit/2026-11-12/`。
 - **仍待下一批**：page / section / card / table / pagination / TOC 原语；卡片内边距 12 / 16 / 20 / 26 的收敛；组件页 preview / code / API 模板；组件示例区完整滚动审计。
+
+### 2026-11-12 审阅修订（PageHeader 与分段控件）
+
+所有者审阅 390 / 1440 视图后指出三处一致性缺陷，均在同一批修订：
+
+- 资源筛选（ToggleGroup）与设置 / 组件页 tabs 形状不同：统一为 pill、36px 高、内容宽；ToggleGroup 选中态改为与 Tabs 相同的 surface pill + shadow；组件页 tabs 不再用 16px panel 圆角或整行拉伸。
+- 组件页顶部的内部说明（「25 个共享组件 · React 19 内部预览……」）已从页面移除。
+- 移动端页面头部三种编排：新增共享 `PageHeader`（标题 / 返回 / 动作槽），标题行 36px，返回链接按 `--rd-control-height`（桌面 32 / 移动 36）；资源库、组件、视觉基础、平台、设置统一使用，顶部 workspace 栏保持不变。
+- 验证：7 页 × 1440 / 390 / 320+200% × 明暗 42 组，无横向溢出、无 pageerror；键盘 10 个落点可见且 `:focus-visible`。审阅截图在 `output/design-audit/2026-11-12/after2-review-*`。
+- 仍待下一批：Table / Pagination / TOC / Card 原语、组件页 preview / code / API 模板、完整组件示例滚动审计。
 
 ## 8. 已确认范围与当前评审点
 

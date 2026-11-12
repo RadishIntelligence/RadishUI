@@ -34,6 +34,7 @@
 - 根因：共享组件消费 token，但 rail、表格、分页、卡片、目录、设置等页面组合层硬编码；图标尺寸由页面各自传入；缺少统一的 page / section / card / table / pagination / TOC 原语与使用规则。
 - 证据：`output/design-audit/2026-11-12/inventory.json` 与逐页截图。首轮覆盖页面 shell 与首屏可见元素，组件示例区的完整滚动审计下一轮补。
 - 第一批后（2026-11-12）：页面 H1 28（overview 40 / document 32 例外）；页面级图标 16 / 18 / 20；account 48、分页 48、workspace 10 / account 16 / theme 10 / outline、callout 16；7 页 42 组与键盘验证通过。控件内部 glyph 12 / 13 / 14 保留；卡片内边距与页面原语仍待下一批。
+- 审阅修订（同日）：分段控件统一 pill / 36px / 内容宽；新增共享 PageHeader（标题 / 返回 / 动作槽）；组件页移除内部说明。42 组回归再次通过；Table / Pagination / TOC / Card 与组件页模板仍待下一批。
 
 ### 统一尺度提案（待所有者确认）
 
