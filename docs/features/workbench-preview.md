@@ -1,5 +1,6 @@
 # E-02：Workbench 三代表页运行范例
 
+状态：三代表页运行版已完成；2026-11-12 起按组件与视觉主成果继续完善页面，不重开已确认基线，按 F-02.4 修订登记
 主要归属：[E：展示、页面范例与产品采用](../planning/topics.md#examples)，协同 F-01 / F-02 与 [C-02 共享组件](react-workbench-components.md)。2026-11-04 按所有者明确要求在 RadishUI 本仓 `apps/docs` 实施；兄弟产品继续只读。
 
 ## 目标与输入输出
