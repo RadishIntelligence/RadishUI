@@ -27,7 +27,7 @@ export function SettingsPage({ preferences, save, t, onDirtyChange }: SettingsPa
   return <section className="settings-page">
     <PageHeader title={t('外观与偏好', 'Appearance & preferences')} />
     <Tabs value={tab} onValueChange={setTab} className="settings-tabs">
-      <TabsList label={t('偏好分组', 'Preference sections')} items={[
+      <TabsList label={t('偏好分组', 'Preference sections')} size="md" items={[
         { value: 'appearance', label: t('外观', 'Appearance') }, { value: 'reading', label: t('阅读', 'Reading') }, { value: 'notifications', label: t('通知', 'Notifications') },
       ]} />
       <div className="settings-layout">

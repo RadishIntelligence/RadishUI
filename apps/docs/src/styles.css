@@ -284,7 +284,6 @@ h1 { font-size: var(--rd-font-size-title); line-height: 1.2; font-weight: 680; l
   .resource-search-tools { flex: auto; width: 100%; justify-content: stretch; gap: 8px; }
   .resource-search { flex: 1; width: auto; min-width: 0; }
   .resource-search-tools > .rd-select { width: auto; min-width: 128px; max-width: 100%; }
-  .resources-tabs .rd-toggle-group { width: fit-content; }
   .resource-table { display: none; }
   .resource-mobile-list { display: block; list-style: none; padding: 0; }
   .resource-mobile-list > li { display: flex; align-items: center; gap: 8px; padding: 12px; border-bottom: 1px solid var(--rd-border-soft); }
@@ -319,7 +318,6 @@ h1 { font-size: var(--rd-font-size-title); line-height: 1.2; font-weight: 680; l
   .settings-form.is-no-hints .switch-field > .rd-switch { grid-row: 1; align-self: center; }
   .settings-footer { padding-inline: 12px; }
   .dirty-indicator { flex-basis: 100%; }
-  .settings-tabs .rd-tab { padding-inline: 10px; }
   .document-toolbar { gap: 16px; }
   .document-toolbar > div:last-child { margin-left: auto; }
   .document-layout { display: flex; flex-direction: column; gap: 20px; }
@@ -423,12 +421,6 @@ h1 { font-size: var(--rd-font-size-title); line-height: 1.2; font-weight: 680; l
   .page-title { margin-bottom: 16px; }
   .page-title h1 { font-size: var(--rd-font-size-title); }
   .resource-toolbar { margin-bottom: 12px; gap: 12px; }
-  .resource-toolbar .rd-tabs-list,
-  .settings-tabs > .rd-tabs-list,
-  .component-groups > .rd-tabs-list { padding: 2px; }
-  .resource-toolbar .rd-tab,
-  .settings-tabs .rd-tab,
-  .component-groups .rd-tab { padding-block: 4px; }
   .rd-dialog-footer .rd-button { min-height: 32px; }
   .rail-surface { padding: 14px 12px 12px; gap: 12px; }
   .rail-link { min-height: 32px; padding-block: 4px; }
@@ -460,9 +452,6 @@ h1 { font-size: var(--rd-font-size-title); line-height: 1.2; font-weight: 680; l
   .page-title { margin-bottom: 12px; }
   .page-title h1 { font-size: 1.5rem; }
   .resource-toolbar { margin-bottom: 12px; gap: 12px; }
-  .resource-toolbar .rd-tab,
-  .settings-tabs .rd-tab,
-  .component-groups .rd-tab { min-height: 28px; padding-block: 4px; }
   .rd-dialog-footer .rd-button { min-height: 36px; }
   .settings-form { --rd-control-height: 36px; --rd-control-height-sm: 36px; }
   .settings-footer .rd-button { min-height: 36px; }

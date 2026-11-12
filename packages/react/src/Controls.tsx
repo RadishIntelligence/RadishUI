@@ -22,9 +22,9 @@ export function Tabs({ className = '', ...props }: ComponentPropsWithoutRef<type
 }
 
 export interface TabOption { value: string; label: ReactNode; disabled?: boolean }
-export interface TabsListProps { label: string; items: readonly TabOption[]; className?: string }
-export function TabsList({ label, items, className = '' }: TabsListProps) {
-  return <TabsPrimitive.List aria-label={label} className={`rd-tabs-list ${className}`}>
+export interface TabsListProps { label: string; items: readonly TabOption[]; size?: 'sm' | 'md'; className?: string }
+export function TabsList({ label, items, size, className = '' }: TabsListProps) {
+  return <TabsPrimitive.List aria-label={label} className={`rd-tabs-list ${className}`} data-size={size}>
     {items.map(item => <TabsPrimitive.Trigger key={item.value} className="rd-tab" value={item.value} disabled={item.disabled}>{item.label}</TabsPrimitive.Trigger>)}
   </TabsPrimitive.List>;
 }
@@ -39,19 +39,19 @@ export function StatusBadge({ tone = 'neutral', children, className = '' }: { to
 }
 
 export interface ToggleGroupItem { value: string; label: ReactNode; disabled?: boolean }
-interface ToggleGroupBase { label: string; items: readonly ToggleGroupItem[]; disabled?: boolean; className?: string }
+interface ToggleGroupBase { label: string; items: readonly ToggleGroupItem[]; disabled?: boolean; size?: 'sm' | 'md'; className?: string }
 export interface ToggleGroupSingleProps extends ToggleGroupBase { type?: 'single'; value: string; onValueChange(value: string): void }
 export interface ToggleGroupMultipleProps extends ToggleGroupBase { type: 'multiple'; value: string[]; onValueChange(value: string[]): void }
 export type ToggleGroupProps = ToggleGroupSingleProps | ToggleGroupMultipleProps;
 
 export function ToggleGroup(props: ToggleGroupProps) {
-  const { label, items, disabled = false, className = '' } = props;
+  const { label, items, disabled = false, className = '', size } = props;
   const content = items.map(item => <ToggleGroupPrimitive.Item key={item.value} value={item.value} disabled={item.disabled || disabled} className="rd-toggle-group__item">
     {item.label}
   </ToggleGroupPrimitive.Item>);
   const cls = `rd-toggle-group ${className}`.trim();
-  if (props.type === 'multiple') return <ToggleGroupPrimitive.Root type="multiple" value={props.value} onValueChange={props.onValueChange} disabled={disabled} aria-label={label} className={cls}>{content}</ToggleGroupPrimitive.Root>;
-  return <ToggleGroupPrimitive.Root type="single" value={props.value} onValueChange={value => { if (value) props.onValueChange(value); }} disabled={disabled} aria-label={label} className={cls}>{content}</ToggleGroupPrimitive.Root>;
+  if (props.type === 'multiple') return <ToggleGroupPrimitive.Root type="multiple" value={props.value} onValueChange={props.onValueChange} disabled={disabled} aria-label={label} className={cls} data-size={size}>{content}</ToggleGroupPrimitive.Root>;
+  return <ToggleGroupPrimitive.Root type="single" value={props.value} onValueChange={value => { if (value) props.onValueChange(value); }} disabled={disabled} aria-label={label} className={cls} data-size={size}>{content}</ToggleGroupPrimitive.Root>;
 }
 
 export interface AccordionItem { value: string; label: ReactNode; content: ReactNode; disabled?: boolean }

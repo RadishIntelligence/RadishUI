@@ -19,7 +19,6 @@
 @media (max-width: 799px) {
   .component-fields { grid-template-columns: minmax(0, 1fr); }
   .component-contract > div { grid-template-columns: minmax(0, 1fr); gap: var(--rd-space-1); }
-  .component-groups > .rd-tabs-list { display: inline-flex; flex-wrap: wrap; border-radius: var(--rd-radius-pill); }
 }
 @media (pointer: coarse), (pointer: none) {
   .component-code summary { min-height: var(--rd-touch-height); }
@@ -33,3 +32,5 @@
 @media (pointer: fine) and (min-width: 480px) and (max-width: 799px) {
   .component-contract > div { grid-template-columns: 96px minmax(0, 1fr); gap: var(--rd-space-2); }
 }
+
+.component-groups > .rd-tabs-content { padding-top: var(--rd-space-4); }
