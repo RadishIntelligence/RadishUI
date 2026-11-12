@@ -2,6 +2,7 @@ import { useEffect, useState, type FormEvent } from 'react';
 import { Button, Checkbox, FormField, InlineAlert, RadioGroup, Switch, Tabs, TabsContent, TabsList } from '@radish-ui/react';
 import { Check, Info, SlidersHorizontal } from 'lucide-react';
 import { defaultPreferences, type Preferences, type Translate } from './model';
+import { PageHeader } from './PageHeader';
 
 interface SettingsPageProps {
   preferences: Preferences; save(next: Preferences): string | undefined; t: Translate; onDirtyChange(dirty: boolean): void;
@@ -24,7 +25,7 @@ export function SettingsPage({ preferences, save, t, onDirtyChange }: SettingsPa
     if (!failure) onDirtyChange(false);
   }
   return <section className="settings-page">
-    <div className="page-title"><h1>{t('外观与偏好', 'Appearance & preferences')}</h1></div>
+    <PageHeader title={t('外观与偏好', 'Appearance & preferences')} />
     <Tabs value={tab} onValueChange={setTab} className="settings-tabs">
       <TabsList label={t('偏好分组', 'Preference sections')} items={[
         { value: 'appearance', label: t('外观', 'Appearance') }, { value: 'reading', label: t('阅读', 'Reading') }, { value: 'notifications', label: t('通知', 'Notifications') },

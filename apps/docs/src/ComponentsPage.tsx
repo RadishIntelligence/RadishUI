@@ -1,7 +1,8 @@
 import { useRef, useState, type ReactNode } from 'react';
 import { Accordion, Avatar, Button, IconButton, FormField, Input, InputOTP, TagInput, Textarea, Select, RadioGroup, Checkbox, Switch, Tabs, TabsList, TabsContent, ToggleGroup, StatusBadge, Tag, Skeleton, ConfirmDialog, Dialog, Drawer, Menu, InlineAlert, Toast, Tooltip } from '@radish-ui/react';
-import { ArrowLeft, Check, MoreHorizontal, Plus } from 'lucide-react';
+import { Check, MoreHorizontal, Plus } from 'lucide-react';
 import { appendResourceTags, resourceTagError, type Translate } from './model';
+import { PageHeader } from './PageHeader';
 import './components.css';
 
 function Example({ name, contract, keyboard, code, children }: { name: string; contract: string; keyboard: string; code: string; children: ReactNode }) {
@@ -280,10 +281,9 @@ function FeedbackExamples() {
 
 export function ComponentsPage({ t }: { t: Translate }) {
   return <section className="components-page">
-    <div className="page-title"><h1>{t('组件用法', 'Components')}</h1><a className="text-link component-back" href="#/overview"><ArrowLeft size={16} aria-hidden="true" />{t('概览', 'Overview')}</a></div>
+    <PageHeader title={t('组件用法', 'Components')} back={{ href: '#/overview', label: t('概览', 'Overview') }} />
     <Tabs defaultValue="actions" className="component-groups">
       <TabsList label={t('组件分组', 'Component groups')} items={[{ value: 'actions', label: t('操作', 'Actions') }, { value: 'fields', label: t('字段', 'Fields') }, { value: 'selection', label: t('选择', 'Choice') }, { value: 'feedback', label: t('反馈', 'Feedback') }]} />
-      <p className="component-scope">25 个共享组件 · React 19 内部预览。示例状态仅保留在当前分组，切换分组或离开页面会重置；文案使用中文与 English 合成内容。</p>
       <TabsContent value="actions"><ActionExamples /></TabsContent><TabsContent value="fields"><FieldExamples /></TabsContent><TabsContent value="selection"><SelectionExamples /></TabsContent><TabsContent value="feedback"><FeedbackExamples /></TabsContent>
     </Tabs>
   </section>;

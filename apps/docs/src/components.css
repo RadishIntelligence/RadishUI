@@ -1,6 +1,5 @@
 .components-page { min-width: 0; }
 .component-back, .component-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--rd-space-2); }
-.component-scope { margin-block: var(--rd-space-4); color: var(--rd-text-secondary); font-size: var(--rd-font-size-xs); }
 .component-example { padding-block: var(--rd-space-5); border-top: 1px solid var(--rd-border-soft); min-width: 0; }
 .component-example h2 { font-size: var(--rd-font-size-body); font-weight: 600; }
 .component-demo { display: grid; justify-items: start; gap: var(--rd-space-3); padding-block: var(--rd-space-4); min-width: 0; }
@@ -20,8 +19,8 @@
 @media (max-width: 799px) {
   .component-fields { grid-template-columns: minmax(0, 1fr); }
   .component-contract > div { grid-template-columns: minmax(0, 1fr); gap: var(--rd-space-1); }
-  .component-groups > .rd-tabs-list { display: flex; flex-wrap: wrap; border-radius: var(--rd-radius-panel); }
-  .component-groups > .rd-tabs-list > .rd-tab { flex: 1; padding-inline: var(--rd-space-2); }
+  .component-groups > .rd-tabs-list { display: inline-flex; flex-wrap: wrap; border-radius: var(--rd-radius-pill); }
+  .component-groups > .rd-tabs-list > .rd-tab { padding-inline: var(--rd-space-3); }
 }
 @media (pointer: coarse), (pointer: none) {
   .component-code summary { min-height: var(--rd-touch-height); }

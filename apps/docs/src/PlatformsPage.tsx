@@ -1,6 +1,7 @@
 import { StatusBadge, Tag } from '@radish-ui/react';
-import { ArrowLeft, ArrowUpRight, Boxes, Code2, Layers, Package } from 'lucide-react';
+import { ArrowUpRight, Boxes, Code2, Layers, Package } from 'lucide-react';
 import type { Translate } from './model';
+import { PageHeader } from './PageHeader';
 import './site-pages.css';
 
 export function PlatformsPage({ t }: { t: Translate }) {
@@ -10,7 +11,7 @@ export function PlatformsPage({ t }: { t: Translate }) {
     { icon: Layers, title: 'Flutter', text: t('预留主题与组件适配目录；等真实试点、范围和产物格式确认。', 'Reserved theme and component adapter directory, pending a real pilot, scope, and output format.'), status: t('待建设', 'Planned'), tone: 'neutral' as const, href: 'https://github.com/RadishIntelligence/RadishUI/tree/master/packages/flutter' },
   ] as const;
   return <section className="platforms-page">
-    <div className="page-title"><h1>{t('平台与接入', 'Platforms & adoption')}</h1><a className="text-link platforms-back" href="#/overview"><ArrowLeft size={16} aria-hidden="true" />{t('概览', 'Overview')}</a></div>
+    <PageHeader title={t('平台与接入', 'Platforms & adoption')} back={{ href: '#/overview', label: t('概览', 'Overview') }} />
     <p className="platforms-intro">{t('同源设计，分别实现。RadishUI 先提供通用视觉基础与 React 范例；产品采用、Flutter 与正式发行分别评估。', 'Shared design, separate implementations. RadishUI starts with visual foundations and React examples; product adoption, Flutter, and release are evaluated separately.')}</p>
     <div className="platforms-grid">{platforms.map(({ icon: Icon, title, text, status, tone, href }) => <a className="platform-card" href={href} key={title}>
       <div className="platform-card-head"><span className="platform-icon"><Icon size={20} aria-hidden="true" /></span><StatusBadge tone={tone}>{status}</StatusBadge></div>

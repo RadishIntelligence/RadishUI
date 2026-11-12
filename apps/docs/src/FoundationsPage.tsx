@@ -1,6 +1,7 @@
 import { Button, FormField, Input, StatusBadge, Tag } from '@radish-ui/react';
-import { ArrowLeft, Check, FileText, Palette, Search, ShieldCheck, SlidersHorizontal, SunMoon } from 'lucide-react';
+import { Check, FileText, Palette, Search, ShieldCheck, SlidersHorizontal, SunMoon } from 'lucide-react';
 import type { Translate } from './model';
+import { PageHeader } from './PageHeader';
 import './foundations.css';
 
 const colorTokens = ['brand-primary', 'action-primary', 'bg-app', 'bg-surface', 'bg-muted', 'bg-selected', 'text-primary', 'text-secondary', 'text-action', 'border-soft', 'border-control', 'state-success', 'state-warning', 'state-danger'] as const;
@@ -13,7 +14,7 @@ const radii = ['radius-small', 'radius-control', 'radius-panel', 'radius-shell',
 
 export function FoundationsPage({ t }: { t: Translate }) {
   return <section className="foundations-page">
-    <div className="page-title"><h1>{t('视觉基础', 'Foundations')}</h1><a className="text-link foundations-back" href="#/overview"><ArrowLeft size={16} aria-hidden="true" />{t('概览', 'Overview')}</a></div>
+    <PageHeader title={t('视觉基础', 'Foundations')} back={{ href: '#/overview', label: t('概览', 'Overview') }} />
     <p className="foundations-intro">{t('本页使用当前 --rd-* 语义 token 与共享组件，展示家族视觉基础；不是新的组件清单，也不替代设计文档。', 'This page uses the current --rd-* semantic tokens and shared components to document the family visual foundation. It is not a new component list or a replacement for the design docs.')}</p>
 
     <section className="foundation-section" aria-labelledby="foundation-color">

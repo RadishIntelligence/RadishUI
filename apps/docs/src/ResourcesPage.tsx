@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState, type FormEvent } from 'react';
 import { Button, Checkbox, ConfirmDialog, Dialog, Drawer, FormField, IconButton, InlineAlert, Input, Menu, Select, Textarea, Tag, TagInput, ToggleGroup } from '@radish-ui/react';
 import { ArrowUpRight, ChevronLeft, ChevronRight, FileText, History, ListChecks, LockKeyhole, MoreHorizontal, Palette, PanelsTopLeft, Plus, RefreshCw, Search, Trash2 } from 'lucide-react';
+import { PageHeader } from './PageHeader';
 import { appendResourceTags, filterResources, formatDate, kindLabel, pageCount, pageNumbers, resourceTagError, resourceTagLimits, statusLabel, validatePage, type Preferences, type Resource, type ResourceKind, type Translate } from './model';
 
 const kindIcons = { document: FileText, spec: Palette, checklist: ListChecks, example: PanelsTopLeft };
@@ -142,14 +143,12 @@ export function ResourcesPage({ resources, error, save, retry, t, locale, notify
     </div>;
 
   return <section className={`resources-page${scrollFallback ? ' is-scroll-fallback' : ''}`} ref={pageRef}>
-    <div className="page-title"><h1 ref={title} tabIndex={-1}>{t('资源库', 'Resources')}</h1>
-      <div className="page-title-actions">
-        <Menu trigger={<IconButton className="page-menu" label={t('页面操作', 'Page actions')}><MoreHorizontal /></IconButton>} items={[
-          { id: 'restore', label: t('恢复演示数据', 'Restore demo data'), icon: <RefreshCw />, onSelect: () => setRestoreOpen(true) },
-        ]} />
-        <Button onClick={() => setCreateOpen(true)} disabled={resources === undefined || Boolean(error)}><Plus />{t('新建资源', 'New resource')}</Button>
-      </div>
-    </div>
+    <PageHeader title={t('资源库', 'Resources')} titleRef={title} actions={<>
+      <Menu trigger={<IconButton className="page-menu" label={t('页面操作', 'Page actions')}><MoreHorizontal /></IconButton>} items={[
+        { id: 'restore', label: t('恢复演示数据', 'Restore demo data'), icon: <RefreshCw />, onSelect: () => setRestoreOpen(true) },
+      ]} />
+      <Button onClick={() => setCreateOpen(true)} disabled={resources === undefined || Boolean(error)}><Plus />{t('新建资源', 'New resource')}</Button>
+    </>} />
     <div className="resources-tabs">
       <div className="resource-toolbar"><ToggleGroup label={t('资源类型', 'Resource type')} value={kind} onValueChange={value => { setKind(value); resetPage(); }} items={[
         { value: 'all', label: t('全部', 'All') },
