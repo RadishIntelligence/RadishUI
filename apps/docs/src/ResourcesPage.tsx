@@ -150,7 +150,7 @@ export function ResourcesPage({ resources, error, save, retry, t, locale, notify
       <Button onClick={() => setCreateOpen(true)} disabled={resources === undefined || Boolean(error)}><Plus />{t('新建资源', 'New resource')}</Button>
     </>} />
     <div className="resources-tabs">
-      <div className="resource-toolbar"><ToggleGroup label={t('资源类型', 'Resource type')} size="md" value={kind} onValueChange={value => { setKind(value); resetPage(); }} items={[
+      <div className="resource-toolbar"><ToggleGroup label={t('资源类型', 'Resource type')} size="lg" value={kind} onValueChange={value => { setKind(value); resetPage(); }} items={[
         { value: 'all', label: t('全部', 'All') },
         { value: 'document', label: t('文档', 'Docs') },
         { value: 'checklist', label: t('清单', 'Lists') },

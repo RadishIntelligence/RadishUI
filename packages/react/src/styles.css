@@ -116,6 +116,12 @@
   --rd-segmented-item-padding: 2px 8px;
   --rd-segmented-font-size: var(--rd-font-size-xs);
 }
+.rd-tabs-list[data-size="lg"], .rd-toggle-group[data-size="lg"] {
+  --rd-segmented-list-padding: 0px;
+  --rd-segmented-item-height: var(--rd-control-height);
+  --rd-segmented-item-padding: 0 10px;
+  --rd-segmented-font-size: var(--rd-font-size-sm);
+}
 .rd-tab, .rd-toggle-group__item {
   display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-width: 0;
   min-height: var(--rd-segmented-item-height); padding: var(--rd-segmented-item-padding); border: 0;

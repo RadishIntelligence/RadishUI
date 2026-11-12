@@ -22,7 +22,7 @@ export function Tabs({ className = '', ...props }: ComponentPropsWithoutRef<type
 }
 
 export interface TabOption { value: string; label: ReactNode; disabled?: boolean }
-export interface TabsListProps { label: string; items: readonly TabOption[]; size?: 'sm' | 'md'; className?: string }
+export interface TabsListProps { label: string; items: readonly TabOption[]; size?: 'sm' | 'md' | 'lg'; className?: string }
 export function TabsList({ label, items, size, className = '' }: TabsListProps) {
   return <TabsPrimitive.List aria-label={label} className={`rd-tabs-list ${className}`} data-size={size}>
     {items.map(item => <TabsPrimitive.Trigger key={item.value} className="rd-tab" value={item.value} disabled={item.disabled}>{item.label}</TabsPrimitive.Trigger>)}
@@ -39,7 +39,7 @@ export function StatusBadge({ tone = 'neutral', children, className = '' }: { to
 }
 
 export interface ToggleGroupItem { value: string; label: ReactNode; disabled?: boolean }
-interface ToggleGroupBase { label: string; items: readonly ToggleGroupItem[]; disabled?: boolean; size?: 'sm' | 'md'; className?: string }
+interface ToggleGroupBase { label: string; items: readonly ToggleGroupItem[]; disabled?: boolean; size?: 'sm' | 'md' | 'lg'; className?: string }
 export interface ToggleGroupSingleProps extends ToggleGroupBase { type?: 'single'; value: string; onValueChange(value: string): void }
 export interface ToggleGroupMultipleProps extends ToggleGroupBase { type: 'multiple'; value: string[]; onValueChange(value: string[]): void }
 export type ToggleGroupProps = ToggleGroupSingleProps | ToggleGroupMultipleProps;
