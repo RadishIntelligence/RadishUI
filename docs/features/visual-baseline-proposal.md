@@ -232,9 +232,10 @@ F-02 继续维护本仓研究 / 定稿进度和来源边界，设计正文在上
 所有者审阅 390 / 1440 视图后指出三处一致性缺陷，均在同一批修订：
 
 - 资源筛选（ToggleGroup）与设置 / 组件页 tabs 形状不同：统一为 pill、36px 高、内容宽；ToggleGroup 选中态改为与 Tabs 相同的 surface pill + shadow；组件页 tabs 不再用 16px panel 圆角或整行拉伸。
+- 尺寸复核（同日）：上一轮只统一了形状，资源筛选 item 仍为 `0 12` / 50×28，设置 tabs 为 `4 10` / 46×28。按设置页标准把 Tabs / ToggleGroup 的 item 统一为 `padding: 4px 10px`、`line-height: 1.5`、`min-height: 28px`；资源 / 设置容器 150×36、item 46×28，组件页 198×36（4 个 item），并移除组件页残留的 12px `padding-inline` 覆盖。
 - 组件页顶部的内部说明（「25 个共享组件 · React 19 内部预览……」）已从页面移除。
 - 移动端页面头部三种编排：新增共享 `PageHeader`（标题 / 返回 / 动作槽），标题行 36px，返回链接按 `--rd-control-height`（桌面 32 / 移动 36）；资源库、组件、视觉基础、平台、设置统一使用，顶部 workspace 栏保持不变。
-- 验证：7 页 × 1440 / 390 / 320+200% × 明暗 42 组，无横向溢出、无 pageerror；键盘 10 个落点可见且 `:focus-visible`。审阅截图在 `output/design-audit/2026-11-12/after2-review-*`。
+- 验证：7 页 × 1440 / 390 / 320+200% × 明暗 42 组，无横向溢出、无 pageerror；键盘 10 个落点可见且 `:focus-visible`。尺寸复核后再次 42 组通过；审阅截图在 `output/design-audit/2026-11-12/after3-review-*` 与 `after4-review-*`。
 - 仍待下一批：Table / Pagination / TOC / Card 原语、组件页 preview / code / API 模板、完整组件示例滚动审计。
 
 ## 8. 已确认范围与当前评审点
