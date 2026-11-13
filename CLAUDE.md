@@ -40,6 +40,7 @@
 | 执行、授权、文档层级与交接 | [协作规范](docs/development/collaboration.md) |
 | Git、组织成员协作、PR、CI 与 Rulesets | [仓库治理](docs/development/repository-governance.md)、[ADR 0001](docs/adr/0001-branch-and-pr-governance.md) |
 | token、组件、视觉和产品接入 | [设计系统契约](docs/development/design-system.md)、对应子专题 |
+| 页面、控件文案与说明文字 | [设计条例](docs/design/design-rules.md)（DR-01、DR-18）、[表单可用性规则](docs/design/patterns/forms.md) |
 | 包结构、依赖方向与平台边界 | [架构](docs/architecture/overview.md) |
 | 展示站托管与部署 | [部署说明](docs/deployment/hosting.md) |
 | 贡献、许可、行为或安全报告 | [贡献指南](CONTRIBUTING.md)、[行为规范](CODE_OF_CONDUCT.md)、[安全报告](SECURITY.md) |
@@ -50,6 +51,7 @@
 - React 与 Flutter 分别实现；平台行为可以不同，设计语义与关键状态保持对应。未实现、未验证或仅供预览的能力必须明确标注。
 - token 来源为 `packages/tokens/src/tokens.json`，平台产物由生成入口维护，不手改生成物；共享组件消费语义 token，不以散落的硬编码绕开设计契约。
 - 展示站使用真实共享组件，不复制演示实现；产品特例和领域组件不能借展示或提取之名进入通用包。
+- 页面与控件文案默认不配辅助说明，按 [DR-18](docs/design/design-rules.md#dr-18) 的准入条件判断；组件支持 `hint` / `description` 不等于默认要填。
 - `.pen` 只能通过 Pencil 读写，不使用文本、脚本或其他工具替代。资产与依赖的引入遵循来源和许可确认。
 - 代码应清楚、直接、符合框架惯例；命名表达实际职责，按模块职责控制体量，不机械切文件。仓库自有文本遵循 UTF-8 无 BOM、LF 与末尾换行。
 - 外部输入、IO、权限、并发与兼容风险应显式处理，保留真实原因和上下文；兜底必须对应具体风险，不吞异常或伪造成功。
