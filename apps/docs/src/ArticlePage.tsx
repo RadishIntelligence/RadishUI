@@ -153,7 +153,7 @@ function DocumentReader({ resourceId = 'welcome', resource, preferences, section
     {storeError && <div className="document-storage-error"><InlineAlert tone="danger" title={t('本地文档未能读取', 'Local documents could not be read')}>{storeError}</InlineAlert>
       <Button variant="secondary" onClick={() => { setRestoreError(''); setRestoreOpen(true); }}>{t('重新初始化文档库', 'Reinitialize documents')}</Button></div>}
     {editing ? <form className="document-editor" onSubmit={save} noValidate>
-      <FormField id="document-title" label={t('文档标题', 'Document title')} hint={t('最多 120 个字符；保存后用于资源列表与本文标题。', 'Up to 120 characters; used in the resource list and article header after saving.')} error={titleError} required><Input ref={titleInput} value={draft.title} maxLength={120} onBlur={validateTitle} onChange={event => { setDraft({ ...draft, title: event.target.value }); setTitleError(''); }} /></FormField>
+      <FormField id="document-title" label={t('文档标题', 'Document title')} hint={t('最多 120 个字符。', 'Up to 120 characters.')} error={titleError} required><Input ref={titleInput} value={draft.title} maxLength={120} onBlur={validateTitle} onChange={event => { setDraft({ ...draft, title: event.target.value }); setTitleError(''); }} /></FormField>
       <FormField id="document-body" label={t('正文', 'Content')} hint={t('使用 ## 和 ### 分别表示二、三级标题；以 > 开头添加提示。其他内容以纯文本显示。', 'Use ## and ### for section and subsection headings, or > for a callout. Other content is displayed as plain text.')}>
         <Textarea value={draft.body} maxLength={50000} rows={18} onChange={event => setDraft({ ...draft, body: event.target.value })} />
       </FormField>

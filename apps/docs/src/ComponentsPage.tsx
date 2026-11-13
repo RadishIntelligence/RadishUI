@@ -61,7 +61,7 @@ function FieldExamples() {
     <Example name="Input" contract="原生 input 属性：value / defaultValue、onChange、disabled、readOnly、type、ref；surface: outline（默认）| filled；可独立提供 aria-label。"
       keyboard="Tab 聚焦并输入；只读可聚焦、选择和复制，disabled 不进入 Tab 顺序。独立使用时由调用方提供标签与错误关联。"
       code={'<Input aria-label="搜索" placeholder="输入关键词" />\n<Input aria-label="版本" value="v0.1" readOnly />'}>
-      <div className="component-fields"><FormField label="可编辑文本"><Input placeholder="输入中文或 English" /></FormField><FormField label="只读版本"><Input value="v0.1 / 内部预览" readOnly /></FormField><FormField label="禁用字段" hint="此字段在当前示例中不可编辑。"><Input value="不可编辑" disabled /></FormField></div>
+      <div className="component-fields"><FormField label="可编辑文本"><Input placeholder="输入中文或 English" /></FormField><FormField label="只读版本"><Input value="v0.1 / 内部预览" readOnly /></FormField><FormField label="禁用字段"><Input value="不可编辑" disabled /></FormField></div>
     </Example>
     <Example name="Textarea" contract="原生 textarea 属性与字段上下文；surface: outline（默认）| filled；rows、maxLength、readOnly、disabled、onChange / ref。"
       keyboard="Enter 换行，Tab 离开；错误不清空内容。长正文在输入区滚动，支持拖动调整高度。"
@@ -132,7 +132,7 @@ function SelectionExamples() {
       keyboard="Tab 进入当前项，方向键移动并选中，Space 选中；禁用项跳过。"
       code={'<FormField label="显示密度"><RadioGroup value={radio} onValueChange={setRadio} options={[...]} /></FormField>'}>
       <div className="component-stack">
-        <FormField label="示例密度" hint="单选组在 FormField 内共享标签与说明。">
+        <FormField label="示例密度">
           <RadioGroup value={radio} onValueChange={setRadio} options={[
             { value: 'compact', label: '紧凑' }, { value: 'standard', label: '标准' }, { value: 'spacious', label: '宽松' }, { value: 'unavailable', label: '不可用', disabled: true }, { value: 'disabled', label: '不可用示例', disabled: true },
           ]} />

@@ -5,14 +5,13 @@ export interface Preferences {
   locale: 'zh-CN' | 'en';
   density: 'compact' | 'standard' | 'spacious';
   fontSize: 'small' | 'standard' | 'large';
-  hints: boolean;
   showToc: boolean;
   lineHeight: 'standard' | 'relaxed';
   notifications: boolean;
 }
 export const defaultPreferences: Preferences = {
   theme: 'system', locale: 'zh-CN', density: 'standard', fontSize: 'standard',
-  hints: true, showToc: true, lineHeight: 'standard', notifications: true,
+  showToc: true, lineHeight: 'standard', notifications: true,
 };
 export type ResourceKind = 'document' | 'spec' | 'checklist' | 'example';
 export type ResourceStatus = 'ready' | 'draft' | 'readonly';
@@ -31,7 +30,7 @@ const oneOf = (value: unknown, values: readonly string[]): value is string => ty
 function hasPreferenceFields(value: Record<string, unknown>) {
   return oneOf(value.theme, ['light', 'dark', 'system']) && oneOf(value.locale, ['zh-CN', 'en'])
     && oneOf(value.fontSize, ['small', 'standard', 'large']) && oneOf(value.lineHeight, ['standard', 'relaxed'])
-    && ['hints', 'showToc', 'notifications'].every(key => typeof value[key] === 'boolean');
+    && ['showToc', 'notifications'].every(key => typeof value[key] === 'boolean');
 }
 export function isPreferences(value: unknown): value is Preferences {
   return isRecord(value) && hasPreferenceFields(value) && oneOf(value.density, ['compact', 'standard', 'spacious']);

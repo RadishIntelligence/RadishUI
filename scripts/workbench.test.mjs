@@ -9,7 +9,7 @@ test('stored preferences reject missing, coerced and unknown values', () => {
   assert.equal(defaultPreferences.density, 'standard');
   assert(isPreferences({ ...defaultPreferences, density: 'compact' }));
   assert(isPreferences({ ...defaultPreferences, density: 'spacious' }));
-  for (const value of [null, {}, { ...defaultPreferences, theme: ['dark'] }, { ...defaultPreferences, locale: 'fr' }, { ...defaultPreferences, hints: 'true' }, { ...defaultPreferences, density: 'ultra' }, { ...defaultPreferences, density: 'comfortable' }]) assert.equal(isPreferences(value), false);
+  for (const value of [null, {}, { ...defaultPreferences, theme: ['dark'] }, { ...defaultPreferences, locale: 'fr' }, { ...defaultPreferences, showToc: 'true' }, { ...defaultPreferences, density: 'ultra' }, { ...defaultPreferences, density: 'comfortable' }]) assert.equal(isPreferences(value), false);
 });
 test('legacy density values migrate without changing the standard appearance', () => {
   assert(isLegacyPreferences({ ...defaultPreferences, density: 'compact' }));
