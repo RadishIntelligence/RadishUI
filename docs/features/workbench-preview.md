@@ -199,3 +199,9 @@
 - 对齐：A/B 复核确认设置页标签贴顶是刻意的——三个普通行标签顶边 12 / 13 / 13 / 9px，主题块若居中会落到 52px。所有者确认保持左上并登记为 [DR-19](../design/design-rules.md#dr-19)，本轮不改布局。证据在 `output/copy-audit/2026-11-13/theme-label-*.png`。
 - 验证：`npm run check`、`npm run build` 通过；Chrome 157.0.8103.51 无头 1440×900、390×844 明暗、阅读标签页与组件页“选择 / 字段”两组定向截图无横向溢出、无 pageerror；键盘 Tab 顺序连贯，设置页只剩正文字号一条字段 hint，另有通知渠道说明。证据在 `output/copy-audit/2026-11-13/`。
 - 边界：只覆盖细指针无头环境；粗指针命中、Safari / Firefox、真机与屏幕阅读器未复验，R2 视觉基准是否随之更新待 F-02 评审。
+
+### 2026-11-14 导航原语接入
+
+- R1 底部分页与 R3 文档目录改用共享 [Pagination / TableOfContents](react-workbench-components.md#pagination-与-tableofcontents2026-11-14)；页面级 `.pagination`、`.document-outline a` 的尺寸与状态样式删除，只保留容器与密度主题覆盖。
+- 行为与文案保持：统计、每页条数、页码省略、跳页校验与错误提示、单页 `1 / 1`、窄屏隐藏页码与跳页、目录当前章节与同章节滚动偏移均未改变。
+- 验证：1440 / 390 / 320+200%、明暗与键盘见 [C-02](react-workbench-components.md#pagination-与-tableofcontents2026-11-14)；本轮只改导航区域，表格、卡片与组件页模板仍待下一批。
