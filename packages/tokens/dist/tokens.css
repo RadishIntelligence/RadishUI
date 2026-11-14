@@ -20,6 +20,8 @@
   --rd-space-6: 24px;
   --rd-space-8: 32px;
   --rd-motion-base: 160ms;
+  --rd-motion-fast: 120ms;
+  --rd-ease-enter: cubic-bezier(.2, .8, .2, 1);
   --rd-control-height: 40px;
   --rd-control-height-sm: 32px;
   --rd-control-height-compact: 28px;

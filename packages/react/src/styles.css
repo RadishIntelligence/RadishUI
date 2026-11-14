@@ -83,6 +83,14 @@
   background: var(--rd-bg-surface); color: var(--rd-text-primary); box-shadow: var(--rd-shadow-popup); font: 400 var(--rd-font-size-sm)/1.5 var(--rd-font-sans);
 }
 .rd-select-content { min-width: var(--radix-select-trigger-width); max-width: calc(100vw - 24px); max-height: min(320px, var(--radix-select-content-available-height)); overflow: hidden; }
+/* Enter from the trigger edge. Radix exposes the popper origin; the content itself
+   carries no transform, so scaling here cannot fight the positioning wrapper. */
+.rd-select-content { transform-origin: var(--radix-select-content-transform-origin, center); }
+.rd-menu { transform-origin: var(--radix-dropdown-menu-content-transform-origin, center); }
+.rd-select-content[data-state="open"], .rd-menu[data-state="open"], .rd-tooltip[data-state$="open"] {
+  animation: rd-layer-in var(--rd-motion-base) var(--rd-ease-enter);
+}
+.rd-tooltip[data-state$="open"] { animation-duration: var(--rd-motion-fast); }
 .rd-select-viewport { padding: 0; }
 .rd-select-item, .rd-menu-item { display: flex; justify-content: space-between; align-items: center; gap: var(--rd-space-3); min-height: 34px; padding: 6px var(--rd-space-2); border-radius: var(--rd-radius-small); outline: none; }
 .rd-select-item[data-highlighted], .rd-menu-item[data-highlighted] { background: var(--rd-bg-selected); color: var(--rd-text-action); }
@@ -196,7 +204,7 @@
 .rd-menu-item--danger { color: var(--rd-state-danger); }
 .rd-menu-label { padding: 6px var(--rd-space-2); font-size: var(--rd-font-size-xs); color: var(--rd-text-secondary); }
 .rd-menu-separator { height: 1px; margin: var(--rd-space-1) 0; background: var(--rd-border-soft); }
-.rd-tooltip { z-index: 90; max-width: 240px; padding: 6px 10px; border: 1px solid var(--rd-border-soft); border-radius: var(--rd-radius-small); background: var(--rd-bg-surface); color: var(--rd-text-primary); box-shadow: var(--rd-shadow-raised); font: 400 var(--rd-font-size-xs)/1.5 var(--rd-font-sans); }
+.rd-tooltip { z-index: 90; max-width: 240px; padding: 6px 10px; border: 1px solid var(--rd-border-soft); border-radius: var(--rd-radius-small); background: var(--rd-bg-surface); color: var(--rd-text-primary); box-shadow: var(--rd-shadow-raised); font: 400 var(--rd-font-size-xs)/1.5 var(--rd-font-sans); transform-origin: var(--radix-tooltip-content-transform-origin, center); }
 .rd-tooltip-arrow { fill: var(--rd-bg-surface); }
 .rd-alert { display: flex; align-items: flex-start; gap: var(--rd-space-3); padding: var(--rd-space-3); border-radius: var(--rd-radius-control); background: var(--rd-bg-selected); color: var(--rd-text-action); font-size: var(--rd-font-size-sm); line-height: 1.7; }
 .rd-alert > svg { flex-shrink: 0; margin-top: 3px; }
@@ -208,7 +216,7 @@
 .rd-toast { position: relative; pointer-events: auto; display: flex; align-items: center; gap: 10px; max-width: 100%; padding: 7px 7px 7px 14px; border: 1px solid color-mix(in srgb, var(--rd-text-on-action) 16%, transparent); border-radius: var(--rd-radius-pill); background: var(--rd-action-primary); color: var(--rd-text-on-action); box-shadow: var(--rd-shadow-popup); font: 500 var(--rd-font-size-sm)/1.5 var(--rd-font-sans); }
 .rd-toast > svg { flex-shrink: 0; opacity: .88; }
 .rd-toast > div { min-width: 0; overflow-wrap: anywhere; }
-.rd-toast[data-state="open"] { animation: rd-toast-in 240ms cubic-bezier(.2, .8, .2, 1); }
+.rd-toast[data-state="open"] { animation: rd-toast-in 240ms var(--rd-ease-enter); }
 .rd-toast[data-state="closed"] { animation: rd-toast-out 160ms ease-in forwards; }
 .rd-toast[data-swipe="end"] { transform: translateY(-140%); }
 .rd-toast-close-wrap { position: relative; display: grid; place-items: center; width: 30px; height: 30px; flex-shrink: 0; }
@@ -226,6 +234,7 @@
 @keyframes rd-toast-countdown { to { stroke-dashoffset: 1; } }
 @keyframes rd-spin { to { transform: rotate(360deg); } }
 @keyframes rd-fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes rd-layer-in { from { opacity: 0; transform: scale(.96); } }
 /* A narrow desktop pane still uses desktop controls. Size touch targets by input device. */
 @media (pointer: coarse), (pointer: none) {
   .rd-button, .rd-input, .rd-select, .rd-checkbox, .rd-tab { min-height: var(--rd-touch-height); }
@@ -240,5 +249,6 @@
   .rd-button, .rd-switch-thumb { transition: none; }
   .rd-button__spinner { animation: none; }
   .rd-dialog-overlay { animation: none; }
+  .rd-select-content[data-state="open"], .rd-menu[data-state="open"], .rd-tooltip[data-state$="open"] { animation: none; }
   .rd-toast[data-state="open"], .rd-toast[data-state="closed"], .rd-toast-ring-progress { animation: none; }
 }
