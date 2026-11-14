@@ -292,8 +292,10 @@
 @media (pointer: coarse), (pointer: none) {
   .rd-checkbox { min-height: var(--rd-touch-height); }
   .rd-button { position: relative; }
-  .rd-button::after { content: ''; position: absolute; inset: -6px 0; }
-  .rd-icon-button { min-width: var(--rd-touch-height); min-height: var(--rd-touch-height); }
+  .rd-button::after { content: ''; position: absolute; inset: calc((var(--rd-touch-height) - var(--rd-control-height) + 2px) / -2) 0; }
+  .rd-button--sm::after { inset: calc((var(--rd-touch-height) - var(--rd-control-height-sm) + 2px) / -2) 0; }
+  .rd-icon-button { position: relative; }
+  .rd-icon-button::after { content: ''; position: absolute; inset: calc((var(--rd-touch-height) - var(--rd-control-height) + 2px) / -2); }
   .rd-select-item, .rd-menu-item { min-height: var(--rd-touch-height); }
   .rd-input, .rd-select { font-size: var(--rd-font-size-body); }
   .rd-switch { width: 44px; height: 28px; }

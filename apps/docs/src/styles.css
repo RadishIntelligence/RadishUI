@@ -335,9 +335,6 @@ h1 { font-size: var(--rd-font-size-title); line-height: 1.2; font-weight: 680; l
 @media (pointer: fine) and (max-width: 799px) {
   html:is([data-density="standard"], [data-density="compact"]) { --mobile-navigation-height: max(52px, 3.25rem); }
   html:is([data-density="standard"], [data-density="compact"]) .workspace-header { padding: var(--rd-space-2) var(--rd-space-3); }
-  html:is([data-density="standard"], [data-density="compact"]) .mobile-workspace .workspace-switch { min-height: 32px; padding: 2px var(--rd-space-2); }
-  html:is([data-density="standard"], [data-density="compact"]) .workspace-switch .rd-avatar { width: max(24px, 1.5rem); height: max(24px, 1.5rem); }
-  html:is([data-density="standard"], [data-density="compact"]) .mobile-account .account-switch { width: max(32px, 2rem); min-height: max(32px, 2rem); padding: 2px; }
   html:is([data-density="standard"], [data-density="compact"]) .workspace-main { padding-inline: var(--rd-space-3); padding-bottom: calc(var(--mobile-navigation-height) + 16px); scroll-padding-bottom: calc(var(--mobile-navigation-height) + 16px); }
   html:is([data-density="standard"], [data-density="compact"]) .mobile-navigation { bottom: 8px; left: var(--rd-space-3); right: var(--rd-space-3); padding: 0; }
   html:is([data-density="standard"], [data-density="compact"]) .mobile-navigation svg { width: 20px; height: 20px; }
@@ -365,7 +362,7 @@ h1 { font-size: var(--rd-font-size-title); line-height: 1.2; font-weight: 680; l
   .page-title { margin-bottom: 16px; }
   .page-title h1 { font-size: var(--rd-font-size-title); }
   .resource-toolbar { margin-bottom: 12px; gap: 12px; }
-  .rd-dialog-footer .rd-button { min-height: 32px; }
+  .rd-dialog-footer .rd-button { min-height: 34px; }
   .rail-surface { padding: 14px 12px 12px; gap: 12px; }
   .rail-link { min-height: 32px; padding-block: 4px; }
   .rail-link svg { width: 16px; height: 16px; }
@@ -376,33 +373,23 @@ h1 { font-size: var(--rd-font-size-title); line-height: 1.2; font-weight: 680; l
   .account-switch .rd-avatar { width: 32px; height: 32px; }
 }
 @media (max-width: 799px) {
-  /* Mobile chrome is 36px regardless of density; the 32px desktop scale stops at 800. */
-  html[data-density="compact"], html[data-density="standard"], html[data-density="spacious"] {
-    --rd-control-height: 34px; --rd-control-height-sm: 34px;
-  }
-  .workspace-header, .page-title, .resource-toolbar, .document-toolbar {
-    --rd-control-height: 34px; --rd-control-height-sm: 34px;
+  /* Mobile density: 38 / 42 / 46 visual with 44 / 44 / 46 touch. Desktop stays 30 / 34 / 38. */
+  html[data-density="compact"] { --rd-control-height: 38px; --rd-control-height-sm: 38px; --rd-touch-height: 44px; }
+  html[data-density="standard"] { --rd-control-height: 42px; --rd-control-height-sm: 42px; --rd-touch-height: 44px; }
+  html[data-density="spacious"] { --rd-control-height: 46px; --rd-control-height-sm: 46px; --rd-touch-height: 46px; }
+  .rd-tabs-list, .rd-toggle-group,
+  .rd-tabs-list[data-size="lg"], .rd-toggle-group[data-size="lg"] {
+    --rd-segmented-item-height: calc(var(--rd-control-height) - 6px);
   }
   .workspace-header { min-height: 52px; padding: 8px 12px; }
   .header-actions { gap: 6px; }
-  .mobile-workspace .workspace-switch { min-height: 36px; padding: 2px 8px; }
-  .mobile-workspace .rd-avatar { width: 26px; height: 26px; }
-  .mobile-account .account-switch { width: 36px; min-height: 36px; padding: 2px; }
-  .mobile-account .rd-avatar { width: 30px; height: 30px; }
-  .workspace-header .rd-button, .workspace-header .rd-icon-button,
-  .page-title .rd-button, .page-title .rd-icon-button,
-  .resource-toolbar .rd-button, .resource-toolbar .rd-icon-button,
-  .resource-toolbar .rd-input, .resource-toolbar .rd-select,
-  .document-toolbar .rd-button { min-height: 34px; }
-  .workspace-header .rd-icon-button, .page-title .rd-icon-button { width: 36px; min-width: 36px; }
-  html:is([data-density="standard"], [data-density="compact"]) .mobile-workspace .workspace-switch { min-height: 36px; padding: 2px 8px; }
-  html:is([data-density="standard"], [data-density="compact"]) .mobile-account .account-switch { width: 36px; min-height: 36px; padding: 2px; }
+  .mobile-workspace .workspace-switch { min-height: var(--rd-control-height); padding: 0 8px; }
+  .mobile-workspace .rd-avatar { width: calc(var(--rd-control-height) - 14px); height: calc(var(--rd-control-height) - 14px); }
+  .mobile-account .account-switch { width: var(--rd-control-height); min-height: var(--rd-control-height); padding: 3px; }
+  .mobile-account .rd-avatar { width: calc(var(--rd-control-height) - 8px); height: calc(var(--rd-control-height) - 8px); }
   .page-title { margin-bottom: 12px; }
   .page-title h1 { font-size: 1.5rem; }
   .resource-toolbar { margin-bottom: 12px; gap: 12px; }
-  .rd-dialog-footer .rd-button { min-height: 34px; }
-  .settings-form { --rd-control-height: 34px; --rd-control-height-sm: 34px; }
-  .settings-footer .rd-button { min-height: 34px; }
   .resource-search { padding-block: 4px; margin-block: -4px; }
 }
 @media (max-width: 799px) {
@@ -415,17 +402,7 @@ h1 { font-size: var(--rd-font-size-title); line-height: 1.2; font-weight: 680; l
   .resource-toolbar .rd-button,
   .document-toolbar .rd-button { position: relative; }
   .mobile-workspace .workspace-switch::after,
-  .mobile-account .account-switch::after,
-  .header-actions .rd-icon-button::after,
-  .page-title .rd-button::after,
-  .page-title .rd-icon-button::after,
-  .resource-toolbar .rd-select::after,
-  .resource-toolbar .rd-button::after,
-  .document-toolbar .rd-button::after { content: ''; position: absolute; inset: -5px; }
-  .rd-dialog-footer .rd-button,
-  .settings-footer .rd-button { position: relative; }
-  .rd-dialog-footer .rd-button::after,
-  .settings-footer .rd-button::after { content: ''; position: absolute; inset: -5px; }
+  .mobile-account .account-switch::after { content: ''; position: absolute; inset: -5px; }
 }
 
 /* Compact is one step tighter than standard; spacious keeps the base rhythm. */
