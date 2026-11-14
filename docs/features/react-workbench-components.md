@@ -206,3 +206,11 @@ Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前
 - 收敛结果：卡片内边距只剩 `sm` 12px 与 `md` 16px 两档；20 / 24 / 26px 属于页面与区块间距，不再混作卡片内边距。资源详情面板在标准 / 紧凑密度下的 12px 仍由站点密度规则覆盖，属于待 token 化的已知例外。
 - 验证：Chrome 157 无头实测计算值——概览卡片 12px / `rgb(255,255,255)`、视觉基础主题卡 16px / `rgb(245,246,248)`、平台链接卡 16px、资源详情 12px、文档目录 12px / `rgb(240,242,245)`；1440 / 390、明暗无横向溢出与 pageerror，`asChild` 的 `<a>` 与 `<aside>` 语义保留。证据在忽略目录 `output/card-primitive/`。
 - 边界：未覆盖粗指针、Safari / Firefox、真机与屏幕阅读器；视觉基准待所有者评审。Section、Table 与组件页模板仍待下一批。
+
+## Section 区块原语（2026-11-14）
+
+- 来源：视觉基础 5 个区块与组件用法页 27 个示例重复同一套区块 chrome：顶部 1px 分隔线、24 / 20px 区块内边距与标题结构（可带 eyebrow 与说明）。
+- API：`title`、`eyebrow`、`description`、`size: md | sm`。`md` 用于阅读型区块（18px 标题、24px 内边距），`sm` 用于密集参考（16px 标题、20px 内边距）；`aria-labelledby` 指向自动生成的标题 id。`description` 只服务文档区块，产品页的控件说明仍按 DR-18 判断。
+- 迁移：视觉基础 5 个区块、组件用法页 27 个示例。删除 `.foundation-section`、`.foundation-heading`、`.component-example` 的重复样式；示例内部间距由 Section 的 16px gap 接管，`.component-demo` 不再自带上内边距。
+- 验证：视觉基础 1440 截图与迁移前逐字节一致（`09b0dc34…`）；计算值对得上——视觉基础 padding 24 / 标题 18px / 说明 max-width 760px，组件示例 padding 20 / 标题 16px；390 与明暗无横向溢出，`aria-labelledby` 均可解析到标题。证据在忽略目录 `output/section-primitive/`。
+- 边界：未覆盖粗指针、Safari / Firefox、真机与屏幕阅读器；`sm` 区块在紧凑密度下仍由站点密度规则收紧内边距，属于待 token 化的例外。Table 与组件页 preview / code / API 模板仍待下一批。
