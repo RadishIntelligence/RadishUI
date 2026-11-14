@@ -222,3 +222,10 @@ Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前
 - 迁移：资源列表改用 `Table`，面板改为 `Card padding="none"`；删除页面里的 table / th / td 规则和 fallback 的 `position: static` 覆盖，退化状态改由 `stickyHeader={!scrollFallback}` 表达。
 - 验证：1440 下 caption 隐藏且可读、`table-layout: fixed`、表头 `sticky`；内层滚动 120px 后表头仍贴顶；300px 高度触发 `is-scroll-fallback`，表头变 `static`、页面接管滚动；390 隐藏表格并显示列表；明暗无横向溢出与 pageerror。证据在忽略目录 `output/table-primitive/`。
 - 边界：标准 / 紧凑密度的 36 / 52 与 32 / 48 行高仍由站点密度规则覆盖，属于待 token 化的例外；粗指针、Safari / Firefox、真机与屏幕阅读器未复验。组件页 preview / code / API 模板与完整示例滚动审计仍待下一批。
+
+## 组件页参考模板（2026-11-14）
+
+- 结构：每个组件一条 `ComponentExample`（`apps/docs/src/ComponentExample.tsx`）——Section 标题 → 有边界的预览面板 → Props / Events 与键盘 / 状态 → 可展开的用法代码。示例顺序与分组不变。
+- 预览面板：`bg-surface` + `border-soft` + panel 圆角 + 16px 内边距；API 块用一条 `border-top` 与预览分开；代码仍用 `<details>` 折叠，不占首屏。紧凑密度下预览内边距收到 12px。
+- 滚动审计：5 个分组共 27 个示例，在 1440 / 390 / 320 + 200% 下逐个比较 `.component-demo` 的 `scrollWidth` 与 `clientWidth`，并检查页面 `scrollWidth`，均无横向溢出；预览面板计算值为 padding 16px、1px 边框、16px 圆角。证据在忽略目录 `output/component-template/`。
+- 边界：粗指针、Safari / Firefox、真机与屏幕阅读器未复验；模板视觉待所有者评审，未登记视觉基准。
