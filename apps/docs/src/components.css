@@ -1,12 +1,12 @@
 .components-page { min-width: 0; }
 .component-back, .component-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--rd-space-2); }
-.component-demo { display: grid; justify-items: start; gap: var(--rd-space-3); min-width: 0; }
+.component-demo { display: grid; justify-items: start; gap: var(--rd-space-3); min-width: 0; padding: var(--rd-space-4); border: 1px solid var(--rd-border-soft); border-radius: var(--rd-radius-panel); background: var(--rd-bg-surface); }
 .component-demo > *, .component-demo form { min-width: 0; max-width: 100%; }
 .component-demo p, .component-demo span { overflow-wrap: anywhere; }
 .component-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--rd-space-4); width: 100%; max-width: 720px; }
 .component-stack { display: grid; gap: var(--rd-space-3); width: 100%; }
 .component-demo > form { max-width: 480px; }
-.component-contract { display: grid; gap: var(--rd-space-2); font-size: var(--rd-font-size-sm); }
+.component-contract { display: grid; gap: var(--rd-space-2); padding-top: var(--rd-space-4); border-top: 1px solid var(--rd-border-soft); font-size: var(--rd-font-size-sm); }
 .component-contract > div { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: var(--rd-space-3); }
 .component-contract dt { color: var(--rd-text-secondary); }
 .component-contract dd { overflow-wrap: anywhere; }
@@ -24,7 +24,7 @@
 @media (pointer: fine) {
   html[data-density="compact"] .component-scope { margin-block: var(--rd-space-3); }
   html[data-density="compact"] .component-example { padding-block: var(--rd-space-3); }
-  html[data-density="compact"] .component-demo { gap: var(--rd-space-2); }
+  html[data-density="compact"] .component-demo { gap: var(--rd-space-2); padding: var(--rd-space-3); }
   html[data-density="compact"] .component-contract { gap: var(--rd-space-1); }
 }
 @media (pointer: fine) and (min-width: 480px) and (max-width: 799px) {

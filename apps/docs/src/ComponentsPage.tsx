@@ -1,17 +1,10 @@
-import { useRef, useState, type ReactNode } from 'react';
-import { Accordion, Avatar, Button, Card, IconButton, FormField, Input, InputOTP, TagInput, Textarea, Select, RadioGroup, Checkbox, Switch, Tabs, TabsList, TabsContent, ToggleGroup, StatusBadge, Section, Tag, Skeleton, ConfirmDialog, Dialog, Drawer, Menu, InlineAlert, Toast, Tooltip, Pagination, TableOfContents } from '@radish-ui/react';
+import { useRef, useState } from 'react';
+import { Accordion, Avatar, Button, Card, IconButton, FormField, Input, InputOTP, TagInput, Textarea, Select, RadioGroup, Checkbox, Switch, Tabs, TabsList, TabsContent, ToggleGroup, StatusBadge, Tag, Skeleton, ConfirmDialog, Dialog, Drawer, Menu, InlineAlert, Toast, Tooltip, Pagination, TableOfContents } from '@radish-ui/react';
 import { Check, MoreHorizontal, Plus } from 'lucide-react';
 import { appendResourceTags, resourceTagError, type Translate } from './model';
+import { ComponentExample as Example } from './ComponentExample';
 import { PageHeader } from './PageHeader';
 import './components.css';
-
-function Example({ name, contract, keyboard, code, children }: { name: string; contract: string; keyboard: string; code: string; children: ReactNode }) {
-  return <Section className="component-example" size="sm" title={name}>
-    <div className="component-demo">{children}</div>
-    <dl className="component-contract"><div><dt>Props / Events</dt><dd>{contract}</dd></div><div><dt>键盘 / 状态</dt><dd>{keyboard}</dd></div></dl>
-    <details className="component-code"><summary>用法代码</summary><pre><code>{code}</code></pre></details>
-  </Section>;
-}
 
 function ActionExamples() {
   const [count, setCount] = useState(0);
