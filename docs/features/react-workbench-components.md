@@ -214,3 +214,11 @@ Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前
 - 迁移：视觉基础 5 个区块、组件用法页 27 个示例。删除 `.foundation-section`、`.foundation-heading`、`.component-example` 的重复样式；示例内部间距由 Section 的 16px gap 接管，`.component-demo` 不再自带上内边距。
 - 验证：视觉基础 1440 截图与迁移前逐字节一致（`09b0dc34…`）；计算值对得上——视觉基础 padding 24 / 标题 18px / 说明 max-width 760px，组件示例 padding 20 / 标题 16px；390 与明暗无横向溢出，`aria-labelledby` 均可解析到标题。证据在忽略目录 `output/section-primitive/`。
 - 边界：未覆盖粗指针、Safari / Firefox、真机与屏幕阅读器；`sm` 区块在紧凑密度下仍由站点密度规则收紧内边距，属于待 token 化的例外。Table 与组件页 preview / code / API 模板仍待下一批。
+
+## Table 表格原语（2026-11-14）
+
+- 来源：R1 资源表格的表格元素、隐藏 caption 与吸顶表头此前只存在于 `apps/docs/styles.css`。
+- API：`label`（渲染为视觉隐藏的 caption）、`stickyHeader`（默认 `true`；页面退化到整页滚动时传 `false`），其余透传原生 `table` 属性。组件负责 caption、吸顶表头与单元格基本尺度，列宽、行状态与单位仍由页面组合。
+- 迁移：资源列表改用 `Table`，面板改为 `Card padding="none"`；删除页面里的 table / th / td 规则和 fallback 的 `position: static` 覆盖，退化状态改由 `stickyHeader={!scrollFallback}` 表达。
+- 验证：1440 下 caption 隐藏且可读、`table-layout: fixed`、表头 `sticky`；内层滚动 120px 后表头仍贴顶；300px 高度触发 `is-scroll-fallback`，表头变 `static`、页面接管滚动；390 隐藏表格并显示列表；明暗无横向溢出与 pageerror。证据在忽略目录 `output/table-primitive/`。
+- 边界：标准 / 紧凑密度的 36 / 52 与 32 / 48 行高仍由站点密度规则覆盖，属于待 token 化的例外；粗指针、Safari / Firefox、真机与屏幕阅读器未复验。组件页 preview / code / API 模板与完整示例滚动审计仍待下一批。
