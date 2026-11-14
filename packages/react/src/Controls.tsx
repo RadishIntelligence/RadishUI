@@ -1,4 +1,4 @@
-import type { ComponentPropsWithRef, ComponentPropsWithoutRef, ReactNode } from 'react';
+import { useState, type ComponentPropsWithRef, type ComponentPropsWithoutRef, type FocusEvent, type ReactNode } from 'react';
 import { Accordion as AccordionPrimitive, Switch as SwitchPrimitive, Tabs as TabsPrimitive, ToggleGroup as ToggleGroupPrimitive } from 'radix-ui';
 import { Check, ChevronDown } from 'lucide-react';
 
@@ -24,7 +24,15 @@ export function Tabs({ className = '', ...props }: ComponentPropsWithoutRef<type
 export interface TabOption { value: string; label: ReactNode; disabled?: boolean }
 export interface TabsListProps { label: string; items: readonly TabOption[]; size?: 'sm' | 'md' | 'lg'; className?: string }
 export function TabsList({ label, items, size, className = '' }: TabsListProps) {
-  return <TabsPrimitive.List aria-label={label} className={`rd-tabs-list ${className}`} data-size={size}>
+  // Radix focuses the trigger on pointerdown, which Chrome reports as :focus-visible.
+  // Track pointer-driven focus so mouse clicks don't leave a ring that the toolbar
+  // ToggleGroup does not show; keyboard focus still gets the regular ring.
+  const [pointerFocus, setPointerFocus] = useState(false);
+  return <TabsPrimitive.List aria-label={label} className={`rd-tabs-list ${className}`} data-size={size}
+    data-pointer-focus={pointerFocus || undefined}
+    onPointerDownCapture={() => setPointerFocus(true)}
+    onKeyDownCapture={() => setPointerFocus(false)}
+    onBlur={event => { if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setPointerFocus(false); }}>
     {items.map(item => <TabsPrimitive.Trigger key={item.value} className="rd-tab" value={item.value} disabled={item.disabled}>{item.label}</TabsPrimitive.Trigger>)}
   </TabsPrimitive.List>;
 }
@@ -46,12 +54,20 @@ export type ToggleGroupProps = ToggleGroupSingleProps | ToggleGroupMultipleProps
 
 export function ToggleGroup(props: ToggleGroupProps) {
   const { label, items, disabled = false, className = '', size } = props;
+  // Keep pointer-driven focus from leaving a ring that keyboard focus would also get.
+  const [pointerFocus, setPointerFocus] = useState(false);
+  const focusProps = {
+    'data-pointer-focus': pointerFocus || undefined,
+    onPointerDownCapture: () => setPointerFocus(true),
+    onKeyDownCapture: () => setPointerFocus(false),
+    onBlur: (event: FocusEvent<HTMLDivElement>) => { if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setPointerFocus(false); },
+  };
   const content = items.map(item => <ToggleGroupPrimitive.Item key={item.value} value={item.value} disabled={item.disabled || disabled} className="rd-toggle-group__item">
     {item.label}
   </ToggleGroupPrimitive.Item>);
   const cls = `rd-toggle-group ${className}`.trim();
-  if (props.type === 'multiple') return <ToggleGroupPrimitive.Root type="multiple" value={props.value} onValueChange={props.onValueChange} disabled={disabled} aria-label={label} className={cls} data-size={size}>{content}</ToggleGroupPrimitive.Root>;
-  return <ToggleGroupPrimitive.Root type="single" value={props.value} onValueChange={value => { if (value) props.onValueChange(value); }} disabled={disabled} aria-label={label} className={cls} data-size={size}>{content}</ToggleGroupPrimitive.Root>;
+  if (props.type === 'multiple') return <ToggleGroupPrimitive.Root type="multiple" value={props.value} onValueChange={props.onValueChange} disabled={disabled} aria-label={label} className={cls} data-size={size} {...focusProps}>{content}</ToggleGroupPrimitive.Root>;
+  return <ToggleGroupPrimitive.Root type="single" value={props.value} onValueChange={value => { if (value) props.onValueChange(value); }} disabled={disabled} aria-label={label} className={cls} data-size={size} {...focusProps}>{content}</ToggleGroupPrimitive.Root>;
 }
 
 export interface AccordionItem { value: string; label: ReactNode; content: ReactNode; disabled?: boolean }

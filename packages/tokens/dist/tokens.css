@@ -22,11 +22,11 @@
   --rd-motion-base: 160ms;
   --rd-motion-fast: 120ms;
   --rd-ease-enter: cubic-bezier(.2, .8, .2, 1);
-  --rd-control-height: 40px;
-  --rd-control-height-sm: 32px;
-  --rd-control-height-compact: 28px;
-  --rd-control-height-standard: 32px;
-  --rd-control-height-spacious: 36px;
+  --rd-control-height: 34px;
+  --rd-control-height-sm: 30px;
+  --rd-control-height-compact: 30px;
+  --rd-control-height-standard: 34px;
+  --rd-control-height-spacious: 38px;
   --rd-touch-height: 44px;
   --rd-icon-size: 18px;
 }
