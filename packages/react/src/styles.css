@@ -157,6 +157,13 @@
 .rd-accordion__content-inner { padding: 0 var(--rd-space-1) var(--rd-space-3); color: var(--rd-text-secondary); font-size: var(--rd-font-size-sm); line-height: 1.7; }
 @media (prefers-reduced-motion: reduce) { .rd-accordion__trigger svg { transition: none; } }
 
+.rd-card { box-sizing: border-box; border: 1px solid var(--rd-border-soft); border-radius: var(--rd-radius-panel); color: var(--rd-text-primary); }
+.rd-card--surface { background: var(--rd-bg-surface); }
+.rd-card--muted { background: var(--rd-bg-muted); }
+.rd-card--app { background: var(--rd-bg-app); }
+.rd-card--pad-none { padding: 0; }
+.rd-card--pad-sm { padding: var(--rd-space-3); }
+.rd-card--pad-md { padding: var(--rd-space-4); }
 .rd-pagination { display: flex; align-items: center; justify-content: flex-end; flex-wrap: wrap; gap: var(--rd-space-2); padding: var(--rd-space-3); min-height: 56px; border-top: 1px solid var(--rd-border-soft); font-size: var(--rd-font-size-xs); }
 .rd-pagination__summary { margin-right: auto; color: var(--rd-text-secondary); }
 .rd-pagination__size { width: auto; min-width: 110px; max-width: 100%; min-height: 32px; padding-block: 4px; font-size: var(--rd-font-size-xs); }

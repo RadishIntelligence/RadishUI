@@ -1,5 +1,5 @@
 import { useEffect, useLayoutEffect, useRef, useState, type FormEvent } from 'react';
-import { Button, Checkbox, ConfirmDialog, Dialog, Drawer, FormField, IconButton, InlineAlert, Input, Menu, Pagination, Select, Textarea, Tag, TagInput, ToggleGroup } from '@radish-ui/react';
+import { Button, Card, Checkbox, ConfirmDialog, Dialog, Drawer, FormField, IconButton, InlineAlert, Input, Menu, Pagination, Select, Textarea, Tag, TagInput, ToggleGroup } from '@radish-ui/react';
 import { ArrowUpRight, FileText, History, ListChecks, LockKeyhole, MoreHorizontal, Palette, PanelsTopLeft, Plus, RefreshCw, Search, Trash2 } from 'lucide-react';
 import { PageHeader } from './PageHeader';
 import { appendResourceTags, filterResources, formatDate, kindLabel, pageCount, resourceTagError, resourceTagLimits, statusLabel, type Preferences, type Resource, type ResourceKind, type Translate } from './model';
@@ -130,7 +130,7 @@ export function ResourcesPage({ resources, error, save, retry, t, locale, notify
             jumpError: total => t(`请输入 1–${total} 之间的整数。`, `Enter a whole number from 1 to ${total}.`),
           }} />}
       </div>
-      {selected && <aside className="resource-detail-panel" aria-label={t('当前资源', 'Current resource')}>{details}</aside>}
+      {selected && <Card asChild><aside className="resource-detail-panel" aria-label={t('当前资源', 'Current resource')}>{details}</aside></Card>}
     </div>;
 
   return <section className={`resources-page${scrollFallback ? ' is-scroll-fallback' : ''}`} ref={pageRef}>

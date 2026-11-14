@@ -1,4 +1,4 @@
-import { StatusBadge } from '@radish-ui/react';
+import { Card, StatusBadge } from '@radish-ui/react';
 import { ArrowRight, ArrowUpRight, FileText, FolderOpen, Layers, Palette, SlidersHorizontal, Sparkles } from 'lucide-react';
 import type { Translate } from './model';
 import './site-pages.css';
@@ -30,16 +30,16 @@ export function OverviewPage({ t }: { t: Translate }) {
           <a className="rd-button rd-button--secondary rd-button--md" href="#/components">{t('浏览组件', 'Browse components')}</a>
         </div>
       </div>
-      <div className="overview-palette" aria-label={t('视觉基础颜色', 'Foundation colors')}>
+      <Card padding="sm" className="overview-palette" aria-label={t('视觉基础颜色', 'Foundation colors')}>
         <div className="overview-palette-head"><span>{t('视觉基础', 'Foundations')}</span><a href="#/foundations">{t('查看全部', 'View all')}<ArrowUpRight size={16} aria-hidden="true" /></a></div>
         <div className="overview-swatches">{swatches.map(([token, zh, en]) => <div className="overview-swatch" key={token}><span className="overview-swatch-color" style={{ background: `var(--rd-${token})` }} aria-hidden="true" /><strong>{t(zh, en)}</strong><code>--rd-{token}</code></div>)}</div>
         <p className="overview-palette-note">{t('同一组语义，浅色与深色各自成对。', 'One set of roles, paired across light and dark.')}</p>
-      </div>
+      </Card>
     </div>
     <div className="overview-section-head"><h2>{t('设计系统', 'Design system')}</h2><a className="overview-link" href="#/components">{t('全部组件', 'All components')}<ArrowRight size={16} aria-hidden="true" /></a></div>
-    <div className="overview-card-grid">{system.map(({ href, icon: Icon, title, text, meta }) => <a className="overview-card" href={href} key={href}>
+    <div className="overview-card-grid">{system.map(({ href, icon: Icon, title, text, meta }) => <Card asChild key={href} padding="sm"><a className="overview-card" href={href}>
       <div className="overview-card-icon"><Icon size={20} aria-hidden="true" /></div><div><h3>{title}</h3><p>{text}</p><code>{meta}</code></div><ArrowUpRight className="overview-card-arrow" size={18} aria-hidden="true" />
-    </a>)}</div>
+    </a></Card>)}</div>
     <div className="overview-section-head"><h2>{t('Workbench 演示', 'Workbench demo')}</h2><span>{t('本地合成数据', 'Local synthetic data')}</span></div>
     <div className="overview-demo-grid">{demo.map(({ href, icon: Icon, title, text }) => <a className="overview-demo" href={href} key={href}>
       <Icon size={20} aria-hidden="true" /><div><h3>{title}</h3><p>{text}</p></div><ArrowUpRight size={16} aria-hidden="true" />

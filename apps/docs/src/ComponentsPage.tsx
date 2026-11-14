@@ -1,5 +1,5 @@
 import { useRef, useState, type ReactNode } from 'react';
-import { Accordion, Avatar, Button, IconButton, FormField, Input, InputOTP, TagInput, Textarea, Select, RadioGroup, Checkbox, Switch, Tabs, TabsList, TabsContent, ToggleGroup, StatusBadge, Tag, Skeleton, ConfirmDialog, Dialog, Drawer, Menu, InlineAlert, Toast, Tooltip, Pagination, TableOfContents } from '@radish-ui/react';
+import { Accordion, Avatar, Button, Card, IconButton, FormField, Input, InputOTP, TagInput, Textarea, Select, RadioGroup, Checkbox, Switch, Tabs, TabsList, TabsContent, ToggleGroup, StatusBadge, Tag, Skeleton, ConfirmDialog, Dialog, Drawer, Menu, InlineAlert, Toast, Tooltip, Pagination, TableOfContents } from '@radish-ui/react';
 import { Check, MoreHorizontal, Plus } from 'lucide-react';
 import { appendResourceTags, resourceTagError, type Translate } from './model';
 import { PageHeader } from './PageHeader';
@@ -302,10 +302,10 @@ function NavigationExamples() {
     <Example name="TableOfContents" contract="items: { id, level, text }[]；currentId 标记当前章节；hrefFor 决定链接地址，onNavigate 交回页面处理滚动偏移和路由。"
       keyboard="链接按标题层级缩进，Enter 跟随；当前章节使用 aria-current=location，不只靠颜色区分。"
       code={'<TableOfContents label="本文目录" items={items} currentId={currentId}\n  hrefFor={id => `#/document/doc/${id}`} onNavigate={goTo} />'}>
-      <div className="component-toc-demo">
+      <Card tone="muted" padding="sm" className="component-toc-demo">
         <TableOfContents label="示例目录" items={headings} currentId={tocId}
           hrefFor={id => `#${id}`} onNavigate={(id, event) => { event.preventDefault(); setTocId(id); }} />
-      </div>
+      </Card>
     </Example>
   </>;
 }
