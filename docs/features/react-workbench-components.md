@@ -70,7 +70,7 @@ A 批 10 个基础组件与 B 批 6 个反馈 / 浮层组件由三代表页实�
 - 设置页当时作为首个采用页面，4 个 Select 改为 filled；资源库搜索、文档与其他页面仍为 outline。所有者已确认该采用，设置页 filled 纳入 F-02.4 基准修订。
 - 2026-11-08 RadioGroup 修订：设置页界面语言、显示密度、正文字号、段落行距改为横向 RadioGroup；设置页不再使用 filled Select，filled 字段保留在组件示例与其他页面。原 B2 记录保留为历史采用，不删除 token 或 API。
 
-按所有者“桌面按钮、输入框、选择器偏大”的反馈，展示站默认偏好改用已有 compact 档；共享 token 值与 API 未改。Input / Select 的纵向内边距随现有高度计算，普通字号时三档实际对齐到 28 / 32 / 36px（2026-11-07 重命名为紧凑 / 标准 / 宽松）；Textarea 保留多行留白，大字号允许自然撑高，coarse / none pointer 保留至少 44px 控件范围，fine pointer 不再仅因窗口变窄而放大。Button 长文案可换行，避免大字号溢出。
+按所有者“桌面按钮、输入框、选择器偏大”的反馈，展示站默认偏好改用已有 compact 档；共享 token 值与 API 未改。Input / Select 的纵向内边距随现有高度计算，普通字号时三档实际对齐到 30 / 34 / 38px（2026-11-07 重命名为紧凑 / 标准 / 宽松，2026-11-14 调整档位）；Textarea 保留多行留白，大字号允许自然撑高，coarse / none pointer 保留至少 44px 控件范围，fine pointer 不再仅因窗口变窄而放大。Button 长文案可换行，避免大字号溢出。
 
 Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前显式聚焦自身（preventScroll），资源详情的原生按钮采用同一方式，保证 Dialog / Drawer 能记录并恢复真实入口。消费者仍可在 onClick 内主动移动焦点。Safari 原生窗口已复验这两条关闭路径，其他浮层组合仍按具体环境判断。
 
@@ -82,7 +82,7 @@ Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前
 
 ## 对话框关闭尺寸与 chrome（2026-11-07）
 
-此前关闭按钮只在展示站 ≤799px 覆盖；本轮把 32px 可视、44px 命中的关闭按钮收进共享 Dialog / Drawer（`.rd-dialog-close`，`::after` 外扩），展示站删除重复覆盖。footer 按钮由展示站按 [DR-17](../design/design-rules.md#dr-17) 设为桌面 32 / 移动 36（触屏 44 命中）；Dialog 正文表单仍按密度 28 / 32 / 36，不随 chrome 缩小。公开 props 未变，键盘、焦点恢复与 Escape 行为沿用原合同。
+此前关闭按钮只在展示站 ≤799px 覆盖；本轮把 32px 可视、44px 命中的关闭按钮收进共享 Dialog / Drawer（`.rd-dialog-close`，`::after` 外扩），展示站删除重复覆盖。footer 按钮由展示站按 [DR-17](../design/design-rules.md#dr-17) 统一 34（触屏 44 命中）；Dialog 正文表单仍按密度 30 / 34 / 38，不随 chrome 缩小。公开 props 未变，键盘、焦点恢复与 Escape 行为沿用原合同。
 
 
 ## 表单可用性吸纳（2026-11-08）
@@ -132,7 +132,7 @@ Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前
 
 - 目标：为家族登录 / 验证码类场景提供通用输入；参考 Radish `@radish/ui` 的 PasscodeInput 行为，但不搬产品实现。
 - API：受控 `value` / `onValueChange`；`label` 必填，`length` 默认 6；`hint` / `error`、`required`、`disabled`、`autoFocus`、`name`、`onEnterPress`。
-- 视觉：每格为正方形，与标准控件同高；细指针 32×32（`--rd-control-height`），粗指针 44×44（`--rd-touch-height`）；数字使用 mono 字体。
+- 视觉：每格为正方形，与标准控件同高；细指针 34×34（`--rd-control-height`），粗指针 44×44（`--rd-touch-height`）；数字使用 mono 字体。
 - 键盘 / 输入：数字自动前进，Backspace 清除当前或上一格，Delete 清除当前格。清空中间格时，右侧数字保留原位，`onValueChange` 继续返回连续数字字符串。支持方向键、Home / End 和系统粘贴快捷键，粘贴按位填充。每格有独立可访问名称，组用 `aria-labelledby` / `aria-describedby` 关联标签与说明。
 - 表单：`name` 时额外提交完整值的隐藏字段；错误状态通过 `aria-invalid` 与 danger 边框表达。
 - 接入：组件用法页字段组示例；本仓暂无真实登录页，未伪造验证码页面。家族 Radish 的 PasscodeInput 是后续真实接入参考。
@@ -229,3 +229,44 @@ Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前
 - 预览面板：`bg-surface` + `border-soft` + panel 圆角 + 16px 内边距；API 块用一条 `border-top` 与预览分开；代码仍用 `<details>` 折叠，不占首屏。紧凑密度下预览内边距收到 12px。
 - 滚动审计：5 个分组共 27 个示例，在 1440 / 390 / 320 + 200% 下逐个比较 `.component-demo` 的 `scrollWidth` 与 `clientWidth`，并检查页面 `scrollWidth`，均无横向溢出；预览面板计算值为 padding 16px、1px 边框、16px 圆角。证据在忽略目录 `output/component-template/`。
 - 边界：粗指针、Safari / Firefox、真机与屏幕阅读器未复验；模板视觉待所有者评审，未登记视觉基准。
+
+## 分段控件行高修正（2026-11-14）
+
+- 现象：所有者 200% 字号下看到设置页 tabs 比按钮臃肿，激活项接近圆形。实测默认字号时列表 36 / 项 28 / 按钮 36，是一致的；200% 时列表 55 / 项 47 / 按钮 38——`line-height: 1.5` 让分段项的高度完全随字号线性膨胀。
+- 修正：`--rd-segmented-line-height` 1.5 → 1.2，并去掉分段项的垂直内边距（`item padding` 4px 10px → 0 10px，垂直留白交给最小高度）。控件内的行高只服务控件高度，不承担正文阅读节奏。
+- 验证：默认字号下列表 36 / 项 28 / 按钮 36，与修改前一致；150% 字号列表 36 / 项 28 / 按钮 36；200% 时列表 39 / 项 31 / 按钮 38；250% 时列表 47 / 项 39 / 按钮 48。控件高度在全区间与按钮同步，单项宽度 72、高度 31（200%），保持药丸比例。组件页五组 tabs 200% 下无横向溢出。行高与内边距变量同时被 Tabs 与 ToggleGroup 消费。
+- 跨页一致性：工具条筛选的 `lg` 变体原先 `list 0` + `item = --rd-control-height`，激活项填满轨道，阴影贴边读成边框；tabs 则是 28px 药丸浮在 4px 轨道里。先后改为 `list 2` 与最终 `list 4` + `item 28`，让两处几何完全一致。1000 / 440 实测 tabs 与筛选均为轨道 36 / 药丸 28 / 4px 内边距。所有者随后按折中处理：桌面分段控件与资源工具栏整行统一 34（28px 药丸 + 3px 内边距，搜索与状态选择同高），移动保持 36；页头与文档工具栏仍 32。分段控件的键盘焦点环收到 1px。
+- 边界：粗指针命中区、Safari / Firefox 未复验；视觉待所有者复审。
+
+## 分段控件焦点环一致性（2026-11-14）
+
+- 现象：组件页 / 设置页的 tabs 用鼠标点击后出现 2px 焦点环，看起来像高亮项带了边框；资源筛选点击后没有。两者尺寸一致时仍然「一个像带边框、一个不像」。
+- 根因：Radix Tabs 在 pointerdown 时把焦点交给触发器，Chrome 将其判为 `:focus-visible`；工具栏的 ToggleGroup 不触发该路径。不是边框或阴影样式不同。
+- 修正：`TabsList` 记录指针交互，指针触发焦点时不显示环；键盘进入、方向键切换仍保留 2px 环。`data-pointer-focus` 在指针按下时置位，键盘按键或焦点离开列表时清除。
+- 验证：点击后 `outline: none`（`data-pointer-focus=true`），方向键切换后 `outline: solid 2px`；资源筛选点击前后均无环。两处高亮药丸一致（28px）。
+
+## 触屏下的分段控件视觉高度（2026-11-14）
+
+- 根因：组件在 `@media (pointer: coarse)` 下把 `.rd-tab`、`.rd-toggle-group__item` 的最小高度设为 44px，视觉跟着变高；而设置页 footer 按钮被页面固定在 36px。设备模拟（iPhone / DPR 2 / 触摸）下就出现 tabs 比按钮高、单项接近方形的观感。细指针环境不会触发这条规则，所以桌面无头验证一直复现不到。
+- 修正：触屏下分段控件的**视觉高度保持** 28 / 轨道 36，命中区改由 `::after` 扩展到 44（`inset: calc((44px - item)/-2) 0`），符合 DR-16「视觉可小于 44、命中不能小于 44」。`sm` 24px 项同样得到 44。页面里重复的 `.rd-tab::after` 规则删除。
+- 焦点环：`ToggleGroup` 也加入 `data-pointer-focus`，点击筛选不再出现 2px 环；键盘操作仍保留。两处分段控件的点击与键盘表现一致。
+- 验证：Chrome 触屏模拟 440×956 / DPR 2 下，设置页 tabs 150×36、单项 46×28、命中 44；资源筛选轨道 36 / 项 28 / 命中 44；footer 按钮 36。明暗与窄屏无溢出。
+- 边界：未在实体设备、Safari / Firefox 复验。
+
+## 触屏按钮与移动目录表面（2026-11-14）
+
+- 首页 hero 按钮 44、页脚按钮 36：根因同分段控件——`@media (pointer: coarse)` 把 `.rd-button` 视觉高度撑到 44，而部分页面把 footer / 工具栏按钮钉在 36。修正：触屏下按钮视觉保持 36 / 32，命中区由 `::after` 扩展到 44；同时在 ≤799px 把 `--rd-control-height` 统一到 36（原先 hero 等未列入页面容器白名单，退回密度 32）。
+- 移动端目录是透明底 + 10px 圆角，PC 是 muted 底 + 16px 圆角。修正：`.mobile-outline` 改用 `bg-muted` + `radius-panel`，与 PC 的 `Card tone="muted"` 同一表面。
+- 资源筛选的「边框」是点击后的焦点环；`ToggleGroup` 补 `data-pointer-focus` 后与 tabs 一致，指针点击不再显示，键盘仍保留。
+- 验证：触屏模拟 440×956 / DPR 2，hero 与 footer 按钮均为 36，移动目录 muted / 16px 圆角，筛选点击后无 outline；键盘方向键仍触发 2px 环。
+- 边界：实体设备、Safari / Firefox 未复验；输入框 / 选择器在触屏下仍保持 44 视觉高度。
+
+## 全局 34px 尺度与 1px 焦点环（2026-11-14）
+
+- 所有者确认统一：桌面与移动的控件、分段控件、资源工具栏都是 **34px**；密度三档改为 **30 / 34 / 38**；键盘焦点环统一 **1px**。
+- token：`control-height` 34、`control-height-sm` 30、`control-height-compact` 30、`control-height-standard` 34、`control-height-spacious` 38。
+- 分段控件：轨道 34（28px 药丸 + 3px 内边距），桌面与移动一致，`lg` 与 `md` 完全相同；轨道不再有 32 / 36 两套。
+- 图标按钮改用 `--rd-control-height`（34）；标签内的移除按钮单独保持 22px，避免标签被撑高。
+- 焦点环：组件与展示站的 `outline` 统一 1px；分段控件指针点击不显示、键盘保留；底部导航沿用全局 1px 环。
+- 触屏命中：按钮、分段控件视觉 34，命中区由 `::after` 扩到 44。文本输入与选择器在触屏下也压到 34px；按所有者确认，DR-16 增加了对应例外（替换元素无法用伪元素外扩命中，命中即视觉）。按钮、分段、导航仍保持 44 命中。
+- 验证：1280 下筛选 / 搜索 / 状态选择 / 页头按钮均 34，图标按钮 34，密度三档实测 30 / 34 / 38；440 触屏下 tabs / 工具栏 34，表单输入 44；键盘方向键焦点环 1px，点击无环；无横向溢出。
