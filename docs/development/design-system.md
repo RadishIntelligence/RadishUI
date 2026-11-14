@@ -20,7 +20,7 @@ React 与 Flutter 分别实现，保持颜色角色、层级、状态含义及�
 ## 同类控件的尺寸与复用
 
 - 同一视觉模式只允许一个共享实现和一组共享尺寸变量；页面通过 `size` / variant 等语义参数选择尺寸，不得用页面 CSS 改 padding、font-size、height、radius 或覆盖共享变量。
-- 分段控件（Tabs / ToggleGroup）由同一组 `--rd-segmented-*` 变量驱动。`md`（导航 tabs）：list padding 3px、item padding 0 10px（垂直留白由最小高度提供）、font 13px、line-height 1.2；桌面轨道 34 / 药丸 28，移动轨道随密度 38 / 42 / 46 / 药丸 32 / 36 / 40；`lg`（工具条筛选）：list 3、item padding 0 10px、font 13px，与 `md` tabs 完全同尺寸（桌面 34 / 28，移动 38–46 / 32–40）；`sm`：list 2px、item 24px、item padding 2px 8px、font `--rd-font-size-xs`。工作台按上下文传 `size="md"` 或 `size="lg"`，页面只传 `size`。触屏下分段控件与按钮的视觉高度不变，命中区由 `::after` 扩展到 44px，不把视觉高度撑到 44；≤799px 的控件高度统一为 36px，不受密度档影响。
+- 分段控件（Tabs / ToggleGroup）由同一组 `--rd-segmented-*` 变量驱动。`md`（导航 tabs）：list padding 3px、item padding 0 10px（垂直留白由最小高度提供）、font 13px、line-height 1.2；桌面轨道 34 / 药丸 28，移动轨道随密度 38 / 42 / 46 / 药丸 32 / 36 / 40；`lg`（工具条筛选）：list 3、item padding 0 10px、font 13px，与 `md` tabs 完全同尺寸（桌面 34 / 28，移动 38–46 / 32–40）；`sm`：list 2px、item 24px、item padding 2px 8px、font `--rd-font-size-xs`。工作台按上下文传 `size="md"` 或 `size="lg"`，页面只传 `size`。触屏下分段控件与按钮保持各自视觉高度，命中区由 `::after` 扩展到 44 / 44 / 46px；≤799px 的控件高度按移动密度映射为 38 / 42 / 46px（默认 42），桌面保持 30 / 34 / 38（默认 34）。
 - 页面组合必须使用 PageHeader / Section / Segmented / Table / Pagination / TOC 等页面原语；尺寸、间距、分割线与卡片内边距由原语/变量决定，页面不写一次性尺寸。
 - 内容与分割线之间至少 16px（`--rd-space-4`）；分割线属于区块边界，不能紧贴文字或导航。
 - 视觉验收必须比较同一组件在不同页面的同一视口、同一缩放下的计算值（宽、高、padding、font-size、line-height），并检查分割线/卡片间距；页面级尺寸覆盖没有书面例外不得合入。
