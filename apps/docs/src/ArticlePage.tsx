@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent, type RefObject } from 'react';
-import { Accordion, Button, ConfirmDialog, Dialog, FormField, InlineAlert, Input, StatusBadge, Textarea, Tag } from '@radish-ui/react';
+import { Accordion, Button, ConfirmDialog, Dialog, FormField, InlineAlert, Input, StatusBadge, TableOfContents, Textarea, Tag } from '@radish-ui/react';
 import { Check, ChevronLeft, Copy, Info, LockKeyhole, Pencil, Share2 } from 'lucide-react';
 import { articleForResource, welcomeArticle } from './document-seed';
 import { formatDate, isArticles, parseArticle, type Article, type Preferences, type Resource, type Translate } from './model';
@@ -134,16 +134,15 @@ function DocumentReader({ resourceId = 'welcome', resource, preferences, section
   }
 
   const currentHeading = activeHeading || headings[0]?.id;
-  const outline = <nav aria-label={t('本文目录', 'Document outline')}><ol>{headings.map(heading => <li key={heading.id} data-level={heading.level}>
-    <a href={`#/document/${resourceId}/${heading.id}`} className={currentHeading === heading.id ? 'is-active' : ''}
-      aria-current={currentHeading === heading.id ? 'location' : undefined}
-      onClick={event => {
-        if (section === heading.id && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey) {
-          event.preventDefault();
-          scrollToHeading(heading.id);
-        }
-      }}>{heading.text}</a>
-  </li>)}</ol></nav>;
+  const outline = <TableOfContents label={t('本文目录', 'Document outline')}
+    items={headings.map(heading => ({ id: heading.id, level: heading.level, text: heading.text }))}
+    currentId={currentHeading} hrefFor={id => `#/document/${resourceId}/${id}`}
+    onNavigate={(id, event) => {
+      if (section === id && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey) {
+        event.preventDefault();
+        scrollToHeading(id);
+      }
+    }} />;
   return <section className="document-page">
     <div className="document-toolbar"><a className="document-back" href="#/resources"><ChevronLeft size={16} aria-hidden="true" />{t('资源库', 'Resources')}</a>
       <div><Button variant="secondary" onClick={() => { setShareOpen(true); setCopied(false); setCopyError(''); }}><Share2 />{t('分享', 'Share')}</Button>

@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { appendResourceTags, defaultPreferences, filterResources, isArticle, isArticles, isLegacyPreferences, isPreferences, isResources, migratePreferences, pageCount, pageNumbers, parseArticle, parseRoute, resourceTagLimits, validatePage } from '../apps/docs/src/model.ts';
+import { appendResourceTags, defaultPreferences, filterResources, isArticle, isArticles, isLegacyPreferences, isPreferences, isResources, migratePreferences, pageCount, parseArticle, parseRoute, resourceTagLimits } from '../apps/docs/src/model.ts';
+import { paginationRange, validatePage } from '../packages/react/src/pagination.ts';
 
 const resource = { id: 'release-notes', name: '发布 Release Notes', kind: 'document', status: 'ready', summary: 'Upgrade guide', creator: '示例成员', updatedAt: '2026-11-04T10:00:00Z', version: 'v1', tags: ['发布'] };
 
@@ -51,9 +52,9 @@ test('pagination has one empty page, clamps page counts and rejects ambiguous in
   for (const input of ['', '0', '-1', '3', '1.5', '1e1', '+1', 'NaN']) assert.equal(validatePage(input, 2), undefined);
 });
 test('page links keep first, current and last pages with unambiguous gaps', () => {
-  assert.deepEqual(pageNumbers(1, 1), [1]);
-  assert.deepEqual(pageNumbers(6, 24), [1, 'gap', 5, 6, 7, 'gap', 24]);
-  assert.deepEqual(pageNumbers(24, 24), [1, 'gap', 23, 24]);
+  assert.deepEqual(paginationRange(1, 1), [1]);
+  assert.deepEqual(paginationRange(6, 24), [1, 'gap', 5, 6, 7, 'gap', 24]);
+  assert.deepEqual(paginationRange(24, 24), [1, 'gap', 23, 24]);
 });
 test('outline reflects heading levels, repeated titles have unique ids', () => {
   const blocks = parseArticle('导语\r\n\r\n## 第一章\r\n正文\r\n\r\n### 子章节\r\n内容\r\n\r\n## 第一章');

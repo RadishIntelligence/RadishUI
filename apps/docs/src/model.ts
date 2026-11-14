@@ -91,17 +91,6 @@ export function filterResources(resources: readonly Resource[], query: string, k
     && (!search || `${item.name} ${item.summary} ${item.tags.join(' ')}`.toLocaleLowerCase().includes(search)));
 }
 export function pageCount(count: number, size: number) { return Math.max(1, Math.ceil(count / Math.max(1, size))); }
-export function validatePage(input: string, total: number): number | undefined {
-  if (!/^\d+$/.test(input.trim())) return undefined;
-  const page = Number(input);
-  return Number.isSafeInteger(page) && page >= 1 && page <= total ? page : undefined;
-}
-export function pageNumbers(page: number, total: number): (number | 'gap')[] {
-  const numbers = [...new Set([1, total, page - 1, page, page + 1])].filter(n => n >= 1 && n <= total).sort((a, b) => a - b);
-  const result: (number | 'gap')[] = [];
-  numbers.forEach((n, i) => { if (i > 0 && n - numbers[i - 1] > 1) result.push('gap'); result.push(n); });
-  return result;
-}
 export function parseArticle(body: string): ArticleBlock[] {
   const blocks: ArticleBlock[] = [];
   let paragraph: string[] = [];

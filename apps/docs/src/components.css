@@ -34,3 +34,4 @@
 }
 
 .component-groups > .rd-tabs-content { padding-top: var(--rd-space-4); }
+.component-toc-demo { width: min(280px, 100%); padding: var(--rd-space-3); border: 1px solid var(--rd-border-soft); border-radius: var(--rd-radius-panel); background: var(--rd-bg-muted); }

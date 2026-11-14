@@ -11,7 +11,7 @@ const swatches = [
 export function OverviewPage({ t }: { t: Translate }) {
   const system = [
     { href: '#/foundations', icon: Palette, title: t('视觉基础', 'Foundations'), text: t('颜色、字体、图标、空间与状态。', 'Color, type, icons, space, and states.'), meta: 'F-02.4' },
-    { href: '#/components', icon: Layers, title: t('组件用法', 'Components'), text: t('25 个共享组件的实际用法与键盘说明。', 'Practical usage and keyboard notes for 25 shared components.'), meta: 'C-02.4' },
+    { href: '#/components', icon: Layers, title: t('组件用法', 'Components'), text: t('27 个共享组件的实际用法与键盘说明。', 'Practical usage and keyboard notes for 27 shared components.'), meta: 'C-02.4' },
     { href: '#/platforms', icon: Sparkles, title: t('平台与接入', 'Platforms'), text: t('Tokens、React、Flutter 与产品接入边界。', 'Tokens, React, Flutter, and product adoption boundaries.'), meta: 'F-01 · C-02' },
   ] as const;
   const demo = [

@@ -1,5 +1,5 @@
 import { useRef, useState, type ReactNode } from 'react';
-import { Accordion, Avatar, Button, IconButton, FormField, Input, InputOTP, TagInput, Textarea, Select, RadioGroup, Checkbox, Switch, Tabs, TabsList, TabsContent, ToggleGroup, StatusBadge, Tag, Skeleton, ConfirmDialog, Dialog, Drawer, Menu, InlineAlert, Toast, Tooltip } from '@radish-ui/react';
+import { Accordion, Avatar, Button, IconButton, FormField, Input, InputOTP, TagInput, Textarea, Select, RadioGroup, Checkbox, Switch, Tabs, TabsList, TabsContent, ToggleGroup, StatusBadge, Tag, Skeleton, ConfirmDialog, Dialog, Drawer, Menu, InlineAlert, Toast, Tooltip, Pagination, TableOfContents } from '@radish-ui/react';
 import { Check, MoreHorizontal, Plus } from 'lucide-react';
 import { appendResourceTags, resourceTagError, type Translate } from './model';
 import { PageHeader } from './PageHeader';
@@ -279,12 +279,43 @@ function FeedbackExamples() {
   </>;
 }
 
+function NavigationExamples() {
+  const [page, setPage] = useState(1);
+  const [size, setSize] = useState(10);
+  const [tocId, setTocId] = useState('intro');
+  const total = 128;
+  const pageCount = Math.max(1, Math.ceil(total / size));
+  const headings = [
+    { id: 'intro', level: 2, text: '导语' },
+    { id: 'color', level: 2, text: '主题与配色' },
+    { id: 'spacing', level: 3, text: '间距与圆角' },
+    { id: 'states', level: 2, text: '交互状态' },
+    { id: 'mixed', level: 3, text: '中文与 English 混排的长标题用于检查换行' },
+  ];
+  return <>
+    <Example name="Pagination" contract="page / pageCount / pageSize / totalItems；onPageChange、onPageSizeChange；labels 覆盖文案与跳页错误。"
+      keyboard="Tab 依次到页码、跳页输入和按钮；页码用 Enter / Space 触发；跳页输入非整数或越界时报错并保留输入。"
+      code={'<Pagination page={page} pageCount={pageCount} pageSize={size} totalItems={128}\n  onPageChange={setPage} onPageSizeChange={setSize} />'}>
+      <Pagination page={page} pageCount={pageCount} pageSize={size} totalItems={total}
+        onPageChange={setPage} onPageSizeChange={next => { setSize(next); setPage(1); }} />
+    </Example>
+    <Example name="TableOfContents" contract="items: { id, level, text }[]；currentId 标记当前章节；hrefFor 决定链接地址，onNavigate 交回页面处理滚动偏移和路由。"
+      keyboard="链接按标题层级缩进，Enter 跟随；当前章节使用 aria-current=location，不只靠颜色区分。"
+      code={'<TableOfContents label="本文目录" items={items} currentId={currentId}\n  hrefFor={id => `#/document/doc/${id}`} onNavigate={goTo} />'}>
+      <div className="component-toc-demo">
+        <TableOfContents label="示例目录" items={headings} currentId={tocId}
+          hrefFor={id => `#${id}`} onNavigate={(id, event) => { event.preventDefault(); setTocId(id); }} />
+      </div>
+    </Example>
+  </>;
+}
+
 export function ComponentsPage({ t }: { t: Translate }) {
   return <section className="components-page">
     <PageHeader title={t('组件用法', 'Components')} back={{ href: '#/overview', label: t('概览', 'Overview') }} />
     <Tabs defaultValue="actions" className="component-groups">
-      <TabsList label={t('组件分组', 'Component groups')} size="md" items={[{ value: 'actions', label: t('操作', 'Actions') }, { value: 'fields', label: t('字段', 'Fields') }, { value: 'selection', label: t('选择', 'Choice') }, { value: 'feedback', label: t('反馈', 'Feedback') }]} />
-      <TabsContent value="actions"><ActionExamples /></TabsContent><TabsContent value="fields"><FieldExamples /></TabsContent><TabsContent value="selection"><SelectionExamples /></TabsContent><TabsContent value="feedback"><FeedbackExamples /></TabsContent>
+      <TabsList label={t('组件分组', 'Component groups')} size="md" items={[{ value: 'actions', label: t('操作', 'Actions') }, { value: 'fields', label: t('字段', 'Fields') }, { value: 'selection', label: t('选择', 'Choice') }, { value: 'feedback', label: t('反馈', 'Feedback') }, { value: 'navigation', label: t('导航', 'Navigation') }]} />
+      <TabsContent value="actions"><ActionExamples /></TabsContent><TabsContent value="fields"><FieldExamples /></TabsContent><TabsContent value="selection"><SelectionExamples /></TabsContent><TabsContent value="feedback"><FeedbackExamples /></TabsContent><TabsContent value="navigation"><NavigationExamples /></TabsContent>
     </Tabs>
   </section>;
 }

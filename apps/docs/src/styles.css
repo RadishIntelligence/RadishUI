@@ -177,17 +177,6 @@ h1 { font-size: var(--rd-font-size-title); line-height: 1.2; font-weight: 680; l
 .resource-detail > .property-list, .resource-tags { padding-top: 16px; border-top: 1px solid var(--rd-border-soft); }
 .resource-tags { display: grid; gap: 12px; color: var(--rd-text-secondary); font-size: var(--rd-font-size-xs); }
 .resource-tags > div, .document-tags { display: flex; gap: 8px; flex-wrap: wrap; }
-.pagination { display: flex; align-items: center; justify-content: flex-end; flex-wrap: wrap; gap: 8px; padding: 12px; min-height: 56px; border-top: 1px solid var(--rd-border-soft); font-size: var(--rd-font-size-xs); }
-.result-count { color: var(--rd-text-secondary); margin-right: auto; }
-.pagination .page-size { width: auto; min-width: 110px; max-width: 100%; min-height: 32px; padding-block: 4px; font-size: var(--rd-font-size-xs); }
-.page-single { color: var(--rd-text-secondary); white-space: nowrap; font-variant-numeric: tabular-nums; }
-.page-position { display: none; color: var(--rd-text-secondary); white-space: nowrap; font-variant-numeric: tabular-nums; }
-.page-buttons { display: flex; align-items: center; gap: 4px; }
-.page-number { min-width: 32px; padding-inline: 8px; }
-.page-gap { color: var(--rd-text-secondary); }
-.page-jump { display: flex; align-items: center; gap: 6px; }
-.page-jump > .rd-input { width: max(44px, 2.75rem); min-height: 32px; padding: 4px; text-align: center; }
-.pagination-error { padding: 0 12px 12px; color: var(--rd-state-danger); font-size: var(--rd-font-size-xs); }
 .resource-mobile-list { display: none; }
 .empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; min-height: 300px; padding: 24px; }
 .empty-state > svg { width: 32px; height: 32px; color: var(--rd-text-secondary); }
@@ -219,12 +208,6 @@ h1 { font-size: var(--rd-font-size-title); line-height: 1.2; font-weight: 680; l
 .document-aside { position: sticky; top: 0; display: grid; gap: 20px; padding-top: 16px; min-width: 0; font-size: var(--rd-font-size-xs); }
 .document-outline { padding: 12px; background: var(--rd-bg-muted); border: 1px solid var(--rd-border-soft); border-radius: var(--rd-radius-panel); }
 .document-outline > span, .document-properties > span { display: block; color: var(--rd-text-secondary); margin-bottom: 8px; }
-.document-outline ol, .mobile-outline ol { list-style: none; padding: 0; }
-.document-outline a, .mobile-outline a { display: flex; align-items: center; min-height: 28px; padding: 4px 10px; color: var(--rd-text-secondary); border-left: 1px solid var(--rd-border-soft); line-height: 1.5; overflow-wrap: anywhere; }
-.document-outline li[data-level="3"] a, .mobile-outline li[data-level="3"] a { padding-left: 22px; }
-.document-outline a.is-active, .mobile-outline a.is-active { color: var(--rd-text-action); font-weight: 500; border-left: 2px solid var(--rd-text-action); padding-left: 9px; }
-.document-outline li[data-level="3"] a.is-active, .mobile-outline li[data-level="3"] a.is-active { padding-left: 21px; }
-.document-outline a:hover, .mobile-outline a:hover { color: var(--rd-text-primary); }
 .document-properties > span { margin-bottom: 20px; }
 .document-tags { margin-top: 24px; }
 .document-editor { display: grid; gap: 20px; padding: 16px; border: 1px solid var(--rd-border-soft); border-radius: var(--rd-radius-panel); }
@@ -288,11 +271,6 @@ h1 { font-size: var(--rd-font-size-title); line-height: 1.2; font-weight: 680; l
   @media (min-width: 481px) {
     .rd-drawer.resource-sheet { left: 50%; right: auto; width: min(560px, calc(100vw - 32px)); transform: translateX(-50%); }
   }
-  .pagination { justify-content: flex-start; padding: 8px 12px; gap: 8px; }
-  .result-count { flex: 1; min-width: max-content; white-space: nowrap; }
-  .pagination .page-size { min-height: 32px; font-size: var(--rd-font-size-xs); }
-  .page-number, .page-gap, .page-jump { display: none; }
-  .page-position { display: inline-flex; align-items: center; }
   .empty-state { min-height: 240px; }
   .settings-layout { margin-top: 20px; }
   .settings-form { overflow: visible; }
@@ -353,10 +331,7 @@ h1 { font-size: var(--rd-font-size-title); line-height: 1.2; font-weight: 680; l
   html:is([data-density="standard"], [data-density="compact"]) .resource-mobile-select { min-height: 36px; gap: var(--rd-space-2); }
   html:is([data-density="standard"], [data-density="compact"]) .resource-detail { gap: var(--rd-space-3); }
   html:is([data-density="standard"], [data-density="compact"]) .resource-detail-panel { padding: var(--rd-space-3); }
-  html:is([data-density="standard"], [data-density="compact"]) .pagination { padding: 6px var(--rd-space-3); min-height: 48px; }
-  html:is([data-density="standard"], [data-density="compact"]) .pagination .page-size,
-  html:is([data-density="standard"], [data-density="compact"]) .page-jump > .rd-input { min-height: 32px; }
-  html:is([data-density="standard"], [data-density="compact"]) .page-number { min-width: 32px; }
+  html:is([data-density="standard"], [data-density="compact"]) .rd-pagination { padding: 6px var(--rd-space-3); min-height: 48px; }
   html:is([data-density="standard"], [data-density="compact"]) .document-layout { gap: var(--rd-space-3); }
   html:is([data-density="standard"], [data-density="compact"]) .mobile-outline { padding: var(--rd-space-2) var(--rd-space-3); }
   html:is([data-density="standard"], [data-density="compact"]) .mobile-outline summary { min-height: 32px; padding-block: var(--rd-space-1); }
@@ -381,22 +356,9 @@ h1 { font-size: var(--rd-font-size-title); line-height: 1.2; font-weight: 680; l
     .dirty-indicator { flex-basis: auto; }
   }
 }
-@media (pointer: coarse), (pointer: none) {
-  .pagination .page-size, .page-jump > .rd-input { min-height: var(--rd-touch-height); font-size: var(--rd-font-size-body); }
-}
 @media (prefers-reduced-motion: reduce) {
   * { scroll-behavior: auto !important; }
   .mobile-outline summary::after { transition: none; }
-}
-/* Compact pagination: visible controls stay small, touch hit areas still reach 44px. */
-@media (max-width: 799px) {
-  .pagination, html:is([data-density="standard"], [data-density="compact"]) .pagination { padding: 6px 12px; min-height: 48px; gap: 8px; }
-  .pagination .page-size { position: relative; min-width: 96px; min-height: 36px; font-size: var(--rd-font-size-xs); }
-  html:is([data-density="standard"], [data-density="compact"]) .pagination .page-size { min-height: 36px; }
-  .pagination .page-size::after { content: ''; position: absolute; inset: -5px -3px; }
-  .page-buttons .rd-icon-button { position: relative; width: 36px; min-width: 36px; min-height: 36px; }
-  .page-buttons .rd-icon-button::after { content: ''; position: absolute; inset: -5px; }
-  .page-position { font-size: var(--rd-font-size-xs); }
 }
 
 /* Chrome scale: one visual scale for shell and page chrome.
