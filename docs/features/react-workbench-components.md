@@ -181,3 +181,10 @@ Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前
 - 调用方控制 `value` 和 `draft`。`onValueChange` 接收删除后的标签，`onDraftChange` 接收正在编辑的文字，`onAdd` 由调用方校验并提交草稿。添加按钮和逐项删除按钮的名称由 `addLabel` 与 `removeLabel(tag)` 提供。在 FormField 内由现有 Input 关联字段标签、帮助和错误，独立使用时传 `label`。禁用时输入、添加、删除均不可操作。
 - 添加与删除后焦点回输入框，输入为空时 Backspace 一次删除一项，组合输入期间保留 IME 按键。长标签在窄容器换行，粗指针下操作沿用 44px 目标。组件页可尝试有效输入、超限错误与禁用状态。
 - Chrome 首验后，Safari 27.0.1 与 Firefox 159.0.1 各通过 12 组布局与 4 组功能流程。原生键盘与焦点环在 Safari 的 Option+Tab 和 Firefox 前台的 Tab 路径验证。Safari / Firefox 的粗指针 44px 命中、真实输入法、实体设备和屏幕阅读器朗读待验证。视觉已由所有者复审确认并登记为 [F-02.4 修订](visual-baseline-proposal.md#taginput-修订登记2026-11-09)。[开发记录](../devlogs/2026-W46.md#taginput-跨浏览器补验2026-11-09)
+
+## 浮层入场试点（2026-11-14）
+
+- 背景：评估外部动效库 EasyUI（MIT，React + Tailwind + Framer Motion）后不引入依赖，只借“浮层从触发边生长”的关系，用现有 CSS 与 token 实现。
+- 实现：Select / DropdownMenu / Tooltip 打开时 `opacity 0 → 1`、`scale .96 → 1`，原点取 Radix 的 popper transform-origin；Select / Menu 160ms，Tooltip 120ms，缓动 `ease-enter`。关闭仍即时，不做退出动画。
+- 验证：Chrome 157 无头实测 computed 值与截图。`data-side="top"` 的账户菜单原点落在右下，底部 Select 原点落在左上；Tooltip 以 `delayed-open` 走 120ms；减少动态下 `animation: none`。键盘 Enter 打开、首项焦点、Escape 关闭并回焦不变。
+- 边界：未覆盖 Safari / Firefox、真机、低帧率设备和 Flutter 对应语义；视觉未提交基准评审。
