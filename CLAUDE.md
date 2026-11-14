@@ -1,6 +1,6 @@
-# RadishUI Claude 协作入口
+# RadishUI AI 协作入口
 
-本文件为 Claude 协作者提供 RadishUI 的启动级长期约束。
+本文件为 AI 协作者提供 RadishUI 的启动级长期约束。
 
 ## 定位与规则来源
 
@@ -75,4 +75,4 @@
 ## 入口维护
 
 - 只有跨任务、跨阶段且必须启动即生效、无法仅靠专题路由可靠承载的规则进入根入口；详细规则、阶段状态、临时门禁和历史流水归对应文档。
-- `AGENTS.md` 与 `CLAUDE.md` 除标题和入口说明外保持同步；修改任一份时同步另一份，并运行 `npm run check:repo`。
+- `AGENTS.md` 与 `CLAUDE.md` 必须逐字节一致；修改任一份时同步另一份，并运行 `npm run check:repo`。

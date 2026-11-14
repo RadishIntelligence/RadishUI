@@ -6,7 +6,7 @@
 
 | 文件 | 职责 |
 | --- | --- |
-| `AGENTS.md` / `CLAUDE.md` | 简短协作入口与任务路由，正文同步 |
+| `AGENTS.md` / `CLAUDE.md` | 全文一致的协作入口与任务路由 |
 | `CONTRIBUTING.md`、`CODE_OF_CONDUCT.md`、`SECURITY.md` | 贡献、行为、安全报告边界 |
 | `.editorconfig` / `.gitattributes` | UTF-8、LF、末尾换行；二进制与 Pencil 不做文本合并 |
 | `.gitignore` | 本地 IDE、凭据、缓存、构建与验证输出；保留 token CSS 产物例外 |
