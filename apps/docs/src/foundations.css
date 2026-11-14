@@ -1,11 +1,6 @@
 .foundations-page { max-width: 1040px; min-width: 0; }
 .foundations-back { display: inline-flex; align-items: center; gap: 4px; }
 .foundations-intro { max-width: 760px; margin: 0 0 var(--rd-space-4); color: var(--rd-text-secondary); font-size: var(--rd-font-size-sm); line-height: 1.7; }
-.foundation-section { display: grid; gap: var(--rd-space-4); padding-block: var(--rd-space-6); border-top: 1px solid var(--rd-border-soft); }
-.foundation-heading { display: grid; gap: var(--rd-space-1); max-width: 760px; }
-.foundation-eyebrow { color: var(--rd-text-secondary); font-family: var(--rd-font-mono); font-size: var(--rd-font-size-xs); }
-.foundation-heading h2 { font-size: 1.125rem; font-weight: 600; }
-.foundation-heading p { color: var(--rd-text-secondary); font-size: var(--rd-font-size-sm); line-height: 1.7; }
 .foundation-theme-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--rd-space-3); }
 .foundation-theme-card { min-width: 0; }
 .foundation-theme-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--rd-space-1) var(--rd-space-3); margin-bottom: var(--rd-space-3); }

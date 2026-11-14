@@ -1,8 +1,6 @@
 .components-page { min-width: 0; }
 .component-back, .component-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--rd-space-2); }
-.component-example { padding-block: var(--rd-space-5); border-top: 1px solid var(--rd-border-soft); min-width: 0; }
-.component-example h2 { font-size: var(--rd-font-size-body); font-weight: 600; }
-.component-demo { display: grid; justify-items: start; gap: var(--rd-space-3); padding-block: var(--rd-space-4); min-width: 0; }
+.component-demo { display: grid; justify-items: start; gap: var(--rd-space-3); min-width: 0; }
 .component-demo > *, .component-demo form { min-width: 0; max-width: 100%; }
 .component-demo p, .component-demo span { overflow-wrap: anywhere; }
 .component-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--rd-space-4); width: 100%; max-width: 720px; }
@@ -12,7 +10,7 @@
 .component-contract > div { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: var(--rd-space-3); }
 .component-contract dt { color: var(--rd-text-secondary); }
 .component-contract dd { overflow-wrap: anywhere; }
-.component-code { margin-top: var(--rd-space-3); font-size: var(--rd-font-size-sm); }
+.component-code { font-size: var(--rd-font-size-sm); }
 .component-code summary { width: fit-content; cursor: pointer; padding: var(--rd-space-2); border: 1px solid var(--rd-border-soft); border-radius: var(--rd-radius-small); background: var(--rd-bg-muted); }
 .component-code pre { margin: var(--rd-space-3) 0 0; padding: var(--rd-space-3); border-radius: var(--rd-radius-small); background: var(--rd-bg-muted); font-family: var(--rd-font-mono); white-space: pre-wrap; overflow-wrap: anywhere; }
 .component-tab-copy { padding-block: var(--rd-space-3); }
@@ -26,7 +24,7 @@
 @media (pointer: fine) {
   html[data-density="compact"] .component-scope { margin-block: var(--rd-space-3); }
   html[data-density="compact"] .component-example { padding-block: var(--rd-space-3); }
-  html[data-density="compact"] .component-demo { padding-block: var(--rd-space-3); gap: var(--rd-space-2); }
+  html[data-density="compact"] .component-demo { gap: var(--rd-space-2); }
   html[data-density="compact"] .component-contract { gap: var(--rd-space-1); }
 }
 @media (pointer: fine) and (min-width: 480px) and (max-width: 799px) {
