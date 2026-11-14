@@ -9,3 +9,4 @@ export { TagInput, type TagInputProps } from './TagInput';
 export { ConfirmDialog, type ConfirmDialogProps } from './ConfirmDialog';
 export { Pagination, TableOfContents, defaultPaginationLabels, type PaginationProps, type PaginationLabels, type TableOfContentsProps, type TableOfContentsItem } from './Navigation';
 export { Card, Section, type CardProps, type CardTone, type CardPadding, type SectionProps } from './Layout';
+export { Table, type TableProps } from './Table';

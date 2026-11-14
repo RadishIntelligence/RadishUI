@@ -1,5 +1,5 @@
 import { useEffect, useLayoutEffect, useRef, useState, type FormEvent } from 'react';
-import { Button, Card, Checkbox, ConfirmDialog, Dialog, Drawer, FormField, IconButton, InlineAlert, Input, Menu, Pagination, Select, Textarea, Tag, TagInput, ToggleGroup } from '@radish-ui/react';
+import { Button, Card, Checkbox, ConfirmDialog, Dialog, Drawer, FormField, IconButton, InlineAlert, Input, Menu, Pagination, Select, Table, Textarea, Tag, TagInput, ToggleGroup } from '@radish-ui/react';
 import { ArrowUpRight, FileText, History, ListChecks, LockKeyhole, MoreHorizontal, Palette, PanelsTopLeft, Plus, RefreshCw, Search, Trash2 } from 'lucide-react';
 import { PageHeader } from './PageHeader';
 import { appendResourceTags, filterResources, formatDate, kindLabel, pageCount, resourceTagError, resourceTagLimits, statusLabel, type Preferences, type Resource, type ResourceKind, type Translate } from './model';
@@ -82,10 +82,10 @@ export function ResourcesPage({ resources, error, save, retry, t, locale, notify
     <div className="state-actions"><Button variant="secondary" onClick={retry}>{t('重试', 'Retry')}</Button><Button variant="secondary" onClick={() => setRestoreOpen(true)}>{t('恢复演示数据', 'Restore demo data')}</Button></div>
   </div> : resources === undefined ? <div className="resource-state" role="status">{t('正在读取本地资源…', 'Loading local resources…')}</div>
     : <div className={`resources-layout ${selected ? '' : 'is-empty'}`}>
-      <div className="resource-table-panel">
+      <Card padding="none" className="resource-table-panel">
         <div className="resource-table-scroll">
         {visible.length ? <>
-          <table className="resource-table"><caption className="sr-only">{t('资源列表', 'Resource list')}</caption>
+          <Table label={t('资源列表', 'Resource list')} className="resource-table" stickyHeader={!scrollFallback}>
             <colgroup><col /><col className="status-column" /><col className="updated-column" /><col className="action-column" /></colgroup>
             <thead><tr><th scope="col">{t('资源名称', 'Resource name')}</th><th scope="col">{t('状态', 'Status')}</th><th scope="col">{t('最近更新', 'Updated')}</th><th scope="col"><span className="sr-only">{t('操作', 'Open')}</span></th></tr></thead>
             <tbody>{visible.map(item => {
@@ -98,7 +98,7 @@ export function ResourcesPage({ resources, error, save, retry, t, locale, notify
                 <td><IconButton className="resource-open" label={t(`打开 ${item.name}`, `Open ${item.name}`)} onClick={event => { event.stopPropagation(); openResource(item); }}><ArrowUpRight /></IconButton></td>
               </tr>;
             })}</tbody>
-          </table>
+          </Table>
           <ul className="resource-mobile-list" aria-label={t('资源列表', 'Resource list')}>
             {visible.map(item => {
               const Icon = kindIcons[item.kind];
@@ -129,7 +129,7 @@ export function ResourcesPage({ resources, error, save, retry, t, locale, notify
             jumpAction: t('跳转', 'Go'),
             jumpError: total => t(`请输入 1–${total} 之间的整数。`, `Enter a whole number from 1 to ${total}.`),
           }} />}
-      </div>
+      </Card>
       {selected && <Card asChild><aside className="resource-detail-panel" aria-label={t('当前资源', 'Current resource')}>{details}</aside></Card>}
     </div>;
 

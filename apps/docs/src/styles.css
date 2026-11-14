@@ -121,7 +121,7 @@ h1 { font-size: var(--rd-font-size-title); line-height: 1.2; font-weight: 680; l
 .resource-search > .rd-input { border-radius: var(--rd-radius-pill); background: var(--rd-bg-muted); padding-left: 36px; }
 .resources-layout { flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(0, 1fr) 280px; grid-template-rows: minmax(0, 1fr); gap: 16px; align-items: start; }
 .resources-layout.is-empty { grid-template-columns: minmax(0, 1fr); }
-.resource-table-panel { min-width: 0; min-height: 0; height: 100%; display: flex; flex-direction: column; border: 1px solid var(--rd-border-soft); border-radius: var(--rd-radius-panel); overflow: hidden; }
+.resource-table-panel { min-width: 0; min-height: 0; height: 100%; display: flex; flex-direction: column; overflow: hidden; }
 .resource-table-scroll { flex: 1; min-height: 0; overflow: auto; overscroll-behavior: contain; }
 .resource-table-scroll > .empty-state { min-height: 100%; }
 /* Degraded R1: the page becomes the single scroll owner when the list would be unusably short. */
@@ -130,13 +130,9 @@ h1 { font-size: var(--rd-font-size-title); line-height: 1.2; font-weight: 680; l
 .resources-page.is-scroll-fallback .resources-layout { flex: none; }
 .resources-page.is-scroll-fallback .resource-table-panel { height: auto; overflow: visible; }
 .resources-page.is-scroll-fallback .resource-table-scroll { overflow: visible; }
-.resources-page.is-scroll-fallback .resource-table th { position: static; }
-.resource-table { border-collapse: collapse; table-layout: fixed; width: 100%; text-align: left; }
 .resource-table .status-column { width: max(100px, 6.25rem); }
 .resource-table .updated-column { width: max(124px, 7.75rem); }
 .resource-table .action-column { width: max(52px, 3.25rem); }
-.resource-table th { position: sticky; top: 0; z-index: 1; height: 42px; padding: 8px 12px; font-size: var(--rd-font-size-xs); font-weight: 400; color: var(--rd-text-secondary); background: var(--rd-bg-muted); }
-.resource-table td { height: 64px; padding: 8px 12px; border-bottom: 1px solid var(--rd-border-soft); }
 .resource-table tbody tr:hover:not(.is-selected) td { background: var(--rd-bg-muted); }
 .resource-table tr.is-selected td, .resource-mobile-list .is-selected { background: var(--rd-bg-selected); }
 .resource-table td:first-child { padding: 0 12px; }
