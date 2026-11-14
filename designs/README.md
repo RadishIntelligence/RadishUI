@@ -1,5 +1,7 @@
 # 原生设计源
 
+新组件与新交互采用 Penpot 时，将可编辑源稿和评审说明按专题和版本归入 `designs/reviews/`，由评审说明链接 `assets/design-baselines/candidates/` 下的同版预览。具体目录与恢复步骤见设计系统契约。[Penpot 评审包与恢复验证](../docs/development/design-system.md#penpot-评审包与恢复验证)
+
 [`radish-ui-workbench-v1.pen`](radish-ui-workbench-v1.pen) 是通过 Pen App / Pencil MCP 创建的历史候选源，同时保留 Workbench v1 与 `MR /` 现代圆角探索。整个文档为 2257 节点、16 个可复用部件。2026-11-14 停用 Pencil，旧稿、预览和评审记录归档。新设计流程见[设计系统契约](../docs/development/design-system.md#验收与证据)。
 
 当前评审见[现代圆角探索](../docs/design/patterns/modern-rounded-v1.md)：12 个主组合、2 个控件板、8 个本轮复用部件；侧栏已按所有者选择采用独立底板、连续列表、当前项高亮，账号与工作区保持独立，文档目录使用整体区域与连续章节行；此前的密度、分页、标题、底栏和留白修订保留。清单为 [modern manifest](modern-rounded-v1.manifest.json)，另有 [variables](modern-rounded-v1.variables.json) 与 [contrast](modern-rounded-v1.contrast.json)。
