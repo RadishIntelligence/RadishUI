@@ -197,3 +197,12 @@ Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前
 - 纯函数 `paginationRange` / `validatePage` 移到 `packages/react/src/pagination.ts`（无 JSX），页面模型只保留 `pageCount`；原有测试改为直接导入新位置，断言不变。
 - 验证：Chrome 157 无头，1440 / 390 / 320+200%、明暗。单页、三页、页码切换、跳页非法与合法、390 隐藏页码与跳页、目录当前章节、键盘 Enter 激活页码与目录链接、组件页五组 tabs 窄屏换行均通过；无横向溢出、无 pageerror。跳页按钮焦点环距面板边缘 13px，未被裁切。
 - 边界：只验证细指针无头环境；粗指针 44px 命中、Safari / Firefox、真机与屏幕阅读器未复验。窄屏目录链接在精细指针下按密度保持约 37px，粗指针沿用既有 44px 规则。视觉未提交基准评审。
+
+## Card 表面原语（2026-11-14）
+
+- 来源：概览卡片与色板、视觉基础四类卡片、平台卡片、资源详情面板、文档目录、组件页目录示例各自重复同一套表面配方（`border-soft` + `radius-panel` + 12 / 16px 内边距 + surface / muted / app 底色）。本轮抽为共享 `Card`。
+- API：`tone: surface | muted | app`、`padding: none | sm（12px）| md（16px）`；默认 `div`，`asChild` 通过 Radix Slot 附着到单个子元素，用于链式卡片，不新增依赖。组件只负责表面与内边距，网格、flex 与定位仍由页面负责。
+- 迁移：概览卡片与色板、视觉基础主题 / 字阶 / 空间 / 状态四类卡片、平台入口卡、资源详情 `aside`、文档目录、组件页目录示例。`overview-palette` 移动端原本单独写 10px，统一回到 12px 角色。
+- 收敛结果：卡片内边距只剩 `sm` 12px 与 `md` 16px 两档；20 / 24 / 26px 属于页面与区块间距，不再混作卡片内边距。资源详情面板在标准 / 紧凑密度下的 12px 仍由站点密度规则覆盖，属于待 token 化的已知例外。
+- 验证：Chrome 157 无头实测计算值——概览卡片 12px / `rgb(255,255,255)`、视觉基础主题卡 16px / `rgb(245,246,248)`、平台链接卡 16px、资源详情 12px、文档目录 12px / `rgb(240,242,245)`；1440 / 390、明暗无横向溢出与 pageerror，`asChild` 的 `<a>` 与 `<aside>` 语义保留。证据在忽略目录 `output/card-primitive/`。
+- 边界：未覆盖粗指针、Safari / Firefox、真机与屏幕阅读器；视觉基准待所有者评审。Section、Table 与组件页模板仍待下一批。
