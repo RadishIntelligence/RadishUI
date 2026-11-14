@@ -2,7 +2,7 @@
 
 Workbench 默认没有纸纹、山水、云纹或传统边饰；Brand 如需使用，只能放在弱背景和边缘，不能降低正文、按钮、表单、图表或二维码的可读性。温润首先来自比例、色彩与留白。
 
-Logo、Mascot 与视觉素材不是通用组件的默认内容。RadishX 的萝小白设定、下载与传播许可仍由 [RadishX 素材治理](https://github.com/laugh0608/RadishX/blob/c0f57ae/docs/assets/materials.md)管理；本次未搬运相关素材，也未扩大授权。
+Logo、Mascot 与视觉素材不是通用组件的默认内容。RadishX 的萝小白设定、下载与传播许可仍由 [RadishX 素材治理](https://github.com/RadishIntelligence/RadishX/blob/c0f57ae/docs/assets/materials.md)管理；本次未搬运相关素材，也未扩大授权。
 
 同一产品使用一致的图标风格，图标与必要文字共同表达动作或状态。Pen 候选使用应用内置 Lucide 图标，仅作为设计预览；RadishUI 运行时统一使用 `lucide-react`，未复制图标文件到设计资产，也不替产品迁移依赖。
 
