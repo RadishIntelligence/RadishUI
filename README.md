@@ -40,7 +40,7 @@ npm run build
 - workspace 包名为工程内部名称，全部设置 `private: true`；不代表公开包名或兼容范围已经冻结。
 - 现阶段 React 工程使用 React 19；Ink 的 React 18 兼容留待专门验证。
 - 产品业务、权限、接口、路由和领域状态由各产品维护。
-- 许可、正式发行与跨产品迁移另行决定，本轮没有发布组件包。
+- 原创组件、token、范例和文档采用 [RadishUI Source-Available License 1.0](LICENSE)。可研究和内部评估，产品接入与组件发行按单独授权执行。
 
 ## 文档与托管
 

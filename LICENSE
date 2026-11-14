@@ -1,0 +1,59 @@
+RadishUI Source-Available License
+Version 1.0, November 14, 2026
+
+Copyright (c) 2026 RadishUI Project Owner and applicable contributors.
+All rights reserved.
+
+1. Scope
+
+This license covers only original RadishUI components, tokens, examples, and
+documentation that their copyright holders make available under these terms
+(the Project). It excludes third-party dependencies, fonts, icons, external
+reference material, and the portions of historical family-ui material and
+adaptations governed by the RadishX source license. Their existing notices
+and licenses continue to apply. This license preserves rights under
+applicable law, hosting-platform terms, and existing separate permissions.
+
+2. Study, evaluation, and authorized product use
+
+The copyright holders grant you a worldwide, non-exclusive, royalty-free
+license to view the Project on authorized platforms and to download, build,
+run, and privately modify it for study or internal evaluation. You may use
+the official or an authorized Workbench site in the ordinary course.
+
+The copyright holders may separately authorize adoption by a specific
+product. That authorization controls the approved components, versions,
+products, and distribution, including delivery of incorporated assets to
+end users where authorized. It does not extend to other products or new
+uses. Retain copyright, attribution, and license notices in permitted
+copies and modifications.
+
+3. Uses requiring separate permission
+
+Prior written permission is required to use the Project in a product,
+commercial or otherwise, or to publish, mirror, or redistribute the Project
+or modified versions, including standalone packages, derived component
+libraries, tokens, or hosted copies of the Workbench. Rights expressly
+granted under Sections 1 and 2 remain available. This license grants no
+rights to use Project names or marks to brand an unofficial offering.
+
+4. Contributions
+
+By submitting material for inclusion in the Project, you represent that you
+have the right to submit it and, unless otherwise agreed in writing, grant
+the RadishUI Project Owner a worldwide, perpetual, irrevocable,
+non-exclusive, royalty-free license to use, reproduce, modify, distribute,
+and relicense the contribution. You retain copyright in your contribution.
+
+5. Warranty and liability
+
+THE PROJECT IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
+PURPOSE, AND NON-INFRINGEMENT. TO THE EXTENT PERMITTED BY APPLICABLE LAW,
+THE COPYRIGHT HOLDERS AND CONTRIBUTORS ARE NOT LIABLE FOR CLAIMS, DAMAGES,
+OR OTHER LIABILITY ARISING FROM THE PROJECT OR ITS USE.
+
+6. Licensing contact
+
+For product adoption, redistribution, or other permissions, contact
+luobo@radishx.com.
