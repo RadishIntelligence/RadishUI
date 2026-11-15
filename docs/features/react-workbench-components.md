@@ -19,7 +19,7 @@
 | --- | --- |
 | Button / IconButton | 保留原生 button 属性、ref、四种 variant 与 loading，增加 sm / md；默认 type=button，loading 禁用并带 aria-busy。IconButton 的 label 必填；loading 时仅显示 spinner 并替换图标，不与图标叠加 |
 | FormField / Input / Textarea | FormField 提供 label、hint / error、required 与稳定 id；Input / Textarea 读取字段上下文关联 aria-describedby / aria-invalid，也可独立传入原生属性；可选 surface: outline（默认）| filled。Switch 等其他控件由调用方显式关联 id / 标签及所需说明。失败不清空输入 |
-| Select | 受控 value / onValueChange、options、placeholder、disabled / required；可选 surface: outline（默认）| filled；触发值和箭头分离，浮层不透明，支持当前值、键盘、滚动与碰撞避让；已展开时再次点按触发器收起，触控关闭以同一次点按开始时的展开状态为准 |
+| Select | 受控 value / onValueChange、options、placeholder、disabled / required；可选 surface: outline（默认）| filled、size: sm（chrome 13px）| md（表单，桌面 13 / 触屏 16）；触发值和箭头分离，浮层不透明，支持当前值、键盘、滚动与碰撞避让；已展开时再次点按触发器收起，触控关闭以同一次点按开始时的展开状态为准 |
 | Checkbox / Switch | Checkbox 保留原生表单与键盘行为，Switch 使用受控 checked / onCheckedChange；标签、禁用、焦点与选择状态分别表达 |
 | InputOTP | 受控 value / onValueChange、label、length（默认 6）、hint / error、required、disabled、autoFocus、name、onEnterPress；数字输入、自动前进、退格 / 方向键 / Home / End、粘贴；每格为标准正方格并可访问，`name` 提交隐藏的完整值 |
 | RadioGroup | 受控 value / onValueChange，options: { value, label, disabled? }[]；orientation: vertical（默认）/ horizontal；name、required、disabled；FormField 内自动关联标签、说明与错误；方向键移动即选中，单项 label 使用字符串保证可访问名称 |
@@ -299,6 +299,7 @@ Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前
 ## Select 触发器与候选项字号（2026-11-15）
 
 - 现象：R1 每页条数选择器在 PC / 移动视图下，选中显示（触发器值）与候选项字号不一致。触发器在触屏由 `.rd-select` 切到 16px，内容与候选项仍停留在 13px；portal 内容在部分环境还会继承页面字号，导致 PC 上候选项反而偏大。
-- 修正：`.rd-select-item` / `.rd-menu-item` 显式使用 `--rd-font-size-sm`、`line-height: 1.5`；`(pointer: coarse)` / `(pointer: none)` 下 `.rd-select-content`、候选项与触发器、输入框一起切到 `--rd-font-size-body`（16px）。选中项保留 500 字重，不改变行高、选项宽度或选中逻辑。
-- 结果：桌面触发器 / 候选项 13 / 13，触屏 16 / 16，320+200% 触屏 32 / 32；候选项行高 34 / 44 / 60；四个候选项在 110 / 116 / 179px 弹层内无横向溢出；无 pageerror。证据在忽略目录 `output/select-font-2026-11-15/`。
-- 边界：Chrome 1440 / 390 触屏 / 320+200% 触屏；Safari / Firefox、实体设备与屏幕阅读器未复验；视觉待所有者复审，作为 F-02.4 补充记录。代码提交为 `4d72db1`。
+- 第一步修正（`4d72db1`）：`.rd-select-item` / `.rd-menu-item` 显式使用 `--rd-font-size-sm`、`line-height: 1.5`；触屏下内容、候选项与触发器一起切到 16px。
+- 第二步（`36c86f4`）：所有者反馈 16px 在页脚的密集 chrome 中仍突兀。`Select` 新增可选 `size: sm | md`：`sm` 用于页大小 / 状态筛选等 chrome，触发器、内容与候选项在桌面和触屏都保持 13px；`md` 用于表单，桌面 13 / 触屏 16，与 16px 输入框一致。选中项保留 500 字重，行高、选项宽度与选中逻辑不变。
+- 结果：390 触屏下 chrome 选择器 13 / 13、表单选择器 16 / 16；320+200% 触屏分别为 26 / 26 与 32 / 32；1440 均为 13；候选项行高 34 / 44 / 60；无横向溢出、无 pageerror。证据在忽略目录 `output/select-font-2026-11-15/` 与 `output/select-chrome-size-2026-11-15/`。
+- 边界：Chrome 1440 / 390 触屏 / 320+200% 触屏；Safari / Firefox、实体设备与屏幕阅读器未复验；视觉待所有者复审，作为 F-02.4 补充记录。代码提交为 `4d72db1` / `36c86f4`。

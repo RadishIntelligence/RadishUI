@@ -22,7 +22,7 @@ React 与 Flutter 分别实现，保持颜色角色、层级、状态含义及�
 - 同一视觉模式只允许一个共享实现和一组共享尺寸变量；页面通过 `size` / variant 等语义参数选择尺寸，不得用页面 CSS 改 padding、font-size、height、radius 或覆盖共享变量。
 - 分段控件（Tabs / ToggleGroup）由同一组 `--rd-segmented-*` 变量驱动。`md`（导航 tabs）：list padding 3px、item padding 0 10px（垂直留白由最小高度提供）、font 13px、line-height 1.2；桌面轨道 34 / 药丸 28，移动轨道随密度 38 / 42 / 46 / 药丸 32 / 36 / 40；`lg`（工具条筛选）：list 3、item padding 0 10px、font 13px，与 `md` tabs 完全同尺寸（桌面 34 / 28，移动 38–46 / 32–40）；`sm`：list 2px、item 24px、item padding 2px 8px、font `--rd-font-size-xs`。工作台按上下文传 `size="md"` 或 `size="lg"`，页面只传 `size`。触屏下分段控件与按钮保持各自视觉高度，命中区由 `::after` 扩展到 44 / 44 / 46px；≤799px 的控件高度按移动密度映射为 38 / 42 / 46px（默认 42），桌面保持 30 / 34 / 38（默认 34）。
 - 页面组合必须使用 PageHeader / Section / Segmented / Table / Pagination / TOC 等页面原语；尺寸、间距、分割线与卡片内边距由原语/变量决定，页面不写一次性尺寸。
-- Select 的触发器选中值与候选项使用同一字号角色：桌面 13px、触屏 16px（`--rd-font-size-sm` / `--rd-font-size-body`）；弹层内容不另继承页面字号，也不在同一选择器内混用 13 / 16。
+- Select 的触发器、内容与候选项使用同一字号角色，并由 `size` 区分：`sm`（页大小 / 状态筛选等 chrome）桌面与触屏均为 13px；`md`（表单）桌面 13px、触屏 16px。弹层内容不另继承页面字号，也不在同一选择器内混用 13 / 16。
 - 复合原语内部的可交互控件同样消费 `--rd-control-height` / `--rd-control-height-sm`，不各自保留 30 / 32 / 34 等历史尺寸；单页与多页、组件示例与页面用法使用同一尺度。Pagination 的页大小选择器、页码、前后翻页与跳页输入按此执行；触屏选择器与输入框的命中就是视觉高度（DR-16 例外），不用 `::after` 或单独放大到 `--rd-touch-height` 制造假命中。
 - 内容与分割线之间至少 16px（`--rd-space-4`）；分割线属于区块边界，不能紧贴文字或导航。
 - 视觉验收必须比较同一组件在不同页面的同一视口、同一缩放下的计算值（宽、高、padding、font-size、line-height），并检查分割线/卡片间距；页面级尺寸覆盖没有书面例外不得合入。
