@@ -22,7 +22,7 @@ export function ConfirmDialog({ open, onOpenChange, title, description, children
     if (!next && loading) return;
     onOpenChange(next);
   };
-  return <Dialog open={open} onOpenChange={change} title={title} description={description} closeLabel={closeLabel} initialFocusRef={cancelRef} role="alertdialog"
+  return <Dialog open={open} onOpenChange={change} title={title} description={description} closeLabel={closeLabel} closeDisabled={loading} initialFocusRef={cancelRef} role="alertdialog"
     footer={<>
       <Button ref={cancelRef} variant="secondary" disabled={loading} onClick={() => onOpenChange(false)}>{cancelLabel}</Button>
       <Button variant={tone === 'danger' ? 'danger' : 'primary'} loading={loading} onClick={onConfirm}>{confirmLabel}</Button>

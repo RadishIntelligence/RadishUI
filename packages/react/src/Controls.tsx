@@ -62,11 +62,20 @@ export function ToggleGroup(props: ToggleGroupProps) {
     onKeyDownCapture: () => setPointerFocus(false),
     onBlur: (event: FocusEvent<HTMLDivElement>) => { if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setPointerFocus(false); },
   };
-  const content = items.map(item => <ToggleGroupPrimitive.Item key={item.value} value={item.value} disabled={item.disabled || disabled} className="rd-toggle-group__item">
-    {item.label}
-  </ToggleGroupPrimitive.Item>);
+  const isMultiple = props.type === 'multiple';
+  const content = items.map(item => {
+    // A single ToggleGroup exposes radio roles. Radix moves focus with the arrow keys but
+    // does not check the focused item, so align it with the radio-group contract here.
+    const selectOnFocus = !isMultiple && !disabled && !item.disabled && (props as ToggleGroupSingleProps).value !== item.value
+      ? () => (props as ToggleGroupSingleProps).onValueChange(item.value)
+      : undefined;
+    return <ToggleGroupPrimitive.Item key={item.value} value={item.value} disabled={item.disabled || disabled}
+      className="rd-toggle-group__item" onFocus={selectOnFocus}>
+      {item.label}
+    </ToggleGroupPrimitive.Item>;
+  });
   const cls = `rd-toggle-group ${className}`.trim();
-  if (props.type === 'multiple') return <ToggleGroupPrimitive.Root type="multiple" value={props.value} onValueChange={props.onValueChange} disabled={disabled} aria-label={label} className={cls} data-size={size} {...focusProps}>{content}</ToggleGroupPrimitive.Root>;
+  if (isMultiple) return <ToggleGroupPrimitive.Root type="multiple" value={props.value} onValueChange={props.onValueChange} disabled={disabled} aria-label={label} className={cls} data-size={size} {...focusProps}>{content}</ToggleGroupPrimitive.Root>;
   return <ToggleGroupPrimitive.Root type="single" value={props.value} onValueChange={value => { if (value) props.onValueChange(value); }} disabled={disabled} aria-label={label} className={cls} data-size={size} {...focusProps}>{content}</ToggleGroupPrimitive.Root>;
 }
 

@@ -29,6 +29,7 @@ export function ResourcesPage({ resources, error, save, retry, t, locale, densit
   const [deleteTarget, setDeleteTarget] = useState<Resource>();
   const [versionTarget, setVersionTarget] = useState<Resource>();
   const [restoreOpen, setRestoreOpen] = useState(false);
+  const [restoring, setRestoring] = useState(false);
   const [mutationError, setMutationError] = useState('');
   const [scrollFallback, setScrollFallback] = useState(false);
   const pageRef = useRef<HTMLElement>(null);
@@ -65,6 +66,21 @@ export function ResourcesPage({ resources, error, save, retry, t, locale, densit
     if (window.matchMedia('(max-width: 1099px)').matches) setDrawerOpen(true);
   }
   function resetPage() { setPage(1); }
+  function openRestore() { setMutationError(''); setRestoreOpen(true); }
+  async function restoreDemoData() {
+    setRestoring(true);
+    setMutationError('');
+    try {
+      const { initialResources } = await import('./seed');
+      const failure = save(initialResources);
+      if (failure) setMutationError(failure);
+      else { setRestoreOpen(false); setMutationError(''); resetPage(); }
+    } catch (error) {
+      setMutationError(error instanceof Error ? error.message : String(error));
+    } finally {
+      setRestoring(false);
+    }
+  }
   function remove() {
     if (!resources || !deleteTarget) return;
     const failure = save(resources.filter(item => item.id !== deleteTarget.id));
@@ -79,7 +95,7 @@ export function ResourcesPage({ resources, error, save, retry, t, locale, densit
     onVersion={() => setVersionTarget(selected)} onDelete={() => { setMutationError(''); setDeleteTarget(selected); }} />;
 
   const content = error ? <div className="resource-state"><InlineAlert tone="danger" title={t('资源未能载入', 'Resources could not be loaded')}>{error}</InlineAlert>
-    <div className="state-actions"><Button variant="secondary" onClick={retry}>{t('重试', 'Retry')}</Button><Button variant="secondary" onClick={() => setRestoreOpen(true)}>{t('恢复演示数据', 'Restore demo data')}</Button></div>
+    <div className="state-actions"><Button variant="secondary" onClick={retry}>{t('重试', 'Retry')}</Button><Button variant="secondary" onClick={openRestore}>{t('恢复演示数据', 'Restore demo data')}</Button></div>
   </div> : resources === undefined ? <div className="resource-state" role="status">{t('正在读取本地资源…', 'Loading local resources…')}</div>
     : <div className={`resources-layout ${selected ? '' : 'is-empty'}`}>
       <Card padding="none" className="resource-table-panel">
@@ -136,7 +152,7 @@ export function ResourcesPage({ resources, error, save, retry, t, locale, densit
   return <section className={`resources-page${scrollFallback ? ' is-scroll-fallback' : ''}`} ref={pageRef}>
     <PageHeader title={t('资源库', 'Resources')} titleRef={title} actions={<>
       <Menu trigger={<IconButton className="page-menu" label={t('页面操作', 'Page actions')}><MoreHorizontal /></IconButton>} items={[
-        { id: 'restore', label: t('恢复演示数据', 'Restore demo data'), icon: <RefreshCw />, onSelect: () => setRestoreOpen(true) },
+        { id: 'restore', label: t('恢复演示数据', 'Restore demo data'), icon: <RefreshCw />, onSelect: openRestore },
       ]} />
       <Button onClick={() => setCreateOpen(true)} disabled={resources === undefined || Boolean(error)}><Plus />{t('新建资源', 'New resource')}</Button>
     </>} />
@@ -168,25 +184,19 @@ export function ResourcesPage({ resources, error, save, retry, t, locale, densit
     <Dialog open={Boolean(versionTarget)} onOpenChange={open => { if (!open) setVersionTarget(undefined); }} title={t('版本信息', 'Version information')} closeLabel={t('关闭', 'Close')}>
       {versionTarget && <><dl className="property-list"><div><dt>{t('版本', 'Version')}</dt><dd>{versionTarget.version}</dd></div><div><dt>{t('最近更新', 'Updated')}</dt><dd>{formatDate(versionTarget.updatedAt, locale)}</dd></div></dl><p className="field-help">{t('此本地范例只提供当前版本，没有远端版本历史。', 'This local example provides only the current version, without remote history.')}</p></>}
     </Dialog>
-    <Dialog open={restoreOpen} onOpenChange={setRestoreOpen} title={t('恢复演示数据？', 'Restore demo data?')} closeLabel={t('关闭', 'Close')}
+    <ConfirmDialog open={restoreOpen} onOpenChange={setRestoreOpen} title={t('恢复演示数据？', 'Restore demo data?')} closeLabel={t('关闭', 'Close')}
       description={t('这会覆盖当前浏览器中的资源列表，不影响偏好或文档。', 'This replaces the local resource list. Preferences and documents are not affected.')}
-      footer={<><Button variant="secondary" onClick={() => setRestoreOpen(false)}>{t('取消', 'Cancel')}</Button><Button onClick={async () => {
-        try {
-          const { initialResources } = await import('./seed');
-          const failure = save(initialResources);
-          if (failure) setMutationError(failure); else { setRestoreOpen(false); setMutationError(''); resetPage(); }
-        } catch (error) { setMutationError(error instanceof Error ? error.message : String(error)); }
-      }}>{t('恢复', 'Restore')}</Button></>}>
+      confirmLabel={t('恢复', 'Restore')} cancelLabel={t('取消', 'Cancel')} tone="danger" loading={restoring} onConfirm={restoreDemoData}>
       {mutationError && <InlineAlert tone="danger">{mutationError}</InlineAlert>}
-    </Dialog>
+    </ConfirmDialog>
   </section>;
 }
 
 function ResourceDetails({ resource, t, locale, onVersion, onDelete, variant = 'aside' }: { resource: Resource; t: Translate; locale: Preferences['locale']; onVersion(): void; onDelete(): void; variant?: 'aside' | 'drawer' }) {
   const Icon = kindIcons[resource.kind];
   const actions = <div className="detail-caption-actions">
-    <Button variant="secondary" size="sm" className="detail-open" onClick={() => openResource(resource)}><ArrowUpRight />{t('打开', 'Open')}</Button>
-    <Menu trigger={<IconButton className="detail-menu" label={t('资源操作', 'Resource actions')}><MoreHorizontal /></IconButton>} items={[
+    <Button variant="secondary" size="sm" onClick={() => openResource(resource)}><ArrowUpRight />{t('打开', 'Open')}</Button>
+    <Menu trigger={<IconButton className="detail-menu" size="sm" label={t('资源操作', 'Resource actions')}><MoreHorizontal /></IconButton>} items={[
       { id: 'version', label: t('版本信息', 'Version information'), icon: <History />, onSelect: onVersion },
       { id: 'delete', label: t('删除资源', 'Delete resource'), icon: <Trash2 />, onSelect: onDelete, disabled: resource.status === 'readonly', danger: true, separatorBefore: true },
     ]} />

@@ -198,15 +198,16 @@ function DocumentReader({ resourceId = 'welcome', resource, preferences, section
         {copyError && <InlineAlert tone="danger">{copyError}</InlineAlert>}
       </div>
     </Dialog>
-    <Dialog open={restoreOpen} onOpenChange={setRestoreOpen} title={t('重新初始化文档库？', 'Reinitialize local documents?')} closeLabel={t('关闭', 'Close')}
+    <ConfirmDialog open={restoreOpen} onOpenChange={setRestoreOpen} title={t('重新初始化文档库？', 'Reinitialize local documents?')} closeLabel={t('关闭', 'Close')}
       description={t('这会清除当前浏览器中所有文档的已保存修改，恢复示例正文，不影响资源列表与偏好。', 'This clears saved document edits in this browser and restores the example text. Resources and preferences are not affected.')}
-      footer={<><Button variant="secondary" onClick={() => setRestoreOpen(false)}>{t('取消', 'Cancel')}</Button><Button variant="danger" onClick={() => {
+      confirmLabel={t('恢复示例正文', 'Restore example text')} cancelLabel={t('取消', 'Cancel')} tone="danger"
+      onConfirm={() => {
         if (externalChange) { setRestoreError(t('其他标签页已更新，请重新载入后再初始化文档库。', 'Another tab made changes. Reload before reinitializing documents.')); return; }
         const error = writeStored(storageKeys.articles, {});
         if (error) setRestoreError(error); else { setArticle(fallback); setDraft(fallback); setStoreError(undefined); setRestoreOpen(false); setRestoreError(''); exitEditing(); }
-      }}>{t('恢复示例正文', 'Restore example text')}</Button></>}>
+      }}>
       <p>{t('此操作无法撤销。', 'This cannot be undone.')}</p>
       {restoreError && <InlineAlert tone="danger">{restoreError}</InlineAlert>}
-    </Dialog>
+    </ConfirmDialog>
   </section>;
 }

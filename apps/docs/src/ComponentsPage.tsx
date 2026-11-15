@@ -12,7 +12,7 @@ function ActionExamples() {
   const [iconLoading, setIconLoading] = useState(false);
   return <>
     <Example name="Button" contract="variant: primary | secondary | ghost | danger；size: sm | md；loading、disabled；原生 onClick / type / ref。默认 type=button。"
-      keyboard="Tab 聚焦；Enter / Space 触发。悬停、按下和焦点可直接体验；loading 同时禁用并设置 aria-busy。示例开关只用于展示加载外观。"
+      keyboard="Tab 聚焦；Enter / Space 触发。悬停、按下和焦点可直接体验；loading 保留焦点并设置 aria-disabled / aria-busy，重复激活被拦截。示例开关只用于展示加载外观。"
       code={'<Button variant="secondary" onClick={() => setCount(n => n + 1)}>增加计数</Button>\n<Button loading={loading}>处理中</Button>'}>
       <div className="component-row">{(['primary', 'secondary', 'ghost', 'danger'] as const).map(variant => <Button key={variant} variant={variant} onClick={() => setCount(n => n + 1)}>{variant}</Button>)}</div>
       <div className="component-row"><Button size="sm" onClick={() => setCount(n => n + 1)}>小号按钮</Button><Button disabled>不可用</Button><Button loading={loading} onClick={() => setCount(n => n + 1)}>{loading ? '处理中' : '增加计数'}</Button></div>
@@ -147,7 +147,7 @@ function SelectionExamples() {
       <div className="component-row"><Tag>排版</Tag><Tag>English tag</Tag><Tag>较长标签用于检查窄屏换行与边界</Tag></div>
     </Example>
     <Example name="ToggleGroup" contract="type: single（默认）| multiple；value / onValueChange；items: { value, label, disabled? }[]；label、disabled。单选返回 string，多选返回 string[]。"
-      keyboard="Tab 进入组；方向键在项间移动，Space / Enter 切换；禁用项跳过。"
+      keyboard="Tab 进入组；方向键在项间移动，单选随焦点选中；Space / Enter 切换；禁用项跳过。"
       code={'<ToggleGroup type="multiple" label="显示选项" value={value} onValueChange={setValue} items={items} />'}>
       <ToggleGroup type="multiple" label="显示选项" value={displayOptions} onValueChange={setDisplayOptions} items={[
         { value: 'compact', label: '紧凑' }, { value: 'standard', label: '标准' }, { value: 'spacious', label: '宽松' }, { value: 'unavailable', label: '不可用', disabled: true },
@@ -194,7 +194,7 @@ function FeedbackExamples() {
   const [confirming, setConfirming] = useState(false);
   const nameRef = useRef<HTMLInputElement>(null);
   return <>
-    <Example name="Dialog" contract="open / onOpenChange、title、description、footer、closeLabel；initialFocusRef 指定初始焦点。保存逻辑由调用方处理。"
+    <Example name="Dialog" contract="open / onOpenChange、title、description、footer、closeLabel、closeDisabled；initialFocusRef 指定初始焦点。保存逻辑由调用方处理。"
       keyboard="打开后焦点进入，Tab / Shift+Tab 留在浮层内；Escape 关闭并恢复入口。可在内部使用 Select。错误保留输入。"
       code={'<Dialog open={open} onOpenChange={setOpen} title="编辑名称" initialFocusRef={inputRef}>\n  <FormField label="名称"><Input ref={inputRef} /></FormField>\n</Dialog>'}>
       <div className="component-row"><Button variant="secondary" onClick={() => { setDraft(saved); setError(''); setDialog(true); }}>打开对话框</Button><span>本页名称：{saved}</span></div>
@@ -204,7 +204,7 @@ function FeedbackExamples() {
           <FormField label="浮层类型"><Select value={category} onValueChange={setCategory} options={[{ value: 'document', label: '文档' }, { value: 'checklist', label: '清单' }]} /></FormField></div>
       </Dialog>
     </Example>
-    <Example name="ConfirmDialog" contract="基于 Dialog 的确认组合：open / onOpenChange、title、description、confirmLabel、cancelLabel、tone: default | danger、loading、onConfirm；初始焦点在取消，loading 时关闭被拦截。"
+    <Example name="ConfirmDialog" contract="基于 Dialog 的确认组合：open / onOpenChange、title、description、confirmLabel、cancelLabel、tone: default | danger、loading、onConfirm；初始焦点在取消，loading 时关闭入口禁用。"
       keyboard="打开后焦点进入取消按钮；Tab 在两个操作间移动，Escape / 关闭按钮关闭并回到入口；确认动作由调用方执行。"
       code={'<ConfirmDialog open={open} onOpenChange={setOpen} title="删除资源？" confirmLabel="删除" cancelLabel="取消" tone="danger" onConfirm={remove} />'}>
       <div className="component-row"><Button variant="danger" onClick={() => setConfirmOpen(true)}>删除示例资源</Button><Button variant="secondary" onClick={() => { setConfirming(false); setLoadingConfirmOpen(true); }}>打开加载确认</Button><span>{confirmResult}</span></div>

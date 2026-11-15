@@ -17,23 +17,23 @@
 
 | 组件 | 输入 / 输出与行为 |
 | --- | --- |
-| Button / IconButton | 保留原生 button 属性、ref、四种 variant 与 loading，增加 sm / md；默认 type=button，loading 禁用并带 aria-busy。IconButton 的 label 必填；loading 时仅显示 spinner 并替换图标，不与图标叠加 |
+| Button / IconButton | 保留原生 button 属性、ref、四种 variant 与 loading，增加 sm / md；默认 type=button。loading 保留焦点，设置 aria-disabled / aria-busy 并拦截重复激活；显式 disabled 仍使用原生 disabled。IconButton 的 label 必填；loading 时仅显示 spinner 并替换图标，不与图标叠加 |
 | FormField / Input / Textarea | FormField 提供 label、hint / error、required 与稳定 id；Input / Textarea 读取字段上下文关联 aria-describedby / aria-invalid，也可独立传入原生属性；可选 surface: outline（默认）| filled。Switch 等其他控件由调用方显式关联 id / 标签及所需说明。失败不清空输入 |
 | Select | 受控 value / onValueChange、options、placeholder、disabled / required；可选 surface: outline（默认）/ filled、size: sm（chrome 13px）/ md（表单，桌面 13 / 触屏 16）；触发值和箭头分离，浮层不透明，支持当前值、键盘、滚动与碰撞避让；已展开时再次点按触发器收起，触控关闭以同一次点按开始时的展开状态为准 |
 | Checkbox / Switch | Checkbox 保留原生表单与键盘行为，Switch 使用受控 checked / onCheckedChange；标签、禁用、焦点与选择状态分别表达 |
 | InputOTP | 受控 value / onValueChange、label、length（默认 6）、hint / error、required、disabled、autoFocus、name、onEnterPress；数字输入、自动前进、退格 / 方向键 / Home / End、粘贴；每格为标准正方格并可访问，`name` 提交隐藏的完整值 |
 | RadioGroup | 受控 value / onValueChange，options: { value, label, disabled? }[]；orientation: vertical（默认）/ horizontal；name、required、disabled；FormField 内自动关联标签、说明与错误；方向键移动即选中，单项 label 使用字符串保证可访问名称 |
-| ToggleGroup | 单选使用 radiogroup / radio 语义，多选使用 toolbar / button + aria-pressed；受控 value / onValueChange，items: { value, label, disabled? }[]，label、disabled |
+| ToggleGroup | 单选使用 radiogroup / radio 语义，方向键移动即选中；多选使用 toolbar / button + aria-pressed，方向键只移动焦点。受控 value / onValueChange，items: { value, label, disabled? }[]，label、disabled |
 | Accordion | type: single（默认）/ multiple；items: { value, label, content, disabled? }[]；value / defaultValue / onValueChange；single 可 collapsible；标题按钮与内容区域由 Radix 维护，键盘可展开 / 收起 |
 | Tabs | 受控或非受控 Root，配合 TabsList / TabsContent，保持 tab / tabpanel 关联、方向键、选择与焦点；列表在极窄 + 大字号下可换行，避免入口被裁切；辅助导出不另算组件数量 |
 | StatusBadge | neutral / info / success / warning / danger 表达展示语义，文字与图标由调用方提供，不伪装为交互按钮 |
 | Avatar | name 提供可访问名称与首字回退；src、fallback、shape: circle（默认）/ square、size: sm / md / lg、decorative；图片加载失败回退，图片源变化后重试；纯展示不进入 Tab 顺序 |
 | Tag | 中性标签文本；纯展示，不进入 Tab 顺序；状态用 StatusBadge，不用 Tag 伪装状态 |
-| TagInput | 受控标签与草稿。Enter 或添加按钮调用 `onAdd`，空输入的 Backspace 移除末项，每个标签可单独删除。添加规则与表单提交由调用方负责，使用 FormField 关联帮助和错误 |
+| TagInput | 受控标签与草稿。Enter 或添加按钮调用 `onAdd`，空输入的 Backspace 移除末项，每个标签可单独删除；粗指针下标签行随控件高度撑高，删除按钮视觉随控件、命中经外扩到至少 44。添加规则与表单提交由调用方负责，使用 FormField 关联帮助和错误 |
 | Skeleton | width / height（CSS 长度或数字）、className / style；纯展示占位并 aria-hidden；外层用 aria-busy / status 说明加载中，加载完成移除；减少动效时保持静态 |
-| Dialog / Drawer | 受控 open / onOpenChange，标题、可选说明、正文与 footer；role: dialog（默认）/ alertdialog；支持 Escape、焦点约束、可指定初始焦点并恢复入口；关闭按钮 32px 可视、44px 命中由共享组件提供。Drawer 是同一弹层合同的侧向编排 |
+| Dialog / Drawer | 受控 open / onOpenChange，标题、可选说明、正文与 footer；role: dialog（默认）/ alertdialog；支持 Escape、焦点约束、可指定初始焦点并恢复入口；菜单项打开时关闭后回到菜单触发器；`closeDisabled` 可在 loading 时禁用头部关闭按钮。关闭按钮 32px 可视、44px 命中由共享组件提供。Drawer 是同一弹层合同的侧向编排 |
 | Menu | trigger 与具名 items，支持禁用、危险项、分隔与链接 / 动作；键盘、关闭与焦点由行为基础维护 |
-| ConfirmDialog | 基于 Dialog 的确认组合：open / onOpenChange、title、description、children、confirmLabel / cancelLabel、tone: default | danger、loading、onConfirm；初始焦点在取消，loading 时拦截关闭，role=alertdialog |
+| ConfirmDialog | 基于 Dialog 的确认组合：open / onOpenChange、title、description、children、confirmLabel / cancelLabel、tone: default | danger、loading、onConfirm；初始焦点在取消，loading 时拦截关闭并禁用头部关闭按钮，确认按钮保留焦点并带 aria-disabled / aria-busy，role=alertdialog |
 | InlineAlert | info / success / warning / danger，错误以 alert 播报，其余状态使用 status；必要说明不只放在 Tooltip |
 | Toast / Tooltip | Toast 以顶部胶囊提供可关闭的短时反馈，关闭按钮显示剩余时间，悬停 / 聚焦暂停，超时自动关闭；Tooltip 补充已有可访问名称；不替代持久错误、字段帮助或必要操作入口 |
 
@@ -82,7 +82,7 @@ Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前
 
 ## 对话框关闭尺寸与 chrome（2026-11-07）
 
-此前关闭按钮只在展示站 ≤799px 覆盖；本轮把 32px 可视、44px 命中的关闭按钮收进共享 Dialog / Drawer（`.rd-dialog-close`，`::after` 外扩），展示站删除重复覆盖。footer 按钮由展示站按 [DR-17](../design/design-rules.md#dr-17) 随控件密度（桌面 34 / 移动 38–46），触屏命中 44 / 44 / 46；Dialog 正文表单同样随密度，不单独缩小。公开 props 未变，键盘、焦点恢复与 Escape 行为沿用原合同。
+此前关闭按钮只在展示站 ≤799px 覆盖；本轮把 32px 可视、44px 命中的关闭按钮收进共享 Dialog / Drawer（`.rd-dialog-close`，`::after` 外扩），展示站删除重复覆盖。footer 按钮由展示站按 [DR-17](../design/design-rules.md#dr-17) 随控件密度（桌面 34 / 移动 38–46），触屏命中 44 / 44 / 46；Dialog 正文表单同样随密度，不单独缩小。公开 props 未变，键盘、焦点恢复与 Escape 行为沿用原合同（2026-11-15 新增可选 `closeDisabled`，见文末）。
 
 
 ## 表单可用性吸纳（2026-11-08）
@@ -266,7 +266,7 @@ Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前
 - 所有者先确认桌面统一 34；移动随后按下一节调整为 38 / 42 / 46。桌面密度为 **30 / 34 / 38**；键盘焦点环统一 **1px**。
 - token：`control-height` 34、`control-height-sm` 30、`control-height-compact` 30、`control-height-standard` 34、`control-height-spacious` 38。
 - 分段控件：桌面轨道 34（28px 药丸 + 3px 内边距），`lg` 与 `md` 完全相同；移动轨道见下一节 38 / 42 / 46。轨道不再有 32 / 36 两套。
-- 图标按钮改用 `--rd-control-height`（34）；标签内的移除按钮单独保持 22px，避免标签被撑高。
+- 图标按钮改用 `--rd-control-height`（34）；标签内的移除按钮单独保持 22px，避免标签被撑高（2026-11-15 粗指针批次改为随控件高度，见文末）。
 - 焦点环：组件与展示站的 `outline` 统一 1px；分段控件指针点击不显示、键盘保留；底部导航沿用全局 1px 环。
 - 触屏命中：按钮、分段控件视觉 34，命中区由 `::after` 扩到 44。文本输入与选择器在触屏下也压到 34px；按所有者确认，DR-16 增加了对应例外（替换元素无法用伪元素外扩命中，命中即视觉）。按钮、分段、导航仍保持 44 命中。
 - 验证：1280 下筛选 / 搜索 / 状态选择 / 页头按钮均 34，图标按钮 34，密度三档实测 30 / 34 / 38；440 触屏下 tabs / 工具栏 34，表单输入 44；键盘方向键焦点环 1px，点击无环；无横向溢出。
@@ -274,7 +274,7 @@ Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前
 ## 移动端 38 / 42 / 46 与触控命中（2026-11-14）
 
 - 所有者确认：移动端密度基准改为 **38 / 42 / 46**（紧凑 / 标准 / 宽松，默认 42），触控命中按 **44 / 44 / 46**；桌面维持 30 / 34 / 38（默认 34）。
-- 实现：≤799px 时按 `data-density` 映射 `--rd-control-height` 与 `--rd-touch-height`；分段控件药丸 = 轨道 − 6（32 / 36 / 40）；按钮与图标按钮的 `::after` 用 `calc((touch - control + 2px) / -2)` 计算外扩，标签内移除按钮保持 22。
+- 实现：≤799px 时按 `data-density` 映射 `--rd-control-height` 与 `--rd-touch-height`；分段控件药丸 = 轨道 − 6（32 / 36 / 40）；按钮与图标按钮的 `::after` 用 `calc((touch - control + 2px) / -2)` 计算外扩，标签内移除按钮保持 22（2026-11-15 粗指针批次已修订）。
 - 文本输入与选择器的命中就是视觉高度（替换元素无法外扩）：紧凑 38、标准 42 低于 44，按 DR-16 的例外接受；其他控件仍按 44 / 44 / 46。
 - 页面里重复的 `::after` 命中规则删除，统一由组件计算；弹窗、工具栏、页头不再各自钉高度。移动顶栏的工作区切换、明暗与账号入口统一随密度（38 / 42 / 46），头像用 `calc` 跟随。
 - 验证：440 触屏三档实测——紧凑控件 38 / 药丸 32 / 命中 44；标准 42 / 36 / 44；宽松 46 / 40 / 46；搜索与选择器随 38 / 42 / 46；按钮命中 44 / 44 / 46；无横向溢出。
@@ -303,3 +303,14 @@ Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前
 - 第二步（`36c86f4`）：所有者反馈 16px 在页脚的密集 chrome 中仍突兀。`Select` 新增可选 `size: sm | md`：`sm` 用于页大小 / 状态筛选等 chrome，触发器、内容与候选项在桌面和触屏都保持 13px；`md` 用于表单，桌面 13 / 触屏 16，与 16px 输入框一致。选中项保留 500 字重，行高、选项宽度与选中逻辑不变。
 - 结果：390 触屏下 chrome 选择器 13 / 13、表单选择器 16 / 16；320+200% 触屏分别为 26 / 26 与 32 / 32；1440 均为 13；候选项行高 34 / 44 / 60；无横向溢出、无 pageerror。证据在忽略目录 `output/select-font-2026-11-15/` 与 `output/select-chrome-size-2026-11-15/`。
 - 边界：Chrome 1440 / 390 触屏 / 320+200% 触屏；Safari / Firefox、实体设备与屏幕阅读器未复验；所有者已确认 chrome 13px 合适，随 F-02.4 补充记录。代码提交为 `4d72db1` / `36c86f4`。
+
+## 组件状态 / 键盘审计与 Batch A（2026-11-15）
+
+- 起点为 `dev` / `898aef3`，工作区干净；按 27 个组件 × 状态 / 键盘 / 明暗 / 390 / 320+200% / 真实页面用法完成审计。缺口排序、逐项矩阵与证据在忽略目录 `output/component-state-audit-2026-11-15/`；本轮实施证据在 `output/batch-a-2026-11-15/`。
+- G1 菜单 → Dialog 回焦：Dialog 打开时同时记录打开中的菜单触发器，关闭时优先回到该触发器；菜单项本身被卸载后不再把焦点落到 `body`。覆盖工作区“关于本地演示”、页面菜单“恢复演示数据”、资源详情“版本信息 / 删除资源”。
+- G2 loading 焦点：Button / IconButton 的 loading 改用 `aria-disabled` + `aria-busy`，保留焦点并拦截重复点击 / 隐式表单提交；显式 disabled 仍用原生 disabled。Dialog 新增可选 `closeDisabled`，ConfirmDialog loading 时取消按钮 native disabled、关闭按钮禁用，确认按钮保留焦点；loading 结束后仍由 Dialog 回到入口。
+- G3 尺度与触控：资源详情“打开 / …”改用共享 `Button size="sm"` / `IconButton size="sm"`，删除页面 28px 覆盖，桌面 30、移动随密度 38 / 42 / 46；`IconButton` 的 sm 尺寸与粗指针命中随之生效。TagInput 标签在粗指针下随控件高度撑高，删除按钮视觉随控件 38 / 42 / 46、命中经外扩到至少 44；Switch 用 44 高 `::after` 命中，Accordion 粗指针标题 44。细指针下 TagInput 删除按钮仍为 22px 视觉，避免撑高标签。
+- G4 破坏性确认：未保存离开、恢复演示数据、重新初始化文档库从普通 Dialog 迁到 ConfirmDialog；统一 `alertdialog`、初始焦点取消和 Tab 顺序。恢复演示数据由页面管理 `loading`，写入失败保留错误。
+- G5 ToggleGroup 单选：单选组在项获得焦点时同步 `onValueChange`，方向键移动即选中，符合 radiogroup / radio 合同；多选 toolbar 行为不变。组件页键盘说明同步。
+- 验证：Chrome 157.0.8103.51 无头；键盘路径（菜单回焦、ConfirmDialog loading Tab、分享慢剪贴板、单选方向键）、390 粗指针命中、桌面 / 移动详情动作尺寸，以及 1440 / 390 / 320+200% × 明暗 × 7 页和 27 个示例无横向溢出；`npm run type-check`、`npm run check`、`npm run build` 通过。证据见 `output/batch-a-2026-11-15/report.json` 与截图。
+- 边界：Safari / Firefox、实体设备、真实屏幕阅读器、真实剪贴板权限和真实输入法未复验；G5 的“方向键即选中”是本轮所有者确认的行为变化。TagInput 粗指针标签变高、详情动作由 28 变为 30 / 38–46 属于视觉修订，待所有者复审；未登记 F-02.4 视觉基准。

@@ -8,8 +8,11 @@ export interface ButtonProps extends ComponentPropsWithRef<'button'> {
 
 export function Button({ variant = 'primary', size = 'md', loading = false, disabled, className = '', type = 'button', children, onClick, ...props }: ButtonProps) {
   return (
-    <button {...props} type={type} disabled={disabled || loading} aria-busy={loading || undefined}
+    <button {...props} type={type} disabled={disabled} aria-disabled={loading || undefined} aria-busy={loading || undefined}
       onClick={event => {
+        // Loading stays focusable so an async action cannot drop keyboard focus. Keep the
+        // click guarded, including implicit form submission from a focused submit button.
+        if (loading) { event.preventDefault(); event.stopPropagation(); return; }
         // Safari 点击按钮时不自动聚焦；先建立焦点，浮层关闭后才能回到真实入口。
         event.currentTarget.focus({ preventScroll: true });
         onClick?.(event);

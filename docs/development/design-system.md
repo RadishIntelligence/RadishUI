@@ -25,6 +25,8 @@ React 与 Flutter 分别实现，保持颜色角色、层级、状态含义及�
 - 密度行为由共享组件或语义参数承载：Table 的 `--rd-table-*` 与 Section 的 `data-density` 规则在组件层，Card 使用 `padding` 的 sm / md；页面不写 density 选择器改尺寸。页头 / 文档工具栏跟随机密度，资源工具栏保留 34px 复合行。
 - Select 的触发器、内容与候选项使用同一字号角色，并由 `size` 区分：`sm`（页大小 / 状态筛选等 chrome）桌面与触屏均为 13px；`md`（表单）桌面 13px、触屏 16px。弹层内容不另继承页面字号，也不在同一选择器内混用 13 / 16。
 - 复合原语内部的可交互控件同样消费 `--rd-control-height` / `--rd-control-height-sm`，不各自保留 30 / 32 / 34 等历史尺寸；单页与多页、组件示例与页面用法使用同一尺度。Pagination 的页大小选择器、页码、前后翻页与跳页输入按此执行；触屏选择器与输入框的命中就是视觉高度（DR-16 例外），不用 `::after` 或单独放大到 `--rd-touch-height` 制造假命中。
+- 浮层与 loading 的焦点属于共享合同：菜单项打开 Dialog / ConfirmDialog 时，关闭后焦点回到菜单触发器；loading 不得把当前焦点丢到 `body`，模态内 Tab 不得落到焦点守卫；ConfirmDialog 的关闭入口随 loading 禁用。
+- 粗指针命中：TagInput 标签行随 `--rd-control-height` 撑高，删除按钮视觉随控件、命中经 `::after` 至少 44；Switch 视觉保持 44×28，命中由共享 `::after` 到 44；Accordion 标题在粗指针下 44。细指针下 TagInput 删除按钮保持 22 视觉，避免撑高标签。
 - 内容与分割线之间至少 16px（`--rd-space-4`）；分割线属于区块边界，不能紧贴文字或导航。
 - 视觉验收必须比较同一组件在不同页面的同一视口、同一缩放下的计算值（宽、高、padding、font-size、line-height），并检查分割线/卡片间距；页面级尺寸覆盖没有书面例外不得合入。
 - 确实需要不同尺寸时，新增/使用共享 `size` 变体并同步 token/契约，不在页面内写死。

@@ -11,29 +11,36 @@ export interface DialogProps {
   children: ReactNode;
   footer?: ReactNode;
   closeLabel?: string;
+  /** Disable the header close button without unmounting it, e.g. while a confirmation is loading. */
+  closeDisabled?: boolean;
   initialFocusRef?: RefObject<HTMLElement | null>;
   role?: 'dialog' | 'alertdialog';
   className?: string;
 }
 
-function DialogSurface({ open, onOpenChange, title, description, children, footer, initialFocusRef, role = 'dialog', closeLabel = '关闭', className = '', drawer = false }: DialogProps & { drawer?: boolean }) {
+function DialogSurface({ open, onOpenChange, title, description, children, footer, initialFocusRef, closeDisabled = false, role = 'dialog', closeLabel = '关闭', className = '', drawer = false }: DialogProps & { drawer?: boolean }) {
   const previousFocus = useRef<HTMLElement | null>(null);
+  // A menu item is removed when its menu closes. Remember the menu trigger too, so a
+  // dialog opened from that item can return focus somewhere stable on close.
+  const menuTriggerFocus = useRef<HTMLElement | null>(null);
   return <DialogPrimitive.Root open={open} onOpenChange={onOpenChange}>
     <DialogPrimitive.Portal>
       <DialogPrimitive.Overlay className="rd-dialog-overlay" />
       <DialogPrimitive.Content role={role} className={`rd-dialog ${drawer ? 'rd-drawer' : ''} ${className}`}
         onOpenAutoFocus={event => {
           previousFocus.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+          menuTriggerFocus.current = document.querySelector<HTMLElement>('[aria-haspopup="menu"][aria-expanded="true"]');
           if (initialFocusRef?.current) { event.preventDefault(); initialFocusRef.current.focus(); }
         }}
         onCloseAutoFocus={event => {
-          if (previousFocus.current?.isConnected) { event.preventDefault(); previousFocus.current.focus(); }
+          const target = menuTriggerFocus.current?.isConnected ? menuTriggerFocus.current : previousFocus.current;
+          if (target?.isConnected) { event.preventDefault(); target.focus(); }
         }}>
         <header className="rd-dialog-header">
           <div><DialogPrimitive.Title className="rd-dialog-title">{title}</DialogPrimitive.Title>
             {description && <DialogPrimitive.Description className="rd-dialog-description">{description}</DialogPrimitive.Description>}
           </div>
-          <DialogPrimitive.Close asChild><IconButton className="rd-dialog-close" label={closeLabel}><X /></IconButton></DialogPrimitive.Close>
+          <DialogPrimitive.Close asChild><IconButton className="rd-dialog-close" label={closeLabel} disabled={closeDisabled}><X /></IconButton></DialogPrimitive.Close>
         </header>
         <div className="rd-dialog-body">{children}</div>
         {footer && <footer className="rd-dialog-footer">{footer}</footer>}

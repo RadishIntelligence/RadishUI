@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Button, Dialog, InlineAlert, Toast } from '@radish-ui/react';
+import { Button, ConfirmDialog, Dialog, InlineAlert, Toast } from '@radish-ui/react';
 import { Shell } from './Shell';
 import { SettingsPage } from './SettingsPage';
 import { ResourcesPage } from './ResourcesPage';
@@ -142,14 +142,15 @@ export function App() {
         <a className="text-link" href={`${import.meta.env.BASE_URL}third-party-notices.txt`}>{t('第三方许可声明', 'Third-party license notices')}</a>
       </div>
     </Dialog>
-    <Dialog open={pendingNavigation !== undefined} onOpenChange={open => { if (!open) setPendingNavigation(undefined); }} title={t('放弃未保存的更改？', 'Discard unsaved changes?')}
+    <ConfirmDialog open={pendingNavigation !== undefined} onOpenChange={open => { if (!open) setPendingNavigation(undefined); }} title={t('放弃未保存的更改？', 'Discard unsaved changes?')}
       description={t('离开此页后，当前未保存的修改会丢失。', 'Your unsaved edits will be lost when you leave this page.')} closeLabel={t('关闭', 'Close')}
-      footer={<><Button variant="secondary" onClick={() => setPendingNavigation(undefined)}>{t('继续编辑', 'Keep editing')}</Button><Button variant="danger" onClick={() => {
+      confirmLabel={t('放弃并离开', 'Discard & leave')} cancelLabel={t('继续编辑', 'Keep editing')} tone="danger"
+      onConfirm={() => {
         const destination = pendingNavigation; setPendingNavigation(undefined); dirtyRef.current = false; setDirty(false);
         if (destination !== undefined) window.location.hash = destination;
-      }}>{t('放弃并离开', 'Discard & leave')}</Button></>}>
+      }}>
       <p>{t('已经保存的内容不会受影响。', 'Saved content is not affected.')}</p>
-    </Dialog>
+    </ConfirmDialog>
     <Toast key={notice.id} message={notice.message} open={toastOpen} onOpenChange={setToastOpen} label={t('通知', 'Notification')} closeLabel={t('关闭通知', 'Dismiss notification')} />
   </Shell>;
 }
