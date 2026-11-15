@@ -356,6 +356,7 @@ Safari 27.0.1 和 Firefox 159.0.1 各通过 12 组布局与 4 组功能流程；
 - **Pagination**：页大小 / 页码 / 前后翻页 / 跳页输入 / 跳页按钮统一消费 `--rd-control-height`；桌面标准 / 紧凑 / 宽松 34 / 30 / 38，移动 42 / 38 / 46；单页与多页一致。
 - **移动目录**：从文章顶部折叠块改为工具栏入口 + 贴右边缘全高 Drawer，宽 `max(50vw, 200px)`；390 为 200×844；链接 44px、当前章节、Escape 回焦；点击链接关闭、更新 hash、滚动并聚焦目标标题（1px `--rd-focus-ring`）。
 - **站点图标**：RadishX `public/favicon.ico`（46,429 字节，SHA-256 `4a189697…`），所有者授权的单点采用；来源与范围见[品牌资产](../design/foundations/08-brand-assets.md#站点-favicon)。
+- **补充（2026-11-15）**：文档工具栏返回链接由裸文字链接改为复用 PageHeader 的 `.page-back`（桌面 34 / 移动 42、pill hover、1px 焦点环；触屏 `::after` 扩到 44 命中），文案与 chevron 不变。代码提交 `05aacbc`；PageHeader 的返回链接同时获得 44px 触屏命中。
 - **证据**：Chrome 13 组 / Safari 8 组 / Firefox 8 组的跨环境矩阵；5 组 27 个组件示例；1440 / 390 / 320+200%、明暗、密度三档；Drawer / favicon 的 Chrome / Safari / Firefox 390 / 1440 与 Chrome 暗色；Pagination 单页 / 多页与触屏命中。证据在 `output/cross-env-2026-11-15/` 与 `output/toc-favicon-2026-11-15/`，记录见[开发记录](../devlogs/2026-W46.md#跨环境复验与-pagination-尺寸修正)与[移动目录右侧抽屉与站点图标](../devlogs/2026-W46.md#移动目录右侧抽屉与站点图标)。
 - **未覆盖 / 边界**：实体设备、真实屏幕阅读器 / VoiceOver / NVDA、Windows、Safari / Firefox 粗指针与触控、真实输入法、Flutter；Safari 以 iframe 固定视口，Firefox 为无头实例；200% 以根字号模拟。生产未更新；本轮修订不构成 P1 完成、产品采用或正式发行。
 - **变更规则**：后续视觉调整按新确认记录；修改本修订需新的所有者确认。
