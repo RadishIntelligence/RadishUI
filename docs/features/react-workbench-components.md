@@ -286,3 +286,11 @@ Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前
 - 修正：Pagination 内部控件统一消费 `--rd-control-height`；页码与跳页按钮改用标准 Button；页大小选择器、跳页输入与前后翻页图标随控件尺度（桌面 30 / 34 / 38，移动 38 / 42 / 46）；删除窄屏固定 34、触屏撑到 44 与选择器 `::after` 的旧规则。触屏只放大选择器 / 输入文字，命中区保持视觉高度（DR-16 例外）。
 - 结果：1440 标准多页的页大小 / 页码 / 前后翻页 / 跳页输入 / 跳页按钮均为 34（条 48），紧凑 30（条 48），宽松 38（条 63）；390 / 440 标准 42（条 55），紧凑 38（条 51），宽松 46（条 59）；320+200%（触屏）分页条 117–121px，无横向溢出。三款浏览器在 1440 标准多页一致，7 个页面与 27 个示例无横向溢出或 wide demo；焦点环在 Chrome 指针抑制 / 键盘 1px、Safari 与 Firefox 键盘 1px 通过。
 - 边界：未覆盖实体设备、真实屏幕阅读器、Windows、Safari / Firefox 粗指针与触控、真实输入法和 Flutter；Safari 以 iframe 固定视口，Firefox 为无头实例；视觉仍待所有者复审，F-02.4 登记未完成。11-14 Pagination 条目中的 Safari / Firefox 与粗指针缺口已由本节补验，实体设备与屏幕阅读器仍未覆盖。
+
+## Dialog / Drawer 与 Accordion 入场（2026-11-15）
+
+- 目的与完整规则见 [05 动效](../design/foundations/05-motion.md#dialog--drawer-与-accordion-入场2026-11-15)；触发为 Dialog / ConfirmDialog / Drawer 打开与 Accordion 单项展开 / 收起，关闭 Dialog / Drawer 仍即时卸载，不等待动画。
+- Dialog：面板 `opacity 0 → 1`、`scale .98 → 1`，160ms `--rd-ease-enter`；`scale` 使用独立变换属性，避免覆盖 `.rd-dialog` 的居中 `transform`。Drawer 用 `translate 16px 0 → 0` 从右侧滑入；展示站 `.resource-sheet` 在 ≤799px 覆盖为 `translate 0 16px → 0` 的底部纵向滑入。
+- Accordion：内容使用 Radix 的 `--radix-accordion-content-height` 做 `height` 与 `opacity` 的展开 / 收起，160ms；收起结束后内容带 `hidden`，焦点、Escape 与键盘切换合同不变。
+- 验证：Chrome 157.0.8103.51 无头，`Animation.setPlaybackRate(0.1)` 取中间帧——Dialog `opacity .75 / scale .995` 且居中 `transform` 保持；Drawer translate 中途值；Accordion 高度与透明度按 160ms 运行，收起后 `hidden`；减少动态下三者 `animation: none`；无 pageerror。资源库底部 sheet 与文档右侧目录分别复验。证据在忽略目录 `output/motion-dialog-accordion-2026-11-15/`。
+- 边界：Safari / Firefox、真机、低帧率设备与 Flutter 未复验；视觉与交互待所有者复审，未纳入 F-02.4 运行基线。分段指示器只给出方案，见 [05 动效](../design/foundations/05-motion.md#分段指示器待定2026-11-15)，本轮未改 Tabs / ToggleGroup 的选中态结构。代码提交为 `d9eac1d`。

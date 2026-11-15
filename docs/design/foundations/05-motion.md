@@ -25,3 +25,33 @@ Pen 稿只表示静态状态，没有验证动画、系统偏好、过渡中断�
 - 暂不做退出动画：关闭保持即时，避免等待动画结束后才归还焦点。
 - 外部参考：EasyUI（MIT，<https://easyui.site/>）的 origin-aware 浮层与浮层参数。只借鉴“从触发边生长”的关系；没有采用其代码、Framer Motion、Tailwind 或弹簧过冲，评估结论见开发记录。
 - 未覆盖：Safari / Firefox、真机、低帧率设备与 Flutter 对应实现。
+
+## Dialog / Drawer 与 Accordion 入场（2026-11-15）
+
+目的：说明浮层出现与内容展开的层级关系；不承担装饰，不延迟焦点、键盘操作或关闭。触发：Dialog / ConfirmDialog / Drawer 打开，Accordion 单项展开或收起。静态终态与未加动效时一致；Dialog / Drawer 关闭仍即时卸载，不等待退出动画。
+
+| 项 | 取值 |
+| --- | --- |
+| Dialog | `opacity 0 → 1`、`scale .98 → 1`；`--rd-motion-base` 160ms、`--rd-ease-enter` |
+| Drawer | `opacity 0 → 1`、`translate 16px 0 → 0`；底部 sheet 用 `translate 0 16px → 0`；160ms、`ease-enter` |
+| Accordion | `height 0 ↔ --radix-accordion-content-height`、`opacity 0 ↔ 1`；160ms、`ease-enter` |
+| 中断 | 关闭即时；Accordion 快速切换由 Radix 重新计算内容高度，不阻塞焦点 |
+| 减少动态 | `prefers-reduced-motion: reduce` 下 `animation: none`，内容直接显示或隐藏 |
+
+- `scale` / `translate` 使用独立变换属性，避免覆盖 `.rd-dialog` 的居中 `transform` 和 Drawer 的定位 `transform`；Dialog 的居中在实际中途帧保持不变。
+- 只动画浮层自身或 Accordion 内容，不改焦点、Escape、滚动锁、触发器行为或组件 API。
+- 底部 sheet 的纵向规则在展示站 app 层，因为 `.resource-sheet` 属于页面组合，不是共享 Drawer 的默认合同；共享 Drawer 默认从右侧滑入。
+- 验证：Chrome 157.0.8103.51 无头，`Animation.setPlaybackRate(0.1)` 取中间帧。Dialog opacity / scale、Drawer translate、Accordion height / opacity 均按 160ms `ease-enter` 运行；减少动态下三者为 `animation: none`；无 pageerror。证据在忽略目录 `output/motion-dialog-accordion-2026-11-15/`。
+- 未覆盖：Safari / Firefox、真机、低帧率设备与 Flutter 对应实现；视觉与交互仍待所有者复审。
+
+## 分段指示器（待定，2026-11-15）
+
+现状：Tabs / ToggleGroup 的选中态由每个 item 自己的 surface pill + shadow 表达，切换时直接跳到新项。候选方案：
+
+| 方案 | 做法 | 代价 / 风险 |
+| --- | --- | --- |
+| A 共享滑动药丸 | 在列表内放绝对定位指示器，测量当前 item，用 `translate` / `width` 160ms 滑动；只在单行时滑动，换行或 200% 时降级为淡入 | 最接近 shadcn 的空间关系；需改 TabsList / ToggleGroup 共享实现和共享 hook，处理换行、字体缩放、初始挂载与 RTL，验证面明显更大 |
+| B 交叉淡入 | 给 item 的 `background` / `box-shadow` / `color` 加 160ms transition；不移动 | CSS 小改，所有布局安全；空间关系弱于 A |
+| C 保持即时 | 不改 | 与当前设计一致，不增加动效噪音 |
+
+建议：先做 B，作为低风险基线；如果要更接近 shadcn 的滑动感，再做 A 的单行版本，并把换行 / 200% 降级写进合同。选定方案后再实施，不在本轮直接把 A 落进共享组件。
