@@ -293,4 +293,5 @@ Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前
 - Dialog：面板 `opacity 0 → 1`、`scale .98 → 1`，160ms `--rd-ease-enter`；`scale` 使用独立变换属性，避免覆盖 `.rd-dialog` 的居中 `transform`。Drawer 用 `translate 16px 0 → 0` 从右侧滑入；展示站 `.resource-sheet` 在 ≤799px 覆盖为 `translate 0 16px → 0` 的底部纵向滑入。
 - Accordion：内容使用 Radix 的 `--radix-accordion-content-height` 做 `height` 与 `opacity` 的展开 / 收起，160ms；收起结束后内容带 `hidden`，焦点、Escape 与键盘切换合同不变。
 - 验证：Chrome 157.0.8103.51 无头，`Animation.setPlaybackRate(0.1)` 取中间帧——Dialog `opacity .75 / scale .995` 且居中 `transform` 保持；Drawer translate 中途值；Accordion 高度与透明度按 160ms 运行，收起后 `hidden`；减少动态下三者 `animation: none`；无 pageerror。资源库底部 sheet 与文档右侧目录分别复验。证据在忽略目录 `output/motion-dialog-accordion-2026-11-15/`。
-- 边界：Safari / Firefox、真机、低帧率设备与 Flutter 未复验；视觉与交互待所有者复审，未纳入 F-02.4 运行基线。分段指示器只给出方案，见 [05 动效](../design/foundations/05-motion.md#分段指示器待定2026-11-15)，本轮未改 Tabs / ToggleGroup 的选中态结构。代码提交为 `d9eac1d`。
+- 分段指示器：按所有者选择的 B 交叉淡入实现，`.rd-tab` / `.rd-toggle-group__item` 的 `background-color` / `box-shadow` / `color` 使用 160ms `--rd-ease-enter`；不移动药丸、不新增结构或共享 API；减少动态下 `transition: none`。Chrome 1440 分组 tabs 与 390 资源筛选中间帧 / 落定通过。代码提交为 `520bf1e`。
+- 边界：Safari / Firefox、真机、低帧率设备与 Flutter 未复验；视觉与交互待所有者复审，未纳入 F-02.4 运行基线。A 滑动方案保留为后续候选，见 [05 动效](../design/foundations/05-motion.md#分段指示器2026-11-15)。

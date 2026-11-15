@@ -44,9 +44,9 @@ Pen 稿只表示静态状态，没有验证动画、系统偏好、过渡中断�
 - 验证：Chrome 157.0.8103.51 无头，`Animation.setPlaybackRate(0.1)` 取中间帧。Dialog opacity / scale、Drawer translate、Accordion height / opacity 均按 160ms `ease-enter` 运行；减少动态下三者为 `animation: none`；无 pageerror。证据在忽略目录 `output/motion-dialog-accordion-2026-11-15/`。
 - 未覆盖：Safari / Firefox、真机、低帧率设备与 Flutter 对应实现；视觉与交互仍待所有者复审。
 
-## 分段指示器（待定，2026-11-15）
+## 分段指示器（2026-11-15）
 
-现状：Tabs / ToggleGroup 的选中态由每个 item 自己的 surface pill + shadow 表达，切换时直接跳到新项。候选方案：
+现状：Tabs / ToggleGroup 的选中态由每个 item 自己的 surface pill + shadow 表达，切换时直接跳到新项。所有者于 2026-11-15 选择 **B 交叉淡入**；A 保留为以后需要更强空间关系时的候选，C 未采用。
 
 | 方案 | 做法 | 代价 / 风险 |
 | --- | --- | --- |
@@ -54,4 +54,7 @@ Pen 稿只表示静态状态，没有验证动画、系统偏好、过渡中断�
 | B 交叉淡入 | 给 item 的 `background` / `box-shadow` / `color` 加 160ms transition；不移动 | CSS 小改，所有布局安全；空间关系弱于 A |
 | C 保持即时 | 不改 | 与当前设计一致，不增加动效噪音 |
 
-建议：先做 B，作为低风险基线；如果要更接近 shadcn 的滑动感，再做 A 的单行版本，并把换行 / 200% 降级写进合同。选定方案后再实施，不在本轮直接把 A 落进共享组件。
+- **采用 B**：`.rd-tab` / `.rd-toggle-group__item` 的 `background-color`、`box-shadow`、`color` 使用 160ms `--rd-ease-enter` 过渡；不移动药丸，不新增结构或共享 API。选中态仍是每个 item 自己的 surface pill + shadow，换行与 200% 下保持安全。
+- **验证**：Chrome 157.0.8103.51 无头，`Animation.setPlaybackRate(0.1)` 取中间帧——分组 tabs 切换时旧项 `rgba(255,255,255,.19)`、新项 `rgba(255,255,255,.68)`，落定后分别为透明 / `rgb(255,255,255)`；资源筛选同一路径；减少动态下 `transition-duration: 0s`、`transition-property: none`；无 pageerror。证据在忽略目录 `output/segmented-fade-2026-11-15/`。
+- **A 的后续条件**：若需要滑动的空间关系，先做单行版本，并把换行 / 200% 降级、RTL、初始挂载和共享 hook 写入合同；不在本轮把 A 落进共享组件。
+- **边界**：Safari / Firefox、真机、低帧率设备与 Flutter 未复验；视觉与交互待所有者复审。
