@@ -74,7 +74,7 @@ export function Pagination({ page, pageCount, pageSize, totalItems, onPageChange
           <IconButton label={labels.previous} disabled={page <= 1} onClick={() => onPageChange(page - 1)}><ChevronLeft /></IconButton>
           {paginationRange(page, pageCount).map((item, index) => item === 'gap'
             ? <span className="rd-pagination__gap" key={`gap-${index}`}>…</span>
-            : <Button key={item} size="sm" className="rd-pagination__number" variant={item === page ? 'primary' : 'ghost'}
+            : <Button key={item} className="rd-pagination__number" variant={item === page ? 'primary' : 'ghost'}
               aria-current={item === page ? 'page' : undefined} aria-label={labels.page(item)} onClick={() => onPageChange(item)}>{item}</Button>)}
           {position}
           <IconButton label={labels.next} disabled={page >= pageCount} onClick={() => onPageChange(page + 1)}><ChevronRight /></IconButton>
@@ -85,7 +85,7 @@ export function Pagination({ page, pageCount, pageSize, totalItems, onPageChange
             onChange={event => { setJump(event.target.value); setInvalid(false); }}
             aria-invalid={invalid || undefined} aria-describedby={invalid ? errorId : undefined} />
           <span>{labels.jumpUnit}</span>
-          <Button variant="secondary" size="sm" type="submit">{labels.jumpAction}</Button>
+          <Button variant="secondary" type="submit">{labels.jumpAction}</Button>
         </form>
       </> : single}
     </nav>
