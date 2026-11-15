@@ -354,10 +354,10 @@ h1 { font-size: var(--rd-font-size-title); line-height: 1.2; font-weight: 680; l
 }
 
 /* Chrome scale: one visual scale for shell and page chrome.
-   Desktop 32px; narrow/mobile 36px visible with a 44px touch target. */
+   Desktop 34px; narrow/mobile 38 / 42 / 46px with a 44 / 44 / 46px touch target. */
 @media (min-width: 800px) {
   .page-title, .document-toolbar { --rd-control-height: 34px; }
-  /* The resource toolbar is one compound row: the 36px segmented filter sets the scale. */
+  /* The resource toolbar is one compound row: the 34px segmented filter sets the scale. */
   .resource-toolbar { --rd-control-height: 34px; --rd-control-height-sm: 34px; }
   .page-title { margin-bottom: 16px; }
   .page-title h1 { font-size: var(--rd-font-size-title); }
