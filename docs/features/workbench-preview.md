@@ -243,4 +243,4 @@
 - 所有者选定 A 方向后更新语义 token：浅色 `brand-primary #3F7A63`、`action-primary #3E6C8E`、`bg-app #F4F8F6`、`text-primary #223029`；深色 `brand #93D2B5`、`action #A9C9E3`、`bg-app #181F20`、`text-primary #DDE8E2`。状态、边界与焦点色同步，role 与组件 API 不变。
 - 验证：Chrome 7 页 × 1440 明暗、390 明色、320+200% 明色，无横向溢出与 pageerror；浅色主文字 / 辅助 / 主按钮 / 状态 / 控件边框对比度分别约 12.9–13.8 / 5.0–5.6 / 5.6 / 4.6–4.8 / 3.2:1，深色主文字 11.7–13.3:1。证据在 `output/color-a-2026-11-15/`。
 - 颜色页与图片对比稿在 `output/color-proposal-2026-11-15/`；方案说明见[02 色彩](../design/foundations/02-color.md#2026-11-15-青玉--雾蓝)。
-- 边界：Safari / Firefox、粗指针、真机与屏幕阅读器未单独复验；视觉待最终复审，作为 F-02.4 配色补充。代码提交为 `793638f`。
+- 边界：Safari / Firefox、粗指针、真机与屏幕阅读器未单独复验；所有者 2026-11-15 确认最终视觉，纳入 F-02.4 配色补充。代码提交为 `793638f`。
