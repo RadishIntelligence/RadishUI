@@ -292,9 +292,9 @@ Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前
 - 目的与完整规则见 [05 动效](../design/foundations/05-motion.md#dialog--drawer-与-accordion-入场2026-11-15)；触发为 Dialog / ConfirmDialog / Drawer 打开与 Accordion 单项展开 / 收起，关闭 Dialog / Drawer 仍即时卸载，不等待动画。
 - Dialog：面板 `opacity 0 → 1`、`scale .98 → 1`，160ms `--rd-ease-enter`；`scale` 使用独立变换属性，避免覆盖 `.rd-dialog` 的居中 `transform`。Drawer 用 `translate 16px 0 → 0` 从右侧滑入；展示站 `.resource-sheet` 在 ≤799px 覆盖为 `translate 0 16px → 0` 的底部纵向滑入。
 - Accordion：内容使用 Radix 的 `--radix-accordion-content-height` 做 `height` 与 `opacity` 的展开 / 收起，160ms；收起结束后内容带 `hidden`，焦点、Escape 与键盘切换合同不变。
-- 验证：Chrome 157.0.8103.51 无头，`Animation.setPlaybackRate(0.1)` 取中间帧——Dialog `opacity .75 / scale .995` 且居中 `transform` 保持；Drawer translate 中途值；Accordion 高度与透明度按 160ms 运行，收起后 `hidden`；减少动态下三者 `animation: none`；无 pageerror。资源库底部 sheet 与文档右侧目录分别复验。证据在忽略目录 `output/motion-dialog-accordion-2026-11-15/`。
-- 分段指示器：按所有者选择的 B 交叉淡入实现，`.rd-tab` / `.rd-toggle-group__item` 的 `background-color` / `box-shadow` / `color` 使用 160ms `--rd-ease-enter`；不移动药丸、不新增结构或共享 API；减少动态下 `transition: none`。Chrome 1440 分组 tabs 与 390 资源筛选中间帧 / 落定通过。代码提交为 `520bf1e`。
-- 边界：Safari / Firefox、真机、低帧率设备与 Flutter 未复验；视觉与交互待所有者复审，未纳入 F-02.4 运行基线。A 滑动方案保留为后续候选，见 [05 动效](../design/foundations/05-motion.md#分段指示器2026-11-15)。
+- 验证：Chrome 157.0.8103.51 无头，`Animation.setPlaybackRate(0.1)` 取中间帧；Safari 27.0.1 / Firefox 159.0.1 以 2s 动画覆盖取中间帧。Dialog `opacity .75 / scale .995` 且居中 `transform` 保持；Drawer translate 中途值；Accordion 高度与透明度按 160ms 运行，收起后 `hidden`；减少动态下三者 `animation: none`；无 pageerror。资源库底部 sheet 与文档右侧目录分别复验。证据在忽略目录 `output/motion-dialog-accordion-2026-11-15/`。
+- 分段指示器：按所有者选择的 B 交叉淡入实现，`.rd-tab` / `.rd-toggle-group__item` 的 `background-color` / `box-shadow` / `color` 使用 160ms `--rd-ease-enter`；不移动药丸、不新增结构或共享 API；减少动态下 `transition: none`。Chrome 1440 分组 tabs 与 390 资源筛选中间帧 / 落定通过，Safari / Firefox 以 2s 过渡覆盖复验。代码提交为 `520bf1e`。
+- 边界：真机、低帧率设备、Flutter 与 Safari / Firefox 的减少动态未实机验证；视觉与交互待所有者复审，未纳入 F-02.4 运行基线。A 滑动方案保留为后续候选，见 [05 动效](../design/foundations/05-motion.md#分段指示器2026-11-15)。
 
 ## Select 触发器与候选项字号（2026-11-15）
 
@@ -302,4 +302,4 @@ Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前
 - 第一步修正（`4d72db1`）：`.rd-select-item` / `.rd-menu-item` 显式使用 `--rd-font-size-sm`、`line-height: 1.5`；触屏下内容、候选项与触发器一起切到 16px。
 - 第二步（`36c86f4`）：所有者反馈 16px 在页脚的密集 chrome 中仍突兀。`Select` 新增可选 `size: sm | md`：`sm` 用于页大小 / 状态筛选等 chrome，触发器、内容与候选项在桌面和触屏都保持 13px；`md` 用于表单，桌面 13 / 触屏 16，与 16px 输入框一致。选中项保留 500 字重，行高、选项宽度与选中逻辑不变。
 - 结果：390 触屏下 chrome 选择器 13 / 13、表单选择器 16 / 16；320+200% 触屏分别为 26 / 26 与 32 / 32；1440 均为 13；候选项行高 34 / 44 / 60；无横向溢出、无 pageerror。证据在忽略目录 `output/select-font-2026-11-15/` 与 `output/select-chrome-size-2026-11-15/`。
-- 边界：Chrome 1440 / 390 触屏 / 320+200% 触屏；Safari / Firefox、实体设备与屏幕阅读器未复验；视觉待所有者复审，作为 F-02.4 补充记录。代码提交为 `4d72db1` / `36c86f4`。
+- 边界：Chrome 1440 / 390 触屏 / 320+200% 触屏；Safari / Firefox、实体设备与屏幕阅读器未复验；所有者已确认 chrome 13px 合适，随 F-02.4 补充记录。代码提交为 `4d72db1` / `36c86f4`。
