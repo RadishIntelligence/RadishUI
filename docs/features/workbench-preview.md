@@ -227,7 +227,7 @@
 - Select 字号：R1 每页条数、状态筛选等 chrome 选择器（`size="sm"`）触发器与候选项统一 13px，触屏也不放大；创建资源等表单选择器保持 `md`（桌面 13 / 触屏 16）。候选项行高与弹层宽度未变。
 - 图标：站点 favicon 使用 RadishX `public/favicon.ico`（所有者明确要求与 RadishX 一致）；入口 `apps/docs/public/favicon.ico` 与 `apps/docs/index.html` 的 `<link rel="icon" href="/favicon.ico" sizes="any" />`；来源、SHA-256 与授权见[品牌资产](../design/foundations/08-brand-assets.md#站点-favicon)。
 - 验证：Chrome 390 / 1440 / 320+200%、明暗；Safari 27.0.1 与 Firefox 159.0.1 在 390 / 1440 复验。390 抽屉 200×844、贴右边缘、链接 44px、Escape 回焦、链接关闭 + hash + 滚动 + H2 焦点、无横向溢出；1440 触发按钮隐藏、桌面目录 Card 可见；favicon 返回 200 / 46,429 字节。证据在忽略目录 `output/toc-favicon-2026-11-15/`。
-- 边界：未覆盖实体设备、真实屏幕阅读器、Safari / Firefox 粗指针与触控、真实输入法；本轮只改文档页与站点图标，其他页面未改。视觉待所有者复审，F-02.4 登记随本次复审一次完成。
+- 边界：未覆盖实体设备、真实屏幕阅读器、Safari / Firefox 粗指针与触控、真实输入法；本轮只改文档页与站点图标，其他页面未改。视觉已随 2026-11-15 运行基线修订登记（`b411f79`）。
 
 ### 2026-11-15 页面级尺寸例外收口
 
