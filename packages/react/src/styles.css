@@ -308,6 +308,8 @@
   .rd-switch-thumb { width: 22px; height: 22px; }
   .rd-switch[data-state="checked"] .rd-switch-thumb { transform: translateX(14px); }
 }
+/* Chrome selects keep the 13px chrome label size on touch; form selects use the 16px touch text size. */
+.rd-select[data-size="sm"], .rd-select-content[data-size="sm"], .rd-select-content[data-size="sm"] .rd-select-item { font-size: var(--rd-font-size-sm); }
 @media (prefers-reduced-motion: reduce) {
   .rd-button, .rd-switch-thumb, .rd-tab, .rd-toggle-group__item { transition: none; }
   .rd-button__spinner { animation: none; }

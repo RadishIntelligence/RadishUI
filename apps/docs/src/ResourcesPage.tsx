@@ -147,7 +147,7 @@ export function ResourcesPage({ resources, error, save, retry, t, locale, notify
         { value: 'checklist', label: t('清单', 'Lists') },
       ]} />
         <div className="resource-search-tools"><label className="resource-search" htmlFor="resource-search"><span className="sr-only">{t('搜索资源', 'Search resources')}</span><Search size={18} aria-hidden="true" /><Input id="resource-search" type="search" value={query} placeholder={t('搜索资源…', 'Search resources…')} onChange={event => { setQuery(event.target.value); resetPage(); }} /></label>
-          <Select value={status} onValueChange={value => { setStatus(value); resetPage(); }} label={t('筛选资源状态', 'Filter resource status')} options={[
+          <Select value={status} onValueChange={value => { setStatus(value); resetPage(); }} label={t('筛选资源状态', 'Filter resource status')} size="sm" options={[
             { value: 'all', label: t('所有状态', 'All statuses') }, { value: 'ready', label: t('已就绪', 'Ready') }, { value: 'draft', label: t('草稿', 'Draft') }, { value: 'readonly', label: t('只读', 'Read only') },
           ]} />
         </div>

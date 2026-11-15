@@ -66,7 +66,7 @@ export function Pagination({ page, pageCount, pageSize, totalItems, onPageChange
   return <>
     <nav className={`rd-pagination ${className}`.trim()} aria-label={labels.nav}>
       <span className="rd-pagination__summary" role="status">{labels.summary(totalItems)}</span>
-      <Select label={labels.pageSize} className="rd-pagination__size" value={String(pageSize)}
+      <Select label={labels.pageSize} className="rd-pagination__size" size="sm" value={String(pageSize)}
         onValueChange={value => onPageSizeChange(Number(value))}
         options={pageSizeOptions.map(size => ({ value: String(size), label: labels.pageSizeOption(size) }))} />
       {pageCount > 1 ? <>

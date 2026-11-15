@@ -101,9 +101,10 @@ export interface SelectProps {
   required?: boolean;
   className?: string;
   surface?: FieldSurface;
+  size?: 'sm' | 'md';
 }
 
-export function Select({ value, onValueChange, options, id, name, label, placeholder, disabled, required, className = '', surface = 'outline' }: SelectProps) {
+export function Select({ value, onValueChange, options, id, name, label, placeholder, disabled, required, className = '', surface = 'outline', size = 'md' }: SelectProps) {
   const field = useContext(FieldContext);
   const [open, setOpen] = useState(false);
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -119,12 +120,12 @@ export function Select({ value, onValueChange, options, id, name, label, placeho
           setOpen(false);
         }
       }}
-      aria-invalid={field?.invalid || undefined} data-surface={surface} className={`rd-select ${className}`}>
+      aria-invalid={field?.invalid || undefined} data-surface={surface} data-size={size} className={`rd-select ${className}`}>
       <SelectPrimitive.Value placeholder={placeholder} />
       <SelectPrimitive.Icon><ChevronDown size={16} /></SelectPrimitive.Icon>
     </SelectPrimitive.Trigger>
     <SelectPrimitive.Portal>
-      <SelectPrimitive.Content className="rd-select-content" position="popper" sideOffset={6} collisionPadding={12}
+      <SelectPrimitive.Content className="rd-select-content" data-size={size} position="popper" sideOffset={6} collisionPadding={12}
         onPointerDownOutside={event => {
           const { pointerType, target } = event.detail.originalEvent;
           // Keep the popup open until the touch click can toggle it closed.
