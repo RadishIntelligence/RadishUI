@@ -220,8 +220,8 @@
 
 ### 2026-11-15 移动目录右侧抽屉与站点图标
 
-- 动机：所有者复审时指出移动文档页顶部的「本文目录」折叠块占据首屏，建议改到右侧抽屉。采用共享 Drawer（右侧、8px 内边距），在文档工具栏增加「本文目录」图标按钮；桌面右侧目录 Card 不变，编辑态不显示入口。
+- 动机：所有者复审时指出移动文档页顶部的「本文目录」折叠块占据首屏，建议改到右侧抽屉。采用共享 Drawer（贴右边缘、约半屏宽，最小 200px），在文档工具栏增加「本文目录」图标按钮；桌面右侧目录 Card 不变，编辑态不显示入口。
 - 行为：抽屉打开后焦点落在关闭按钮；Escape 关闭并回到触发按钮；目录链接 44px 命中、当前章节使用 `aria-current="location"`；点击链接关闭抽屉、更新 hash、滚动到章节，并把焦点交给目标标题（1px `--rd-focus-ring`），避免焦点留在已滚出视口的触发按钮。删除 `.mobile-outline` 折叠实现及相关 CSS，移动端文章回到首屏顶部。
 - 图标：站点 favicon 使用 RadishX `public/favicon.ico`（所有者明确要求与 RadishX 一致）；入口 `apps/docs/public/favicon.ico` 与 `apps/docs/index.html` 的 `<link rel="icon" href="/favicon.ico" sizes="any" />`；来源、SHA-256 与授权见[品牌资产](../design/foundations/08-brand-assets.md#站点-favicon)。
-- 验证：Chrome 390 / 1440 / 320+200%、明暗；Safari 27.0.1 与 Firefox 159.0.1 在 390 / 1440 复验。390 抽屉 374×828、链接 44px、Escape 回焦、链接关闭 + hash + 滚动 + H2 焦点、无横向溢出；1440 触发按钮隐藏、桌面目录 Card 可见；favicon 返回 200 / 46,429 字节。证据在忽略目录 `output/toc-favicon-2026-11-15/`。
+- 验证：Chrome 390 / 1440 / 320+200%、明暗；Safari 27.0.1 与 Firefox 159.0.1 在 390 / 1440 复验。390 抽屉 200×844、贴右边缘、链接 44px、Escape 回焦、链接关闭 + hash + 滚动 + H2 焦点、无横向溢出；1440 触发按钮隐藏、桌面目录 Card 可见；favicon 返回 200 / 46,429 字节。证据在忽略目录 `output/toc-favicon-2026-11-15/`。
 - 边界：未覆盖实体设备、真实屏幕阅读器、Safari / Firefox 粗指针与触控、真实输入法；本轮只改文档页与站点图标，其他页面未改。视觉待所有者复审，F-02.4 登记随本次复审一次完成。
