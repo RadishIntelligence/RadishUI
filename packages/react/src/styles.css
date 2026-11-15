@@ -156,6 +156,8 @@
 .rd-accordion__trigger svg { flex-shrink: 0; transition: transform var(--rd-motion-base); }
 .rd-accordion__trigger[data-state="open"] svg { transform: rotate(180deg); }
 .rd-accordion__content { overflow: hidden; }
+.rd-accordion__content[data-state="open"] { animation: rd-accordion-down var(--rd-motion-base) var(--rd-ease-enter); }
+.rd-accordion__content[data-state="closed"] { animation: rd-accordion-up var(--rd-motion-base) var(--rd-ease-enter); }
 .rd-accordion__content-inner { padding: 0 var(--rd-space-1) var(--rd-space-3); color: var(--rd-text-secondary); font-size: var(--rd-font-size-sm); line-height: 1.7; }
 @media (prefers-reduced-motion: reduce) { .rd-accordion__trigger svg { transition: none; } }
 
@@ -235,6 +237,7 @@
 .rd-badge--info { color: var(--rd-text-action); background: var(--rd-bg-selected); }
 .rd-dialog-overlay { position: fixed; inset: 0; z-index: 70; background: var(--rd-overlay); animation: rd-fade-in var(--rd-motion-base); }
 .rd-dialog { box-sizing: border-box; position: fixed; z-index: 71; left: 50%; top: 50%; transform: translate(-50%, -50%); display: flex; flex-direction: column; width: min(520px, calc(100vw - 32px)); max-height: calc(100dvh - 32px); border: 1px solid var(--rd-border-soft); border-radius: var(--rd-radius-panel); background: var(--rd-bg-surface); color: var(--rd-text-primary); box-shadow: var(--rd-shadow-popup); font-family: var(--rd-font-sans); }
+.rd-dialog { animation: rd-dialog-in var(--rd-motion-base) var(--rd-ease-enter); }
 .rd-dialog-header { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--rd-space-4); padding: var(--rd-space-4); }
 .rd-dialog-header > div { min-width: 0; }
 .rd-dialog-title { margin: 0; font-size: 1.25rem; font-weight: 600; overflow-wrap: anywhere; }
@@ -248,6 +251,7 @@
 .rd-dialog-body { min-height: 0; overflow: auto; padding: 0 var(--rd-space-4) var(--rd-space-4); overscroll-behavior: contain; }
 .rd-dialog-footer { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: var(--rd-space-2); padding: var(--rd-space-3) var(--rd-space-4); border-top: 1px solid var(--rd-border-soft); }
 .rd-drawer { left: auto; right: 8px; top: 8px; bottom: 8px; transform: none; width: min(400px, calc(100vw - 16px)); max-height: none; }
+.rd-drawer { animation: rd-drawer-in var(--rd-motion-base) var(--rd-ease-enter); }
 .rd-drawer .rd-dialog-body { flex: 1; }
 .rd-menu { min-width: 190px; max-width: calc(100vw - 24px); }
 .rd-menu-item { justify-content: flex-start; text-decoration: none; color: inherit; }
@@ -285,6 +289,10 @@
 @keyframes rd-spin { to { transform: rotate(360deg); } }
 @keyframes rd-fade-in { from { opacity: 0; } to { opacity: 1; } }
 @keyframes rd-layer-in { from { opacity: 0; transform: scale(.96); } }
+@keyframes rd-dialog-in { from { opacity: 0; scale: .98; } }
+@keyframes rd-drawer-in { from { opacity: 0; translate: 16px 0; } }
+@keyframes rd-accordion-down { from { height: 0; opacity: 0; } to { height: var(--radix-accordion-content-height); opacity: 1; } }
+@keyframes rd-accordion-up { from { height: var(--radix-accordion-content-height); opacity: 1; } to { height: 0; opacity: 0; } }
 /* A narrow desktop pane still uses desktop controls. Size touch targets by input device. */
 @media (pointer: coarse), (pointer: none) {
   .rd-checkbox { min-height: var(--rd-touch-height); }
@@ -302,7 +310,8 @@
 @media (prefers-reduced-motion: reduce) {
   .rd-button, .rd-switch-thumb { transition: none; }
   .rd-button__spinner { animation: none; }
-  .rd-dialog-overlay { animation: none; }
+  .rd-dialog-overlay, .rd-dialog, .rd-drawer { animation: none; }
+  .rd-accordion__content[data-state="open"], .rd-accordion__content[data-state="closed"] { animation: none; }
   .rd-select-content[data-state="open"], .rd-menu[data-state="open"], .rd-tooltip[data-state$="open"] { animation: none; }
   .rd-toast[data-state="open"], .rd-toast[data-state="closed"], .rd-toast-ring-progress { animation: none; }
 }

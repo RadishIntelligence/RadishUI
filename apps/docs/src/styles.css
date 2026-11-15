@@ -263,6 +263,7 @@ h1 { font-size: var(--rd-font-size-title); line-height: 1.2; font-weight: 680; l
   .rd-drawer.resource-sheet { left: 0; right: 0; top: auto; bottom: 0; width: 100%; max-height: min(86dvh, 720px); transform: none; border-bottom: 0; border-radius: 20px 20px 0 0; }
   .rd-drawer.resource-sheet .rd-dialog-body { padding-bottom: calc(var(--rd-space-4) + env(safe-area-inset-bottom, 0px)); }
   .rd-drawer.resource-sheet .rd-dialog-header { padding: var(--rd-space-3) var(--rd-space-4); }
+  @media (prefers-reduced-motion: no-preference) { .rd-drawer.resource-sheet { animation: rd-sheet-in var(--rd-motion-base) var(--rd-ease-enter); } }
   @media (min-width: 481px) {
     .rd-drawer.resource-sheet { left: 50%; right: auto; width: min(560px, calc(100vw - 32px)); transform: translateX(-50%); }
   }
@@ -409,3 +410,5 @@ html[data-density="compact"] .settings-footer { padding: var(--rd-space-1) var(-
 html[data-density="compact"] .resource-table th { height: 32px; }
 html[data-density="compact"] .resource-table td { height: 48px; }
 html[data-density="compact"] .resource-select { min-height: 48px; }
+
+@keyframes rd-sheet-in { from { opacity: 0; translate: 0 16px; } }
