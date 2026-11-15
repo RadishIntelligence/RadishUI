@@ -21,7 +21,7 @@
 所有者要求先把 RadishUI 自身的展示站、共享组件与视觉做到满意，参照 shadcn/ui、lucide.dev、ant.design 的官网、组件展示与文档页设计；在本站满意前不再试点接入其他兄弟产品。
 
 - 参考定位：shadcn/ui 的组件页、实时预览 / 代码切换与文档结构；lucide.dev 的图标检索、尺寸 / 颜色 / 描边与复制；ant.design 的组件演示、API 表、表格 / 分页与设计语言。三者都是设计参考，不新增依赖；图标继续 lucide-react，字体继续 Inter Variable / JetBrains Mono Variable（补齐 CJK 回退与字重 / 行高角色，新增依赖另行确认）。
-- 工作方式：以现有 25 个组件为起点，先统一基础尺度与页面模板，再按页面影响与复用面分批实施；每批交付 Workbench 页面或组件页的真实用法与状态示例，不新增没有页面承载的空壳 API，不把组件数量当完成度。
+- 工作方式：以当时的 25 个组件为起点，先统一基础尺度与页面模板，再按页面影响与复用面分批实施；每批交付 Workbench 页面或组件页的真实用法与状态示例，不新增没有页面承载的空壳 API，不把组件数量当完成度。
 - About 有限采用已于 2026-11-12 上线并闭环；不因本站组件增加自动扩展到其他产品，后续采用按新的真实场景单独确认。
 
 ### 首轮一致性审计（2026-11-12）
@@ -51,7 +51,7 @@
 
 | 仓库 / 包 | UI 技术栈 | 通用组件与视觉来源 | 图标 | 字体 | 备注 |
 | --- | --- | --- | --- | --- | --- |
-| RadishUI | React 19.2.7；Radix；lucide-react 1.68 | 25 个共享组件；`--rd-*`；Inter / JetBrains 优先，系统回退 | lucide-react | Inter / JetBrains 优先，系统回退 | 本仓，统一目标；Web 范例已引 fontsource |
+| RadishUI | React 19.2.7；Radix；lucide-react 1.68 | 27 个共享组件；`--rd-*`；Inter / JetBrains 优先，系统回退 | lucide-react | Inter / JetBrains 优先，系统回退 | 本仓，统一目标；Web 范例已引 fontsource |
 | Radish `Frontend/radish.ui` | React 19.2.7；`@radish/ui` 26.8.2；AntD 6.1 封装 | Button、Input、Modal、Toast、Select、ContextMenu、Skeleton、PasscodeInput、ConfirmDialog、BottomSheet、Markdown 编辑器 / 渲染器、图表、图片裁切等 | Iconify + MDI；部分 AntD 图标 | `--theme-font-*` | 组件量最大，含产品领域组件；AntD 封装不整体迁入 |
 | RadishX | React 19.2.7 | 官网外壳；family-ui `--rd-*` 副本 + `--rx-*` 映射 | 内联 SVG | `--rx-font-*` | 已有本地临时消费测试，不作为正式采用 |
 | RadishMind | React 19 | 控制平面面板；`--rm-*` + `--rd-*` 别名 | 内联 SVG | Inter + 系统 CJK | 面向工作流 / 管理，面板多 |
