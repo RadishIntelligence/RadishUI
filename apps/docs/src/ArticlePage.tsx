@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent, type RefObject } from 'react';
-import { Accordion, Button, Card, ConfirmDialog, Dialog, FormField, InlineAlert, Input, StatusBadge, TableOfContents, Textarea, Tag } from '@radish-ui/react';
-import { Check, ChevronLeft, Copy, Info, LockKeyhole, Pencil, Share2 } from 'lucide-react';
+import { Button, Card, ConfirmDialog, Dialog, Drawer, FormField, IconButton, InlineAlert, Input, StatusBadge, TableOfContents, Textarea, Tag } from '@radish-ui/react';
+import { Check, ChevronLeft, Copy, Info, ListTree, LockKeyhole, Pencil, Share2 } from 'lucide-react';
 import { articleForResource, welcomeArticle } from './document-seed';
 import { formatDate, isArticles, parseArticle, type Article, type Preferences, type Resource, type Translate } from './model';
 import { readStored, storageKeys, writeStored } from './storage';
@@ -38,6 +38,7 @@ function DocumentReader({ resourceId = 'welcome', resource, preferences, section
   const [editing, setEditing] = useState(false);
   const [discardOpen, setDiscardOpen] = useState(false);
   const [restoreOpen, setRestoreOpen] = useState(false);
+  const [outlineOpen, setOutlineOpen] = useState(false);
   const [restoreError, setRestoreError] = useState('');
   const [shareOpen, setShareOpen] = useState(false);
   const [copyError, setCopyError] = useState('');
@@ -58,7 +59,7 @@ function DocumentReader({ resourceId = 'welcome', resource, preferences, section
   useEffect(() => onDirtyChange(dirty), [dirty, onDirtyChange]);
   useEffect(() => () => onDirtyChange(false), [onDirtyChange]);
   useEffect(() => { if (editing) titleInput.current?.focus(); }, [editing]);
-  const scrollToHeading = useCallback((id: string) => {
+  const scrollToHeading = useCallback((id: string, focusHeading = false) => {
     const root = scrollRoot.current;
     const target = document.getElementById(id);
     if (!root || !target || !root.contains(target)) return;
@@ -69,6 +70,8 @@ function DocumentReader({ resourceId = 'welcome', resource, preferences, section
     headingScroll.current = { target, start, top, phase: smooth ? 'pending' : 'settled' };
     setActiveHeading(id);
     root.scrollTo({ top, behavior: smooth ? 'smooth' : 'instant' });
+    // The drawer closes back to its trigger; move focus to the reading destination so it stays in view.
+    if (focusHeading) { target.setAttribute('tabindex', '-1'); target.focus({ preventScroll: true }); }
   }, [scrollRoot]);
   useEffect(() => {
     if (editing) return;
@@ -134,18 +137,24 @@ function DocumentReader({ resourceId = 'welcome', resource, preferences, section
   }
 
   const currentHeading = activeHeading || headings[0]?.id;
-  const outline = <TableOfContents label={t('本文目录', 'Document outline')}
+  const outlineFor = (inDrawer: boolean) => <TableOfContents label={t('本文目录', 'Document outline')}
     items={headings.map(heading => ({ id: heading.id, level: heading.level, text: heading.text }))}
     currentId={currentHeading} hrefFor={id => `#/document/${resourceId}/${id}`}
     onNavigate={(id, event) => {
-      if (section === id && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey) {
-        event.preventDefault();
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      if (section === id) event.preventDefault();
+      if (inDrawer) {
+        setOutlineOpen(false);
+        // Radix returns focus to the trigger when the drawer closes; wait for that, then move focus to the heading.
+        window.setTimeout(() => scrollToHeading(id, true), 50);
+      } else {
         scrollToHeading(id);
       }
     }} />;
   return <section className="document-page">
     <div className="document-toolbar"><a className="document-back" href="#/resources"><ChevronLeft size={16} aria-hidden="true" />{t('资源库', 'Resources')}</a>
-      <div><Button variant="secondary" onClick={() => { setShareOpen(true); setCopied(false); setCopyError(''); }}><Share2 />{t('分享', 'Share')}</Button>
+      <div>{!editing && preferences.showToc && headings.length > 0 && <IconButton className="document-outline-trigger" label={t('本文目录', 'On this page')} title={t('本文目录', 'On this page')} aria-haspopup="dialog" aria-expanded={outlineOpen} onClick={() => setOutlineOpen(true)}><ListTree /></IconButton>}
+        <Button variant="secondary" onClick={() => { setShareOpen(true); setCopied(false); setCopyError(''); }}><Share2 />{t('分享', 'Share')}</Button>
         {!editing && <Button ref={editButton} disabled={readonly || Boolean(storeError)} onClick={() => { setDraft(article); setEditing(true); }}><Pencil />{t('编辑文档', 'Edit document')}</Button>}
       </div>
     </div>
@@ -169,11 +178,11 @@ function DocumentReader({ resourceId = 'welcome', resource, preferences, section
           : <p className="field-help">{t('文档暂无内容。', 'This document is empty.')}</p>}
       </article>
       <aside className="document-aside">
-        {preferences.showToc && headings.length > 0 && <><Card tone="muted" padding="sm" className="document-outline"><span>{t('本文目录', 'On this page')}</span>{outline}</Card>
-          <Accordion className="mobile-outline" type="single" collapsible items={[{ value: 'toc', label: t('本文目录', 'On this page'), content: outline }]} /></>}
+        {preferences.showToc && headings.length > 0 && <Card tone="muted" padding="sm" className="document-outline"><span>{t('本文目录', 'On this page')}</span>{outlineFor(false)}</Card>}
         <div className="document-properties"><span>{t('文档属性', 'Document properties')}</span><dl className="property-list"><div><dt>{t('状态', 'Status')}</dt><dd>{readonly ? t('只读', 'Read only') : t('已保存', 'Saved')}</dd></div><div><dt>{t('创建者', 'Created by')}</dt><dd>{resource?.creator ?? t('林杏', 'Lin Xing')}</dd></div><div><dt>{t('最近更新', 'Updated')}</dt><dd>{formatDate(article.updatedAt, preferences.locale)}</dd></div></dl><div className="document-tags"><Tag>{t('排版', 'Typography')}</Tag><Tag>{t('交互', 'Interaction')}</Tag></div></div>
       </aside>
     </div>}
+    {preferences.showToc && headings.length > 0 && <Drawer className="document-outline-drawer" open={outlineOpen} onOpenChange={setOutlineOpen} title={t('本文目录', 'On this page')} closeLabel={t('关闭', 'Close')}>{outlineFor(true)}</Drawer>}
     <ConfirmDialog open={discardOpen} onOpenChange={setDiscardOpen} title={t('放弃文档修改？', 'Discard document edits?')} closeLabel={t('关闭', 'Close')}
       description={t('当前未保存的文字会丢失。', 'Your unsaved text will be lost.')}
       confirmLabel={t('放弃修改', 'Discard edits')} cancelLabel={t('继续编辑', 'Keep editing')} tone="danger" onConfirm={() => { setDiscardOpen(false); setDraft(article); exitEditing(); }} />
