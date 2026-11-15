@@ -29,6 +29,17 @@
 
 本轮只有内部展示站消费，没有已发布包或产品迁移。具体语义值可随运行效果迭代；任何后续删除 / 改名 / 默认值变更仍按设计系统契约说明兼容影响。
 
+## 动效语义 token（2026-11-14）
+
+浮层入场试点新增两个共享 token；取值仍是候选，不随本轮冻结：
+
+| token | 值 | 用途 |
+| --- | --- | --- |
+| motion-fast | 120ms | Tooltip 等短反馈入场 |
+| ease-enter | cubic-bezier(.2, .8, .2, 1) | 浮层与 Toast 入场缓动 |
+
+`motion-base` 保持 160ms。退出缓动没有新增：等真正需要退出动画时再定义，不留下未被消费的 token。生成、校验和提交方式不变（`npm run tokens:generate` / `check:tokens`）。Flutter 包当前没有运行时 token 实现，本轮只影响 Web 产物。
+
 ## 正常、失败与恢复
 
 修改 JSON 后运行 `npm run tokens:generate`，与 CSS 一起提交；`npm run check:tokens` 核对一致性。当前脚本校验亮暗键集合相同、token 名与值的基本格式；无效输入或过期产物使命令失败，不静默接受或手工修补 CSS。修正来源、重新生成，再运行 `npm run build`；新增格式或平台另行确认生成责任和消费路径。
@@ -41,6 +52,8 @@
 | F-01.2 现代圆角语义映射与嵌套明暗 | 已完成（本地 Web 范例） | JSON / CSS 一致性、明暗缩略图、三页与 200% 基础文字放大通过；34 组实际 token 实色对照通过（B2 新增 `control-surface-filled` 未计入该次口径），范围见本周记录 |
 
 本专题验收要求 JSON / CSS 可追溯、一致性检查失败可观察、React 与展示站从真实产物消费。正式颜色和尺度确认仍属于 F 大专题的 P1 出口，待所有者评审运行效果；本轮本地映射通过不等于家族视觉定稿。
+
+2026-11-15 所有者选定青玉 / 雾蓝配色，JSON / CSS 与对比度检查已更新（见 [02 色彩](../design/foundations/02-color.md#2026-11-15-青玉--雾蓝)）；所有者于 2026-11-15 确认最终视觉，纳入 F-02.4 配色补充。
 
 
 2026-11-08 字体栈更新：`font-sans` 优先 `'Inter Variable'` / Inter，`font-mono` 优先 `'JetBrains Mono Variable'` / JetBrains Mono，缺失时回退系统字体。Web 范例已引入 OFL fontsource 包；组件包发行时的字体依赖方式仍待单独确认。

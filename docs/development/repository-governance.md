@@ -6,7 +6,7 @@
 
 | 文件 | 职责 |
 | --- | --- |
-| `AGENTS.md` / `CLAUDE.md` | 简短协作入口与任务路由，正文同步 |
+| `AGENTS.md` / `CLAUDE.md` | 全文一致的协作入口与任务路由 |
 | `CONTRIBUTING.md`、`CODE_OF_CONDUCT.md`、`SECURITY.md` | 贡献、行为、安全报告边界 |
 | `.editorconfig` / `.gitattributes` | UTF-8、LF、末尾换行；二进制与 Pencil 不做文本合并 |
 | `.gitignore` | 本地 IDE、凭据、缓存、构建与验证输出；保留 token CSS 产物例外 |
@@ -14,7 +14,7 @@
 | `.github/workflows/pr-check.yml` | 现有工程能力的 PR 检查 |
 | `.github/rulesets/` 与 `.github/repository-settings.json` | 可审阅的远端目标模板，均不自动生效 |
 
-当前不新增 `LICENSE` 或声明开源许可。字体、图标、截图、第三方和兄弟项目资产须逐项确认来源与许可；公共仓库、内部 workspace 包名和当前内部版本 `26.11.1` 均不代表发行承诺；版本规则见[版本策略](versioning.md)。
+[根 LICENSE](../../LICENSE)适用于有权授权的 RadishUI 原创内容。产品接入、再分发和独立组件包发行需单独授权。字体、图标、截图及第三方和兄弟项目资产保留各自许可。版本规则见[版本策略](versioning.md)。
 
 ## Git 与 PR 闭环
 

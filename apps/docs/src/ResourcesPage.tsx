@@ -1,29 +1,28 @@
 import { useEffect, useLayoutEffect, useRef, useState, type FormEvent } from 'react';
-import { Button, Checkbox, ConfirmDialog, Dialog, Drawer, FormField, IconButton, InlineAlert, Input, Menu, Select, Textarea, Tag, TagInput, ToggleGroup } from '@radish-ui/react';
-import { ArrowUpRight, ChevronLeft, ChevronRight, FileText, History, ListChecks, LockKeyhole, MoreHorizontal, Palette, PanelsTopLeft, Plus, RefreshCw, Search, Trash2 } from 'lucide-react';
-import { appendResourceTags, filterResources, formatDate, kindLabel, pageCount, pageNumbers, resourceTagError, resourceTagLimits, statusLabel, validatePage, type Preferences, type Resource, type ResourceKind, type Translate } from './model';
+import { Button, Card, Checkbox, ConfirmDialog, Dialog, Drawer, FormField, IconButton, InlineAlert, Input, Menu, Pagination, Select, Table, Textarea, Tag, TagInput, ToggleGroup } from '@radish-ui/react';
+import { ArrowUpRight, FileText, History, ListChecks, LockKeyhole, MoreHorizontal, Palette, PanelsTopLeft, Plus, RefreshCw, Search, Trash2 } from 'lucide-react';
+import { PageHeader } from './PageHeader';
+import { appendResourceTags, filterResources, formatDate, kindLabel, pageCount, resourceTagError, resourceTagLimits, statusLabel, type Preferences, type Resource, type ResourceKind, type Translate } from './model';
 
 const kindIcons = { document: FileText, spec: Palette, checklist: ListChecks, example: PanelsTopLeft };
 function openResource(resource: Resource) { window.location.hash = resource.id === 'settings-example' ? '/settings' : `/document/${resource.id}`; }
 function ResourceStatus({ resource, t }: { resource: Resource; t: Translate }) {
   return <span className={`resource-status is-${resource.status}`}>
-    {resource.status === 'readonly' ? <LockKeyhole size={12} aria-hidden="true" /> : <span className="resource-status-dot" aria-hidden="true" />}
+    {resource.status === 'readonly' ? <LockKeyhole size={16} aria-hidden="true" /> : <span className="resource-status-dot" aria-hidden="true" />}
     {statusLabel(resource.status, t)}
   </span>;
 }
 
 interface ResourcesPageProps {
   resources?: Resource[]; error?: string; save(next: Resource[]): string | undefined; retry(): void;
-  t: Translate; locale: Preferences['locale']; notify(message: string): void;
+  t: Translate; locale: Preferences['locale']; density: Preferences['density']; notify(message: string): void;
 }
-export function ResourcesPage({ resources, error, save, retry, t, locale, notify }: ResourcesPageProps) {
+export function ResourcesPage({ resources, error, save, retry, t, locale, density, notify }: ResourcesPageProps) {
   const [kind, setKind] = useState('all');
   const [status, setStatus] = useState('all');
   const [query, setQuery] = useState('');
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(20);
-  const [jump, setJump] = useState('1');
-  const [jumpError, setJumpError] = useState('');
   const [selectedId, setSelectedId] = useState('');
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [createOpen, setCreateOpen] = useState(false);
@@ -39,7 +38,6 @@ export function ResourcesPage({ resources, error, save, retry, t, locale, notify
   const currentPage = Math.min(page, totalPages);
   const visible = filtered.slice((currentPage - 1) * size, currentPage * size);
   const selected = visible.find(item => item.id === selectedId) ?? visible[0];
-  useEffect(() => { setJump(String(currentPage)); setJumpError(''); }, [currentPage]);
 
   // The workbench keeps one screen while the list stays usable; extreme text or a very short
   // viewport falls back to a page-level scroll instead of squeezing the list to nothing.
@@ -66,13 +64,7 @@ export function ResourcesPage({ resources, error, save, retry, t, locale, notify
     setSelectedId(item.id);
     if (window.matchMedia('(max-width: 1099px)').matches) setDrawerOpen(true);
   }
-  function resetPage() { setPage(1); setJump('1'); setJumpError(''); }
-  function jumpToPage(event: FormEvent) {
-    event.preventDefault();
-    const value = validatePage(jump, totalPages);
-    if (value === undefined) { setJumpError(t(`请输入 1–${totalPages} 之间的整数。`, `Enter a whole number from 1 to ${totalPages}.`)); return; }
-    setPage(value); setJumpError('');
-  }
+  function resetPage() { setPage(1); }
   function remove() {
     if (!resources || !deleteTarget) return;
     const failure = save(resources.filter(item => item.id !== deleteTarget.id));
@@ -90,10 +82,10 @@ export function ResourcesPage({ resources, error, save, retry, t, locale, notify
     <div className="state-actions"><Button variant="secondary" onClick={retry}>{t('重试', 'Retry')}</Button><Button variant="secondary" onClick={() => setRestoreOpen(true)}>{t('恢复演示数据', 'Restore demo data')}</Button></div>
   </div> : resources === undefined ? <div className="resource-state" role="status">{t('正在读取本地资源…', 'Loading local resources…')}</div>
     : <div className={`resources-layout ${selected ? '' : 'is-empty'}`}>
-      <div className="resource-table-panel">
+      <Card padding="none" className="resource-table-panel">
         <div className="resource-table-scroll">
         {visible.length ? <>
-          <table className="resource-table"><caption className="sr-only">{t('资源列表', 'Resource list')}</caption>
+          <Table label={t('资源列表', 'Resource list')} className="resource-table" stickyHeader={!scrollFallback}>
             <colgroup><col /><col className="status-column" /><col className="updated-column" /><col className="action-column" /></colgroup>
             <thead><tr><th scope="col">{t('资源名称', 'Resource name')}</th><th scope="col">{t('状态', 'Status')}</th><th scope="col">{t('最近更新', 'Updated')}</th><th scope="col"><span className="sr-only">{t('操作', 'Open')}</span></th></tr></thead>
             <tbody>{visible.map(item => {
@@ -106,7 +98,7 @@ export function ResourcesPage({ resources, error, save, retry, t, locale, notify
                 <td><IconButton className="resource-open" label={t(`打开 ${item.name}`, `Open ${item.name}`)} onClick={event => { event.stopPropagation(); openResource(item); }}><ArrowUpRight /></IconButton></td>
               </tr>;
             })}</tbody>
-          </table>
+          </Table>
           <ul className="resource-mobile-list" aria-label={t('资源列表', 'Resource list')}>
             {visible.map(item => {
               const Icon = kindIcons[item.kind];
@@ -121,43 +113,41 @@ export function ResourcesPage({ resources, error, save, retry, t, locale, notify
           <Button variant="secondary" onClick={() => { if (resources.length) { setQuery(''); setStatus('all'); setKind('all'); resetPage(); } else setCreateOpen(true); }}>{resources.length ? t('清除筛选', 'Clear filters') : t('新建资源', 'New resource')}</Button>
         </div>}
         </div>
-        {visible.length > 0 && <nav className="pagination" aria-label={t('资源分页', 'Resource pagination')}>
-          <span className="result-count" role="status">{t(`共 ${filtered.length} 项`, `${filtered.length} items`)}</span>
-          <Select label={t('每页条数', 'Items per page')} className="page-size" value={String(size)} onValueChange={value => { setSize(Number(value)); resetPage(); }}
-            options={[5, 10, 20, 50].map(value => ({ value: String(value), label: t(`${value} 条/页`, `${value} / page`) }))} />
-          {totalPages > 1 ? <>
-            <div className="page-buttons"><IconButton label={t('上一页', 'Previous page')} disabled={currentPage <= 1} onClick={() => setPage(currentPage - 1)}><ChevronLeft /></IconButton>
-              {pageNumbers(currentPage, totalPages).map((number, index) => number === 'gap' ? <span className="page-gap" key={`gap-${index}`}>…</span> : <Button key={number} size="sm" className="page-number" variant={number === currentPage ? 'primary' : 'ghost'} aria-current={number === currentPage ? 'page' : undefined}
-                aria-label={t(`第 ${number} 页`, `Page ${number}`)} onClick={() => setPage(number)}>{number}</Button>)}
-              <span className="page-position" aria-label={t(`第 ${currentPage} 页，共 ${totalPages} 页`, `Page ${currentPage} of ${totalPages}`)}>{currentPage} / {totalPages}</span>
-              <IconButton label={t('下一页', 'Next page')} disabled={currentPage >= totalPages} onClick={() => setPage(currentPage + 1)}><ChevronRight /></IconButton>
-            </div>
-            <form className="page-jump" onSubmit={jumpToPage} noValidate><label htmlFor="page-jump">{t('前往', 'Go to')}</label><Input id="page-jump" inputMode="numeric" value={jump} onChange={event => { setJump(event.target.value); setJumpError(''); }} aria-invalid={Boolean(jumpError) || undefined} aria-describedby={jumpError ? 'jump-error' : undefined} />
-              <span>{t('页', '')}</span><Button variant="secondary" size="sm" type="submit">{t('跳转', 'Go')}</Button></form>
-          </> : <span className="page-single" aria-label={t(`第 ${currentPage} 页，共 ${totalPages} 页`, `Page ${currentPage} of ${totalPages}`)}>{currentPage} / {totalPages}</span>}
-        </nav>}
-        {visible.length > 0 && jumpError && totalPages > 1 && <p id="jump-error" className="pagination-error" role="alert">{jumpError}</p>}
-      </div>
-      {selected && <aside className="resource-detail-panel" aria-label={t('当前资源', 'Current resource')}>{details}</aside>}
+        {visible.length > 0 && <Pagination page={currentPage} pageCount={totalPages} pageSize={size} totalItems={filtered.length}
+          onPageChange={setPage} onPageSizeChange={next => { setSize(next); resetPage(); }}
+          labels={{
+            nav: t('资源分页', 'Resource pagination'),
+            summary: total => t(`共 ${total} 项`, `${total} items`),
+            pageSize: t('每页条数', 'Items per page'),
+            pageSizeOption: value => t(`${value} 条/页`, `${value} / page`),
+            previous: t('上一页', 'Previous page'),
+            next: t('下一页', 'Next page'),
+            page: value => t(`第 ${value} 页`, `Page ${value}`),
+            position: (value, total) => t(`第 ${value} 页，共 ${total} 页`, `Page ${value} of ${total}`),
+            jump: t('前往', 'Go to'),
+            jumpUnit: t('页', ''),
+            jumpAction: t('跳转', 'Go'),
+            jumpError: total => t(`请输入 1–${total} 之间的整数。`, `Enter a whole number from 1 to ${total}.`),
+          }} />}
+      </Card>
+      {selected && <Card asChild padding={density === 'spacious' ? 'md' : 'sm'}><aside className="resource-detail-panel" aria-label={t('当前资源', 'Current resource')}>{details}</aside></Card>}
     </div>;
 
   return <section className={`resources-page${scrollFallback ? ' is-scroll-fallback' : ''}`} ref={pageRef}>
-    <div className="page-title"><h1 ref={title} tabIndex={-1}>{t('资源库', 'Resources')}</h1>
-      <div className="page-title-actions">
-        <Menu trigger={<IconButton className="page-menu" label={t('页面操作', 'Page actions')}><MoreHorizontal /></IconButton>} items={[
-          { id: 'restore', label: t('恢复演示数据', 'Restore demo data'), icon: <RefreshCw />, onSelect: () => setRestoreOpen(true) },
-        ]} />
-        <Button onClick={() => setCreateOpen(true)} disabled={resources === undefined || Boolean(error)}><Plus />{t('新建资源', 'New resource')}</Button>
-      </div>
-    </div>
+    <PageHeader title={t('资源库', 'Resources')} titleRef={title} actions={<>
+      <Menu trigger={<IconButton className="page-menu" label={t('页面操作', 'Page actions')}><MoreHorizontal /></IconButton>} items={[
+        { id: 'restore', label: t('恢复演示数据', 'Restore demo data'), icon: <RefreshCw />, onSelect: () => setRestoreOpen(true) },
+      ]} />
+      <Button onClick={() => setCreateOpen(true)} disabled={resources === undefined || Boolean(error)}><Plus />{t('新建资源', 'New resource')}</Button>
+    </>} />
     <div className="resources-tabs">
-      <div className="resource-toolbar"><ToggleGroup label={t('资源类型', 'Resource type')} value={kind} onValueChange={value => { setKind(value); resetPage(); }} items={[
+      <div className="resource-toolbar"><ToggleGroup label={t('资源类型', 'Resource type')} size="lg" value={kind} onValueChange={value => { setKind(value); resetPage(); }} items={[
         { value: 'all', label: t('全部', 'All') },
         { value: 'document', label: t('文档', 'Docs') },
         { value: 'checklist', label: t('清单', 'Lists') },
       ]} />
         <div className="resource-search-tools"><label className="resource-search" htmlFor="resource-search"><span className="sr-only">{t('搜索资源', 'Search resources')}</span><Search size={18} aria-hidden="true" /><Input id="resource-search" type="search" value={query} placeholder={t('搜索资源…', 'Search resources…')} onChange={event => { setQuery(event.target.value); resetPage(); }} /></label>
-          <Select value={status} onValueChange={value => { setStatus(value); resetPage(); }} label={t('筛选资源状态', 'Filter resource status')} options={[
+          <Select value={status} onValueChange={value => { setStatus(value); resetPage(); }} label={t('筛选资源状态', 'Filter resource status')} size="sm" options={[
             { value: 'all', label: t('所有状态', 'All statuses') }, { value: 'ready', label: t('已就绪', 'Ready') }, { value: 'draft', label: t('草稿', 'Draft') }, { value: 'readonly', label: t('只读', 'Read only') },
           ]} />
         </div>

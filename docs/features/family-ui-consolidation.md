@@ -1,6 +1,6 @@
 # 家族 UI 通用组件与视觉统一
 
-状态：进行中（2026-11-08，只读盘点第一版 + Avatar / Tag / Skeleton / InputOTP / ConfirmDialog / ToggleGroup / Accordion 已落地；字体包与图标策略已定；视觉纳入 F-02.4 第二版运行基线）
+状态：进行中（2026-11-12 起组件与视觉完善为当前主成果；已落地 Avatar / Tag / Skeleton / InputOTP / ConfirmDialog / ToggleGroup / Accordion / TagInput；字体与图标策略已定；视觉纳入 F-02.4 第二版运行基线，外部试点暂停）
 主要归属：F：视觉基础 / C：跨平台通用组件
 协同：E：展示与页面范例、F-02 设计来源、G：工程与交付
 
@@ -16,11 +16,42 @@
 - 不为没有页面承载的组件提前堆 API；候选先登记触发条件。
 - 正式发行、tag 与部署按各自流程确认。已完成的展示站晋级见[部署说明](../deployment/hosting.md)。
 
+## 2026-11-12 组件与视觉完善成为当前主成果
+
+所有者要求先把 RadishUI 自身的展示站、共享组件与视觉做到满意，参照 shadcn/ui、lucide.dev、ant.design 的官网、组件展示与文档页设计；在本站满意前不再试点接入其他兄弟产品。
+
+- 参考定位：shadcn/ui 的组件页、实时预览 / 代码切换与文档结构；lucide.dev 的图标检索、尺寸 / 颜色 / 描边与复制；ant.design 的组件演示、API 表、表格 / 分页与设计语言。三者都是设计参考，不新增依赖；图标继续 lucide-react，字体继续 Inter Variable / JetBrains Mono Variable（补齐 CJK 回退与字重 / 行高角色，新增依赖另行确认）。
+- 工作方式：以当时的 25 个组件为起点，先统一基础尺度与页面模板，再按页面影响与复用面分批实施；每批交付 Workbench 页面或组件页的真实用法与状态示例，不新增没有页面承载的空壳 API，不把组件数量当完成度。
+- About 有限采用已于 2026-11-12 上线并闭环；不因本站组件增加自动扩展到其他产品，后续采用按新的真实场景单独确认。
+
+### 首轮一致性审计（2026-11-12）
+
+- 页面 H1：26px（foundations / components / platforms / resources / settings）、32px（document 文章）、40px（overview landing），与 token `--rd-font-size-title` 28px 不一致。
+- Button：28px 与 32px 高度并存；页面组合里同时出现 10px 与 999px 圆角（`rd-button` 基准是 pill，10px 来自页面类覆盖）。
+- 控件高度：rd-tab 28、Button 28 / 32、rail-link 32、workspace-switch 36、account-switch 50；表格行 52 / 53、表头 36、分页 49。
+- 图标：12 / 13 / 14 / 15 / 16 / 17 / 18 / 19 / 20 / 22 十种尺寸。
+- 圆角：8 / 10 / 12 / 16 / 999；卡片内边距 12 / 16 / 20 / 26。
+- 根因：共享组件消费 token，但 rail、表格、分页、卡片、目录、设置等页面组合层硬编码；图标尺寸由页面各自传入；缺少统一的 page / section / card / table / pagination / TOC 原语与使用规则。
+- 证据：`output/design-audit/2026-11-12/inventory.json` 与逐页截图。首轮覆盖页面 shell 与首屏可见元素，组件示例区的完整滚动审计下一轮补。
+- 第一批后（2026-11-12）：页面 H1 28（overview 40 / document 32 例外）；页面级图标 16 / 18 / 20；account 48、分页 48、workspace 10 / account 16 / theme 10 / outline、callout 16；7 页 42 组与键盘验证通过。控件内部 glyph 12 / 13 / 14 保留；卡片内边距与页面原语仍待下一批。
+- 审阅修订（同日）：分段控件统一 pill / 36px / 内容宽，item 统一 `4px 10px` / 28px（资源 / 设置 46×28，组件 46×28）；新增共享 PageHeader（标题 / 返回 / 动作槽）；组件页移除内部说明。42 组回归再次通过；Table / Pagination / TOC / Card 与组件页模板仍待下一批。
+- 尺寸根因（同日）：PC 端设置 / 组件 tabs 还有页级 `padding: 2px`，资源筛选没有；移动端还有 `padding-inline: 10px` 等覆盖。已改为共享 `--rd-segmented-*` + `size` 参数，删除页面尺寸覆盖，资源 / 设置 150×36、item 46×28，组件 198×36，1440 / 390 一致；分割线 16px。原因与防复发写入设计系统契约「同类控件的尺寸与复用」。
+
+### 统一尺度提案（待所有者确认）
+
+- 页面 H1 28px（token）；overview 40px landing、document 32px 阅读标题作为两个显式例外；H2 18px、正文 13–16px。
+- 控件高度 28 / 32 / 36（sm / md / lg）；rail 32、workspace 36、account 卡片 48、表格行 52、表头 36、分页 48、移动底栏 52（命中区至少 44）。
+- 图标 16 / 18 / 20；不再使用 12–15 / 17 / 19 / 22。
+- 圆角 8 / 10 / 16 / pill；Button 全变体 pill；字段 10；卡片 16；不使用 12 / 18 / 24 / 30。
+- 卡片内边距 16（紧凑 12）；页面 / 区块间距 24 / 32；字重与行高按角色。
+- 页面模板：PageHeader（eyebrow / 标题 / 说明 / 动作）、Section、Card、Table、Pagination、TOC、Demo / Code 块；所有 Workbench 页面复用。
+- 第一批：先落尺度契约与共享 Button / 图标 / 控件 / 页面标题修正（已完成基础尺度）；再替换资源库、文档、设置为共享原语；随后组件页改为预览 / 代码 / API 模板，最后 overview / foundations / platforms。每批 1440 / 390 / 320+200%、明暗、键盘证据。
+
 ## 只读来源盘点
 
 | 仓库 / 包 | UI 技术栈 | 通用组件与视觉来源 | 图标 | 字体 | 备注 |
 | --- | --- | --- | --- | --- | --- |
-| RadishUI | React 19.2.7；Radix；lucide-react 1.68 | 25 个共享组件；`--rd-*`；Inter / JetBrains 优先，系统回退 | lucide-react | Inter / JetBrains 优先，系统回退 | 本仓，统一目标；Web 范例已引 fontsource |
+| RadishUI | React 19.2.7；Radix；lucide-react 1.68 | 27 个共享组件；`--rd-*`；Inter / JetBrains 优先，系统回退 | lucide-react | Inter / JetBrains 优先，系统回退 | 本仓，统一目标；Web 范例已引 fontsource |
 | Radish `Frontend/radish.ui` | React 19.2.7；`@radish/ui` 26.8.2；AntD 6.1 封装 | Button、Input、Modal、Toast、Select、ContextMenu、Skeleton、PasscodeInput、ConfirmDialog、BottomSheet、Markdown 编辑器 / 渲染器、图表、图片裁切等 | Iconify + MDI；部分 AntD 图标 | `--theme-font-*` | 组件量最大，含产品领域组件；AntD 封装不整体迁入 |
 | RadishX | React 19.2.7 | 官网外壳；family-ui `--rd-*` 副本 + `--rx-*` 映射 | 内联 SVG | `--rx-font-*` | 已有本地临时消费测试，不作为正式采用 |
 | RadishMind | React 19 | 控制平面面板；`--rm-*` + `--rd-*` 别名 | 内联 SVG | Inter + 系统 CJK | 面向工作流 / 管理，面板多 |

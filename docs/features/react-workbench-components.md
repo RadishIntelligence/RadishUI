@@ -1,5 +1,6 @@
 # C-02：Workbench 首批 React 组件
 
+状态：进行中（2026-11-12 起按 shadcn/ui + lucide + ant.design 对标继续完善；先修同类控件与页面一致性，当前 27 个组件与 C-02.4 用法页为起点，组件数量不代替完成度）
 主要归属：[C：跨平台通用组件](../planning/topics.md#components)，协同 F-01 / F-02 与 [E-02 三代表页](workbench-preview.md)。2026-11-04 萝卜SAMA明确授权在本仓 Web 展示站实施；当前现代圆角版作为首轮实现起点，后续视觉仍可调整，不代表产品采用或正式包发行。
 
 ## 范围与依赖
@@ -18,7 +19,7 @@
 | --- | --- |
 | Button / IconButton | 保留原生 button 属性、ref、四种 variant 与 loading，增加 sm / md；默认 type=button，loading 禁用并带 aria-busy。IconButton 的 label 必填；loading 时仅显示 spinner 并替换图标，不与图标叠加 |
 | FormField / Input / Textarea | FormField 提供 label、hint / error、required 与稳定 id；Input / Textarea 读取字段上下文关联 aria-describedby / aria-invalid，也可独立传入原生属性；可选 surface: outline（默认）| filled。Switch 等其他控件由调用方显式关联 id / 标签及所需说明。失败不清空输入 |
-| Select | 受控 value / onValueChange、options、placeholder、disabled / required；可选 surface: outline（默认）| filled；触发值和箭头分离，浮层不透明，支持当前值、键盘、滚动与碰撞避让；已展开时再次点按触发器收起，触控关闭以同一次点按开始时的展开状态为准 |
+| Select | 受控 value / onValueChange、options、placeholder、disabled / required；可选 surface: outline（默认）/ filled、size: sm（chrome 13px）/ md（表单，桌面 13 / 触屏 16）；触发值和箭头分离，浮层不透明，支持当前值、键盘、滚动与碰撞避让；已展开时再次点按触发器收起，触控关闭以同一次点按开始时的展开状态为准 |
 | Checkbox / Switch | Checkbox 保留原生表单与键盘行为，Switch 使用受控 checked / onCheckedChange；标签、禁用、焦点与选择状态分别表达 |
 | InputOTP | 受控 value / onValueChange、label、length（默认 6）、hint / error、required、disabled、autoFocus、name、onEnterPress；数字输入、自动前进、退格 / 方向键 / Home / End、粘贴；每格为标准正方格并可访问，`name` 提交隐藏的完整值 |
 | RadioGroup | 受控 value / onValueChange，options: { value, label, disabled? }[]；orientation: vertical（默认）/ horizontal；name、required、disabled；FormField 内自动关联标签、说明与错误；方向键移动即选中，单项 label 使用字符串保证可访问名称 |
@@ -36,7 +37,7 @@
 | InlineAlert | info / success / warning / danger，错误以 alert 播报，其余状态使用 status；必要说明不只放在 Tooltip |
 | Toast / Tooltip | Toast 以顶部胶囊提供可关闭的短时反馈，关闭按钮显示剩余时间，悬停 / 聚焦暂停，超时自动关闭；Tooltip 补充已有可访问名称；不替代持久错误、字段帮助或必要操作入口 |
 
-A 批 10 个基础组件与 B 批 6 个反馈 / 浮层组件由三代表页实际消费。第二版运行基线累计 24 个组件，随后为资源新建新增 TagInput，当前共 25 个。AppShell、表格、分页、目录和业务数据仍属于展示站组合。
+A 批 10 个基础组件与 B 批 6 个反馈 / 浮层组件由三代表页实际消费。第二版运行基线累计 24 个组件，随后为资源新建新增 TagInput，2026-11-14 新增 Pagination 与 TableOfContents，当前共 27 个。AppShell、表格和业务数据仍属于展示站组合；分页与目录已抽为共享原语。 2026-11-12 起进入组件与视觉完善阶段：逐项审计现有组件与 shadcn/ui 的范围、状态、键盘 / 焦点、明暗与页面承载，按批次修订；新增组件必须有 Workbench 页面使用位置。
 
 ## 视觉与失败路径
 
@@ -51,7 +52,7 @@ A 批 10 个基础组件与 B 批 6 个反馈 / 浮层组件由三代表页实�
 | C-02.1 A 批控件与语义样式 | 已完成（本地 React 19 范例） | 十个基础组件由三页直接消费；类型、真实表单与明暗 / 窄屏检查通过 |
 | C-02.2 B 批浮层与反馈 | 已完成（本地 React 19 范例） | 六个反馈 / 浮层组件由 E-02 消费；Select 键盘、不透明菜单、Dialog / Drawer 焦点约束与恢复、失败反馈通过 |
 | C-02.3 状态与兼容验证 | 已完成（本轮限定范围） | 模型测试、浏览器流程和组合检查通过；具体证据与其他平台 / 辅助技术等未覆盖面归开发记录 |
-| C-02.4 组件用法与状态展示 | 已完成（本地 React 19 用例） | `#/components` 提供 25 个共享组件的实际用例、关键 props / 事件、代码与键盘说明；适用的禁用 / 加载 / 错误 / 只读和长内容可操作；11 月 7 日同步顶部通知与倒计时说明，明暗 / 窄屏验证见开发记录 |
+| C-02.4 组件用法与状态展示 | 已完成（本地 React 19 用例） | `#/components` 提供 27 个共享组件的实际用例、关键 props / 事件、代码与键盘说明；适用的禁用 / 加载 / 错误 / 只读和长内容可操作；11 月 7 日同步顶部通知与倒计时说明，明暗 / 窄屏验证见开发记录 |
 
 前三项完成指本轮真实页面的有限组合验收，C-02.4 已补齐独立用法页；这仍不等于每个组件的所有组合或所有消费环境均已验收。之后按页面需求决定新增组件，不以复制组件实现或静态截图替代运行用例。
 
@@ -59,7 +60,7 @@ A 批 10 个基础组件与 B 批 6 个反馈 / 浮层组件由三代表页实�
 
 ## 组件用法页与本轮收敛
 
-2026-11-05，`apps/docs/src/ComponentsPage.tsx` 直接导入共享组件，按操作、字段、选择、反馈四组展示。桌面从“开发参考 → 组件用法”进入，移动端从账号菜单进入；保留三代表页的主导航。示例仅在当前分组内保留内存状态，离开分组 / 页面即重置，不写入资源、正文或偏好。关键 props 与代码示例帮助理解用法，完整类型仍以共享包导出为准；示例内容以中文和 English 合成文案为主，不承诺文档全文英文化。
+2026-11-05，`apps/docs/src/ComponentsPage.tsx` 直接导入共享组件，按操作、字段、选择、反馈、导航五组展示。桌面从“开发参考 → 组件用法”进入，移动端从账号菜单进入；保留三代表页的主导航。示例仅在当前分组内保留内存状态，离开分组 / 页面即重置，不写入资源、正文或偏好。关键 props 与代码示例帮助理解用法，完整类型仍以共享包导出为准；示例内容以中文和 English 合成文案为主，不承诺文档全文英文化。
 
 2026-11-07 的 B2 采用：组件页临时 Surface & state spike 在候选方向确认后已移除，共享变更与示例保留如下：
 
@@ -69,7 +70,7 @@ A 批 10 个基础组件与 B 批 6 个反馈 / 浮层组件由三代表页实�
 - 设置页当时作为首个采用页面，4 个 Select 改为 filled；资源库搜索、文档与其他页面仍为 outline。所有者已确认该采用，设置页 filled 纳入 F-02.4 基准修订。
 - 2026-11-08 RadioGroup 修订：设置页界面语言、显示密度、正文字号、段落行距改为横向 RadioGroup；设置页不再使用 filled Select，filled 字段保留在组件示例与其他页面。原 B2 记录保留为历史采用，不删除 token 或 API。
 
-按所有者“桌面按钮、输入框、选择器偏大”的反馈，展示站默认偏好改用已有 compact 档；共享 token 值与 API 未改。Input / Select 的纵向内边距随现有高度计算，普通字号时三档实际对齐到 28 / 32 / 36px（2026-11-07 重命名为紧凑 / 标准 / 宽松）；Textarea 保留多行留白，大字号允许自然撑高，coarse / none pointer 保留至少 44px 控件范围，fine pointer 不再仅因窗口变窄而放大。Button 长文案可换行，避免大字号溢出。
+按所有者“桌面按钮、输入框、选择器偏大”的反馈，展示站默认偏好改用已有 compact 档；共享 token 值与 API 未改。Input / Select 的纵向内边距随现有高度计算，普通字号时桌面三档对齐到 30 / 34 / 38px，移动为 38 / 42 / 46px（2026-11-07 重命名为紧凑 / 标准 / 宽松，2026-11-14 调整档位）；Textarea 保留多行留白，大字号允许自然撑高，coarse / none pointer 保留至少 44px 控件范围，fine pointer 不再仅因窗口变窄而放大。Button 长文案可换行，避免大字号溢出。
 
 Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前显式聚焦自身（preventScroll），资源详情的原生按钮采用同一方式，保证 Dialog / Drawer 能记录并恢复真实入口。消费者仍可在 onClick 内主动移动焦点。Safari 原生窗口已复验这两条关闭路径，其他浮层组合仍按具体环境判断。
 
@@ -81,7 +82,7 @@ Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前
 
 ## 对话框关闭尺寸与 chrome（2026-11-07）
 
-此前关闭按钮只在展示站 ≤799px 覆盖；本轮把 32px 可视、44px 命中的关闭按钮收进共享 Dialog / Drawer（`.rd-dialog-close`，`::after` 外扩），展示站删除重复覆盖。footer 按钮由展示站按 [DR-17](../design/design-rules.md#dr-17) 设为桌面 32 / 移动 36（触屏 44 命中）；Dialog 正文表单仍按密度 28 / 32 / 36，不随 chrome 缩小。公开 props 未变，键盘、焦点恢复与 Escape 行为沿用原合同。
+此前关闭按钮只在展示站 ≤799px 覆盖；本轮把 32px 可视、44px 命中的关闭按钮收进共享 Dialog / Drawer（`.rd-dialog-close`，`::after` 外扩），展示站删除重复覆盖。footer 按钮由展示站按 [DR-17](../design/design-rules.md#dr-17) 随控件密度（桌面 34 / 移动 38–46），触屏命中 44 / 44 / 46；Dialog 正文表单同样随密度，不单独缩小。公开 props 未变，键盘、焦点恢复与 Escape 行为沿用原合同。
 
 
 ## 表单可用性吸纳（2026-11-08）
@@ -131,7 +132,7 @@ Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前
 
 - 目标：为家族登录 / 验证码类场景提供通用输入；参考 Radish `@radish/ui` 的 PasscodeInput 行为，但不搬产品实现。
 - API：受控 `value` / `onValueChange`；`label` 必填，`length` 默认 6；`hint` / `error`、`required`、`disabled`、`autoFocus`、`name`、`onEnterPress`。
-- 视觉：每格为正方形，与标准控件同高；细指针 32×32（`--rd-control-height`），粗指针 44×44（`--rd-touch-height`）；数字使用 mono 字体。
+- 视觉：每格为正方形，与标准控件同高；细指针随控件高度（桌面 34 / 移动 38–46），粗指针 44 / 44 / 46（`--rd-touch-height`）；数字使用 mono 字体。
 - 键盘 / 输入：数字自动前进，Backspace 清除当前或上一格，Delete 清除当前格。清空中间格时，右侧数字保留原位，`onValueChange` 继续返回连续数字字符串。支持方向键、Home / End 和系统粘贴快捷键，粘贴按位填充。每格有独立可访问名称，组用 `aria-labelledby` / `aria-describedby` 关联标签与说明。
 - 表单：`name` 时额外提交完整值的隐藏字段；错误状态通过 `aria-invalid` 与 danger 边框表达。
 - 接入：组件用法页字段组示例；本仓暂无真实登录页，未伪造验证码页面。家族 Radish 的 PasscodeInput 是后续真实接入参考。
@@ -180,3 +181,125 @@ Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前
 - 调用方控制 `value` 和 `draft`。`onValueChange` 接收删除后的标签，`onDraftChange` 接收正在编辑的文字，`onAdd` 由调用方校验并提交草稿。添加按钮和逐项删除按钮的名称由 `addLabel` 与 `removeLabel(tag)` 提供。在 FormField 内由现有 Input 关联字段标签、帮助和错误，独立使用时传 `label`。禁用时输入、添加、删除均不可操作。
 - 添加与删除后焦点回输入框，输入为空时 Backspace 一次删除一项，组合输入期间保留 IME 按键。长标签在窄容器换行，粗指针下操作沿用 44px 目标。组件页可尝试有效输入、超限错误与禁用状态。
 - Chrome 首验后，Safari 27.0.1 与 Firefox 159.0.1 各通过 12 组布局与 4 组功能流程。原生键盘与焦点环在 Safari 的 Option+Tab 和 Firefox 前台的 Tab 路径验证。Safari / Firefox 的粗指针 44px 命中、真实输入法、实体设备和屏幕阅读器朗读待验证。视觉已由所有者复审确认并登记为 [F-02.4 修订](visual-baseline-proposal.md#taginput-修订登记2026-11-09)。[开发记录](../devlogs/2026-W46.md#taginput-跨浏览器补验2026-11-09)
+
+## 浮层入场试点（2026-11-14）
+
+- 背景：评估外部动效库 EasyUI（MIT，React + Tailwind + Framer Motion）后不引入依赖，只借“浮层从触发边生长”的关系，用现有 CSS 与 token 实现。
+- 实现：Select / DropdownMenu / Tooltip 打开时 `opacity 0 → 1`、`scale .96 → 1`，原点取 Radix 的 popper transform-origin；Select / Menu 160ms，Tooltip 120ms，缓动 `ease-enter`。关闭仍即时，不做退出动画。
+- 验证：Chrome 157 无头实测 computed 值与截图。`data-side="top"` 的账户菜单原点落在右下，底部 Select 原点落在左上；Tooltip 以 `delayed-open` 走 120ms；减少动态下 `animation: none`。键盘 Enter 打开、首项焦点、Escape 关闭并回焦不变。
+- 边界：未覆盖 Safari / Firefox、真机、低帧率设备和 Flutter 对应语义；视觉未提交基准评审。
+
+## Pagination 与 TableOfContents（2026-11-14）
+
+- 来源：R1 资源库底部分页与 R3 文档目录此前都是 `apps/docs` 的一次性结构和 CSS。本轮按真实用法抽为共享原语，页面只传数据、回调和文案。
+- Pagination：`page` / `pageCount` / `pageSize` / `totalItems`，`onPageChange`、`onPageSizeChange`；`labels` 覆盖导航名、统计、每页条数、页码、位置、跳页与错误文案。组件自带页码省略（`paginationRange`）与跳页校验（`validatePage`），无效输入用 `role="alert"` 报错并保留输入。单页显示 `1 / 1`；窄屏隐藏页码与跳页，改为显示当前位置。
+- TableOfContents：`items: { id, level, text }[]`、`currentId`、`label`；`hrefFor` 决定链接地址，`onNavigate(id, event)` 交回页面处理同章节滚动偏移与修饰键。当前章节使用 `aria-current="location"`，三级标题按层级缩进。
+- 纯函数 `paginationRange` / `validatePage` 移到 `packages/react/src/pagination.ts`（无 JSX），页面模型只保留 `pageCount`；原有测试改为直接导入新位置，断言不变。
+- 验证：Chrome 157 无头，1440 / 390 / 320+200%、明暗。单页、三页、页码切换、跳页非法与合法、390 隐藏页码与跳页、目录当前章节、键盘 Enter 激活页码与目录链接、组件页五组 tabs 窄屏换行均通过；无横向溢出、无 pageerror。跳页按钮焦点环距面板边缘 13px，未被裁切。
+- 边界：只验证细指针无头环境；粗指针 44px 命中、Safari / Firefox、真机与屏幕阅读器未复验。窄屏目录链接在精细指针下按密度保持约 37px，粗指针沿用既有 44px 规则。视觉未提交基准评审。
+
+## Card 表面原语（2026-11-14）
+
+- 来源：概览卡片与色板、视觉基础四类卡片、平台卡片、资源详情面板、文档目录、组件页目录示例各自重复同一套表面配方（`border-soft` + `radius-panel` + 12 / 16px 内边距 + surface / muted / app 底色）。本轮抽为共享 `Card`。
+- API：`tone: surface | muted | app`、`padding: none | sm（12px）| md（16px）`；默认 `div`，`asChild` 通过 Radix Slot 附着到单个子元素，用于链式卡片，不新增依赖。组件只负责表面与内边距，网格、flex 与定位仍由页面负责。
+- 迁移：概览卡片与色板、视觉基础主题 / 字阶 / 空间 / 状态四类卡片、平台入口卡、资源详情 `aside`、文档目录、组件页目录示例。`overview-palette` 移动端原本单独写 10px，统一回到 12px 角色。
+- 收敛结果：卡片内边距只剩 `sm` 12px 与 `md` 16px 两档；20 / 24 / 26px 属于页面与区块间距，不再混作卡片内边距。资源详情面板通过 Card `padding` 的 sm / md（12 / 16）按密度传入，页面不再写 padding 覆盖；该例外已收口。
+- 验证：Chrome 157 无头实测计算值——概览卡片 12px / `rgb(255,255,255)`、视觉基础主题卡 16px / `rgb(245,246,248)`、平台链接卡 16px、资源详情 12px、文档目录 12px / `rgb(240,242,245)`；1440 / 390、明暗无横向溢出与 pageerror，`asChild` 的 `<a>` 与 `<aside>` 语义保留。证据在忽略目录 `output/card-primitive/`。
+- 边界：未覆盖粗指针、Safari / Firefox、真机与屏幕阅读器；视觉基准待所有者评审。Section、Table 与组件页模板仍待下一批。
+
+## Section 区块原语（2026-11-14）
+
+- 来源：视觉基础 5 个区块与组件用法页 27 个示例重复同一套区块 chrome：顶部 1px 分隔线、24 / 20px 区块内边距与标题结构（可带 eyebrow 与说明）。
+- API：`title`、`eyebrow`、`description`、`size: md | sm`。`md` 用于阅读型区块（18px 标题、24px 内边距），`sm` 用于密集参考（16px 标题、20px 内边距）；`aria-labelledby` 指向自动生成的标题 id。`description` 只服务文档区块，产品页的控件说明仍按 DR-18 判断。
+- 迁移：视觉基础 5 个区块、组件用法页 27 个示例。删除 `.foundation-section`、`.foundation-heading`、`.component-example` 的重复样式；示例内部间距由 Section 的 16px gap 接管，`.component-demo` 不再自带上内边距。
+- 验证：视觉基础 1440 截图与迁移前逐字节一致（`09b0dc34…`）；计算值对得上——视觉基础 padding 24 / 标题 18px / 说明 max-width 760px，组件示例 padding 20 / 标题 16px；390 与明暗无横向溢出，`aria-labelledby` 均可解析到标题。证据在忽略目录 `output/section-primitive/`。
+- 边界：未覆盖粗指针、Safari / Firefox、真机与屏幕阅读器；`sm` 区块在紧凑密度下的 12px 由 Section 共享 CSS 消费 `data-density`，页面不再写覆盖；该例外已收口。组件页模板已在后续批次完成。
+
+## Table 表格原语（2026-11-14）
+
+- 来源：R1 资源表格的表格元素、隐藏 caption 与吸顶表头此前只存在于 `apps/docs/styles.css`。
+- API：`label`（渲染为视觉隐藏的 caption）、`stickyHeader`（默认 `true`；页面退化到整页滚动时传 `false`），其余透传原生 `table` 属性。组件负责 caption、吸顶表头与单元格基本尺度，列宽、行状态与单位仍由页面组合。
+- 迁移：资源列表改用 `Table`，面板改为 `Card padding="none"`；删除页面里的 table / th / td 规则和 fallback 的 `position: static` 覆盖，退化状态改由 `stickyHeader={!scrollFallback}` 表达。
+- 验证：1440 下 caption 隐藏且可读、`table-layout: fixed`、表头 `sticky`；内层滚动 120px 后表头仍贴顶；300px 高度触发 `is-scroll-fallback`，表头变 `static`、页面接管滚动；390 隐藏表格并显示列表；明暗无横向溢出与 pageerror。证据在忽略目录 `output/table-primitive/`。
+- 边界：Table 通过 `--rd-table-*` 变量消费 `data-density`：表头 42 / 36 / 32、行 64 / 52 / 48、单元格 padding 8 / 4 / 4；页面高度覆盖已删除。R1 首行因两行资源内容实测 51.98 / 52.5 / 64.5（紧凑 / 标准 / 宽松），与 token 化前一致。粗指针、Safari / Firefox、真机与屏幕阅读器未复验；组件页模板与完整示例滚动审计已在后续批次完成。
+
+## 组件页参考模板（2026-11-14）
+
+- 结构：每个组件一条 `ComponentExample`（`apps/docs/src/ComponentExample.tsx`）——Section 标题 → 有边界的预览面板 → Props / Events 与键盘 / 状态 → 可展开的用法代码。示例顺序与分组不变。
+- 预览面板：`bg-surface` + `border-soft` + panel 圆角 + 16px 内边距；API 块用一条 `border-top` 与预览分开；代码仍用 `<details>` 折叠，不占首屏。紧凑密度下预览内边距收到 12px。
+- 滚动审计：5 个分组共 27 个示例，在 1440 / 390 / 320 + 200% 下逐个比较 `.component-demo` 的 `scrollWidth` 与 `clientWidth`，并检查页面 `scrollWidth`，均无横向溢出；预览面板计算值为 padding 16px、1px 边框、16px 圆角。证据在忽略目录 `output/component-template/`。
+- 边界：粗指针、Safari / Firefox、真机与屏幕阅读器未复验；模板视觉待所有者评审，未登记视觉基准。
+
+## 分段控件行高修正（2026-11-14）
+
+- 现象：所有者 200% 字号下看到设置页 tabs 比按钮臃肿，激活项接近圆形。实测默认字号时列表 36 / 项 28 / 按钮 36，是一致的；200% 时列表 55 / 项 47 / 按钮 38——`line-height: 1.5` 让分段项的高度完全随字号线性膨胀。
+- 修正：`--rd-segmented-line-height` 1.5 → 1.2，并去掉分段项的垂直内边距（`item padding` 4px 10px → 0 10px，垂直留白交给最小高度）。控件内的行高只服务控件高度，不承担正文阅读节奏。
+- 验证：默认字号下列表 36 / 项 28 / 按钮 36，与修改前一致；150% 字号列表 36 / 项 28 / 按钮 36；200% 时列表 39 / 项 31 / 按钮 38；250% 时列表 47 / 项 39 / 按钮 48。控件高度在全区间与按钮同步，单项宽度 72、高度 31（200%），保持药丸比例。组件页五组 tabs 200% 下无横向溢出。行高与内边距变量同时被 Tabs 与 ToggleGroup 消费。
+- 跨页一致性：工具条筛选的 `lg` 变体原先 `list 0` + `item = --rd-control-height`，激活项填满轨道，阴影贴边读成边框；tabs 则是 28px 药丸浮在 4px 轨道里。先后改为 `list 2` 与最终 `list 4` + `item 28`，让两处几何完全一致。1000 / 440 实测 tabs 与筛选均为轨道 36 / 药丸 28 / 4px 内边距。最终桌面分段控件与资源工具栏整行统一 34（28px 药丸 + 3px 内边距），移动随密度 38 / 42 / 46（药丸 32 / 36 / 40）；页头与文档工具栏 34。分段控件键盘焦点环 1px。
+- 边界：粗指针命中区、Safari / Firefox 未复验；视觉待所有者复审。
+
+## 分段控件焦点环一致性（2026-11-14）
+
+- 现象：组件页 / 设置页的 tabs 用鼠标点击后出现 2px 焦点环，看起来像高亮项带了边框；资源筛选点击后没有。两者尺寸一致时仍然「一个像带边框、一个不像」。
+- 根因：Radix Tabs 在 pointerdown 时把焦点交给触发器，Chrome 将其判为 `:focus-visible`；工具栏的 ToggleGroup 不触发该路径。不是边框或阴影样式不同。
+- 修正：`TabsList` 记录指针交互，指针触发焦点时不显示环；键盘进入、方向键切换仍保留 2px 环。`data-pointer-focus` 在指针按下时置位，键盘按键或焦点离开列表时清除。
+- 验证：点击后 `outline: none`（`data-pointer-focus=true`），方向键切换后 `outline: solid 2px`；资源筛选点击前后均无环。两处高亮药丸一致（28px）。
+
+## 触屏下的分段控件视觉高度（2026-11-14）
+
+- 根因：组件在 `@media (pointer: coarse)` 下把 `.rd-tab`、`.rd-toggle-group__item` 的最小高度设为 44px，视觉跟着变高；而设置页 footer 按钮被页面固定在 36px。设备模拟（iPhone / DPR 2 / 触摸）下就出现 tabs 比按钮高、单项接近方形的观感。细指针环境不会触发这条规则，所以桌面无头验证一直复现不到。
+- 修正：触屏下分段控件的**视觉高度保持** 28 / 轨道 36，命中区改由 `::after` 扩展到 44（`inset: calc((44px - item)/-2) 0`），符合 DR-16「视觉可小于 44、命中不能小于 44」。`sm` 24px 项同样得到 44。页面里重复的 `.rd-tab::after` 规则删除。
+- 焦点环：`ToggleGroup` 也加入 `data-pointer-focus`，点击筛选不再出现 2px 环；键盘操作仍保留。两处分段控件的点击与键盘表现一致。
+- 验证：Chrome 触屏模拟 440×956 / DPR 2 下，设置页 tabs 150×36、单项 46×28、命中 44；资源筛选轨道 36 / 项 28 / 命中 44；footer 按钮 36。明暗与窄屏无溢出。
+- 边界：未在实体设备、Safari / Firefox 复验。
+
+## 触屏按钮与移动目录表面（2026-11-14）
+
+- 首页 hero 按钮 44、页脚按钮 36：根因同分段控件——`@media (pointer: coarse)` 把 `.rd-button` 视觉高度撑到 44，而部分页面把 footer / 工具栏按钮钉在 36。修正：触屏下按钮视觉保持 36 / 32，命中区由 `::after` 扩展到 44；同时在 ≤799px 把 `--rd-control-height` 统一到 36（原先 hero 等未列入页面容器白名单，退回密度 32）。
+- 移动端目录是透明底 + 10px 圆角，PC 是 muted 底 + 16px 圆角。修正：`.mobile-outline` 改用 `bg-muted` + `radius-panel`，与 PC 的 `Card tone="muted"` 同一表面。
+- 资源筛选的「边框」是点击后的焦点环；`ToggleGroup` 补 `data-pointer-focus` 后与 tabs 一致，指针点击不再显示，键盘仍保留。
+- 验证：触屏模拟 440×956 / DPR 2，hero 与 footer 按钮均为 36（同日后续统一为移动 38 / 42 / 46），移动目录 muted / 16px 圆角，筛选点击后无 outline；键盘方向键仍触发 2px 环。
+- 边界：实体设备、Safari / Firefox 未复验；输入框 / 选择器当时仍保持 44 视觉高度，同日后续压到 38 / 42 / 46。
+
+## 全局 34px 尺度与 1px 焦点环（2026-11-14）
+
+- 所有者先确认桌面统一 34；移动随后按下一节调整为 38 / 42 / 46。桌面密度为 **30 / 34 / 38**；键盘焦点环统一 **1px**。
+- token：`control-height` 34、`control-height-sm` 30、`control-height-compact` 30、`control-height-standard` 34、`control-height-spacious` 38。
+- 分段控件：桌面轨道 34（28px 药丸 + 3px 内边距），`lg` 与 `md` 完全相同；移动轨道见下一节 38 / 42 / 46。轨道不再有 32 / 36 两套。
+- 图标按钮改用 `--rd-control-height`（34）；标签内的移除按钮单独保持 22px，避免标签被撑高。
+- 焦点环：组件与展示站的 `outline` 统一 1px；分段控件指针点击不显示、键盘保留；底部导航沿用全局 1px 环。
+- 触屏命中：按钮、分段控件视觉 34，命中区由 `::after` 扩到 44。文本输入与选择器在触屏下也压到 34px；按所有者确认，DR-16 增加了对应例外（替换元素无法用伪元素外扩命中，命中即视觉）。按钮、分段、导航仍保持 44 命中。
+- 验证：1280 下筛选 / 搜索 / 状态选择 / 页头按钮均 34，图标按钮 34，密度三档实测 30 / 34 / 38；440 触屏下 tabs / 工具栏 34，表单输入 44；键盘方向键焦点环 1px，点击无环；无横向溢出。
+
+## 移动端 38 / 42 / 46 与触控命中（2026-11-14）
+
+- 所有者确认：移动端密度基准改为 **38 / 42 / 46**（紧凑 / 标准 / 宽松，默认 42），触控命中按 **44 / 44 / 46**；桌面维持 30 / 34 / 38（默认 34）。
+- 实现：≤799px 时按 `data-density` 映射 `--rd-control-height` 与 `--rd-touch-height`；分段控件药丸 = 轨道 − 6（32 / 36 / 40）；按钮与图标按钮的 `::after` 用 `calc((touch - control + 2px) / -2)` 计算外扩，标签内移除按钮保持 22。
+- 文本输入与选择器的命中就是视觉高度（替换元素无法外扩）：紧凑 38、标准 42 低于 44，按 DR-16 的例外接受；其他控件仍按 44 / 44 / 46。
+- 页面里重复的 `::after` 命中规则删除，统一由组件计算；弹窗、工具栏、页头不再各自钉高度。移动顶栏的工作区切换、明暗与账号入口统一随密度（38 / 42 / 46），头像用 `calc` 跟随。
+- 验证：440 触屏三档实测——紧凑控件 38 / 药丸 32 / 命中 44；标准 42 / 36 / 44；宽松 46 / 40 / 46；搜索与选择器随 38 / 42 / 46；按钮命中 44 / 44 / 46；无横向溢出。
+
+## 跨环境复验与 Pagination 尺寸修正（2026-11-15）
+
+- 复验 11-14 的尺度与第二批原语：Chrome 157.0.8103.51（13 组）、Safari 27.0.1（8 组）、Firefox 159.0.1（8 组），覆盖 1440 / 390 / 320+200%、1440+200%、390+200%、明暗、桌面紧凑 / 宽松与 440 触屏三档；每组 7 个页面和组件页 5 组 27 个示例。矩阵与证据见[开发记录](../devlogs/2026-W46.md#跨环境复验与-pagination-尺寸修正)。
+- 发现：Pagination 抽为共享原语时仍保留 30 / 32 / 34 混用：页大小选择器 32、页码 30、跳页输入 32、跳页按钮 30、前后翻页 34；390 的页大小仍 34，440 触屏被窄屏规则覆盖回 34，桌面紧凑 / 宽松仍是 32。单页状态只显示选择器，页码与跳页默认隐藏，单页截图容易漏检。
+- 修正：Pagination 内部控件统一消费 `--rd-control-height`；页码与跳页按钮改用标准 Button；页大小选择器、跳页输入与前后翻页图标随控件尺度（桌面 30 / 34 / 38，移动 38 / 42 / 46）；删除窄屏固定 34、触屏撑到 44 与选择器 `::after` 的旧规则。触屏只放大选择器 / 输入文字，命中区保持视觉高度（DR-16 例外）。
+- 结果：1440 标准多页的页大小 / 页码 / 前后翻页 / 跳页输入 / 跳页按钮均为 34（条 48），紧凑 30（条 48），宽松 38（条 63）；390 / 440 标准 42（条 55），紧凑 38（条 51），宽松 46（条 59）；320+200%（触屏）分页条 117–121px，无横向溢出。三款浏览器在 1440 标准多页一致，7 个页面与 27 个示例无横向溢出或 wide demo；焦点环在 Chrome 指针抑制 / 键盘 1px、Safari 与 Firefox 键盘 1px 通过。
+- 边界：未覆盖实体设备、真实屏幕阅读器、Windows、Safari / Firefox 粗指针与触控、真实输入法和 Flutter；Safari 以 iframe 固定视口，Firefox 为无头实例；视觉仍待所有者复审，F-02.4 登记未完成。11-14 Pagination 条目中的 Safari / Firefox 与粗指针缺口已由本节补验，实体设备与屏幕阅读器仍未覆盖。
+
+## Dialog / Drawer 与 Accordion 入场（2026-11-15）
+
+- 目的与完整规则见 [05 动效](../design/foundations/05-motion.md#dialog--drawer-与-accordion-入场2026-11-15)；触发为 Dialog / ConfirmDialog / Drawer 打开与 Accordion 单项展开 / 收起，关闭 Dialog / Drawer 仍即时卸载，不等待动画。
+- Dialog：面板 `opacity 0 → 1`、`scale .98 → 1`，160ms `--rd-ease-enter`；`scale` 使用独立变换属性，避免覆盖 `.rd-dialog` 的居中 `transform`。Drawer 用 `translate 16px 0 → 0` 从右侧滑入；展示站 `.resource-sheet` 在 ≤799px 覆盖为 `translate 0 16px → 0` 的底部纵向滑入。
+- Accordion：内容使用 Radix 的 `--radix-accordion-content-height` 做 `height` 与 `opacity` 的展开 / 收起，160ms；收起结束后内容带 `hidden`，焦点、Escape 与键盘切换合同不变。
+- 验证：Chrome 157.0.8103.51 无头，`Animation.setPlaybackRate(0.1)` 取中间帧；Safari 27.0.1 / Firefox 159.0.1 以 2s 动画覆盖取中间帧。Dialog `opacity .75 / scale .995` 且居中 `transform` 保持；Drawer translate 中途值；Accordion 高度与透明度按 160ms 运行，收起后 `hidden`；减少动态下三者 `animation: none`；无 pageerror。资源库底部 sheet 与文档右侧目录分别复验。证据在忽略目录 `output/motion-dialog-accordion-2026-11-15/`。
+- 分段指示器：按所有者选择的 B 交叉淡入实现，`.rd-tab` / `.rd-toggle-group__item` 的 `background-color` / `box-shadow` / `color` 使用 160ms `--rd-ease-enter`；不移动药丸、不新增结构或共享 API；减少动态下 `transition: none`。Chrome 1440 分组 tabs 与 390 资源筛选中间帧 / 落定通过，Safari / Firefox 以 2s 过渡覆盖复验。代码提交为 `520bf1e`。
+- 边界：真机、低帧率设备、Flutter 与 Safari / Firefox 的减少动态未实机验证；所有者 2026-11-15 已确认，纳入 F-02.4 动效补充。A 滑动方案保留为后续候选，见 [05 动效](../design/foundations/05-motion.md#分段指示器2026-11-15)。
+
+## Select 触发器与候选项字号（2026-11-15）
+
+- 现象：R1 每页条数选择器在 PC / 移动视图下，选中显示（触发器值）与候选项字号不一致。触发器在触屏由 `.rd-select` 切到 16px，内容与候选项仍停留在 13px；portal 内容在部分环境还会继承页面字号，导致 PC 上候选项反而偏大。
+- 第一步修正（`4d72db1`）：`.rd-select-item` / `.rd-menu-item` 显式使用 `--rd-font-size-sm`、`line-height: 1.5`；触屏下内容、候选项与触发器一起切到 16px。
+- 第二步（`36c86f4`）：所有者反馈 16px 在页脚的密集 chrome 中仍突兀。`Select` 新增可选 `size: sm | md`：`sm` 用于页大小 / 状态筛选等 chrome，触发器、内容与候选项在桌面和触屏都保持 13px；`md` 用于表单，桌面 13 / 触屏 16，与 16px 输入框一致。选中项保留 500 字重，行高、选项宽度与选中逻辑不变。
+- 结果：390 触屏下 chrome 选择器 13 / 13、表单选择器 16 / 16；320+200% 触屏分别为 26 / 26 与 32 / 32；1440 均为 13；候选项行高 34 / 44 / 60；无横向溢出、无 pageerror。证据在忽略目录 `output/select-font-2026-11-15/` 与 `output/select-chrome-size-2026-11-15/`。
+- 边界：Chrome 1440 / 390 触屏 / 320+200% 触屏；Safari / Firefox、实体设备与屏幕阅读器未复验；所有者已确认 chrome 13px 合适，随 F-02.4 补充记录。代码提交为 `4d72db1` / `36c86f4`。

@@ -28,7 +28,7 @@
 | C-01 React Button 工程预览 | [React Button](../features/react-button.md) | F-01、E-01 |
 | C-02 Workbench 首批 React 组件 | [组件合同与验收](../features/react-workbench-components.md) | F-01 / F-02、E-02 |
 
-Flutter 仍按[预留边界](../../packages/flutter/README.md)等待真实试点、范围和产物格式确认；本轮 React 工作面组件归 C-02。完成条件按选定组件 / 平台集合验收 API、键盘 / 焦点、关键状态、视觉和消费兼容，不能由首个 Button 推断全平台可用。
+Flutter 仍按[预留边界](../../packages/flutter/README.md)等待真实试点、范围和产物格式确认；本轮 React 工作面组件归 C-02。完成条件按选定组件 / 平台集合验收 API、键盘 / 焦点、关键状态、视觉和消费兼容，不能由首个 Button 推断全平台可用。 2026-11-12 起按 shadcn/ui 对标继续完善现有组件与页面承载；组件数量不代替完成度。
 
 首批组件设计在 F-02 方案中协同确定，已实施的 React 合同、状态与后续用法展示统一归 C-02，不在 F-02 再复制一份实施进度。
 
@@ -47,7 +47,7 @@ Flutter 仍按[预留边界](../../packages/flutter/README.md)等待真实试点
 
 代表工作台 / 设置页的本仓实施已进入 E-02，真实产品采用仍待独立确认，不虚列接入产品。完成条件是选定代表场景可运行、内容与状态可信，并有明确版本的视觉批准或真实产品采用证据；线上可访问只代表展示部署。
 
-F-02 协调 R1–R3 的方案与来源；本仓代表页实现、组合与后续跨环境补验统一归 E-02。有限产品采用由本大专题归口，首个 About 试点的共享包输入与采用判断继续在 [F-02.6](../features/visual-baseline-proposal.md#finite-product-adoption)协调，产品实施与验收由 RadishX `docs/features/radishui-pilot.md` 维护；不另建平行专题或复制产品待办。本仓范例完成、临时消费和正式采用分别记录。
+F-02 协调 R1–R3 的方案与来源；本仓代表页实现、组合与后续跨环境补验统一归 E-02。有限产品采用由本大专题归口，首个 About 试点的共享包输入与采用判断继续在 [F-02.6](../features/visual-baseline-proposal.md#finite-product-adoption)协调，产品实施与验收由 RadishX `docs/features/radishui-pilot.md` 维护；不另建平行专题或复制产品待办。本仓范例完成、临时消费和正式采用分别记录。 2026-11-12 起外部试点暂停：先完成本站组件与视觉，About 采用保留为已闭环记录。
 
 <a id="engineering"></a>
 

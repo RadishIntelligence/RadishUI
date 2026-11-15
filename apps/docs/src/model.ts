@@ -5,14 +5,13 @@ export interface Preferences {
   locale: 'zh-CN' | 'en';
   density: 'compact' | 'standard' | 'spacious';
   fontSize: 'small' | 'standard' | 'large';
-  hints: boolean;
   showToc: boolean;
   lineHeight: 'standard' | 'relaxed';
   notifications: boolean;
 }
 export const defaultPreferences: Preferences = {
   theme: 'system', locale: 'zh-CN', density: 'standard', fontSize: 'standard',
-  hints: true, showToc: true, lineHeight: 'standard', notifications: true,
+  showToc: true, lineHeight: 'standard', notifications: true,
 };
 export type ResourceKind = 'document' | 'spec' | 'checklist' | 'example';
 export type ResourceStatus = 'ready' | 'draft' | 'readonly';
@@ -31,7 +30,7 @@ const oneOf = (value: unknown, values: readonly string[]): value is string => ty
 function hasPreferenceFields(value: Record<string, unknown>) {
   return oneOf(value.theme, ['light', 'dark', 'system']) && oneOf(value.locale, ['zh-CN', 'en'])
     && oneOf(value.fontSize, ['small', 'standard', 'large']) && oneOf(value.lineHeight, ['standard', 'relaxed'])
-    && ['hints', 'showToc', 'notifications'].every(key => typeof value[key] === 'boolean');
+    && ['showToc', 'notifications'].every(key => typeof value[key] === 'boolean');
 }
 export function isPreferences(value: unknown): value is Preferences {
   return isRecord(value) && hasPreferenceFields(value) && oneOf(value.density, ['compact', 'standard', 'spacious']);
@@ -92,17 +91,6 @@ export function filterResources(resources: readonly Resource[], query: string, k
     && (!search || `${item.name} ${item.summary} ${item.tags.join(' ')}`.toLocaleLowerCase().includes(search)));
 }
 export function pageCount(count: number, size: number) { return Math.max(1, Math.ceil(count / Math.max(1, size))); }
-export function validatePage(input: string, total: number): number | undefined {
-  if (!/^\d+$/.test(input.trim())) return undefined;
-  const page = Number(input);
-  return Number.isSafeInteger(page) && page >= 1 && page <= total ? page : undefined;
-}
-export function pageNumbers(page: number, total: number): (number | 'gap')[] {
-  const numbers = [...new Set([1, total, page - 1, page, page + 1])].filter(n => n >= 1 && n <= total).sort((a, b) => a - b);
-  const result: (number | 'gap')[] = [];
-  numbers.forEach((n, i) => { if (i > 0 && n - numbers[i - 1] > 1) result.push('gap'); result.push(n); });
-  return result;
-}
 export function parseArticle(body: string): ArticleBlock[] {
   const blocks: ArticleBlock[] = [];
   let paragraph: string[] = [];

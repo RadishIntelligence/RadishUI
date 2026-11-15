@@ -180,7 +180,7 @@ function main() {
   }
   assert(!options['--head-ref'] || options['--base-ref'], '--head-ref 需要 --base-ref');
   for (const file of required) assert(existsSync(resolve(root, file)), `缺少必需文件：${file}`);
-  assert.equal(read('AGENTS.md').split('\n').slice(4).join('\n'), read('CLAUDE.md').split('\n').slice(4).join('\n'), '协作入口不同步');
+  assert(read('AGENTS.md') === read('CLAUDE.md'), 'AGENTS.md 与 CLAUDE.md 必须逐字节一致');
   const files = new Set(git(['ls-files', '-z', '--cached', '--others', '--exclude-standard']).split('\0').filter(Boolean));
   for (const file of files) {
     if (!existsSync(resolve(root, file))) continue; // 已删除的非必需文件不再读取。

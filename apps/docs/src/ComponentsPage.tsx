@@ -1,17 +1,10 @@
-import { useRef, useState, type ReactNode } from 'react';
-import { Accordion, Avatar, Button, IconButton, FormField, Input, InputOTP, TagInput, Textarea, Select, RadioGroup, Checkbox, Switch, Tabs, TabsList, TabsContent, ToggleGroup, StatusBadge, Tag, Skeleton, ConfirmDialog, Dialog, Drawer, Menu, InlineAlert, Toast, Tooltip } from '@radish-ui/react';
-import { ArrowLeft, Check, MoreHorizontal, Plus } from 'lucide-react';
+import { useRef, useState } from 'react';
+import { Accordion, Avatar, Button, Card, IconButton, FormField, Input, InputOTP, TagInput, Textarea, Select, RadioGroup, Checkbox, Switch, Tabs, TabsList, TabsContent, ToggleGroup, StatusBadge, Tag, Skeleton, ConfirmDialog, Dialog, Drawer, Menu, InlineAlert, Toast, Tooltip, Pagination, TableOfContents } from '@radish-ui/react';
+import { Check, MoreHorizontal, Plus } from 'lucide-react';
 import { appendResourceTags, resourceTagError, type Translate } from './model';
+import { ComponentExample as Example } from './ComponentExample';
+import { PageHeader } from './PageHeader';
 import './components.css';
-
-function Example({ name, contract, keyboard, code, children }: { name: string; contract: string; keyboard: string; code: string; children: ReactNode }) {
-  return <section className="component-example" aria-label={name}>
-    <h2>{name}</h2>
-    <div className="component-demo">{children}</div>
-    <dl className="component-contract"><div><dt>Props / Events</dt><dd>{contract}</dd></div><div><dt>键盘 / 状态</dt><dd>{keyboard}</dd></div></dl>
-    <details className="component-code"><summary>用法代码</summary><pre><code>{code}</code></pre></details>
-  </section>;
-}
 
 function ActionExamples() {
   const [count, setCount] = useState(0);
@@ -60,7 +53,7 @@ function FieldExamples() {
     <Example name="Input" contract="原生 input 属性：value / defaultValue、onChange、disabled、readOnly、type、ref；surface: outline（默认）| filled；可独立提供 aria-label。"
       keyboard="Tab 聚焦并输入；只读可聚焦、选择和复制，disabled 不进入 Tab 顺序。独立使用时由调用方提供标签与错误关联。"
       code={'<Input aria-label="搜索" placeholder="输入关键词" />\n<Input aria-label="版本" value="v0.1" readOnly />'}>
-      <div className="component-fields"><FormField label="可编辑文本"><Input placeholder="输入中文或 English" /></FormField><FormField label="只读版本"><Input value="v0.1 / 内部预览" readOnly /></FormField><FormField label="禁用字段" hint="此字段在当前示例中不可编辑。"><Input value="不可编辑" disabled /></FormField></div>
+      <div className="component-fields"><FormField label="可编辑文本"><Input placeholder="输入中文或 English" /></FormField><FormField label="只读版本"><Input value="v0.1 / 内部预览" readOnly /></FormField><FormField label="禁用字段"><Input value="不可编辑" disabled /></FormField></div>
     </Example>
     <Example name="Textarea" contract="原生 textarea 属性与字段上下文；surface: outline（默认）| filled；rows、maxLength、readOnly、disabled、onChange / ref。"
       keyboard="Enter 换行，Tab 离开；错误不清空内容。长正文在输入区滚动，支持拖动调整高度。"
@@ -131,7 +124,7 @@ function SelectionExamples() {
       keyboard="Tab 进入当前项，方向键移动并选中，Space 选中；禁用项跳过。"
       code={'<FormField label="显示密度"><RadioGroup value={radio} onValueChange={setRadio} options={[...]} /></FormField>'}>
       <div className="component-stack">
-        <FormField label="示例密度" hint="单选组在 FormField 内共享标签与说明。">
+        <FormField label="示例密度">
           <RadioGroup value={radio} onValueChange={setRadio} options={[
             { value: 'compact', label: '紧凑' }, { value: 'standard', label: '标准' }, { value: 'spacious', label: '宽松' }, { value: 'unavailable', label: '不可用', disabled: true }, { value: 'disabled', label: '不可用示例', disabled: true },
           ]} />
@@ -278,13 +271,43 @@ function FeedbackExamples() {
   </>;
 }
 
+function NavigationExamples() {
+  const [page, setPage] = useState(1);
+  const [size, setSize] = useState(10);
+  const [tocId, setTocId] = useState('intro');
+  const total = 128;
+  const pageCount = Math.max(1, Math.ceil(total / size));
+  const headings = [
+    { id: 'intro', level: 2, text: '导语' },
+    { id: 'color', level: 2, text: '主题与配色' },
+    { id: 'spacing', level: 3, text: '间距与圆角' },
+    { id: 'states', level: 2, text: '交互状态' },
+    { id: 'mixed', level: 3, text: '中文与 English 混排的长标题用于检查换行' },
+  ];
+  return <>
+    <Example name="Pagination" contract="page / pageCount / pageSize / totalItems；onPageChange、onPageSizeChange；labels 覆盖文案与跳页错误。"
+      keyboard="Tab 依次到页码、跳页输入和按钮；页码用 Enter / Space 触发；跳页输入非整数或越界时报错并保留输入。"
+      code={'<Pagination page={page} pageCount={pageCount} pageSize={size} totalItems={128}\n  onPageChange={setPage} onPageSizeChange={setSize} />'}>
+      <Pagination page={page} pageCount={pageCount} pageSize={size} totalItems={total}
+        onPageChange={setPage} onPageSizeChange={next => { setSize(next); setPage(1); }} />
+    </Example>
+    <Example name="TableOfContents" contract="items: { id, level, text }[]；currentId 标记当前章节；hrefFor 决定链接地址，onNavigate 交回页面处理滚动偏移和路由。"
+      keyboard="链接按标题层级缩进，Enter 跟随；当前章节使用 aria-current=location，不只靠颜色区分。"
+      code={'<TableOfContents label="本文目录" items={items} currentId={currentId}\n  hrefFor={id => `#/document/doc/${id}`} onNavigate={goTo} />'}>
+      <Card tone="muted" padding="sm" className="component-toc-demo">
+        <TableOfContents label="示例目录" items={headings} currentId={tocId}
+          hrefFor={id => `#${id}`} onNavigate={(id, event) => { event.preventDefault(); setTocId(id); }} />
+      </Card>
+    </Example>
+  </>;
+}
+
 export function ComponentsPage({ t }: { t: Translate }) {
   return <section className="components-page">
-    <div className="page-title"><h1>{t('组件用法', 'Components')}</h1><a className="text-link component-back" href="#/overview"><ArrowLeft size={16} aria-hidden="true" />{t('概览', 'Overview')}</a></div>
+    <PageHeader title={t('组件用法', 'Components')} back={{ href: '#/overview', label: t('概览', 'Overview') }} />
     <Tabs defaultValue="actions" className="component-groups">
-      <TabsList label={t('组件分组', 'Component groups')} items={[{ value: 'actions', label: t('操作', 'Actions') }, { value: 'fields', label: t('字段', 'Fields') }, { value: 'selection', label: t('选择', 'Choice') }, { value: 'feedback', label: t('反馈', 'Feedback') }]} />
-      <p className="component-scope">25 个共享组件 · React 19 内部预览。示例状态仅保留在当前分组，切换分组或离开页面会重置；文案使用中文与 English 合成内容。</p>
-      <TabsContent value="actions"><ActionExamples /></TabsContent><TabsContent value="fields"><FieldExamples /></TabsContent><TabsContent value="selection"><SelectionExamples /></TabsContent><TabsContent value="feedback"><FeedbackExamples /></TabsContent>
+      <TabsList label={t('组件分组', 'Component groups')} size="md" items={[{ value: 'actions', label: t('操作', 'Actions') }, { value: 'fields', label: t('字段', 'Fields') }, { value: 'selection', label: t('选择', 'Choice') }, { value: 'feedback', label: t('反馈', 'Feedback') }, { value: 'navigation', label: t('导航', 'Navigation') }]} />
+      <TabsContent value="actions"><ActionExamples /></TabsContent><TabsContent value="fields"><FieldExamples /></TabsContent><TabsContent value="selection"><SelectionExamples /></TabsContent><TabsContent value="feedback"><FeedbackExamples /></TabsContent><TabsContent value="navigation"><NavigationExamples /></TabsContent>
     </Tabs>
   </section>;
 }
