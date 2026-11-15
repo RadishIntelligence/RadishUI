@@ -295,3 +295,10 @@ Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前
 - 验证：Chrome 157.0.8103.51 无头，`Animation.setPlaybackRate(0.1)` 取中间帧——Dialog `opacity .75 / scale .995` 且居中 `transform` 保持；Drawer translate 中途值；Accordion 高度与透明度按 160ms 运行，收起后 `hidden`；减少动态下三者 `animation: none`；无 pageerror。资源库底部 sheet 与文档右侧目录分别复验。证据在忽略目录 `output/motion-dialog-accordion-2026-11-15/`。
 - 分段指示器：按所有者选择的 B 交叉淡入实现，`.rd-tab` / `.rd-toggle-group__item` 的 `background-color` / `box-shadow` / `color` 使用 160ms `--rd-ease-enter`；不移动药丸、不新增结构或共享 API；减少动态下 `transition: none`。Chrome 1440 分组 tabs 与 390 资源筛选中间帧 / 落定通过。代码提交为 `520bf1e`。
 - 边界：Safari / Firefox、真机、低帧率设备与 Flutter 未复验；视觉与交互待所有者复审，未纳入 F-02.4 运行基线。A 滑动方案保留为后续候选，见 [05 动效](../design/foundations/05-motion.md#分段指示器2026-11-15)。
+
+## Select 触发器与候选项字号（2026-11-15）
+
+- 现象：R1 每页条数选择器在 PC / 移动视图下，选中显示（触发器值）与候选项字号不一致。触发器在触屏由 `.rd-select` 切到 16px，内容与候选项仍停留在 13px；portal 内容在部分环境还会继承页面字号，导致 PC 上候选项反而偏大。
+- 修正：`.rd-select-item` / `.rd-menu-item` 显式使用 `--rd-font-size-sm`、`line-height: 1.5`；`(pointer: coarse)` / `(pointer: none)` 下 `.rd-select-content`、候选项与触发器、输入框一起切到 `--rd-font-size-body`（16px）。选中项保留 500 字重，不改变行高、选项宽度或选中逻辑。
+- 结果：桌面触发器 / 候选项 13 / 13，触屏 16 / 16，320+200% 触屏 32 / 32；候选项行高 34 / 44 / 60；四个候选项在 110 / 116 / 179px 弹层内无横向溢出；无 pageerror。证据在忽略目录 `output/select-font-2026-11-15/`。
+- 边界：Chrome 1440 / 390 触屏 / 320+200% 触屏；Safari / Firefox、实体设备与屏幕阅读器未复验；视觉待所有者复审，作为 F-02.4 补充记录。代码提交为 `4d72db1`。
