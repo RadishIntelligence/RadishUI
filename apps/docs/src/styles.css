@@ -291,6 +291,7 @@ h1 { font-size: var(--rd-font-size-title); line-height: 1.2; font-weight: 680; l
   .document-aside { display: contents; }
   .document-outline { display: none; }
   .document-outline-trigger { display: inline-flex; }
+  .document-outline-drawer { top: 0; right: 0; bottom: 0; width: max(50vw, 200px); max-height: none; border-radius: var(--rd-radius-panel) 0 0 var(--rd-radius-panel); border-right: 0; }
   .document-outline-drawer .rd-toc a { min-height: 44px; padding-block: 8px; font-size: var(--rd-font-size-base); }
   .document-properties { width: 100%; padding-top: 16px; border-top: 1px solid var(--rd-border-soft); }
   .document-tags { margin-top: 16px; }
