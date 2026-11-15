@@ -53,5 +53,7 @@
 
 本专题验收要求 JSON / CSS 可追溯、一致性检查失败可观察、React 与展示站从真实产物消费。正式颜色和尺度确认仍属于 F 大专题的 P1 出口，待所有者评审运行效果；本轮本地映射通过不等于家族视觉定稿。
 
+2026-11-15 所有者选定青玉 / 雾蓝配色，JSON / CSS 与对比度检查已更新（见 [02 色彩](../design/foundations/02-color.md#2026-11-15-青玉--雾蓝)）；最终运行视觉仍待复审，颜色定稿未完成。
+
 
 2026-11-08 字体栈更新：`font-sans` 优先 `'Inter Variable'` / Inter，`font-mono` 优先 `'JetBrains Mono Variable'` / JetBrains Mono，缺失时回退系统字体。Web 范例已引入 OFL fontsource 包；组件包发行时的字体依赖方式仍待单独确认。

@@ -22,7 +22,7 @@ Flutter 适配：待实现
 
 `packages/tokens/src/tokens.json` 是首批 token 的唯一机器来源，包含共享尺度及亮暗语义。当前使用项目内最小格式，不宣称已符合完整 DTCG 交换规范。`scripts/generate-tokens.mjs` 确认主题键对应并生成 `dist/tokens.css`；该文件被精确纳入 Git。
 
-灰玉品牌与墨蓝操作保留角色识别；本轮按所有者接受的现代圆角方向扩充中性明暗表面、状态、边界与尺度，映射见 [F-01](../features/token-foundation.md)。Pen 变量不直接参与运行时生成，机器来源仍只有 token JSON。本仓研究资料在 [docs/design](../design/README.md)，原生候选在 `designs/`，原创导出在 `assets/design-baselines/candidates/`。受限参考副本仍在仓库外私有库，历史 token 不参与构建。
+青玉品牌与雾蓝操作保留角色识别（2026-11-15 配色修订）；本轮按所有者接受的现代圆角方向扩充中性明暗表面、状态、边界与尺度，映射见 [F-01](../features/token-foundation.md)。Pen 变量不直接参与运行时生成，机器来源仍只有 token JSON。本仓研究资料在 [docs/design](../design/README.md)，原生候选在 `designs/`，原创导出在 `assets/design-baselines/candidates/`。受限参考副本仍在仓库外私有库，历史 token 不参与构建。
 
 共享控件采用原生元素与 Radix Primitives 行为基础，视觉由本仓语义 token 维护，图标按需使用 Lucide。第三方依赖、版本和声明见[依赖说明](../development/third-party-dependencies.md)，不引入 antd、产品接口或网络字体。Web 范例使用 hash 地址与本地合成数据；存储、恢复和页面导航留在 `apps/docs`。
 
