@@ -15,9 +15,9 @@ function ResourceStatus({ resource, t }: { resource: Resource; t: Translate }) {
 
 interface ResourcesPageProps {
   resources?: Resource[]; error?: string; save(next: Resource[]): string | undefined; retry(): void;
-  t: Translate; locale: Preferences['locale']; notify(message: string): void;
+  t: Translate; locale: Preferences['locale']; density: Preferences['density']; notify(message: string): void;
 }
-export function ResourcesPage({ resources, error, save, retry, t, locale, notify }: ResourcesPageProps) {
+export function ResourcesPage({ resources, error, save, retry, t, locale, density, notify }: ResourcesPageProps) {
   const [kind, setKind] = useState('all');
   const [status, setStatus] = useState('all');
   const [query, setQuery] = useState('');
@@ -130,7 +130,7 @@ export function ResourcesPage({ resources, error, save, retry, t, locale, notify
             jumpError: total => t(`请输入 1–${total} 之间的整数。`, `Enter a whole number from 1 to ${total}.`),
           }} />}
       </Card>
-      {selected && <Card asChild><aside className="resource-detail-panel" aria-label={t('当前资源', 'Current resource')}>{details}</aside></Card>}
+      {selected && <Card asChild padding={density === 'spacious' ? 'md' : 'sm'}><aside className="resource-detail-panel" aria-label={t('当前资源', 'Current resource')}>{details}</aside></Card>}
     </div>;
 
   return <section className={`resources-page${scrollFallback ? ' is-scroll-fallback' : ''}`} ref={pageRef}>

@@ -125,7 +125,7 @@ export function App() {
       {route.page === 'foundations' && <FoundationsPage t={t} />}
       {route.page === 'platforms' && <PlatformsPage t={t} />}
       {route.page === 'settings' && <SettingsPage preferences={preferences} save={savePreferences} t={t} onDirtyChange={updateDirty} />}
-      {route.page === 'resources' && <ResourcesPage resources={resources} error={resourceError} save={saveResources} retry={() => setLoadAttempt(loadAttempt + 1)} t={t} locale={preferences.locale} notify={notify} />}
+      {route.page === 'resources' && <ResourcesPage resources={resources} error={resourceError} save={saveResources} retry={() => setLoadAttempt(loadAttempt + 1)} t={t} locale={preferences.locale} density={preferences.density} notify={notify} />}
       {route.page === 'document' && <ArticlePage key={route.resourceId ?? 'welcome'} resourceId={route.resourceId} resources={resources} resourcesError={resourceError}
         preferences={preferences} section={route.section} scrollRoot={main} t={t} notify={notify} onDirtyChange={updateDirty} externalChange={externalChange} />}
     </main>

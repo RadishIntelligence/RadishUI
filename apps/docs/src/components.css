@@ -23,7 +23,6 @@
 }
 @media (pointer: fine) {
   html[data-density="compact"] .component-scope { margin-block: var(--rd-space-3); }
-  html[data-density="compact"] .component-example { padding-block: var(--rd-space-3); }
   html[data-density="compact"] .component-demo { gap: var(--rd-space-2); padding: var(--rd-space-3); }
   html[data-density="compact"] .component-contract { gap: var(--rd-space-1); }
 }
