@@ -203,7 +203,7 @@ Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前
 - 来源：概览卡片与色板、视觉基础四类卡片、平台卡片、资源详情面板、文档目录、组件页目录示例各自重复同一套表面配方（`border-soft` + `radius-panel` + 12 / 16px 内边距 + surface / muted / app 底色）。本轮抽为共享 `Card`。
 - API：`tone: surface | muted | app`、`padding: none | sm（12px）| md（16px）`；默认 `div`，`asChild` 通过 Radix Slot 附着到单个子元素，用于链式卡片，不新增依赖。组件只负责表面与内边距，网格、flex 与定位仍由页面负责。
 - 迁移：概览卡片与色板、视觉基础主题 / 字阶 / 空间 / 状态四类卡片、平台入口卡、资源详情 `aside`、文档目录、组件页目录示例。`overview-palette` 移动端原本单独写 10px，统一回到 12px 角色。
-- 收敛结果：卡片内边距只剩 `sm` 12px 与 `md` 16px 两档；20 / 24 / 26px 属于页面与区块间距，不再混作卡片内边距。资源详情面板在标准 / 紧凑密度下的 12px 仍由站点密度规则覆盖，属于待 token 化的已知例外。
+- 收敛结果：卡片内边距只剩 `sm` 12px 与 `md` 16px 两档；20 / 24 / 26px 属于页面与区块间距，不再混作卡片内边距。资源详情面板通过 Card `padding` 的 sm / md（12 / 16）按密度传入，页面不再写 padding 覆盖；该例外已收口。
 - 验证：Chrome 157 无头实测计算值——概览卡片 12px / `rgb(255,255,255)`、视觉基础主题卡 16px / `rgb(245,246,248)`、平台链接卡 16px、资源详情 12px、文档目录 12px / `rgb(240,242,245)`；1440 / 390、明暗无横向溢出与 pageerror，`asChild` 的 `<a>` 与 `<aside>` 语义保留。证据在忽略目录 `output/card-primitive/`。
 - 边界：未覆盖粗指针、Safari / Firefox、真机与屏幕阅读器；视觉基准待所有者评审。Section、Table 与组件页模板仍待下一批。
 
@@ -213,7 +213,7 @@ Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前
 - API：`title`、`eyebrow`、`description`、`size: md | sm`。`md` 用于阅读型区块（18px 标题、24px 内边距），`sm` 用于密集参考（16px 标题、20px 内边距）；`aria-labelledby` 指向自动生成的标题 id。`description` 只服务文档区块，产品页的控件说明仍按 DR-18 判断。
 - 迁移：视觉基础 5 个区块、组件用法页 27 个示例。删除 `.foundation-section`、`.foundation-heading`、`.component-example` 的重复样式；示例内部间距由 Section 的 16px gap 接管，`.component-demo` 不再自带上内边距。
 - 验证：视觉基础 1440 截图与迁移前逐字节一致（`09b0dc34…`）；计算值对得上——视觉基础 padding 24 / 标题 18px / 说明 max-width 760px，组件示例 padding 20 / 标题 16px；390 与明暗无横向溢出，`aria-labelledby` 均可解析到标题。证据在忽略目录 `output/section-primitive/`。
-- 边界：未覆盖粗指针、Safari / Firefox、真机与屏幕阅读器；`sm` 区块在紧凑密度下仍由站点密度规则收紧内边距，属于待 token 化的例外。Table 与组件页 preview / code / API 模板仍待下一批。
+- 边界：未覆盖粗指针、Safari / Firefox、真机与屏幕阅读器；`sm` 区块在紧凑密度下的 12px 由 Section 共享 CSS 消费 `data-density`，页面不再写覆盖；该例外已收口。组件页模板已在后续批次完成。
 
 ## Table 表格原语（2026-11-14）
 
@@ -221,7 +221,7 @@ Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前
 - API：`label`（渲染为视觉隐藏的 caption）、`stickyHeader`（默认 `true`；页面退化到整页滚动时传 `false`），其余透传原生 `table` 属性。组件负责 caption、吸顶表头与单元格基本尺度，列宽、行状态与单位仍由页面组合。
 - 迁移：资源列表改用 `Table`，面板改为 `Card padding="none"`；删除页面里的 table / th / td 规则和 fallback 的 `position: static` 覆盖，退化状态改由 `stickyHeader={!scrollFallback}` 表达。
 - 验证：1440 下 caption 隐藏且可读、`table-layout: fixed`、表头 `sticky`；内层滚动 120px 后表头仍贴顶；300px 高度触发 `is-scroll-fallback`，表头变 `static`、页面接管滚动；390 隐藏表格并显示列表；明暗无横向溢出与 pageerror。证据在忽略目录 `output/table-primitive/`。
-- 边界：标准 / 紧凑密度的 36 / 52 与 32 / 48 行高仍由站点密度规则覆盖，属于待 token 化的例外；粗指针、Safari / Firefox、真机与屏幕阅读器未复验。组件页 preview / code / API 模板与完整示例滚动审计仍待下一批。
+- 边界：Table 通过 `--rd-table-*` 变量消费 `data-density`：表头 42 / 36 / 32、行 64 / 52 / 48、单元格 padding 8 / 4 / 4；页面高度覆盖已删除。R1 首行因两行资源内容实测 51.98 / 52.5 / 64.5（紧凑 / 标准 / 宽松），与 token 化前一致。粗指针、Safari / Firefox、真机与屏幕阅读器未复验；组件页模板与完整示例滚动审计已在后续批次完成。
 
 ## 组件页参考模板（2026-11-14）
 
@@ -294,7 +294,7 @@ Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前
 - Accordion：内容使用 Radix 的 `--radix-accordion-content-height` 做 `height` 与 `opacity` 的展开 / 收起，160ms；收起结束后内容带 `hidden`，焦点、Escape 与键盘切换合同不变。
 - 验证：Chrome 157.0.8103.51 无头，`Animation.setPlaybackRate(0.1)` 取中间帧；Safari 27.0.1 / Firefox 159.0.1 以 2s 动画覆盖取中间帧。Dialog `opacity .75 / scale .995` 且居中 `transform` 保持；Drawer translate 中途值；Accordion 高度与透明度按 160ms 运行，收起后 `hidden`；减少动态下三者 `animation: none`；无 pageerror。资源库底部 sheet 与文档右侧目录分别复验。证据在忽略目录 `output/motion-dialog-accordion-2026-11-15/`。
 - 分段指示器：按所有者选择的 B 交叉淡入实现，`.rd-tab` / `.rd-toggle-group__item` 的 `background-color` / `box-shadow` / `color` 使用 160ms `--rd-ease-enter`；不移动药丸、不新增结构或共享 API；减少动态下 `transition: none`。Chrome 1440 分组 tabs 与 390 资源筛选中间帧 / 落定通过，Safari / Firefox 以 2s 过渡覆盖复验。代码提交为 `520bf1e`。
-- 边界：真机、低帧率设备、Flutter 与 Safari / Firefox 的减少动态未实机验证；视觉与交互待所有者复审，未纳入 F-02.4 运行基线。A 滑动方案保留为后续候选，见 [05 动效](../design/foundations/05-motion.md#分段指示器2026-11-15)。
+- 边界：真机、低帧率设备、Flutter 与 Safari / Firefox 的减少动态未实机验证；所有者 2026-11-15 已确认，纳入 F-02.4 动效补充。A 滑动方案保留为后续候选，见 [05 动效](../design/foundations/05-motion.md#分段指示器2026-11-15)。
 
 ## Select 触发器与候选项字号（2026-11-15）
 

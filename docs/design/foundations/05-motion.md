@@ -42,7 +42,7 @@ Pen 稿只表示静态状态，没有验证动画、系统偏好、过渡中断�
 - 只动画浮层自身或 Accordion 内容，不改焦点、Escape、滚动锁、触发器行为或组件 API。
 - 底部 sheet 的纵向规则在展示站 app 层，因为 `.resource-sheet` 属于页面组合，不是共享 Drawer 的默认合同；共享 Drawer 默认从右侧滑入。
 - 验证：Chrome 157.0.8103.51 无头，`Animation.setPlaybackRate(0.1)` 取中间帧；Safari 27.0.1 与 Firefox 159.0.1 以 2s 动画覆盖取中间帧。Dialog opacity / scale、Drawer translate、Accordion height / opacity、分段过渡均按预期运行；Chrome 减少动态下为 `animation: none`；无 pageerror。证据在忽略目录 `output/motion-dialog-accordion-2026-11-15/`（含 `safari-native-checks.json` / `firefox-native-checks.json`）。
-- 未覆盖：真机、低帧率设备、Flutter；Safari / Firefox 的减少动态未实机验证（共享媒体规则与 Chrome 一致）；视觉与交互仍待所有者复审。
+- 未覆盖：真机、低帧率设备、Flutter；Safari / Firefox 的减少动态未实机验证（共享媒体规则与 Chrome 一致）。所有者 2026-11-15 已确认本组动效，纳入 F-02.4 运行基线补充。
 
 ## 分段指示器（2026-11-15）
 
@@ -57,4 +57,4 @@ Pen 稿只表示静态状态，没有验证动画、系统偏好、过渡中断�
 - **采用 B**：`.rd-tab` / `.rd-toggle-group__item` 的 `background-color`、`box-shadow`、`color` 使用 160ms `--rd-ease-enter` 过渡；不移动药丸，不新增结构或共享 API。选中态仍是每个 item 自己的 surface pill + shadow，换行与 200% 下保持安全。
 - **验证**：Chrome 157.0.8103.51 无头，`Animation.setPlaybackRate(0.1)` 取中间帧——分组 tabs 切换时旧项 `rgba(255,255,255,.19)`、新项 `rgba(255,255,255,.68)`，落定后分别为透明 / `rgb(255,255,255)`；资源筛选同一路径；Safari 27.0.1 / Firefox 159.0.1 以 2s 过渡覆盖取中间帧；减少动态下 `transition-duration: 0s`、`transition-property: none`；无 pageerror。证据在忽略目录 `output/segmented-fade-2026-11-15/` 与 `output/motion-dialog-accordion-2026-11-15/`。
 - **A 的后续条件**：若需要滑动的空间关系，先做单行版本，并把换行 / 200% 降级、RTL、初始挂载和共享 hook 写入合同；不在本轮把 A 落进共享组件。
-- **边界**：真机、低帧率设备、Flutter 与 Safari / Firefox 的减少动态未实机验证；视觉与交互待所有者复审。
+- **边界**：真机、低帧率设备、Flutter 与 Safari / Firefox 的减少动态未实机验证。所有者 2026-11-15 已确认 B 方案，纳入 F-02.4 运行基线补充。

@@ -228,3 +228,12 @@
 - 图标：站点 favicon 使用 RadishX `public/favicon.ico`（所有者明确要求与 RadishX 一致）；入口 `apps/docs/public/favicon.ico` 与 `apps/docs/index.html` 的 `<link rel="icon" href="/favicon.ico" sizes="any" />`；来源、SHA-256 与授权见[品牌资产](../design/foundations/08-brand-assets.md#站点-favicon)。
 - 验证：Chrome 390 / 1440 / 320+200%、明暗；Safari 27.0.1 与 Firefox 159.0.1 在 390 / 1440 复验。390 抽屉 200×844、贴右边缘、链接 44px、Escape 回焦、链接关闭 + hash + 滚动 + H2 焦点、无横向溢出；1440 触发按钮隐藏、桌面目录 Card 可见；favicon 返回 200 / 46,429 字节。证据在忽略目录 `output/toc-favicon-2026-11-15/`。
 - 边界：未覆盖实体设备、真实屏幕阅读器、Safari / Firefox 粗指针与触控、真实输入法；本轮只改文档页与站点图标，其他页面未改。视觉待所有者复审，F-02.4 登记随本次复审一次完成。
+
+### 2026-11-15 页面级尺寸例外收口
+
+- **页头 / 文档工具栏**：删除桌面固定 34 的变量覆盖，跟随机密度 30 / 34 / 38；资源工具栏保留 34px 复合行。页头回到 PageHeader + density 的统一行为。
+- **R1 表格**：Table 通过 `--rd-table-head-height` / `--rd-table-row-height` / `--rd-table-cell-padding-block` 消费 `data-density`：表头 42 / 36 / 32、行 64 / 52 / 48、单元格 padding 8 / 4 / 4；删除页面 th / td / resource-select 的高度覆盖，资源行按钮复用 `--rd-table-row-height`。首行因两行资源内容实测 51.98 / 52.5 / 64.5（紧凑 / 标准 / 宽松），与 token 化前一致。
+- **资源详情**：Card 通过 `padding` 的 sm / md 按密度传 12 / 12 / 16，删除页面 padding 覆盖。
+- **组件示例**：Section `sm` 的紧凑内边距 12 移入共享组件 CSS，删除 `.component-example` 覆盖。
+- **验证**：Chrome 1440 三档：页头 / 文档工具栏 30 / 34 / 38、资源工具栏 34、表头 32 / 36 / 42、详情 Card 12 / 12 / 16、Section 12 / 20 / 20；390 compact 页头 38；320+200% 无横向溢出；无 pageerror。证据在忽略目录 `output/density-exceptions-2026-11-15/`。
+- **边界**：Safari / Firefox、粗指针、真机与屏幕阅读器未复验；视觉待所有者复审，作为 F-02.4 页面级尺寸补充。代码提交为 `f61475e`。
