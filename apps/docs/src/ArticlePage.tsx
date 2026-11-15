@@ -152,7 +152,7 @@ function DocumentReader({ resourceId = 'welcome', resource, preferences, section
       }
     }} />;
   return <section className="document-page">
-    <div className="document-toolbar"><a className="document-back" href="#/resources"><ChevronLeft size={16} aria-hidden="true" />{t('资源库', 'Resources')}</a>
+    <div className="document-toolbar"><a className="page-back" href="#/resources"><ChevronLeft size={16} aria-hidden="true" />{t('资源库', 'Resources')}</a>
       <div>{!editing && preferences.showToc && headings.length > 0 && <IconButton className="document-outline-trigger" label={t('本文目录', 'On this page')} title={t('本文目录', 'On this page')} aria-haspopup="dialog" aria-expanded={outlineOpen} onClick={() => setOutlineOpen(true)}><ListTree /></IconButton>}
         <Button variant="secondary" onClick={() => { setShareOpen(true); setCopied(false); setCopyError(''); }}><Share2 />{t('分享', 'Share')}</Button>
         {!editing && <Button ref={editButton} disabled={readonly || Boolean(storeError)} onClick={() => { setDraft(article); setEditing(true); }}><Pencil />{t('编辑文档', 'Edit document')}</Button>}
