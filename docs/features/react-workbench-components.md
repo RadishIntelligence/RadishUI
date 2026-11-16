@@ -19,8 +19,8 @@
 | --- | --- |
 | Button / IconButton | 保留原生 button 属性、ref、四种 variant 与 loading，增加 sm / md；默认 type=button。loading 保留焦点，设置 aria-disabled / aria-busy 并拦截重复激活；显式 disabled 仍使用原生 disabled。IconButton 的 label 必填；loading 时仅显示 spinner 并替换图标，不与图标叠加 |
 | FormField / Input / Textarea | FormField 提供 label、hint / error、required 与稳定 id；Input / Textarea 读取字段上下文关联 aria-describedby / aria-invalid，也可独立传入原生属性；可选 surface: outline（默认）| filled。Switch 等其他控件由调用方显式关联 id / 标签及所需说明。失败不清空输入 |
-| Select | 受控 value / onValueChange、options、placeholder、disabled / required；可选 surface: outline（默认）/ filled、size: sm（chrome 13px）/ md（表单，桌面 13 / 触屏 16）；触发值和箭头分离，浮层不透明，支持当前值、键盘、滚动与碰撞避让；已展开时再次点按触发器收起，触控关闭以同一次点按开始时的展开状态为准 |
-| Checkbox / Switch | Checkbox 保留原生表单与键盘行为，Switch 使用受控 checked / onCheckedChange；标签、禁用、焦点与选择状态分别表达 |
+| Select | 受控 value / onValueChange、options、placeholder、disabled / required；可选 surface: outline（默认）/ filled、size: sm（chrome 13px）/ md（表单，桌面 13 / 触屏 16）；触发值和箭头分离，浮层不透明，支持当前值、键盘、滚动与碰撞避让；已展开时再次点按触发器收起，触控关闭以同一次点按开始时的展开状态为准；outline 触发器 hover 时边界加深，filled 沿用背景变化；选项的键盘焦点由 `data-highlighted` 高亮承担，不叠加 1px 环 |
+| Checkbox / Switch | Checkbox 保留原生表单与键盘行为，Switch 使用受控 checked / onCheckedChange；标签、禁用、焦点与选择状态分别表达。未选中 hover 加深边界 / 轨道，选中 hover 使用 action-hover；禁用不响应 hover |
 | InputOTP | 受控 value / onValueChange、label、length（默认 6）、hint / error、required、disabled、autoFocus、name、onEnterPress；数字输入、自动前进、退格 / 方向键 / Home / End、粘贴；每格为标准正方格并可访问，`name` 提交隐藏的完整值 |
 | RadioGroup | 受控 value / onValueChange，options: { value, label, disabled? }[]；orientation: vertical（默认）/ horizontal；name、required、disabled；FormField 内自动关联标签、说明与错误；方向键移动即选中，单项 label 使用字符串保证可访问名称 |
 | ToggleGroup | 单选使用 radiogroup / radio 语义，方向键移动即选中；多选使用 toolbar / button + aria-pressed，方向键只移动焦点。受控 value / onValueChange，items: { value, label, disabled? }[]，label、disabled |
@@ -32,7 +32,7 @@
 | TagInput | 受控标签与草稿。Enter 或添加按钮调用 `onAdd`，空输入的 Backspace 移除末项，每个标签可单独删除；粗指针下标签行随控件高度撑高，删除按钮视觉随控件、命中经外扩到至少 44。添加规则与表单提交由调用方负责，使用 FormField 关联帮助和错误 |
 | Skeleton | width / height（CSS 长度或数字）、className / style；纯展示占位并 aria-hidden；外层用 aria-busy / status 说明加载中，加载完成移除；减少动效时保持静态 |
 | Dialog / Drawer | 受控 open / onOpenChange，标题、可选说明、正文与 footer；role: dialog（默认）/ alertdialog；支持 Escape、焦点约束、可指定初始焦点并恢复入口；菜单项打开时关闭后回到菜单触发器；`closeDisabled` 可在 loading 时禁用头部关闭按钮。关闭按钮 32px 可视、44px 命中由共享组件提供。Drawer 是同一弹层合同的侧向编排 |
-| Menu | trigger 与具名 items，支持禁用、危险项、分隔与链接 / 动作；键盘、关闭与焦点由行为基础维护 |
+| Menu | trigger 与具名 items，支持禁用、危险项、分隔与链接 / 动作；键盘、关闭与焦点由行为基础维护；焦点项以 `data-highlighted` 高亮表达，不叠加 1px 环 |
 | ConfirmDialog | 基于 Dialog 的确认组合：open / onOpenChange、title、description、children、confirmLabel / cancelLabel、tone: default | danger、loading、onConfirm；初始焦点在取消，loading 时拦截关闭并禁用头部关闭按钮，确认按钮保留焦点并带 aria-disabled / aria-busy，role=alertdialog |
 | InlineAlert | info / success / warning / danger，错误以 alert 播报，其余状态使用 status；必要说明不只放在 Tooltip |
 | Toast / Tooltip | Toast 以顶部胶囊提供可关闭的短时反馈，关闭按钮显示剩余时间，悬停 / 聚焦暂停，超时自动关闭；区域名随 `label` 本地化并带 F8 提示，F8 / Tab 进入提示后关闭会先回到打开它的控件、其次回到进入提示前的位置，viewport 与胶囊在键盘焦点下显示 1px token 环；Tooltip 补充已有可访问名称；不替代持久错误、字段帮助或必要操作入口 |
@@ -323,3 +323,12 @@ Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前
 - G8 资源移动选中态：移动列表的资源按钮补 `aria-pressed`，与桌面表格按钮一致；视觉选中与 `aria-pressed` 同步，列表 `<li>` 不冒充可选中语义。桌面按钮行为不变。
 - 验证：Chrome 157.0.8103.51 无头。Toast 的区域名、F8 → viewport 1px 环、Tab → 胶囊 1px 环、Escape / 关闭按钮回到触发按钮、自动消失不抢焦点、禁用打开控件时焦点落到 body、进入提示前位置兜底、`prefers-reduced-motion` 下关闭回焦均通过；资源空结果中英文与零资源播报、390 移动选中态 `aria-pressed` 切换与详情抽屉打开通过；7 个页面 × 1440 / 390 / 320+200% × 明暗共 42 组与 27 个组件示例三组组合无横向溢出、无 pageerror。`npm run check` 与 `npm run build` 通过。证据在忽略目录 `output/batch-b-2026-11-16/`。
 - 边界：Safari / Firefox、实体设备、真实屏幕阅读器朗读与真实输入法未复验；200% 为根字号 32px 模拟。组件页同时存在 App 与示例两个 Toast viewport 的复用风险（审计 G12）未处理；G9 InputOTP、G10 Select / Menu 选项焦点环、G11 hover 状态未进入本批。Toast 焦点环与关闭按钮间距已由所有者 2026-11-16 复审通过，登记见 [F-02.4 Batch B 修订登记](visual-baseline-proposal.md#组件状态--键盘-batch-b-修订登记2026-11-16)。
+
+## 组件状态 / 键盘 Batch C（2026-11-16）
+
+- 起点为 `dev` / `5c5ee0b`，工作区与暂存区干净，`origin/dev` 同点。所有者确认本批范围为 G10 + G11 + G14，并选定 G10「保留高亮、写明例外」、G11「三处都补轻量 hover」；不新增共享 API、不改 token、不改页面结构。所有者于 2026-11-16 复审 hover 与选项焦点口径并通过；实现本地提交为 `1a0e206`，未推送。
+- G10 Select / Menu 选项焦点：保留 `data-highlighted` 的背景与文字色作为键盘焦点表达；新增显式 `.rd-select-item:focus-visible, .rd-menu-item:focus-visible { outline: none }`，避免链接型菜单项继承展示站全局的 `a:focus-visible` 1px 环而在高亮上再叠一层。触发器和菜单触发器仍保留 1px `--rd-focus-ring`。口径已写入 [DR-17](../design/design-rules.md#dr-17) 与组件合同，不新增 API。
+- G11 三处 hover：Select outline 触发器 hover 时 `border-color` 由 `border-control` 变为 `text-secondary`（filled 沿用既有背景变化）；Checkbox 未选中 hover 加深方框边界，选中 hover 使用 `action-hover` 背景与边界；Switch 未选中 hover 用 `bg-muted` 与 `text-primary` 的 85% / 15% 混合加深轨道，选中 hover 使用 `action-hover`；三者均以 `:not(:disabled)` 限定，禁用不响应。
+- G14 Accordion 示例：组件页示例根节点补 `label="组件示例折叠面板"`，获得可访问名称，不改组件 API。
+- 验证：Chrome 157.0.8103.51 无头。Select 边界浅色 `#83938B → #5B6B63`、深色 `#7C8F86 → #9FB2AA`；Checkbox 未选中边界同源，选中背景浅色 `#3E6C8E → #305A78`、深色 `#A9C9E3 → #BED8EE`；Switch 未选中轨道浅色 `#ECF3F0 → rgb(206,214,210)`、深色 `#293536 → rgb(68,80,80)`，选中同用 `action-hover`。禁用 Select / Checkbox / Switch hover 前后计算值不变；`aria-invalid` 的 Select hover 仍保持 danger 边界；Select / Menu 选项（含链接项）`outline: none` 且高亮背景 / 文字色生效；Accordion 根节点 `aria-label` 为「组件示例折叠面板」。7 页 × 1440 / 390 / 320+200% × 明暗共 42 组与 27 个示例三组组合无横向溢出、无 pageerror；`npm run check` 与 `npm run build` 通过。证据在忽略目录 `output/batch-c-2026-11-16/`。
+- 边界：Safari / Firefox、实体设备、真实指针设备、真实屏幕阅读器与 forced-colors 未复验；触屏没有 hover 是预期行为。hover 只改边界 / 背景，不改变布局与命中区；视觉已由所有者 2026-11-16 复审通过，登记见 [F-02.4 Batch C 修订登记](visual-baseline-proposal.md#组件状态--键盘-batch-c-修订登记2026-11-16)。
