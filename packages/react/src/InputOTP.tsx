@@ -109,7 +109,15 @@ export function InputOTP({ value, onValueChange, label, length = 6, hint, error,
     if (event.key === 'ArrowRight') { event.preventDefault(); focusInput(index + 1); return; }
     if (event.key === 'Home') { event.preventDefault(); focusInput(0); return; }
     if (event.key === 'End') { event.preventDefault(); focusInput(count - 1); return; }
-    if (event.key === 'Enter') { onEnterPress?.(); return; }
+    if (event.key === 'Enter') {
+      // A provided callback owns the Enter action; without one the browser's form
+      // submission stays available to the caller.
+      if (onEnterPress) {
+        event.preventDefault();
+        onEnterPress();
+      }
+      return;
+    }
     if (event.key.length === 1 && !/\d/.test(event.key)) event.preventDefault();
   };
 
@@ -134,6 +142,7 @@ export function InputOTP({ value, onValueChange, label, length = 6, hint, error,
         value={digit}
         disabled={disabled}
         aria-label={`${label}，第 ${index + 1} 位`}
+        aria-describedby={error || hint ? descriptionId : undefined}
         aria-invalid={error ? true : undefined}
         onChange={event => handleChange(index, event.target.value)}
         onKeyDown={event => handleKeyDown(index, event)}
@@ -142,6 +151,6 @@ export function InputOTP({ value, onValueChange, label, length = 6, hint, error,
       />)}
     </div>
     {name && <input type="hidden" name={name} value={digits.join('')} disabled={disabled} />}
-    {error ? <p className="rd-field-error" id={descriptionId}>{error}</p> : hint ? <p className="rd-field-hint" id={descriptionId}>{hint}</p> : null}
+    {error ? <p className="rd-field-error" id={descriptionId} role="alert">{error}</p> : hint ? <p className="rd-field-hint" id={descriptionId}>{hint}</p> : null}
   </div>;
 }

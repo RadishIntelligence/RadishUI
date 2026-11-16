@@ -36,6 +36,8 @@ function FieldExamples() {
   const [selection, setSelection] = useState('');
   const [selectionChecked, setSelectionChecked] = useState(false);
   const [otp, setOtp] = useState('');
+  const [otpForm, setOtpForm] = useState('');
+  const [otpResult, setOtpResult] = useState('');
   const options = [{ value: 'document', label: '文档' }, { value: 'long', label: '中文与 English 长名称：用于验证选择器浮层的折行与边界' }, { value: 'unavailable', label: '暂不可选', disabled: true }];
   const nameInvalid = (submitted || nameTouched) && !name.trim();
   return <>
@@ -61,13 +63,18 @@ function FieldExamples() {
       <div className="component-fields"><FormField label="多行说明"><Textarea rows={3} defaultValue={'第一行中文说明。\nSecond line in English.'} /></FormField><FormField label="只读摘要"><Textarea rows={3} readOnly value="这是可以选择和复制的只读长文案。内容按可用宽度自然换行。" /></FormField><FormField label="禁用正文"><Textarea rows={3} disabled value="不可编辑" /></FormField><FormField label="待修订说明" error="示例错误：请补充适用范围。"><Textarea rows={3} defaultValue="保留这段草稿继续修改。" /></FormField><FormField label="填充说明（候选）" hint="surface=&quot;filled&quot;；默认仍是 outline。"><Textarea surface="filled" rows={3} defaultValue="填充表面只作为可选形态，不改变默认字段。" /></FormField></div>
     </Example>
     <Example name="InputOTP" contract="受控 value / onValueChange，label 必填，length（默认 6）、hint / error、required、disabled、autoFocus、name、onEnterPress。数字输入、自动前进、退格 / 方向键、粘贴填充。"
-      keyboard="每个数字格可聚焦；输入自动前进，Backspace 清除当前或上一格，方向键 / Home / End 移动，粘贴按位填充；错误通过 aria-describedby 关联。"
+      keyboard="每个数字格可聚焦；输入自动前进，Backspace 清除当前或上一格，方向键 / Home / End 移动，粘贴按位填充；有 onEnterPress 时 Enter 只触发回调，不提交表单；错误通过 aria-describedby 关联到每格。"
       code={'<InputOTP label="六位验证码" value={otp} onValueChange={setOtp} />'}>
       <div className="component-fields">
         <InputOTP label="六位验证码" hint="输入发送到当前账号的 6 位数字。" value={otp} onValueChange={setOtp} />
         <InputOTP label="验证码错误" value="123" error="请输入完整的 6 位验证码。" onValueChange={() => {}} />
         <InputOTP label="验证码禁用" value="123456" disabled onValueChange={() => {}} />
       </div>
+      <form className="component-stack" onSubmit={event => { event.preventDefault(); setOtpResult(otpForm.length === 6 ? '表单已提交' : '请先填满 6 位'); }}>
+        <InputOTP label="带提交的验证码" hint="Enter 有 onEnterPress 时只触发回调，不提交表单；点按钮提交表单。" value={otpForm} onValueChange={setOtpForm} name="demo-otp"
+          onEnterPress={() => setOtpResult(otpForm.length === 6 ? 'Enter 已触发回调' : '请先填满 6 位')} />
+        <div className="component-row"><Button type="submit">提交验证码</Button><span role="status">{otpResult}</span></div>
+      </form>
       <p role="status">已输入 {otp.length} / 6 位</p>
     </Example>
     <Example name="Select" contract="受控 value / onValueChange；options: { value, label, disabled? }[]；placeholder、disabled、required、name。无 readOnly prop。"
