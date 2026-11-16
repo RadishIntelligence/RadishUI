@@ -71,7 +71,7 @@ function FieldExamples() {
       <p role="status">已输入 {otp.length} / 6 位</p>
     </Example>
     <Example name="Select" contract="受控 value / onValueChange；options: { value, label, disabled? }[]；placeholder、disabled、required、name。无 readOnly prop。"
-      keyboard="Space / Enter 展开；方向键、Home / End 选择；Enter 确认；Escape 关闭并恢复焦点。只读场景可直接显示已选文字。"
+      keyboard="Space / Enter 展开；方向键、Home / End 选择；Enter 确认；Escape 关闭并恢复焦点。选项以高亮表达键盘焦点，不叠加焦点环；只读场景可直接显示已选文字。"
       code={'<FormField label="类型"><Select value={value} onValueChange={setValue} options={options} placeholder="请选择" /></FormField>'}>
       <div className="component-fields"><FormField label="示例类型" required error={selectionChecked && !selection ? '请选择一个类型。' : undefined}>
         <Select value={selection} onValueChange={setSelection} options={options} placeholder="请选择类型" />
@@ -218,7 +218,7 @@ function FeedbackExamples() {
     <Example name="Accordion" contract="type: single（默认）| multiple；items: { value, label, content, disabled? }[]；value / defaultValue / onValueChange；single 可 collapsible。"
       keyboard="Tab 到标题，Enter / Space 展开或收起；标题间方向键移动；禁用项跳过。"
       code={'<Accordion type="single" defaultValue="basics" collapsible items={items} />'}>
-      <Accordion type="single" defaultValue="basics" collapsible items={[
+      <Accordion type="single" defaultValue="basics" collapsible label="组件示例折叠面板" items={[
         { value: 'basics', label: '选择依据', content: <p>用内容层级决定是否折叠，不把必要状态藏进折叠区。</p> },
         { value: 'states', label: '状态说明', content: <p>展开后仍保留标题、焦点与当前项；单次只展开一项。</p> },
         { value: 'keyboard', label: '键盘操作', content: <p>Tab 进入标题，Enter / Space 切换；方向键在标题间移动。</p> },
@@ -234,7 +234,7 @@ function FeedbackExamples() {
       </Drawer>
     </Example>
     <Example name="Menu" contract="trigger 为可接收 ref / 事件的元素；items 含 id、label、onSelect / href、disabled、danger、separatorBefore；align 控制对齐。"
-      keyboard="Enter / Space / 向下键展开；方向键移动并跳过禁用项；Escape 关闭恢复入口。危险项只表达语义，确认逻辑由调用方负责。"
+      keyboard="Enter / Space / 向下键展开；方向键移动并跳过禁用项；焦点项以高亮表达；Escape 关闭恢复入口。危险项只表达语义，确认逻辑由调用方负责。"
       code={'<Menu trigger={<Button>更多</Button>} items={[{ id: "view", label: "查看", onSelect: showDetails }]} />'}>
       <div className="component-row"><Menu label="示例动作" trigger={<Button variant="secondary"><MoreHorizontal aria-hidden="true" />打开菜单</Button>} items={[
         { id: 'view', label: '查看示例详情', onSelect: () => setMenuResult('已选择查看详情') },
