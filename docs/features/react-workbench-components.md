@@ -21,7 +21,7 @@
 | FormField / Input / Textarea | FormField 提供 label、hint / error、required 与稳定 id；Input / Textarea 读取字段上下文关联 aria-describedby / aria-invalid，也可独立传入原生属性；可选 surface: outline（默认）| filled。Switch 等其他控件由调用方显式关联 id / 标签及所需说明。失败不清空输入 |
 | Select | 受控 value / onValueChange、options、placeholder、disabled / required；可选 surface: outline（默认）/ filled、size: sm（chrome 13px）/ md（表单，桌面 13 / 触屏 16）；触发值和箭头分离，浮层不透明，支持当前值、键盘、滚动与碰撞避让；已展开时再次点按触发器收起，触控关闭以同一次点按开始时的展开状态为准；outline 触发器 hover 时边界加深，filled 沿用背景变化；选项的键盘焦点由 `data-highlighted` 高亮承担，不叠加 1px 环 |
 | Checkbox / Switch | Checkbox 保留原生表单与键盘行为，Switch 使用受控 checked / onCheckedChange；标签、禁用、焦点与选择状态分别表达。未选中 hover 加深边界 / 轨道，选中 hover 使用 action-hover；禁用不响应 hover |
-| InputOTP | 受控 value / onValueChange、label、length（默认 6）、hint / error、required、disabled、autoFocus、name、onEnterPress；数字输入、自动前进、退格 / 方向键 / Home / End、粘贴；每格为标准正方格并可访问，`name` 提交隐藏的完整值 |
+| InputOTP | 受控 value / onValueChange、label、length（默认 6）、hint / error、required、disabled、autoFocus、name、onEnterPress；数字输入、自动前进、退格 / 方向键 / Home / End、粘贴；每格为标准正方格并可访问，`name` 提交隐藏的完整值；有 `onEnterPress` 时 Enter 只触发回调并阻止表单提交，无回调时保留浏览器表单提交；错误用 `role="alert"` 并通过 `aria-describedby` 关联到每格；`required` 以 group `aria-required` 表达，原生表单校验由调用方基于受控值处理 |
 | RadioGroup | 受控 value / onValueChange，options: { value, label, disabled? }[]；orientation: vertical（默认）/ horizontal；name、required、disabled；FormField 内自动关联标签、说明与错误；方向键移动即选中，单项 label 使用字符串保证可访问名称 |
 | ToggleGroup | 单选使用 radiogroup / radio 语义，方向键移动即选中；多选使用 toolbar / button + aria-pressed，方向键只移动焦点。受控 value / onValueChange，items: { value, label, disabled? }[]，label、disabled |
 | Accordion | type: single（默认）/ multiple；items: { value, label, content, disabled? }[]；value / defaultValue / onValueChange；single 可 collapsible；标题按钮与内容区域由 Radix 维护，键盘可展开 / 收起 |
@@ -332,3 +332,12 @@ Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前
 - G14 Accordion 示例：组件页示例根节点补 `label="组件示例折叠面板"`，获得可访问名称，不改组件 API。
 - 验证：Chrome 157.0.8103.51 无头。Select 边界浅色 `#83938B → #5B6B63`、深色 `#7C8F86 → #9FB2AA`；Checkbox 未选中边界同源，选中背景浅色 `#3E6C8E → #305A78`、深色 `#A9C9E3 → #BED8EE`；Switch 未选中轨道浅色 `#ECF3F0 → rgb(206,214,210)`、深色 `#293536 → rgb(68,80,80)`，选中同用 `action-hover`。禁用 Select / Checkbox / Switch hover 前后计算值不变；`aria-invalid` 的 Select hover 仍保持 danger 边界；Select / Menu 选项（含链接项）`outline: none` 且高亮背景 / 文字色生效；Accordion 根节点 `aria-label` 为「组件示例折叠面板」。7 页 × 1440 / 390 / 320+200% × 明暗共 42 组与 27 个示例三组组合无横向溢出、无 pageerror；`npm run check` 与 `npm run build` 通过。证据在忽略目录 `output/batch-c-2026-11-16/`。
 - 边界：Safari / Firefox、实体设备、真实指针设备、真实屏幕阅读器与 forced-colors 未复验；触屏没有 hover 是预期行为。hover 只改边界 / 背景，不改变布局与命中区；视觉已由所有者 2026-11-16 复审通过，登记见 [F-02.4 Batch C 修订登记](visual-baseline-proposal.md#组件状态--键盘-batch-c-修订登记2026-11-16)。
+
+## 组件状态 / 键盘 Batch D（2026-11-16）
+
+- 起点为 `dev` / `b914d39`，工作区与暂存区干净，`origin/dev` 同点。所有者决定保留 InputOTP 并修正 G9：Enter 双提交、错误关联与组件页缺少真实表单示例。改动不新增 props、不改 token、不改其他组件；所有者于 2026-11-16 复审新增表单示例与错误关联并通过；实现本地提交为 `21ebe9e`，未推送。
+- Enter：`onEnterPress` 存在时在 keydown 中 `preventDefault` 并只调用一次回调，表单不再隐式提交；未提供回调时不拦截，保留浏览器对所在表单的默认提交。回调与表单提交的取舍由调用方通过是否传入 `onEnterPress` 表达。
+- 错误关联：错误文本增加 `role="alert"`；每个数字格与 group 一起通过 `aria-describedby` 指向 hint / error 的说明 id，`aria-invalid` 保持逐格设置。`required` 仍在 group 上以 `aria-required` 表达，原生表单校验由调用方基于受控值处理，不给六个单格分别加原生 `required`。
+- 组件页：字段分组新增一个带提交按钮的表单示例，`onEnterPress` 显示「Enter 已触发回调」，表单提交显示「表单已提交」，可直接对比两种路径；同时更新 Props / 键盘说明。
+- 验证：Chrome 157.0.8103.51 无头。填满 6 位后在第一格按 Enter，原生 submit 计数 0、状态为「Enter 已触发回调」；点提交按钮后 submit 计数 1、状态为「表单已提交」。错误示例的六个输入格与 group 的 `aria-describedby` 均指向同一错误 id，错误文本 `role=alert`。方向键移动与 Backspace 清除行为不变；6 个组合（1440 / 390 / 320+200% × 明暗）无页面级或示例级横向溢出，无 pageerror。`npm run check` 与 `npm run build` 通过。证据在忽略目录 `output/batch-d-2026-11-16/`。
+- 边界：Safari / Firefox、实体设备、真实屏幕阅读器、真实输入法与触控候选词未复验；无 `onEnterPress` 的表单提交路径由浏览器默认行为承担，未单独加页面示例。`f61475e` 的页面级尺寸例外已于 2026-11-16 单独确认；G12 / G13 / G15 无真实页面承载，未进入本批。
