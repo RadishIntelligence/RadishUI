@@ -196,7 +196,7 @@ Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前
 - TableOfContents：`items: { id, level, text }[]`、`currentId`、`label`；`hrefFor` 决定链接地址，`onNavigate(id, event)` 交回页面处理同章节滚动偏移与修饰键。当前章节使用 `aria-current="location"`，三级标题按层级缩进。
 - 纯函数 `paginationRange` / `validatePage` 移到 `packages/react/src/pagination.ts`（无 JSX），页面模型只保留 `pageCount`；原有测试改为直接导入新位置，断言不变。
 - 验证：Chrome 157 无头，1440 / 390 / 320+200%、明暗。单页、三页、页码切换、跳页非法与合法、390 隐藏页码与跳页、目录当前章节、键盘 Enter 激活页码与目录链接、组件页五组 tabs 窄屏换行均通过；无横向溢出、无 pageerror。跳页按钮焦点环距面板边缘 13px，未被裁切。
-- 边界：只验证细指针无头环境；粗指针 44px 命中、Safari / Firefox、真机与屏幕阅读器未复验。窄屏目录链接在精细指针下按密度保持约 37px，粗指针沿用既有 44px 规则。视觉未提交基准评审。
+- 边界：只验证细指针无头环境；粗指针 44px 命中、Safari / Firefox、真机与屏幕阅读器未复验。窄屏目录链接在精细指针下按密度保持约 37px，粗指针沿用既有 44px 规则。视觉已随 [2026-11-15 运行基线修订](visual-baseline-proposal.md#2026-11-15-运行基线修订登记)登记。
 
 ## Card 表面原语（2026-11-14）
 
