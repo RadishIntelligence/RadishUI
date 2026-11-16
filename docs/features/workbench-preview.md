@@ -251,3 +251,12 @@
 - **移动选中态**：≤1099px 的资源列表按钮补 `aria-pressed`，与桌面表格的资源按钮一致；选中的视觉高亮、详情抽屉和桌面行为不变。列表 `<li>` 不添加 `aria-selected` / `aria-current`，避免与按钮语义混用。
 - **验证**：Chrome 157.0.8103.51 无头。中文「没有匹配的资源」、英文「No matching resources」、零资源「还没有资源」与清除后清空均实测；390 下第二个资源点击后 `aria-pressed` 由第一项转到第二项且详情抽屉打开；桌面 12 个按钮仍只有当前项 `aria-pressed="true"`；无 pageerror。证据在忽略目录 `output/batch-b-2026-11-16/`。
 - **边界**：真实屏幕阅读器朗读、Safari / Firefox 与实体设备未复验；本轮未改资源列表视觉与分页。共享 Toast 的同批修订归 [C-02](react-workbench-components.md#组件状态--键盘-batch-b2026-11-16)，视觉已由所有者 2026-11-16 复审通过，登记见 [F-02.4](visual-baseline-proposal.md#组件状态--键盘-batch-b-修订登记2026-11-16)。
+
+### 2026-11-16 页面级视觉复审收口（Batch E）
+
+- **页面宽度**：内容页（overview / settings / document / components / foundations / platforms）统一 `max-width: 1184px` 并 `margin-inline: auto`；resources 工作台保持整宽。1440 下 7 页内容宽度均为 1184；1600 下内容页居中 1184、resources 为 1344；1024 下均为 768。
+- **组件用法页**：≥1280px 时 preview / contract 改为两列，1440 下 demo 708 / contract 456、code 全宽；1280 下 610 / 394；<1280 保持单列。解决小控件在大预览面中留白过大、13px 合同行长过长的问题。
+- **文档页**：右栏改为 `clamp(220px, 26%, 360px)`；1440 下文章 852、aside 308（原 952 / 220），1280 下 746 / 266；正文行约 51 个中文字，标题、元信息、目录与移动单列不变。
+- **概览 footer**：`F-02.4 第二版 · 2026-11-08` 改为 `F-02.4 第二版 + 运行修订 · 2026-11-16`，英文同步；页面改为 flex 列 + 弹性 spacer，内容不足一屏时 footer 吸附到内容区底部（1440 / 1600 下底边 888，保留 12px 主区域内边距），长页面仍落在内容末尾。
+- **验证**：Chrome 157 的 7 页 × 1440 / 390 / 320+200% × 明暗，加 1600 / 1024 两组，共 56 组无横向溢出；组件页 5 组在 1440 / 1280 的 `.component-demo` 均无溢出；`npm run check`、`npm run build` 通过。证据在忽略目录 `output/page-visual-review-2026-11-16/batch-e/`。
+- **未处理**：复审 P2 的短页底部留白、返回位、偏好页帮助区、320+200% 主题卡与暗色基础页浅色卡留给所有者取舍。Batch E 本身已于 2026-11-16 由所有者复审通过，登记见 [F-02.4 Batch E 修订登记](visual-baseline-proposal.md#页面级视觉复审-batch-e-修订登记2026-11-16)。
