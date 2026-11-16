@@ -1,4 +1,4 @@
-.foundations-page { max-width: 1040px; min-width: 0; }
+.foundations-page { max-width: 1184px; min-width: 0; }
 .foundations-back { display: inline-flex; align-items: center; gap: 4px; }
 .foundations-intro { max-width: 760px; margin: 0 0 var(--rd-space-4); color: var(--rd-text-secondary); font-size: var(--rd-font-size-sm); line-height: 1.7; }
 .foundation-theme-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--rd-space-3); }

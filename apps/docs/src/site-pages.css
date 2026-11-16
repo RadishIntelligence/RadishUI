@@ -1,5 +1,5 @@
-.platforms-page { max-width: 1080px; min-width: 0; }
-.overview-page { max-width: 1200px; min-width: 0; }
+.platforms-page { max-width: 1184px; min-width: 0; }
+.overview-page { max-width: 1184px; min-width: 0; display: flex; flex-direction: column; min-height: 100%; }
 .overview-hero { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(320px, .8fr); gap: var(--rd-space-6); padding: var(--rd-space-4) 0 var(--rd-space-6); }
 .overview-copy h1 { max-width: 12em; font-size: clamp(2rem, 2.8vw, 2.5rem); line-height: 1.18; letter-spacing: -.035em; }
 .overview-copy h1 span { color: var(--rd-brand-primary); }
@@ -32,7 +32,8 @@
 .overview-demo:hover { border-color: var(--rd-border-control); background: var(--rd-bg-surface); }
 .overview-demo > svg:first-child { color: var(--rd-text-action); }
 .overview-demo > svg:last-child { color: var(--rd-text-secondary); }
-.overview-footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--rd-space-2); margin-top: var(--rd-space-8); padding-top: var(--rd-space-3); border-top: 1px solid var(--rd-border-soft); color: var(--rd-text-secondary); font-size: var(--rd-font-size-xs); }
+.overview-footer-spacer { flex: 1 0 var(--rd-space-8); }
+.overview-footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--rd-space-2); margin-top: 0; padding-top: var(--rd-space-3); border-top: 1px solid var(--rd-border-soft); color: var(--rd-text-secondary); font-size: var(--rd-font-size-xs); }
 .overview-footer a { color: var(--rd-text-action); }
 .platforms-back { display: inline-flex; align-items: center; gap: 4px; }
 .platforms-intro { max-width: 48em; margin-bottom: var(--rd-space-5); color: var(--rd-text-secondary); font-size: var(--rd-font-size-sm); line-height: 1.7; }

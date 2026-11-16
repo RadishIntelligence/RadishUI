@@ -32,3 +32,9 @@
 
 .component-groups > .rd-tabs-content { padding-top: var(--rd-space-4); }
 .component-toc-demo { width: min(280px, 100%); }
+@media (min-width: 1280px) {
+  .component-example { grid-template-columns: minmax(0, 1.55fr) minmax(18rem, 1fr); column-gap: var(--rd-space-5); }
+  .component-example > .rd-section__header, .component-example > .component-code { grid-column: 1 / -1; }
+  .component-example > .component-demo { grid-column: 1; align-self: start; }
+  .component-example > .component-contract { grid-column: 2; align-self: start; padding-top: 0; border-top: 0; padding-left: var(--rd-space-4); border-left: 1px solid var(--rd-border-soft); }
+}

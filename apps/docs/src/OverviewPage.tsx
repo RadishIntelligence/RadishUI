@@ -44,6 +44,7 @@ export function OverviewPage({ t }: { t: Translate }) {
     <div className="overview-demo-grid">{demo.map(({ href, icon: Icon, title, text }) => <a className="overview-demo" href={href} key={href}>
       <Icon size={20} aria-hidden="true" /><div><h3>{title}</h3><p>{text}</p></div><ArrowUpRight size={16} aria-hidden="true" />
     </a>)}</div>
-    <footer className="overview-footer"><span>{t('工程预览 · v26.11.1', 'Engineering preview · v26.11.1')}</span><span>{t('F-02.4 第二版 · 2026-11-08', 'F-02.4 revision 2 · 2026-11-08')}</span><a href="https://github.com/RadishIntelligence/RadishUI">{t('项目文档', 'Project docs')} ↗</a></footer>
+    <div className="overview-footer-spacer" aria-hidden="true" />
+    <footer className="overview-footer"><span>{t('工程预览 · v26.11.1', 'Engineering preview · v26.11.1')}</span><span>{t('F-02.4 第二版 + 运行修订 · 2026-11-16', 'F-02.4 revision 2 + runtime revisions · 2026-11-16')}</span><a href="https://github.com/RadishIntelligence/RadishUI">{t('项目文档', 'Project docs')} ↗</a></footer>
   </section>;
 }
