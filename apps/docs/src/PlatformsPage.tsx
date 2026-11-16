@@ -22,6 +22,7 @@ export function PlatformsPage({ t }: { t: Translate }) {
       <div className="platform-tags"><Tag>{t('内部预览', 'Internal preview')}</Tag><Tag>{t('未发行', 'Unreleased')}</Tag><Tag>{t('产品只读', 'Products read-only')}</Tag></div>
       <a className="platforms-doc-link" href="https://github.com/RadishIntelligence/RadishUI/tree/master/docs">{t('阅读架构与接入文档', 'Read architecture and adoption docs')}<ArrowUpRight size={16} aria-hidden="true" /></a>
     </div></section>
+    <div className="platform-footer-spacer" aria-hidden="true" />
     <div className="platform-footer"><span>v26.11.1</span><span>{t('React 19 内部预览', 'React 19 internal preview')}</span><span><Boxes size={16} aria-hidden="true" />{t('Flutter 预留', 'Flutter reserved')}</span></div>
   </section>;
 }

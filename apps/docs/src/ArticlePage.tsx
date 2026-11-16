@@ -178,8 +178,10 @@ function DocumentReader({ resourceId = 'welcome', resource, preferences, section
           : <p className="field-help">{t('文档暂无内容。', 'This document is empty.')}</p>}
       </article>
       <aside className="document-aside">
-        {preferences.showToc && headings.length > 0 && <Card tone="muted" padding="sm" className="document-outline"><span>{t('本文目录', 'On this page')}</span>{outlineFor(false)}</Card>}
-        <div className="document-properties"><span>{t('文档属性', 'Document properties')}</span><dl className="property-list"><div><dt>{t('状态', 'Status')}</dt><dd>{readonly ? t('只读', 'Read only') : t('已保存', 'Saved')}</dd></div><div><dt>{t('创建者', 'Created by')}</dt><dd>{resource?.creator ?? t('林杏', 'Lin Xing')}</dd></div><div><dt>{t('最近更新', 'Updated')}</dt><dd>{formatDate(article.updatedAt, preferences.locale)}</dd></div></dl><div className="document-tags"><Tag>{t('排版', 'Typography')}</Tag><Tag>{t('交互', 'Interaction')}</Tag></div></div>
+        <Card tone="muted" padding="sm" className="document-aside-surface">
+          {preferences.showToc && headings.length > 0 && <div className="document-outline"><span>{t('本文目录', 'On this page')}</span>{outlineFor(false)}</div>}
+          <div className="document-properties"><span>{t('文档属性', 'Document properties')}</span><dl className="property-list"><div><dt>{t('状态', 'Status')}</dt><dd>{readonly ? t('只读', 'Read only') : t('已保存', 'Saved')}</dd></div><div><dt>{t('创建者', 'Created by')}</dt><dd>{resource?.creator ?? t('林杏', 'Lin Xing')}</dd></div><div><dt>{t('最近更新', 'Updated')}</dt><dd>{formatDate(article.updatedAt, preferences.locale)}</dd></div></dl><div className="document-tags"><Tag className="document-tag">{t('排版', 'Typography')}</Tag><Tag className="document-tag">{t('交互', 'Interaction')}</Tag></div></div>
+        </Card>
       </aside>
     </div>}
     {preferences.showToc && headings.length > 0 && <Drawer className="document-outline-drawer" open={outlineOpen} onOpenChange={setOutlineOpen} title={t('本文目录', 'On this page')} closeLabel={t('关闭', 'Close')}>{outlineFor(true)}</Drawer>}

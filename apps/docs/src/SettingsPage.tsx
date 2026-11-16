@@ -1,6 +1,6 @@
 import { useEffect, useState, type FormEvent } from 'react';
 import { Button, Checkbox, FormField, InlineAlert, RadioGroup, Switch, Tabs, TabsContent, TabsList } from '@radish-ui/react';
-import { Check, SlidersHorizontal } from 'lucide-react';
+import { Check } from 'lucide-react';
 import { defaultPreferences, type Preferences, type Translate } from './model';
 import { PageHeader } from './PageHeader';
 
@@ -79,14 +79,12 @@ export function SettingsPage({ preferences, save, t, onDirtyChange }: SettingsPa
           </TabsContent>
           {error && <div className="settings-feedback"><InlineAlert tone="danger">{error}</InlineAlert></div>}
           <div className="settings-footer">
+            <p className="settings-note">{t('这些偏好只保存在当前浏览器。', 'These preferences are saved in this browser only.')}</p>
             <span className={`dirty-indicator ${dirty ? 'is-dirty' : ''}`} aria-live="polite">{dirty ? t('有未保存的更改', 'Unsaved changes') : t('所有更改已保存', 'All changes saved')}</span>
             <Button variant="secondary" onClick={() => { setDraft({ ...defaultPreferences }); setError(undefined); }}>{t('恢复默认', 'Restore defaults')}</Button>
             <Button type="submit" disabled={!dirty}>{t('保存更改', 'Save changes')}</Button>
           </div>
         </form>
-        <aside className="settings-help"><SlidersHorizontal size={20} aria-hidden="true" />
-          <p>{t('这些偏好只保存在当前浏览器。', 'These preferences are saved in this browser only.')}</p>
-        </aside>
       </div>
     </Tabs>
   </section>;

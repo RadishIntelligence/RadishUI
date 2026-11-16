@@ -9,11 +9,11 @@ type PageHeaderProps = {
 };
 
 export function PageHeader({ title, titleRef, back, actions }: PageHeaderProps) {
-  return <div className="page-title">
-    <h1 ref={titleRef} tabIndex={-1}>{title}</h1>
-    {(back || actions) && <div className="page-title-actions">
-      {back && <a className="page-back" href={back.href}><ArrowLeft size={16} aria-hidden="true" />{back.label}</a>}
-      {actions}
-    </div>}
-  </div>;
+  return <>
+    {back && <a className="page-back page-header-back" href={back.href}><ArrowLeft size={16} aria-hidden="true" />{back.label}</a>}
+    <div className="page-title">
+      <h1 ref={titleRef} tabIndex={-1}>{title}</h1>
+      {actions && <div className="page-title-actions">{actions}</div>}
+    </div>
+  </>;
 }
