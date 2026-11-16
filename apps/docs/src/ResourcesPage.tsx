@@ -119,7 +119,7 @@ export function ResourcesPage({ resources, error, save, retry, t, locale, densit
             {visible.map(item => {
               const Icon = kindIcons[item.kind];
               return <li key={item.id} className={selected?.id === item.id ? 'is-selected' : ''}>
-                <button className="resource-mobile-select" onClick={event => { event.currentTarget.focus({ preventScroll: true }); select(item); }} aria-label={t(`查看 ${item.name} 的详情`, `Details for ${item.name}`)}>
+                <button className="resource-mobile-select" onClick={event => { event.currentTarget.focus({ preventScroll: true }); select(item); }} aria-label={t(`查看 ${item.name} 的详情`, `Details for ${item.name}`)} aria-pressed={selected?.id === item.id}>
                   <span className="resource-kind-icon"><Icon size={16} aria-hidden="true" /></span><span className="resource-name"><strong>{item.name}</strong><span>{kindLabel(item.kind, t)} <ResourceStatus resource={item} t={t} /></span></span>
                 </button><IconButton className="resource-open" label={t(`打开 ${item.name}`, `Open ${item.name}`)} onClick={() => openResource(item)}><ArrowUpRight /></IconButton>
               </li>;
@@ -168,6 +168,7 @@ export function ResourcesPage({ resources, error, save, retry, t, locale, densit
           ]} />
         </div>
       </div>
+      <div className="sr-only" role="status">{resources !== undefined && !error && visible.length === 0 ? (resources.length ? t('没有匹配的资源', 'No matching resources') : t('还没有资源', 'No resources yet')) : ''}</div>
       {content}
     </div>
     <Drawer className="resource-sheet" open={drawerOpen && Boolean(selected)} onOpenChange={setDrawerOpen} title={selected?.name ?? t('资源详情', 'Resource details')} closeLabel={t('关闭', 'Close')}>{drawerDetails}</Drawer>

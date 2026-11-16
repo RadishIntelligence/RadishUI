@@ -257,8 +257,8 @@ function FeedbackExamples() {
         <div className="component-row"><Skeleton width={40} height={40} style={{ borderRadius: '50%' }} /><Skeleton width={120} height={12} /></div>
       </div>
     </Example>
-    <Example name="Toast" contract="open / onOpenChange、message、label、closeLabel；顶部胶囊提示，关闭按钮显示剩余时间，4500ms 后自动关闭。"
-      keyboard="F8 进入通知区域，可聚焦关闭按钮；Escape 或关闭按钮关闭，支持向上滑动。悬停 / 聚焦时暂停自动关闭与倒计时。"
+    <Example name="Toast" contract="open / onOpenChange、message、label、closeLabel；label 同时作为通知区域名称（附 F8）；顶部胶囊提示，关闭按钮显示剩余时间，4500ms 后自动关闭。"
+      keyboard="F8 进入通知区域，可聚焦关闭按钮；Escape 或关闭按钮关闭，支持向上滑动；关闭后焦点回到打开它的控件。悬停 / 聚焦时暂停自动关闭与倒计时。"
       code={'<Toast open={open} onOpenChange={setOpen} message="本页计数已增加" closeLabel="关闭提示" />'}>
       <div className="component-row"><Button variant="secondary" onClick={() => { setToastCount(n => n + 1); setToast(true); }}>增加通知计数</Button><span>本页计数：{toastCount}</span></div>
       <Toast key={toastCount} open={toast} onOpenChange={setToast} message={`本页计数已增加到 ${toastCount}`} closeLabel="关闭示例通知" />
