@@ -35,7 +35,7 @@
 | Menu | trigger 与具名 items，支持禁用、危险项、分隔与链接 / 动作；键盘、关闭与焦点由行为基础维护 |
 | ConfirmDialog | 基于 Dialog 的确认组合：open / onOpenChange、title、description、children、confirmLabel / cancelLabel、tone: default | danger、loading、onConfirm；初始焦点在取消，loading 时拦截关闭并禁用头部关闭按钮，确认按钮保留焦点并带 aria-disabled / aria-busy，role=alertdialog |
 | InlineAlert | info / success / warning / danger，错误以 alert 播报，其余状态使用 status；必要说明不只放在 Tooltip |
-| Toast / Tooltip | Toast 以顶部胶囊提供可关闭的短时反馈，关闭按钮显示剩余时间，悬停 / 聚焦暂停，超时自动关闭；Tooltip 补充已有可访问名称；不替代持久错误、字段帮助或必要操作入口 |
+| Toast / Tooltip | Toast 以顶部胶囊提供可关闭的短时反馈，关闭按钮显示剩余时间，悬停 / 聚焦暂停，超时自动关闭；区域名随 `label` 本地化并带 F8 提示，F8 / Tab 进入提示后关闭会先回到打开它的控件、其次回到进入提示前的位置，viewport 与胶囊在键盘焦点下显示 1px token 环；Tooltip 补充已有可访问名称；不替代持久错误、字段帮助或必要操作入口 |
 
 A 批 10 个基础组件与 B 批 6 个反馈 / 浮层组件由三代表页实际消费。第二版运行基线累计 24 个组件，随后为资源新建新增 TagInput，2026-11-14 新增 Pagination 与 TableOfContents，当前共 27 个。AppShell、表格和业务数据仍属于展示站组合；分页与目录已抽为共享原语。 2026-11-12 起进入组件与视觉完善阶段：逐项审计现有组件与 shadcn/ui 的范围、状态、键盘 / 焦点、明暗与页面承载，按批次修订；新增组件必须有 Workbench 页面使用位置。
 
@@ -314,3 +314,12 @@ Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前
 - G5 ToggleGroup 单选：单选组在项获得焦点时同步 `onValueChange`，方向键移动即选中，符合 radiogroup / radio 合同；多选 toolbar 行为不变。组件页键盘说明同步。
 - 验证：Chrome 157.0.8103.51 无头；键盘路径（菜单回焦、ConfirmDialog loading Tab、分享慢剪贴板、单选方向键）、390 粗指针命中、桌面 / 移动详情动作尺寸，以及 1440 / 390 / 320+200% × 明暗 × 7 页和 27 个示例无横向溢出；`npm run type-check`、`npm run check`、`npm run build` 通过。证据见 `output/batch-a-2026-11-15/report.json` 与截图。
 - 边界：Safari / Firefox、实体设备、真实屏幕阅读器、真实剪贴板权限和真实输入法未复验；G5 的“方向键即选中”是本轮所有者确认的行为变化。TagInput 粗指针标签变高、详情动作由 28 变为 30 / 38–46 属于视觉修订，所有者于 2026-11-15 复审两处并通过，纳入 [F-02.4 Batch A 修订](visual-baseline-proposal.md#组件状态--键盘-batch-a-修订登记2026-11-15)（代码 `477e2fe`）。
+
+## 组件状态 / 键盘 Batch B（2026-11-16）
+
+- 起点为 `dev` / `334edc4`，工作区干净，`origin/dev` 同点。按所有者确认的范围实施审计剩余项 G6–G8；不新增共享 API、不改 token、不改页面原语。所有者于 2026-11-16 复审 Toast 焦点环与关闭按钮间距并通过；实现本地提交为 `7ce3ec0`，未推送。
+- G6 Toast 区域与焦点：`Viewport` 的区域名改为 `${label} ({hotkey})`，由 Radix 把 `{hotkey}` 替换为 `F8`，中文界面实测「通知 (F8)」、英文界面「Notification (F8)」；Provider 的播报名称仍用 `label`。F8 / Tab 进入提示后关闭（Escape、关闭按钮、自动消失）时，优先把焦点还给打开 Toast 的控件；打开控件已卸载或被禁用时，回到进入提示前的位置；两者都不可用时把焦点移出空 viewport，不把焦点留在不可见区域。鼠标点击的打开控件由模块级 `pointerdown` 记录兜底，覆盖 App 以 `key` 重挂载 Toast 与 macOS Chrome 点击按钮不聚焦的情况；自动消失且用户已在别处操作时不抢焦点。viewport 与胶囊在键盘焦点下分别使用 1px `--rd-focus-ring`、4px / 2px 偏移；胶囊右内边距 11px，关闭按钮的聚焦环与胶囊边界不重叠，减少动效下不依赖动画表达焦点；组件页 Toast 的 Props / 键盘说明同步区域名与回焦行为。
+- G7 资源空结果播报：`ResourcesPage` 增加常驻 `sr-only` `role="status"`，从有结果变为无结果时播报「没有匹配的资源」；资源本身为零时播报「还没有资源」；恢复结果后清空。空态视觉块不新增 `role` / `aria-live`，避免重复播报；没有为它新增共享 EmptyState API。
+- G8 资源移动选中态：移动列表的资源按钮补 `aria-pressed`，与桌面表格按钮一致；视觉选中与 `aria-pressed` 同步，列表 `<li>` 不冒充可选中语义。桌面按钮行为不变。
+- 验证：Chrome 157.0.8103.51 无头。Toast 的区域名、F8 → viewport 1px 环、Tab → 胶囊 1px 环、Escape / 关闭按钮回到触发按钮、自动消失不抢焦点、禁用打开控件时焦点落到 body、进入提示前位置兜底、`prefers-reduced-motion` 下关闭回焦均通过；资源空结果中英文与零资源播报、390 移动选中态 `aria-pressed` 切换与详情抽屉打开通过；7 个页面 × 1440 / 390 / 320+200% × 明暗共 42 组与 27 个组件示例三组组合无横向溢出、无 pageerror。`npm run check` 与 `npm run build` 通过。证据在忽略目录 `output/batch-b-2026-11-16/`。
+- 边界：Safari / Firefox、实体设备、真实屏幕阅读器朗读与真实输入法未复验；200% 为根字号 32px 模拟。组件页同时存在 App 与示例两个 Toast viewport 的复用风险（审计 G12）未处理；G9 InputOTP、G10 Select / Menu 选项焦点环、G11 hover 状态未进入本批。Toast 焦点环与关闭按钮间距已由所有者 2026-11-16 复审通过，登记见 [F-02.4 Batch B 修订登记](visual-baseline-proposal.md#组件状态--键盘-batch-b-修订登记2026-11-16)。
