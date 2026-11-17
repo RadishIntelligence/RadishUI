@@ -269,3 +269,10 @@
 - **文档信息栏**：本文目录与文档属性合并为同一张 muted `Card`，不再“小卡片 + 大平面”；两段之间用 1px `text-secondary` 40% 混合分隔，上下各 20px；文档标签用 `bg-surface` 背景 + `border-control` 边界 + 主文字色，与 muted 卡拉开层次；移动端仍 `display: contents`，属性区整宽带分隔线。
 - **验证**：Chrome 157 的 7 页 × 1440 / 390 / 320+200% × 明暗 + 1600 / 1024 共 56 组无横向溢出；返回链接键盘焦点 1px、高 34；无 pageerror；`npm run check`、`npm run build` 通过。证据在忽略目录 `output/page-visual-review-2026-11-16/batch-f/`。
 - **未处理**：偏好页底部留白仍在（页面没有 footer）；暗色基础页浅色卡未改。Batch F 本身已于 2026-11-16 由所有者复审通过，登记见 [F-02.4 Batch F 修订登记](visual-baseline-proposal.md#页面级视觉复审-batch-f-修订登记2026-11-16)。
+
+### 2026-11-17 强制颜色页面复核
+
+- 在 Chrome 157 的 forced-colors 模拟下复查 7 页 × 1440 / 390，页面无横向溢出、无 pageerror；页面级选中与当前项、资源选中行、移动列表选中项和设置页主题缩略图此前会被系统色压平，已在本轮修复。
+- 具体表现：侧栏「组件用法 / 偏好设置」等当前项只剩字重差异；资源表选中行与普通行同底色；390 移动列表选中项同底色；设置页三张主题缩略图退化为空白方块。修复后当前项与选中行改用 2px 系统色描边 / 上下边框，主题缩略图用 `forced-color-adjust: none` 保留明暗差异。
+- 文档页目录当前项仍有 2px 左边框，Toast、Dialog、抽屉与页脚在强制颜色下可辨；视觉基础页的明暗对照卡保留标签，色板恢复各 token 的实际取值；设置页主题卡保留勾选标记。
+- 边界：未验证 Windows 高对比真实系统、Safari / Firefox、真实屏幕阅读器、实体设备与真实浏览器 200% 整页缩放；Playwright 的 forced-colors 为模拟。证据在 `output/accessibility-2026-11-17/`。

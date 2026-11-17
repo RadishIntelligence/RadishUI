@@ -64,3 +64,9 @@ npm run build --workspace @radish-ui/docs -- --mode github-pages
 所有者将 [PR #6](https://github.com/RadishIntelligence/RadishUI/pull/6) 合入 `master`，生产源码提交为 `030ffdf7e09a0069eb8aaf7d986f27f548e246d8`，随后快进回流 `dev`。Vercel 自动部署成功，Workbench `26.11.1` 替换旧官网 `0.1.0`。[Vercel 部署记录](https://vercel.com/dabailuobo/radish-ui/FfHVFDgACuMj6yceP2V3MiExBSdj)
 
 公开域名的 HTML、入口 JS 和 CSS 请求均返回 200。HTML canonical 为 `https://ui.radishx.com/`，入口 JS 包含 `v26.11.1`、F-02.4 第二版标记和视觉基础、平台与接入路由。此处记录生产资源核验，交互证据见 [E-02](../features/workbench-preview.md)。组件包仍为内部版本。
+
+## 2026-11-17 线上产物核对
+
+对 `https://ui.radishx.com` 做产物比对：入口 CSS 包含 2026-11-15 才引入的青玉 / 雾蓝 token 值（浅色 `#3B6B8C`、深色 `#A9C9E3`），而 `809be89` 的 `packages/tokens/src/tokens.json` 中不存在这些值，说明线上内容晚于 PR #7、至少包含 PR #8 合并提交 `898aef3`。本次没有取得可引用的 Vercel 部署记录链接，准确部署提交与时间待所有者核对后补充；11-16 的 Batch E/F 与 11-17 强制颜色修订未上线。
+
+该比对只说明线上样式产物包含该提交引入的取值，不替代部署记录、视觉复审或产品采用验收。

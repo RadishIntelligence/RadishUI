@@ -19,7 +19,7 @@
 | --- | --- |
 | Button / IconButton | 保留原生 button 属性、ref、四种 variant 与 loading，增加 sm / md；默认 type=button。loading 保留焦点，设置 aria-disabled / aria-busy 并拦截重复激活；显式 disabled 仍使用原生 disabled。IconButton 的 label 必填；loading 时仅显示 spinner 并替换图标，不与图标叠加 |
 | FormField / Input / Textarea | FormField 提供 label、hint / error、required 与稳定 id；Input / Textarea 读取字段上下文关联 aria-describedby / aria-invalid，也可独立传入原生属性；可选 surface: outline（默认）| filled。Switch 等其他控件由调用方显式关联 id / 标签及所需说明。失败不清空输入 |
-| Select | 受控 value / onValueChange、options、placeholder、disabled / required；可选 surface: outline（默认）/ filled、size: sm（chrome 13px）/ md（表单，桌面 13 / 触屏 16）；触发值和箭头分离，浮层不透明，支持当前值、键盘、滚动与碰撞避让；已展开时再次点按触发器收起，触控关闭以同一次点按开始时的展开状态为准；outline 触发器 hover 时边界加深，filled 沿用背景变化；选项的键盘焦点由 `data-highlighted` 高亮承担，不叠加 1px 环 |
+| Select | 受控 value / onValueChange、options、placeholder、disabled / required；可选 surface: outline（默认）/ filled、size: sm（chrome 13px）/ md（表单，桌面 13 / 触屏 16）；触发值和箭头分离，浮层不透明，支持当前值、键盘、滚动与碰撞避让；已展开时再次点按触发器收起，触控关闭以同一次点按开始时的展开状态为准；outline 触发器 hover 时边界加深，filled 沿用背景变化；选项的键盘焦点由 `data-highlighted` 高亮承担，不叠加 1px 环；强制颜色下背景高亮会被系统色覆盖，改用 2px 系统色描边 |
 | Checkbox / Switch | Checkbox 保留原生表单与键盘行为，Switch 使用受控 checked / onCheckedChange；标签、禁用、焦点与选择状态分别表达。未选中 hover 加深边界 / 轨道，选中 hover 使用 action-hover；禁用不响应 hover |
 | InputOTP | 受控 value / onValueChange、label、length（默认 6）、hint / error、required、disabled、autoFocus、name、onEnterPress；数字输入、自动前进、退格 / 方向键 / Home / End、粘贴；每格为标准正方格并可访问，`name` 提交隐藏的完整值；有 `onEnterPress` 时 Enter 只触发回调并阻止表单提交，无回调时保留浏览器表单提交；错误用 `role="alert"` 并通过 `aria-describedby` 关联到每格；`required` 以 group `aria-required` 表达，原生表单校验由调用方基于受控值处理 |
 | RadioGroup | 受控 value / onValueChange，options: { value, label, disabled? }[]；orientation: vertical（默认）/ horizontal；name、required、disabled；FormField 内自动关联标签、说明与错误；方向键移动即选中，单项 label 使用字符串保证可访问名称 |
@@ -32,7 +32,7 @@
 | TagInput | 受控标签与草稿。Enter 或添加按钮调用 `onAdd`，空输入的 Backspace 移除末项，每个标签可单独删除；粗指针下标签行随控件高度撑高，删除按钮视觉随控件、命中经外扩到至少 44。添加规则与表单提交由调用方负责，使用 FormField 关联帮助和错误 |
 | Skeleton | width / height（CSS 长度或数字）、className / style；纯展示占位并 aria-hidden；外层用 aria-busy / status 说明加载中，加载完成移除；减少动效时保持静态 |
 | Dialog / Drawer | 受控 open / onOpenChange，标题、可选说明、正文与 footer；role: dialog（默认）/ alertdialog；支持 Escape、焦点约束、可指定初始焦点并恢复入口；菜单项打开时关闭后回到菜单触发器；`closeDisabled` 可在 loading 时禁用头部关闭按钮。关闭按钮 32px 可视、44px 命中由共享组件提供。Drawer 是同一弹层合同的侧向编排 |
-| Menu | trigger 与具名 items，支持禁用、危险项、分隔与链接 / 动作；键盘、关闭与焦点由行为基础维护；焦点项以 `data-highlighted` 高亮表达，不叠加 1px 环 |
+| Menu | trigger 与具名 items，支持禁用、危险项、分隔与链接 / 动作；键盘、关闭与焦点由行为基础维护；焦点项以 `data-highlighted` 高亮表达，不叠加 1px 环；强制颜色下改用 2px 系统色描边 |
 | ConfirmDialog | 基于 Dialog 的确认组合：open / onOpenChange、title、description、children、confirmLabel / cancelLabel、tone: default | danger、loading、onConfirm；初始焦点在取消，loading 时拦截关闭并禁用头部关闭按钮，确认按钮保留焦点并带 aria-disabled / aria-busy，role=alertdialog |
 | InlineAlert | info / success / warning / danger，错误以 alert 播报，其余状态使用 status；必要说明不只放在 Tooltip |
 | Toast / Tooltip | Toast 以顶部胶囊提供可关闭的短时反馈，关闭按钮显示剩余时间，悬停 / 聚焦暂停，超时自动关闭；区域名随 `label` 本地化并带 F8 提示，F8 / Tab 进入提示后关闭会先回到打开它的控件、其次回到进入提示前的位置，viewport 与胶囊在键盘焦点下显示 1px token 环；Tooltip 补充已有可访问名称；不替代持久错误、字段帮助或必要操作入口 |
@@ -341,3 +341,11 @@ Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前
 - 组件页：字段分组新增一个带提交按钮的表单示例，`onEnterPress` 显示「Enter 已触发回调」，表单提交显示「表单已提交」，可直接对比两种路径；同时更新 Props / 键盘说明。
 - 验证：Chrome 157.0.8103.51 无头。填满 6 位后在第一格按 Enter，原生 submit 计数 0、状态为「Enter 已触发回调」；点提交按钮后 submit 计数 1、状态为「表单已提交」。错误示例的六个输入格与 group 的 `aria-describedby` 均指向同一错误 id，错误文本 `role=alert`。方向键移动与 Backspace 清除行为不变；6 个组合（1440 / 390 / 320+200% × 明暗）无页面级或示例级横向溢出，无 pageerror。`npm run check` 与 `npm run build` 通过。证据在忽略目录 `output/batch-d-2026-11-16/`。
 - 边界：Safari / Firefox、实体设备、真实屏幕阅读器、真实输入法与触控候选词未复验；无 `onEnterPress` 的表单提交路径由浏览器默认行为承担，未单独加页面示例。`f61475e` 的页面级尺寸例外已于 2026-11-16 单独确认；G12 / G13 / G15 无真实页面承载，未进入本批。
+
+## 强制颜色与减少动效补验（2026-11-17）
+
+- 起点 `dev` / `ff3c79e`，工作区与暂存区干净，`origin/dev` 同点。按当前规划的跨环境 / 辅助技术顺位，只补 Chrome 的 forced-colors、`prefers-reduced-motion`、键盘焦点与 Batch A–F 回归，不新增共享 API、token、页面或依赖；普通模式不改。
+- 发现：forced-colors 会替换作者设置的背景、边框与阴影，`data-highlighted` 选项高亮、tabs / 分段选中项、分页当前页、侧栏当前项、资源选中行（含移动选中项）、开关、单选与复选的选中底色都被压平（复选框的勾仍可见）；视觉基础页 14 个色板与设置页主题缩略图全部变成同一底色。Toast、Dialog、文档目录当前项与 1px 焦点环本身仍可辨；设置页主题卡的勾选标记仍可见。
+- 修复（仅 `@media (forced-colors: active)`）：选项、tabs / 分段选中项、分页当前页与侧栏当前项改用 2px `Highlight` 描边；开关用系统色轨道 / 滑块，复选框与单选改用系统色边框与指示点；资源选中行加 2px 上下边框、移动选中项加描边；色板与主题缩略图用 `forced-color-adjust: none` 保留原色。文字保持 `CanvasText`：本机 Chromium 的 forced-colors 模拟会把 `Highlight` / `HighlightText` 白字画成实心块，描边方案不依赖该路径。改动落在 `packages/react/src/styles.css`、`apps/docs/src/styles.css` 与 `apps/docs/src/foundations.css`。
+- 验证：Chrome 157.0.8103.51 无头（Playwright 1.64.0-alpha）。7 页 1440 的强制颜色遍历共 83 个焦点停靠，全部 `:focus-visible` 且焦点可见，无零尺寸焦点、无横向溢出、无 pageerror；390 另做选中态与溢出检查，同样无溢出。Select / Menu 选项、tabs、分段、开关、复选、单选、分页当前页与资源选中态均重新可辨。减少动效下 Skeleton、Toast、Dialog、Drawer、Accordion、Select、Menu 的动画均为 none；Toast 4500ms 自动关闭且焦点留在入口，Dialog 初始焦点在名称输入、Escape 关闭并回焦。Batch A–F 关键路径回归通过：Toast F8 / Escape 回焦、InputOTP Enter 只触发回调而按钮提交、Select 选项正常高亮、资源空结果播报「没有匹配的资源」、移动列表仅当前项 `aria-pressed="true"`。`npm run check` 与 `npm run build` 通过，证据在忽略目录 `output/accessibility-2026-11-17/`。
+- 边界：Playwright 的 forced-colors 是模拟，未验证 Windows 高对比真实系统；Safari / Firefox、真实屏幕阅读器、实体设备与真实浏览器 200% 整页缩放未复验。1px 焦点环在强制颜色下可见但比 Windows 默认 2px 细，是否加宽待所有者确认。`data-highlighted` 的描边是 [DR-17 选项例外](../design/design-rules.md#dr-17) 在强制颜色环境下的补充，普通模式仍只有高亮、不叠 1px 环。
