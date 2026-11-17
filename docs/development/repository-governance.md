@@ -67,6 +67,7 @@ git rev-list --left-right --count origin/master...origin/dev
 | `npm run check:repo` | 必需治理文件、协作同步、文本 / JSON / 文档链接、治理配置契约、工作区与暂存区 diff 空白 |
 | `npm run test:repo` | 治理检查器的正常与拒绝用例 |
 | `npm run test:workbench` | 本地数据校验、资源筛选、分页边界、文档标题解析与路由 |
+| `npm run test:catalog` | 组件目录 id / 分组 / 搜索、试点页与 API 数据完整性 |
 | `npm run check:repo -- --base-ref <base-sha> --head-ref <head-sha>` | 以上内容，加 PR 完整 diff 和真实 PR 提交信息；base 无效则失败 |
 | `npm run check:tokens` | JSON 与生成 CSS 一致性 |
 | `npm run check:notices` | lockfile、安装包许可文本与展示站第三方声明一致性 |

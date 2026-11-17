@@ -2,12 +2,12 @@
 
 Radish 家族共享设计系统：集中维护视觉基础、通用组件与可运行的界面范例，让设计改进通过版本升级服务多个产品。
 
-Workbench 是 Web 范例的单一入口，包含概览、视觉基础、组件用法、平台与接入，以及资源库、设置和文档三页演示。范例使用合成数据、亮暗语义 token 和 27 个共享 React 组件。三代表页的第二版运行基线已登记，后续顺位见[当前规划](docs/planning/current.md)。组件包尚未发布，Flutter 暂为预留目录。
+Workbench 是 Web 范例的单一入口，包含概览、视觉基础、组件目录、组件用法、平台与接入，以及资源库、设置和文档三页演示。范例使用合成数据、亮暗语义 token 和 27 个共享 React 组件。三代表页的第二版运行基线已登记，后续顺位见[当前规划](docs/planning/current.md)。组件包尚未发布，Flutter 暂为预留目录。
 
 ## 项目结构
 
 ```text
-apps/docs/            React + Vite 静态文档与组件展示
+apps/docs/            React + Vite 组件目录、文档与展示
 packages/tokens/      JSON token 来源与生成的 CSS
 packages/react/       React 组件与样式
 packages/flutter/     Flutter 接入边界，尚无可运行包

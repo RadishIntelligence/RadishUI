@@ -7,7 +7,7 @@
 
 以[现代圆角候选](../design/patterns/modern-rounded-v1.md)作为实现起点，展示站直接消费共享 token、控件与图标，形成资源库、设置和文档三页。范例不接产品接口，没有真实登录、权限判断、云端保存或协作编辑。
 
-应用默认进入概览 `#/overview`，设计系统入口还包括 `#/foundations`、`#/components` 和 `#/platforms`。演示使用 `#/resources`、`#/settings`、`#/document`，资源文档为 `#/document/<id>`，章节地址继续附加 `/<section-id>`。应用导航由展示站维护。
+应用默认进入概览 `#/overview`，设计系统入口还包括 `#/catalog`、`#/components`、`#/foundations` 和 `#/platforms`；组件目录与 `#/components/<id>` 独立页归 [E-03](component-site-1.md)，本文件继续维护 Workbench 三页。演示使用 `#/resources`、`#/settings`、`#/document`，资源文档为 `#/document/<id>`，章节地址继续附加 `/<section-id>`。应用导航由展示站维护。
 
 ## 代表页与真实行为
 

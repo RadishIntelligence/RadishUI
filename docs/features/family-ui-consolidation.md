@@ -1,6 +1,6 @@
 # 家族 UI 通用组件与视觉统一
 
-状态：进行中（2026-11-12 起组件与视觉完善为当前主成果；已落地 Avatar / Tag / Skeleton / InputOTP / ConfirmDialog / ToggleGroup / Accordion / TagInput；字体与图标策略已定；视觉纳入 F-02.4 第二版运行基线，外部试点暂停）
+状态：进行中（2026-11-17 所有者确认视觉满意，组件站 1.0 为下一阶段；已落地 27 个共享组件；字体与图标策略已定；视觉纳入 F-02.4 第二版运行基线，外部试点与 Flutter 暂缓）
 主要归属：F：视觉基础 / C：跨平台通用组件
 协同：E：展示与页面范例、F-02 设计来源、G：工程与交付
 
@@ -147,3 +147,10 @@
 - 不改任何产品仓、不建产品迁移分支、不做 P2 外部试点。
 - 不引入未经确认的 AntD、Iconify 或新的字体 / 图标依赖。
 - 不把领域组件（聊天、图表、图片裁切、贴纸、Markdown 编辑器）整体搬入通用包。
+
+
+## 2026-11-17 组件需求盘点与组件站 1.0
+
+- 受组件站 1.0 启动推动，对 Radish client / console、RadishX、RadishMind、RadishNexus、RadishInk 做了只读静态统计：组件导入 / JSX 标签次数、UI 库来源与自建原语；方法与限制见[家族组件需求盘点](family-component-demand.md)。
+- 结论：Radish 的 client / console 是最大需求源；共性缺口集中在 Form / 字段校验、Upload、InputNumber / Slider、Progress / Steps、Descriptions / Empty / 布局原语、BottomSheet 编排、DataTable 组合与 ColorPicker。Markdown、贴纸、表情、提及、图片裁切、图表等保留在产品侧，不进入通用核心。
+- 组件站 1.0 先做现有 27 个组件的文档 / API / 用法深度，再做目录扩展；范围、阶段与验收见[组件站 1.0](component-site-1.md)。产品仓仍只读，本盘点不构成接入授权。
