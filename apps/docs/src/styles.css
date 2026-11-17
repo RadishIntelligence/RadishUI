@@ -61,6 +61,7 @@ svg { flex-shrink: 0; }
 .page-back:hover { background: var(--rd-bg-muted); color: var(--rd-text-primary); }
 .page-back:focus-visible { outline: 1px solid var(--rd-focus-ring); outline-offset: 3px; }
 .page-header-back { min-height: var(--rd-control-height); padding: 0; margin-bottom: var(--rd-space-2); color: var(--rd-text-secondary); }
+.page-loading { padding: var(--rd-space-5) 0; color: var(--rd-text-secondary); font-size: var(--rd-font-size-sm); }
 .page-header-back:hover { background: transparent; color: var(--rd-text-primary); }
 @media (pointer: coarse), (pointer: none) { .page-back { position: relative; } .page-back::after { content: ''; position: absolute; inset: calc((var(--rd-touch-height) - var(--rd-control-height)) / -2) 0; } }
 .page-menu.rd-icon-button { background: transparent; border-color: transparent; color: var(--rd-text-secondary); }

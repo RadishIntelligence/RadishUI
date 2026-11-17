@@ -52,6 +52,7 @@ jobs:
           package-manager-cache: false
       - run: npm ci
       - run: npm run test:workbench
+      - run: npm run test:catalog
       - run: npm run check:tokens
       - run: npm run check:notices
       - run: npm run type-check

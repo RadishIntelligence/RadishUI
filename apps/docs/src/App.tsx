@@ -1,14 +1,17 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import { Button, ConfirmDialog, Dialog, InlineAlert, Toast } from '@radish-ui/react';
 import { Shell } from './Shell';
 import { SettingsPage } from './SettingsPage';
 import { ResourcesPage } from './ResourcesPage';
 import { ArticlePage } from './ArticlePage';
 import { ComponentsPage } from './ComponentsPage';
+const CatalogPage = lazy(() => import('./CatalogPage').then(module => ({ default: module.CatalogPage })));
+const ComponentDetailPage = lazy(() => import('./ComponentDetailPage').then(module => ({ default: module.ComponentDetailPage })));
 import { FoundationsPage } from './FoundationsPage';
 import { OverviewPage } from './OverviewPage';
 import { PlatformsPage } from './PlatformsPage';
 import { defaultPreferences, isResources, parseRoute, type Preferences, type Resource } from './model';
+import { findComponent } from './component-catalog';
 import { readPreferences, readStored, storageKeys, writeStored } from './storage';
 
 export function App() {
@@ -65,7 +68,7 @@ export function App() {
       const nextHash = window.location.hash;
       const next = parseRoute(nextHash);
       const previous = parseRoute(currentHash.current);
-      if (dirtyRef.current && (next.page !== previous.page || next.resourceId !== previous.resourceId)) {
+      if (dirtyRef.current && (next.page !== previous.page || next.resourceId !== previous.resourceId || next.componentId !== previous.componentId || next.catalog !== previous.catalog)) {
         window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}${currentHash.current}`);
         setPendingNavigation(nextHash);
         return;
@@ -89,8 +92,13 @@ export function App() {
     };
   }, []);
 
-  useEffect(() => { main.current?.scrollTo({ top: 0 }); main.current?.focus({ preventScroll: true }); }, [route.page, route.resourceId ?? 'welcome']);
-  useEffect(() => { document.title = `${{ resources: t('资源库', 'Resources'), settings: t('外观与偏好', 'Preferences'), document: t('文档', 'Document'), overview: t('概览', 'Overview'), components: t('组件用法', 'Components'), foundations: t('视觉基础', 'Foundations'), platforms: t('平台与接入', 'Platforms') }[route.page]} · RadishUI`; }, [route.page, t]);
+  useEffect(() => { main.current?.scrollTo({ top: 0 }); main.current?.focus({ preventScroll: true }); }, [route.page, route.resourceId ?? 'welcome', route.componentId, route.catalog]);
+  useEffect(() => {
+    const title = route.catalog ? t('组件目录', 'Component catalog')
+      : route.componentId ? findComponent(route.componentId)?.name ?? t('组件用法', 'Components')
+        : { resources: t('资源库', 'Resources'), settings: t('外观与偏好', 'Preferences'), document: t('文档', 'Document'), overview: t('概览', 'Overview'), components: t('组件用法', 'Components'), foundations: t('视觉基础', 'Foundations'), platforms: t('平台与接入', 'Platforms') }[route.page];
+    document.title = `${title} · RadishUI`;
+  }, [route.page, route.catalog, route.componentId, t]);
 
   function notify(message: string, enabled = preferences.notifications) {
     if (!enabled) return;
@@ -122,7 +130,11 @@ export function App() {
         const error = savePreferences(preferences); if (error) setPreferenceError(error);
       }}>{t('重新保存当前偏好', 'Save current preferences again')}</Button></InlineAlert>}
       {route.page === 'overview' && <OverviewPage t={t} />}
-      {route.page === 'components' && <ComponentsPage t={t} />}
+      <Suspense fallback={<p className="page-loading">{t('正在加载组件文档…', 'Loading component docs…')}</p>}>
+        {route.catalog && <CatalogPage t={t} />}
+        {route.page === 'components' && route.componentId && <ComponentDetailPage id={route.componentId} t={t} />}
+      </Suspense>
+      {route.page === 'components' && !route.componentId && !route.catalog && <ComponentsPage t={t} />}
       {route.page === 'foundations' && <FoundationsPage t={t} />}
       {route.page === 'platforms' && <PlatformsPage t={t} />}
       {route.page === 'settings' && <SettingsPage preferences={preferences} save={savePreferences} t={t} onDirtyChange={updateDirty} />}

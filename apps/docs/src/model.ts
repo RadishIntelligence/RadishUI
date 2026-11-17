@@ -105,11 +105,14 @@ export function parseArticle(body: string): ArticleBlock[] {
   flush();
   return blocks;
 }
-export function parseRoute(hash: string): { page: Page; resourceId?: string; section?: string } {
+export function parseRoute(hash: string): { page: Page; resourceId?: string; section?: string; componentId?: string; catalog?: boolean } {
   const parts = hash.replace(/^#\/?/, '').split('/');
   const page: Page = parts[0] === 'overview' || parts[0] === '' ? 'overview' : parts[0] === 'components' ? 'components' : parts[0] === 'foundations' ? 'foundations' : parts[0] === 'platforms' ? 'platforms' : parts[0] === 'resources' ? 'resources' : parts[0] === 'settings' ? 'settings' : parts[0] === 'document' ? 'document' : 'overview';
-  return { page, resourceId: page === 'document' && parts[1] && /^[a-zA-Z0-9-]+$/.test(parts[1]) ? parts[1] : undefined,
+  if (parts[0] === 'catalog') return { page: 'components', resourceId: undefined, section: undefined, catalog: true };
+  const componentId = page === 'components' && parts[1] && /^[a-z0-9-]+$/.test(parts[1]) ? parts[1] : undefined;
+  const route = { page, resourceId: page === 'document' && parts[1] && /^[a-zA-Z0-9-]+$/.test(parts[1]) ? parts[1] : undefined,
     section: page === 'document' && /^section-\d+$/.test(parts[2] ?? '') ? parts[2] : undefined };
+  return componentId ? { ...route, componentId } : route;
 }
 export function kindLabel(kind: ResourceKind, t: Translate) {
   return { document: t('文档', 'Document'), spec: t('规范', 'Guideline'), checklist: t('清单', 'Checklist'), example: t('范例', 'Example') }[kind];

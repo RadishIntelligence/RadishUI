@@ -11,7 +11,7 @@ const swatches = [
 export function OverviewPage({ t }: { t: Translate }) {
   const system = [
     { href: '#/foundations', icon: Palette, title: t('视觉基础', 'Foundations'), text: t('颜色、字体、图标、空间与状态。', 'Color, type, icons, space, and states.'), meta: 'F-02.4' },
-    { href: '#/components', icon: Layers, title: t('组件用法', 'Components'), text: t('27 个共享组件的实际用法与键盘说明。', 'Practical usage and keyboard notes for 27 shared components.'), meta: 'C-02.4' },
+    { href: '#/catalog', icon: Layers, title: t('组件目录', 'Component catalog'), text: t('27 个组件的目录、独立文档与键盘说明。', 'Catalog, dedicated docs, and keyboard notes for 27 components.'), meta: 'E-03' },
     { href: '#/platforms', icon: Sparkles, title: t('平台与接入', 'Platforms'), text: t('Tokens、React、Flutter 与产品接入边界。', 'Tokens, React, Flutter, and product adoption boundaries.'), meta: 'F-01 · C-02' },
   ] as const;
   const demo = [
@@ -27,7 +27,7 @@ export function OverviewPage({ t }: { t: Translate }) {
         <p>{t('Radish 家族的共享设计系统。从视觉基础到真实组件，让每个产品拥有熟悉而连贯的体验。', 'The shared design system for the Radish family. From visual foundations to real components, every product should feel familiar and coherent.')}</p>
         <div className="overview-actions">
           <a className="rd-button rd-button--primary rd-button--md" href="#/resources">{t('进入演示', 'Open the demo')}<ArrowRight size={16} aria-hidden="true" /></a>
-          <a className="rd-button rd-button--secondary rd-button--md" href="#/components">{t('浏览组件', 'Browse components')}</a>
+          <a className="rd-button rd-button--secondary rd-button--md" href="#/catalog">{t('浏览组件', 'Browse components')}</a>
         </div>
       </div>
       <Card padding="sm" className="overview-palette" aria-label={t('视觉基础颜色', 'Foundation colors')}>
@@ -36,7 +36,7 @@ export function OverviewPage({ t }: { t: Translate }) {
         <p className="overview-palette-note">{t('同一组语义，浅色与深色各自成对。', 'One set of roles, paired across light and dark.')}</p>
       </Card>
     </div>
-    <div className="overview-section-head"><h2>{t('设计系统', 'Design system')}</h2><a className="overview-link" href="#/components">{t('全部组件', 'All components')}<ArrowRight size={16} aria-hidden="true" /></a></div>
+    <div className="overview-section-head"><h2>{t('设计系统', 'Design system')}</h2><a className="overview-link" href="#/catalog">{t('全部组件', 'All components')}<ArrowRight size={16} aria-hidden="true" /></a></div>
     <div className="overview-card-grid">{system.map(({ href, icon: Icon, title, text, meta }) => <Card asChild key={href} padding="sm"><a className="overview-card" href={href}>
       <div className="overview-card-icon"><Icon size={20} aria-hidden="true" /></div><div><h3>{title}</h3><p>{text}</p><code>{meta}</code></div><ArrowUpRight className="overview-card-arrow" size={18} aria-hidden="true" />
     </a></Card>)}</div>

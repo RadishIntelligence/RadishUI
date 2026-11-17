@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { Avatar, IconButton, Menu, Tooltip } from '@radish-ui/react';
-import { BookOpen, Check, ChevronDown, Compass, FileText, FolderOpen, LifeBuoy, Package, Palette, PanelLeftClose, PanelLeftOpen, SlidersHorizontal, Star, SunMoon } from 'lucide-react';
+import { BookOpen, Boxes, Check, ChevronDown, Compass, FileText, FolderOpen, LifeBuoy, Package, Palette, PanelLeftClose, PanelLeftOpen, SlidersHorizontal, Star, SunMoon } from 'lucide-react';
 import type { Page, Translate } from './model';
 
 interface ShellProps {
@@ -11,7 +11,7 @@ export function Shell({ page, collapsed, onCollapse, onHelp, onTheme, t, notice,
   const designLinks = [
     { page: 'overview', href: '#/overview', label: t('概览', 'Overview'), Icon: Compass },
     { page: 'foundations', href: '#/foundations', label: t('视觉基础', 'Foundations'), Icon: Palette },
-    { page: 'components', href: '#/components', label: t('组件用法', 'Components'), Icon: BookOpen },
+    { page: 'components', href: '#/catalog', label: t('组件目录', 'Component catalog'), Icon: Boxes },
     { page: 'platforms', href: '#/platforms', label: t('平台与接入', 'Platforms'), Icon: Package },
   ] as const;
   const links = [
@@ -38,7 +38,7 @@ export function Shell({ page, collapsed, onCollapse, onHelp, onTheme, t, notice,
   } items={[
     { id: 'overview', label: t('概览', 'Overview'), icon: <Compass />, href: '#/overview' },
     { id: 'foundations', label: t('视觉基础', 'Foundations'), icon: <Palette />, href: '#/foundations' },
-    { id: 'components', label: t('组件用法', 'Components'), icon: <BookOpen />, href: '#/components' },
+    { id: 'components', label: t('组件目录', 'Component catalog'), icon: <Boxes />, href: '#/catalog' },
     { id: 'platforms', label: t('平台与接入', 'Platforms'), icon: <Package />, href: '#/platforms' },
     { id: 'preferences', label: t('外观与偏好', 'Appearance & preferences'), icon: <SlidersHorizontal />, href: '#/settings', separatorBefore: true },
     { id: 'project', label: t('项目文档', 'Project documentation'), icon: <BookOpen />, href: 'https://github.com/RadishIntelligence/RadishUI/tree/master/docs', separatorBefore: true },

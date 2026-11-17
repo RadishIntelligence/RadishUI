@@ -311,7 +311,8 @@ function NavigationExamples() {
 
 export function ComponentsPage({ t }: { t: Translate }) {
   return <section className="components-page">
-    <PageHeader title={t('组件用法', 'Components')} back={{ href: '#/overview', label: t('概览', 'Overview') }} />
+    <PageHeader title={t('组件用法', 'Components')} back={{ href: '#/overview', label: t('概览', 'Overview') }}
+      actions={<a className="rd-button rd-button--secondary rd-button--sm" href="#/catalog">{t('组件目录', 'Component catalog')}</a>} />
     <Tabs defaultValue="actions" className="component-groups">
       <TabsList label={t('组件分组', 'Component groups')} size="md" items={[{ value: 'actions', label: t('操作', 'Actions') }, { value: 'fields', label: t('字段', 'Fields') }, { value: 'selection', label: t('选择', 'Choice') }, { value: 'feedback', label: t('反馈', 'Feedback') }, { value: 'navigation', label: t('导航', 'Navigation') }]} />
       <TabsContent value="actions"><ActionExamples /></TabsContent><TabsContent value="fields"><FieldExamples /></TabsContent><TabsContent value="selection"><SelectionExamples /></TabsContent><TabsContent value="feedback"><FeedbackExamples /></TabsContent><TabsContent value="navigation"><NavigationExamples /></TabsContent>
