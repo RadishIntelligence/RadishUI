@@ -46,3 +46,9 @@
   .foundation-icon-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, max(40%, 8rem)), 1fr)); }
   .foundation-space-row code { width: 4rem; }
 }
+
+/* The color section documents token values; keep the swatches readable instead
+   of letting forced colors collapse every sample to Canvas. */
+@media (forced-colors: active) {
+  .foundation-swatch-color { forced-color-adjust: none; }
+}

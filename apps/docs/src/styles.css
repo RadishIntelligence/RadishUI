@@ -409,3 +409,13 @@ html[data-density="compact"] .preference-field { min-height: 52px; padding: var(
 html[data-density="compact"] .settings-footer { padding: var(--rd-space-1) var(--rd-space-2); }
 
 @keyframes rd-sheet-in { from { opacity: 0; translate: 0 16px; } }
+
+/* Forced-colors fallbacks for site chrome: current navigation, selected rows,
+   the current pagination page and the theme thumbnails keep a visible cue. */
+@media (forced-colors: active) {
+  .rail-link.is-active, .rail-link.is-active:hover { outline: 2px solid Highlight; outline-offset: -2px; }
+  .resource-table tr.is-selected td { border-top: 2px solid Highlight; border-bottom: 2px solid Highlight; }
+  .resource-mobile-list .is-selected { outline: 2px solid Highlight; outline-offset: -2px; }
+  .theme-option.is-selected { border-color: Highlight; }
+  .theme-preview, .theme-preview * { forced-color-adjust: none; }
+}

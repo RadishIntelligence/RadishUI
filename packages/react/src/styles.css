@@ -336,3 +336,27 @@ html[data-density="spacious"] .rd-table { --rd-table-head-height: 42px; --rd-tab
   .rd-select-content[data-state="open"], .rd-menu[data-state="open"], .rd-tooltip[data-state$="open"] { animation: none; }
   .rd-toast[data-state="open"], .rd-toast[data-state="closed"], .rd-toast-ring-progress { animation: none; }
 }
+
+/* Forced colors replace authored surfaces and shadows with system colors. State
+   is restored with system-color borders and outlines; text keeps CanvasText
+   because filling a text run with Highlight/HighlightText is not reliably
+   painted as glyphs in Chromium's forced-colors emulation. */
+@media (forced-colors: active) {
+  .rd-select-item[data-highlighted],
+  .rd-menu-item[data-highlighted] { outline: 2px solid Highlight; outline-offset: -2px; transition: none; }
+  .rd-tab[data-state="active"],
+  .rd-toggle-group__item[data-state="on"] { outline: 2px solid Highlight; outline-offset: -2px; transition: none; }
+  .rd-tab[data-state="active"]:hover:not(:disabled),
+  .rd-toggle-group__item[data-state="on"]:hover:not(:disabled) { outline: 2px solid Highlight; outline-offset: -2px; }
+  .rd-radio__item[data-state="checked"] { border-color: Highlight; background: Canvas; }
+  .rd-radio__item[data-state="checked"]:hover:not(:disabled) { border-color: Highlight; background: Canvas; }
+  .rd-radio__item[data-state="checked"] .rd-radio__indicator { background: Highlight; }
+  .rd-checkbox input:checked + .rd-checkbox-box { border-color: Highlight; background: Canvas; color: Highlight; }
+  .rd-checkbox input:checked:hover:not(:disabled) + .rd-checkbox-box { border-color: Highlight; background: Canvas; }
+  .rd-switch-thumb { background: ButtonText; transition: none; }
+  .rd-switch[data-state="checked"] { border-color: Highlight; background: Highlight; }
+  .rd-switch[data-state="checked"]:hover:not(:disabled) { border-color: Highlight; background: Highlight; }
+  .rd-switch[data-state="checked"] .rd-switch-thumb { background: HighlightText; }
+  .rd-pagination__number[aria-current="page"] { outline: 2px solid Highlight; outline-offset: -2px; transition: none; }
+  .rd-pagination__number[aria-current="page"]:hover:not([aria-disabled="true"]) { outline: 2px solid Highlight; outline-offset: -2px; }
+}
