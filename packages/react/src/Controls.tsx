@@ -32,6 +32,19 @@ export function TabsList({ label, items, size, className = '' }: TabsListProps) 
     data-pointer-focus={pointerFocus || undefined}
     onPointerDownCapture={() => setPointerFocus(true)}
     onKeyDownCapture={() => setPointerFocus(false)}
+    onFocus={event => {
+      const list = event.currentTarget;
+      if (event.target !== list) return;
+      // Radix usually forwards entry focus. After a click on a focused trigger,
+      // its pointer flag can still be set when the user tabs back to the list.
+      queueMicrotask(() => {
+        if (list.ownerDocument.activeElement !== list || !list.matches(':focus-visible')) return;
+        const trigger = list.querySelector<HTMLButtonElement>('.rd-tab[aria-selected="true"]:enabled')
+          ?? list.querySelector<HTMLButtonElement>('.rd-tab[tabindex="0"]:enabled')
+          ?? list.querySelector<HTMLButtonElement>('.rd-tab:enabled');
+        trigger?.focus();
+      });
+    }}
     onBlur={event => { if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setPointerFocus(false); }}>
     {items.map(item => <TabsPrimitive.Trigger key={item.value} className="rd-tab" value={item.value} disabled={item.disabled}>{item.label}</TabsPrimitive.Trigger>)}
   </TabsPrimitive.List>;

@@ -1,4 +1,4 @@
-import { useEffect, useState, type FormEvent } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState, type FormEvent } from 'react';
 import { Button, Checkbox, FormField, InlineAlert, RadioGroup, Switch, Tabs, TabsContent, TabsList } from '@radish-ui/react';
 import { Check } from 'lucide-react';
 import { defaultPreferences, type Preferences, type Translate } from './model';
@@ -11,7 +11,15 @@ export function SettingsPage({ preferences, save, t, onDirtyChange }: SettingsPa
   const [draft, setDraft] = useState(preferences);
   const [tab, setTab] = useState('appearance');
   const [error, setError] = useState<string>();
+  const saveButton = useRef<HTMLButtonElement>(null);
+  const saveStatus = useRef<HTMLSpanElement>(null);
+  const focusSaveStatus = useRef(false);
   const dirty = JSON.stringify(draft) !== JSON.stringify(preferences);
+  useLayoutEffect(() => {
+    if (dirty || !focusSaveStatus.current) return;
+    focusSaveStatus.current = false;
+    saveStatus.current?.focus();
+  }, [dirty]);
   useEffect(() => onDirtyChange(dirty), [dirty, onDirtyChange]);
   useEffect(() => () => onDirtyChange(false), [onDirtyChange]);
   useEffect(() => setDraft(preferences), [preferences]);
@@ -22,7 +30,10 @@ export function SettingsPage({ preferences, save, t, onDirtyChange }: SettingsPa
     event.preventDefault();
     const failure = save(draft);
     setError(failure);
-    if (!failure) onDirtyChange(false);
+    if (!failure) {
+      focusSaveStatus.current = document.activeElement === saveButton.current;
+      onDirtyChange(false);
+    }
   }
   return <section className="settings-page">
     <PageHeader title={t('外观与偏好', 'Appearance & preferences')} />
@@ -80,9 +91,11 @@ export function SettingsPage({ preferences, save, t, onDirtyChange }: SettingsPa
           {error && <div className="settings-feedback"><InlineAlert tone="danger">{error}</InlineAlert></div>}
           <div className="settings-footer">
             <p className="settings-note">{t('这些偏好只保存在当前浏览器。', 'These preferences are saved in this browser only.')}</p>
-            <span className={`dirty-indicator ${dirty ? 'is-dirty' : ''}`} aria-live="polite">{dirty ? t('有未保存的更改', 'Unsaved changes') : t('所有更改已保存', 'All changes saved')}</span>
+            <span className={`dirty-indicator ${dirty ? 'is-dirty' : ''}`}>
+              <span ref={saveStatus} tabIndex={-1} aria-live="polite">{dirty ? t('有未保存的更改', 'Unsaved changes') : t('所有更改已保存', 'All changes saved')}</span>
+            </span>
             <Button variant="secondary" onClick={() => { setDraft({ ...defaultPreferences }); setError(undefined); }}>{t('恢复默认', 'Restore defaults')}</Button>
-            <Button type="submit" disabled={!dirty}>{t('保存更改', 'Save changes')}</Button>
+            <Button ref={saveButton} type="submit" disabled={!dirty}>{t('保存更改', 'Save changes')}</Button>
           </div>
         </form>
       </div>

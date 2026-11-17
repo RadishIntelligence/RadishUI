@@ -110,6 +110,7 @@ export function App() {
   }
 
   return <Shell page={route.page} collapsed={collapsed} onCollapse={() => setCollapsed(!collapsed)} onHelp={() => setHelpOpen(true)} t={t}
+    notice={<Toast key={notice.id} message={notice.message} open={toastOpen} onOpenChange={setToastOpen} label={t('通知', 'Notification')} closeLabel={t('关闭通知', 'Dismiss notification')} />}
     onTheme={() => {
       if (dirty) { setPreferenceError(t('请先保存或取消当前更改，再切换快捷外观。', 'Save or cancel your edits before using the appearance shortcut.')); return; }
       const next = document.documentElement.dataset.rdTheme === 'dark' ? 'light' : 'dark';
@@ -151,6 +152,5 @@ export function App() {
       }}>
       <p>{t('已经保存的内容不会受影响。', 'Saved content is not affected.')}</p>
     </ConfirmDialog>
-    <Toast key={notice.id} message={notice.message} open={toastOpen} onOpenChange={setToastOpen} label={t('通知', 'Notification')} closeLabel={t('关闭通知', 'Dismiss notification')} />
   </Shell>;
 }

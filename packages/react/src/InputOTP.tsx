@@ -147,7 +147,12 @@ export function InputOTP({ value, onValueChange, label, length = 6, hint, error,
         onChange={event => handleChange(index, event.target.value)}
         onKeyDown={event => handleKeyDown(index, event)}
         onPaste={event => handlePaste(index, event)}
-        onFocus={event => event.currentTarget.select()}
+        onFocus={event => {
+          const input = event.currentTarget;
+          // WebKit may skip scrolling a focused input when its selection changes during focus.
+          if (input.matches(':focus-visible')) input.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'instant' });
+          input.select();
+        }}
       />)}
     </div>
     {name && <input type="hidden" name={name} value={digits.join('')} disabled={disabled} />}

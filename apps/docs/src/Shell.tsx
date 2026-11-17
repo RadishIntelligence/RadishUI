@@ -5,9 +5,9 @@ import type { Page, Translate } from './model';
 
 interface ShellProps {
   page: Page; collapsed: boolean; onCollapse(): void; onHelp(): void; onTheme(): void;
-  t: Translate; children: ReactNode;
+  t: Translate; notice: ReactNode; children: ReactNode;
 }
-export function Shell({ page, collapsed, onCollapse, onHelp, onTheme, t, children }: ShellProps) {
+export function Shell({ page, collapsed, onCollapse, onHelp, onTheme, t, notice, children }: ShellProps) {
   const designLinks = [
     { page: 'overview', href: '#/overview', label: t('概览', 'Overview'), Icon: Compass },
     { page: 'foundations', href: '#/foundations', label: t('视觉基础', 'Foundations'), Icon: Palette },
@@ -90,6 +90,7 @@ export function Shell({ page, collapsed, onCollapse, onHelp, onTheme, t, childre
           <div className="mobile-account">{account}</div>
         </div>
       </header>
+      <div className="workspace-notice">{notice}</div>
       {children}
     </section>
     <nav className="mobile-navigation" aria-label={t('底部导航', 'Bottom navigation')}>

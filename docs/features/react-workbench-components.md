@@ -349,3 +349,9 @@ Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前
 - 修复（仅 `@media (forced-colors: active)`）：选项、tabs / 分段选中项、分页当前页与侧栏当前项改用 2px `Highlight` 描边；开关用系统色轨道 / 滑块，复选框与单选改用系统色边框与指示点；资源选中行加 2px 上下边框、移动选中项加描边；色板与主题缩略图用 `forced-color-adjust: none` 保留原色。文字保持 `CanvasText`：本机 Chromium 的 forced-colors 模拟会把 `Highlight` / `HighlightText` 白字画成实心块，描边方案不依赖该路径。改动落在 `packages/react/src/styles.css`、`apps/docs/src/styles.css` 与 `apps/docs/src/foundations.css`。
 - 验证：Chrome 157.0.8103.51 无头（Playwright 1.64.0-alpha）。7 页 1440 的强制颜色遍历共 83 个焦点停靠，全部 `:focus-visible` 且焦点可见，无零尺寸焦点、无横向溢出、无 pageerror；390 另做选中态与溢出检查，同样无溢出。Select / Menu 选项、tabs、分段、开关、复选、单选、分页当前页与资源选中态均重新可辨。减少动效下 Skeleton、Toast、Dialog、Drawer、Accordion、Select、Menu 的动画均为 none；Toast 4500ms 自动关闭且焦点留在入口，Dialog 初始焦点在名称输入、Escape 关闭并回焦。Batch A–F 关键路径回归通过：Toast F8 / Escape 回焦、InputOTP Enter 只触发回调而按钮提交、Select 选项正常高亮、资源空结果播报「没有匹配的资源」、移动列表仅当前项 `aria-pressed="true"`。`npm run check` 与 `npm run build` 通过，证据在忽略目录 `output/accessibility-2026-11-17/`。
 - 边界：Playwright 的 forced-colors 是模拟，未验证 Windows 高对比真实系统；Safari / Firefox、真实屏幕阅读器、实体设备与真实浏览器 200% 整页缩放未复验。1px 焦点环在强制颜色下可见但比 Windows 默认 2px 细，是否加宽待所有者确认。`data-highlighted` 的描边是 [DR-17 选项例外](../design/design-rules.md#dr-17) 在强制颜色环境下的补充，普通模式仍只有高亮、不叠 1px 环。
+
+## 跨环境焦点缺陷修订（2026-11-17）
+
+- B4 的 InputOTP 在键盘可见焦点进入时按最近边缘滚动，给 1px 焦点环保留滚动余量，继续选择格内数字。TabsList 在 Radix 将键盘焦点留在容器时把焦点交给可用标签，优先当前项。
+- C4 / C12 的 Tabs 与 ToggleGroup 在强制颜色下分别绘制 2px 系统色选中边线和 1px 外侧焦点环。悬停保留选中边线。
+- 本轮定向复验与边界见[开发记录](../devlogs/2026-W47.md#跨环境报告缺陷的修订与复验)。页面通知位置与保存回焦归 [E-02](workbench-preview.md#2026-11-17-窄屏通知与保存焦点)。
