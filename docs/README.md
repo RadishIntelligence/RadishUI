@@ -12,12 +12,12 @@
 - [家族设计资料](design/README.md)：通用基础、参考索引、原生候选及来源 / 撤回记录。
 - [设计条例与约束](design/design-rules.md)：标题与控件说明的准入、交互辨识、密度与风格的默认规则，以及参考图提炼建议和适用例外。
 - [首批 React 组件](features/react-workbench-components.md)、[三代表页运行范例](features/workbench-preview.md)：本仓实施合同、实际行为与验收进度。
-- [组件站 1.0](features/component-site-1.md)、[家族组件需求盘点](features/family-component-demand.md)：组件目录 / 独立页 / API 与用法深度计划，以及 2026-11-17 家族仓库只读需求统计。
+- [组件站 1.0](features/component-site-1.md)、[家族组件需求盘点](features/family-component-demand.md)：组件目录 / 独立页 / API、契约与用法深度计划，以及 2026-11-17 家族仓库只读需求统计。
 - [ADR 0001](adr/0001-branch-and-pr-governance.md)：分支、合并、回流与 Ruleset 决策。
 - [GitHub 设置与 Rulesets](../.github/rulesets/README.md)：远端目标、启用顺序和回滚。
 - [初始化目标](features/bootstrap.md)：首批范围与验收。
 - [部署](deployment/hosting.md)：Vercel 配置与 GitHub Pages 备选。
-- [本周记录](devlogs/2026-W46.md)、[2026-W45](devlogs/2026-W45.md)：日期化执行证据。
+- [本周记录](devlogs/2026-W47.md)、[2026-W46](devlogs/2026-W46.md)、[2026-W45](devlogs/2026-W45.md)：日期化执行证据。
 
 仓库对外入口：[贡献指南](../CONTRIBUTING.md)、[行为规范](../CODE_OF_CONDUCT.md)、[安全报告](../SECURITY.md)。根协作入口只放必须立即生效的长期规则，当前规划只放状态与顺位，验证事实进入开发记录。
 
