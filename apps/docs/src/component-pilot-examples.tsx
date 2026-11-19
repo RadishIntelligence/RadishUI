@@ -1,5 +1,5 @@
-import { useState, type ReactNode } from 'react';
-import { Button, Checkbox, FormField, Input, InputOTP, RadioGroup, Select, Switch, Tabs, TabsContent, TabsList, TagInput, Textarea } from '@radish-ui/react';
+import { useRef, useState, type ReactNode } from 'react';
+import { Accordion, Button, Checkbox, ConfirmDialog, Dialog, Drawer, FormField, Input, InputOTP, Menu, RadioGroup, Select, Switch, Tabs, TabsContent, TabsList, TagInput, Textarea } from '@radish-ui/react';
 
 export interface PilotExample {
   id: string;
@@ -246,6 +246,169 @@ function SwitchStates() {
     <div className="doc-example-row"><label htmlFor="switch-off">已关闭</label><Switch id="switch-off" /></div>
     <div className="doc-example-row"><label htmlFor="switch-disabled">不可用</label><Switch id="switch-disabled" disabled /></div>
   </div>;
+}
+
+function DialogBasic() {
+  const [open, setOpen] = useState(false);
+  return <>
+    <div className="doc-example-row"><Button onClick={() => setOpen(true)}>打开对话框</Button></div>
+    <Dialog open={open} onOpenChange={setOpen} title="发布资源" description="发布后资源对当前工作区可见。"
+      footer={<>
+        <Button variant="secondary" onClick={() => setOpen(false)}>取消</Button>
+        <Button onClick={() => setOpen(false)}>发布</Button>
+      </>}>
+      <p>确认发布这条资源？发布后仍可撤回。</p>
+    </Dialog>
+  </>;
+}
+
+function DialogFocus() {
+  const [open, setOpen] = useState(false);
+  const nameRef = useRef<HTMLInputElement>(null);
+  return <>
+    <div className="doc-example-row"><Button onClick={() => setOpen(true)}>重命名资源</Button></div>
+    <Dialog open={open} onOpenChange={setOpen} title="重命名资源" initialFocusRef={nameRef}
+      footer={<>
+        <Button variant="secondary" onClick={() => setOpen(false)}>取消</Button>
+        <Button onClick={() => setOpen(false)}>保存</Button>
+      </>}>
+      <FormField label="资源名称"><Input ref={nameRef} defaultValue="发布检查清单" /></FormField>
+    </Dialog>
+  </>;
+}
+
+function DialogLoading() {
+  const [open, setOpen] = useState(false);
+  return <>
+    <div className="doc-example-row"><Button onClick={() => setOpen(true)}>查看处理中状态</Button></div>
+    <Dialog open={open} onOpenChange={setOpen} title="正在发布" closeDisabled
+      footer={<Button loading>发布中</Button>}>
+      <p>处理中不能使用头部关闭按钮；完成后才能关闭。</p>
+    </Dialog>
+  </>;
+}
+
+function DrawerBasic() {
+  const [open, setOpen] = useState(false);
+  const [kind, setKind] = useState('document');
+  return <>
+    <div className="doc-example-row"><Button onClick={() => setOpen(true)}>打开筛选抽屉</Button></div>
+    <Drawer open={open} onOpenChange={setOpen} title="筛选" description="侧向浮层，适合辅助内容。"
+      footer={<Button onClick={() => setOpen(false)}>应用筛选</Button>}>
+      <FormField label="资源类型">
+        <Select value={kind} onValueChange={setKind} options={[
+          { value: 'document', label: '文档' },
+          { value: 'checklist', label: '清单' },
+          { value: 'example', label: '范例' },
+        ]} />
+      </FormField>
+    </Drawer>
+  </>;
+}
+
+function DrawerLong() {
+  const [open, setOpen] = useState(false);
+  return <>
+    <div className="doc-example-row"><Button onClick={() => setOpen(true)}>打开长内容抽屉</Button></div>
+    <Drawer open={open} onOpenChange={setOpen} title="资源详情" footer={<Button onClick={() => setOpen(false)}>关闭</Button>}>
+      <div className="doc-example-stack">
+        <p>正文可滚动，footer 保持可见。</p>
+        <p>这里是较长的说明内容，用于检查抽屉在窄屏与长文本下的滚动与留白。</p>
+        <p>抽屉关闭后焦点回到打开它的按钮。</p>
+      </div>
+    </Drawer>
+  </>;
+}
+
+function DrawerLoading() {
+  const [open, setOpen] = useState(false);
+  return <>
+    <div className="doc-example-row"><Button onClick={() => setOpen(true)}>查看处理中抽屉</Button></div>
+    <Drawer open={open} onOpenChange={setOpen} title="正在同步" closeDisabled
+      footer={<Button loading>同步中</Button>}>
+      <p>同步期间禁用头部关闭按钮。</p>
+    </Drawer>
+  </>;
+}
+
+function ConfirmDialogDanger() {
+  const [open, setOpen] = useState(false);
+  return <>
+    <div className="doc-example-row"><Button onClick={() => setOpen(true)}>删除资源</Button></div>
+    <ConfirmDialog open={open} onOpenChange={setOpen} title="删除资源" description="删除后不可恢复。"
+      confirmLabel="删除" cancelLabel="取消" tone="danger" onConfirm={() => setOpen(false)}>
+      <p>“发布检查清单”将被永久删除。</p>
+    </ConfirmDialog>
+  </>;
+}
+
+function ConfirmDialogDefault() {
+  const [open, setOpen] = useState(false);
+  return <>
+    <div className="doc-example-row"><Button onClick={() => setOpen(true)}>发布资源</Button></div>
+    <ConfirmDialog open={open} onOpenChange={setOpen} title="发布资源" description="发布后对当前工作区可见。"
+      confirmLabel="发布" cancelLabel="取消" onConfirm={() => setOpen(false)}>
+      <p>确认发布这条资源？</p>
+    </ConfirmDialog>
+  </>;
+}
+
+function ConfirmDialogLoading() {
+  const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  return <>
+    <div className="doc-example-row"><Button onClick={() => setOpen(true)}>查看加载状态</Button></div>
+    <ConfirmDialog open={open} onOpenChange={setOpen} title="发布资源" description="确认中会禁用关闭与取消。"
+      confirmLabel="发布" cancelLabel="取消" loading={loading}
+      onConfirm={() => { setLoading(true); window.setTimeout(() => { setLoading(false); setOpen(false); }, 1200); }}>
+      <p>加载期间不能关闭或取消。</p>
+    </ConfirmDialog>
+  </>;
+}
+
+function MenuBasic() {
+  return <div className="doc-example-row"><Menu trigger={<Button variant="secondary">更多操作</Button>} items={[
+    { id: 'edit', label: '编辑', onSelect: () => {} },
+    { id: 'duplicate', label: '复制', onSelect: () => {} },
+    { id: 'delete', label: '删除', danger: true, separatorBefore: true, onSelect: () => {} },
+  ]} /></div>;
+}
+
+function MenuGrouped() {
+  return <div className="doc-example-row"><Menu trigger={<Button variant="secondary">归档操作</Button>} label="资源" items={[
+    { id: 'open', label: '打开', onSelect: () => {} },
+    { id: 'download', label: '下载', disabled: true },
+    { id: 'archive', label: '归档', separatorBefore: true, onSelect: () => {} },
+  ]} /></div>;
+}
+
+function MenuLinks() {
+  return <div className="doc-example-row"><Menu trigger={<Button variant="secondary">前往</Button>} items={[
+    { id: 'catalog', label: '组件目录', href: '#/catalog' },
+    { id: 'button', label: 'Button 文档', href: '#/components/button' },
+  ]} /></div>;
+}
+
+function AccordionSingle() {
+  return <Accordion type="single" collapsible defaultValue="basics" items={[
+    { value: 'basics', label: '基础说明', content: <p>折叠面板一次只展开一组内容。</p> },
+    { value: 'rules', label: '使用规则', content: <p>标题按钮由键盘操作，内容区域按 DOM 顺序继续 Tab。</p> },
+  ]} />;
+}
+
+function AccordionMultiple() {
+  return <Accordion type="multiple" defaultValue={['tokens', 'a11y']} items={[
+    { value: 'tokens', label: '设计 token', content: <p>颜色、尺度与状态由 token 驱动。</p> },
+    { value: 'a11y', label: '可访问性', content: <p>标题按钮与内容区域由 Radix 维护。</p> },
+  ]} />;
+}
+
+function AccordionDisabled() {
+  const [value, setValue] = useState('overview');
+  return <Accordion type="single" collapsible value={value} onValueChange={setValue} label="资源信息" items={[
+    { value: 'overview', label: '概览', content: <p>受控展开项；由调用方保存当前值。</p> },
+    { value: 'history', label: '历史（不可用）', content: <p>禁用内容。</p>, disabled: true },
+  ]} />;
 }
 
 function SelectBasic() {
@@ -768,6 +931,229 @@ const [enabled, setEnabled] = useState(true);
   <div><label htmlFor="switch-disabled">不可用</label><Switch id="switch-disabled" disabled /></div>
 </div>`,
       preview: <SwitchStates />,
+    },
+  ],
+  dialog: [
+    {
+      id: 'basic',
+      title: '基础对话框',
+      description: '标题、说明与底部操作；Escape 与遮罩走同一关闭回调。',
+      code: `import { useState } from 'react';
+
+const [open, setOpen] = useState(false);
+
+<>
+  <Button onClick={() => setOpen(true)}>打开对话框</Button>
+  <Dialog open={open} onOpenChange={setOpen} title="发布资源" description="发布后资源对当前工作区可见。"
+    footer={<>
+      <Button variant="secondary" onClick={() => setOpen(false)}>取消</Button>
+      <Button onClick={() => setOpen(false)}>发布</Button>
+    </>}>
+    <p>确认发布这条资源？发布后仍可撤回。</p>
+  </Dialog>
+</>`,
+      preview: <DialogBasic />,
+    },
+    {
+      id: 'focus',
+      title: '初始焦点',
+      description: 'initialFocusRef 把焦点放到输入框；关闭后回到打开按钮。',
+      code: `import { useRef, useState } from 'react';
+
+const [open, setOpen] = useState(false);
+const nameRef = useRef<HTMLInputElement>(null);
+
+<>
+  <Button onClick={() => setOpen(true)}>重命名资源</Button>
+  <Dialog open={open} onOpenChange={setOpen} title="重命名资源" initialFocusRef={nameRef}
+    footer={<>
+      <Button variant="secondary" onClick={() => setOpen(false)}>取消</Button>
+      <Button onClick={() => setOpen(false)}>保存</Button>
+    </>}>
+    <FormField label="资源名称"><Input ref={nameRef} defaultValue="发布检查清单" /></FormField>
+  </Dialog>
+</>`,
+      preview: <DialogFocus />,
+    },
+    {
+      id: 'loading',
+      title: '关闭按钮禁用',
+      description: 'closeDisabled 保留头部关闭按钮但不允许点击，适合处理中状态。',
+      code: `const [open, setOpen] = useState(false);
+
+<Dialog open={open} onOpenChange={setOpen} title="正在发布" closeDisabled
+  footer={<Button loading>发布中</Button>}>
+  <p>处理中不能使用头部关闭按钮；完成后才能关闭。</p>
+</Dialog>`,
+      preview: <DialogLoading />,
+    },
+  ],
+  drawer: [
+    {
+      id: 'basic',
+      title: '基础抽屉',
+      description: '与 Dialog 同一合同，从侧边打开；正文可放置表单。',
+      code: `const [open, setOpen] = useState(false);
+const [kind, setKind] = useState('document');
+
+<>
+  <Button onClick={() => setOpen(true)}>打开筛选抽屉</Button>
+  <Drawer open={open} onOpenChange={setOpen} title="筛选" description="侧向浮层，适合辅助内容。"
+    footer={<Button onClick={() => setOpen(false)}>应用筛选</Button>}>
+    <FormField label="资源类型">
+      <Select value={kind} onValueChange={setKind} options={[
+        { value: 'document', label: '文档' },
+        { value: 'checklist', label: '清单' },
+        { value: 'example', label: '范例' },
+      ]} />
+    </FormField>
+  </Drawer>
+</>`,
+      preview: <DrawerBasic />,
+    },
+    {
+      id: 'long',
+      title: '长内容',
+      description: '正文滚动时 footer 保持可见；关闭后焦点回到入口。',
+      code: `const [open, setOpen] = useState(false);
+
+<>
+  <Button onClick={() => setOpen(true)}>打开长内容抽屉</Button>
+  <Drawer open={open} onOpenChange={setOpen} title="资源详情" footer={<Button onClick={() => setOpen(false)}>关闭</Button>}>
+    <div>
+      <p>正文可滚动，footer 保持可见。</p>
+      <p>这里是较长的说明内容，用于检查抽屉在窄屏与长文本下的滚动与留白。</p>
+      <p>抽屉关闭后焦点回到打开它的按钮。</p>
+    </div>
+  </Drawer>
+</>`,
+      preview: <DrawerLong />,
+    },
+    {
+      id: 'loading',
+      title: '关闭按钮禁用',
+      description: '同步期间禁用头部关闭按钮，操作区显示 loading。',
+      code: `const [open, setOpen] = useState(false);
+
+<Drawer open={open} onOpenChange={setOpen} title="正在同步" closeDisabled
+  footer={<Button loading>同步中</Button>}>
+  <p>同步期间禁用头部关闭按钮。</p>
+</Drawer>`,
+      preview: <DrawerLoading />,
+    },
+  ],
+  'confirm-dialog': [
+    {
+      id: 'danger',
+      title: '危险确认',
+      description: 'tone="danger" 使用危险按钮；初始焦点在取消。',
+      code: `const [open, setOpen] = useState(false);
+
+<>
+  <Button onClick={() => setOpen(true)}>删除资源</Button>
+  <ConfirmDialog open={open} onOpenChange={setOpen} title="删除资源" description="删除后不可恢复。"
+    confirmLabel="删除" cancelLabel="取消" tone="danger" onConfirm={() => setOpen(false)}>
+    <p>“发布检查清单”将被永久删除。</p>
+  </ConfirmDialog>
+</>`,
+      preview: <ConfirmDialogDanger />,
+    },
+    {
+      id: 'default',
+      title: '默认确认',
+      description: '默认 tone 使用主要按钮；确认回调由调用方关闭。',
+      code: `const [open, setOpen] = useState(false);
+
+<>
+  <Button onClick={() => setOpen(true)}>发布资源</Button>
+  <ConfirmDialog open={open} onOpenChange={setOpen} title="发布资源" description="发布后对当前工作区可见。"
+    confirmLabel="发布" cancelLabel="取消" onConfirm={() => setOpen(false)}>
+    <p>确认发布这条资源？</p>
+  </ConfirmDialog>
+</>`,
+      preview: <ConfirmDialogDefault />,
+    },
+    {
+      id: 'loading',
+      title: '确认中',
+      description: 'loading 时拦截关闭并禁用取消与头部关闭按钮。',
+      code: `const [open, setOpen] = useState(false);
+const [loading, setLoading] = useState(false);
+
+<ConfirmDialog open={open} onOpenChange={setOpen} title="发布资源" description="确认中会禁用关闭与取消。"
+  confirmLabel="发布" cancelLabel="取消" loading={loading}
+  onConfirm={() => { setLoading(true); window.setTimeout(() => { setLoading(false); setOpen(false); }, 1200); }}>
+  <p>加载期间不能关闭或取消。</p>
+</ConfirmDialog>`,
+      preview: <ConfirmDialogLoading />,
+    },
+  ],
+  menu: [
+    {
+      id: 'basic',
+      title: '基础菜单',
+      description: '选择动作可用 onSelect；危险项加分隔线与 danger 样式。',
+      code: `<Menu trigger={<Button variant="secondary">更多操作</Button>} items={[
+  { id: 'edit', label: '编辑', onSelect: () => {} },
+  { id: 'duplicate', label: '复制', onSelect: () => {} },
+  { id: 'delete', label: '删除', danger: true, separatorBefore: true, onSelect: () => {} },
+]} />`,
+      preview: <MenuBasic />,
+    },
+    {
+      id: 'grouped',
+      title: '分组与禁用',
+      description: 'label 提供分组标题；禁用项不响应选择。',
+      code: `<Menu trigger={<Button variant="secondary">归档操作</Button>} label="资源" items={[
+  { id: 'open', label: '打开', onSelect: () => {} },
+  { id: 'download', label: '下载', disabled: true },
+  { id: 'archive', label: '归档', separatorBefore: true, onSelect: () => {} },
+]} />`,
+      preview: <MenuGrouped />,
+    },
+    {
+      id: 'links',
+      title: '链接项',
+      description: '提供 href 时渲染为链接，保留键盘与焦点行为。',
+      code: `<Menu trigger={<Button variant="secondary">前往</Button>} items={[
+  { id: 'catalog', label: '组件目录', href: '#/catalog' },
+  { id: 'button', label: 'Button 文档', href: '#/components/button' },
+]} />`,
+      preview: <MenuLinks />,
+    },
+  ],
+  accordion: [
+    {
+      id: 'single',
+      title: '单开折叠',
+      description: 'type="single" 一次只展开一项；collapsible 允许收起。',
+      code: `<Accordion type="single" collapsible defaultValue="basics" items={[
+  { value: 'basics', label: '基础说明', content: <p>折叠面板一次只展开一组内容。</p> },
+  { value: 'rules', label: '使用规则', content: <p>标题按钮由键盘操作，内容区域按 DOM 顺序继续 Tab。</p> },
+]} />`,
+      preview: <AccordionSingle />,
+    },
+    {
+      id: 'multiple',
+      title: '多开折叠',
+      description: 'type="multiple" 可同时展开多项，value 为数组。',
+      code: `<Accordion type="multiple" defaultValue={['tokens', 'a11y']} items={[
+  { value: 'tokens', label: '设计 token', content: <p>颜色、尺度与状态由 token 驱动。</p> },
+  { value: 'a11y', label: '可访问性', content: <p>标题按钮与内容区域由 Radix 维护。</p> },
+]} />`,
+      preview: <AccordionMultiple />,
+    },
+    {
+      id: 'disabled',
+      title: '受控与禁用',
+      description: '受控 value / onValueChange；禁用项不可展开。',
+      code: `const [value, setValue] = useState('overview');
+
+<Accordion type="single" collapsible value={value} onValueChange={setValue} label="资源信息" items={[
+  { value: 'overview', label: '概览', content: <p>受控展开项；由调用方保存当前值。</p> },
+  { value: 'history', label: '历史（不可用）', content: <p>禁用内容。</p>, disabled: true },
+]} />`,
+      preview: <AccordionDisabled />,
     },
   ],
 };

@@ -17,7 +17,7 @@ test('component catalog has unique, routable ids and known groups', () => {
 
 test('pilot entries have API rows and a dedicated page', () => {
   const pilots = componentCatalog.filter(component => component.detail);
-  assert.deepEqual(pilots.map(component => component.id), ['button', 'form-field', 'input', 'textarea', 'input-otp', 'select', 'tag-input', 'radio-group', 'checkbox', 'switch', 'tabs']);
+  assert.deepEqual(pilots.map(component => component.id), ['button', 'form-field', 'input', 'textarea', 'input-otp', 'select', 'tag-input', 'radio-group', 'checkbox', 'switch', 'tabs', 'dialog', 'confirm-dialog', 'accordion', 'drawer', 'menu']);
   for (const component of pilots) {
     const doc = pilotDocs[component.id];
     assert.ok(doc, component.id);
