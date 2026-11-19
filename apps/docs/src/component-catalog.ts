@@ -25,7 +25,7 @@ export const componentGroups: readonly { id: ComponentGroupId; label: string; la
  */
 export const componentCatalog: readonly ComponentEntry[] = [
   { id: 'button', name: 'Button', group: 'actions', status: 'stable', detail: true, summary: '主要、次要、幽灵与危险操作；sm / md 两档，loading 保留焦点并拦截重复激活。' },
-  { id: 'icon-button', name: 'IconButton', group: 'actions', status: 'stable', detail: false, summary: '纯图标按钮，label 必填；默认 ghost，继承 Button 的尺寸、loading 与焦点。' },
+  { id: 'icon-button', name: 'IconButton', group: 'actions', status: 'stable', detail: true, summary: '纯图标按钮，label 必填；默认 ghost，继承 Button 的尺寸、loading 与焦点。' },
   { id: 'form-field', name: 'FormField', group: 'fields', status: 'stable', detail: true, summary: '字段标签、说明与错误关联；Input / Textarea / Select 自动读取字段上下文。' },
   { id: 'input', name: 'Input', group: 'fields', status: 'stable', detail: true, summary: '单行文本输入，outline / filled 表面；原生 input 属性与 ref 透传。' },
   { id: 'textarea', name: 'Textarea', group: 'fields', status: 'stable', detail: true, summary: '多行文本输入，支持只读、禁用与字段错误；保留垂直 resize。' },
@@ -33,13 +33,13 @@ export const componentCatalog: readonly ComponentEntry[] = [
   { id: 'select', name: 'Select', group: 'fields', status: 'stable', detail: true, summary: '受控选择器，键盘高亮、碰撞避让与字段关联；chrome 用 sm，表单用 md。' },
   { id: 'tag-input', name: 'TagInput', group: 'fields', status: 'stable', detail: true, summary: '标签草稿与去重、删除；Enter / 按钮添加，空输入 Backspace 移除末项。' },
   { id: 'radio-group', name: 'RadioGroup', group: 'selection', status: 'stable', detail: true, summary: '少量选项的单选；方向键移动即选中，FormField 内自动关联标签与错误。' },
-  { id: 'avatar', name: 'Avatar', group: 'selection', status: 'stable', detail: false, summary: '首字 / 图片头像，圆形或方形，三档尺寸；纯展示不进入 Tab 顺序。' },
-  { id: 'tag', name: 'Tag', group: 'selection', status: 'stable', detail: false, summary: '中性标签文本；纯展示，状态语义用 StatusBadge 而不是 Tag。' },
-  { id: 'toggle-group', name: 'ToggleGroup', group: 'selection', status: 'stable', detail: false, summary: '单选 / 多选的分段切换；单选方向键即选中，多选以 aria-pressed 表达。' },
+  { id: 'avatar', name: 'Avatar', group: 'selection', status: 'stable', detail: true, summary: '首字 / 图片头像，圆形或方形，三档尺寸；纯展示不进入 Tab 顺序。' },
+  { id: 'tag', name: 'Tag', group: 'selection', status: 'stable', detail: true, summary: '中性标签文本；纯展示，状态语义用 StatusBadge 而不是 Tag。' },
+  { id: 'toggle-group', name: 'ToggleGroup', group: 'selection', status: 'stable', detail: true, summary: '单选 / 多选的分段切换；单选方向键即选中，多选以 aria-pressed 表达。' },
   { id: 'checkbox', name: 'Checkbox', group: 'selection', status: 'stable', detail: true, summary: '原生复选框与键盘行为；标签、禁用与焦点由调用方提供。' },
   { id: 'switch', name: 'Switch', group: 'selection', status: 'stable', detail: true, summary: '即时布尔开关；Space / Enter 切换，标签由调用方显式关联。' },
   { id: 'tabs', name: 'Tabs', group: 'selection', status: 'stable', detail: true, summary: 'tab / tabpanel 关联、方向键、选中与焦点；列表在窄屏可换行。' },
-  { id: 'status-badge', name: 'StatusBadge', group: 'selection', status: 'stable', detail: false, summary: 'neutral / info / success / warning / danger 状态标签；文字与图标由调用方提供。' },
+  { id: 'status-badge', name: 'StatusBadge', group: 'selection', status: 'stable', detail: true, summary: 'neutral / info / success / warning / danger 状态标签；文字与图标由调用方提供。' },
   { id: 'dialog', name: 'Dialog', group: 'feedback', status: 'stable', detail: true, summary: '受控对话框，Escape、焦点约束、初始焦点与关闭回焦。' },
   { id: 'confirm-dialog', name: 'ConfirmDialog', group: 'feedback', status: 'stable', detail: true, summary: '基于 Dialog 的确认组合；初始焦点取消，loading 时拦截关闭。' },
   { id: 'accordion', name: 'Accordion', group: 'feedback', status: 'stable', detail: true, summary: '单选 / 多选折叠面板；标题按钮与内容区域由 Radix 维护。' },
@@ -49,8 +49,8 @@ export const componentCatalog: readonly ComponentEntry[] = [
   { id: 'skeleton', name: 'Skeleton', group: 'feedback', status: 'stable', detail: true, summary: '静态占位，aria-hidden；由外层 aria-busy / status 说明加载中。' },
   { id: 'toast', name: 'Toast', group: 'feedback', status: 'stable', detail: true, summary: '顶部胶囊短时反馈，关闭按钮显示剩余时间；F8 进入、关闭回焦并自动消失。' },
   { id: 'tooltip', name: 'Tooltip', group: 'feedback', status: 'stable', detail: true, summary: '短文字提示，补充可访问名称；不替代 label、字段帮助或必要操作入口。' },
-  { id: 'pagination', name: 'Pagination', group: 'navigation', status: 'stable', detail: false, summary: '页码、页大小与跳页；桌面 / 移动尺度随密度，单页渐进披露。' },
-  { id: 'table-of-contents', name: 'TableOfContents', group: 'navigation', status: 'stable', detail: false, summary: '文档目录，当前章节用 aria-current；hrefFor 与 onNavigate 交回页面处理。' },
+  { id: 'pagination', name: 'Pagination', group: 'navigation', status: 'stable', detail: true, summary: '页码、页大小与跳页；桌面 / 移动尺度随密度，单页渐进披露。' },
+  { id: 'table-of-contents', name: 'TableOfContents', group: 'navigation', status: 'stable', detail: true, summary: '文档目录，当前章节用 aria-current；hrefFor 与 onNavigate 交回页面处理。' },
 ] as const;
 
 export function findComponent(id: string): ComponentEntry | undefined {

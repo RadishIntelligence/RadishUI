@@ -1,6 +1,6 @@
 import { useRef, useState, type ReactNode } from 'react';
-import { Plus } from 'lucide-react';
-import { Accordion, Button, Checkbox, ConfirmDialog, Dialog, Drawer, FormField, IconButton, InlineAlert, Input, InputOTP, Menu, RadioGroup, Select, Skeleton, Switch, Tabs, TabsContent, TabsList, TagInput, Textarea, Toast, Tooltip } from '@radish-ui/react';
+import { Plus, Trash2 } from 'lucide-react';
+import { Accordion, Avatar, Button, Checkbox, ConfirmDialog, Dialog, Drawer, FormField, IconButton, InlineAlert, Input, InputOTP, Menu, Pagination, RadioGroup, Select, Skeleton, StatusBadge, Switch, TableOfContents, Tabs, TabsContent, TabsList, Tag, TagInput, Textarea, Toast, ToggleGroup, Tooltip } from '@radish-ui/react';
 
 export interface PilotExample {
   id: string;
@@ -9,6 +9,8 @@ export interface PilotExample {
   code: string;
   preview: ReactNode;
 }
+
+const avatarImage = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%232B3F55'/%3E%3Ccircle cx='32' cy='23' r='11' fill='%23DCE6F1'/%3E%3Cpath d='M12 62c3-14 11-20 20-20s17 6 20 20' fill='%23DCE6F1'/%3E%3C/svg%3E";
 
 const typeOptions = [
   { value: 'document', label: '文档' },
@@ -490,6 +492,176 @@ function TooltipIcon() {
 
 function TooltipLink() {
   return <div className="doc-example-row"><Tooltip content="返回组件目录"><a className="text-link" href="#/catalog">组件目录</a></Tooltip></div>;
+}
+
+function IconButtonBasic() {
+  return <div className="doc-example-row">
+    <IconButton label="添加资源"><Plus size={16} /></IconButton>
+    <IconButton label="删除资源"><Trash2 size={16} /></IconButton>
+  </div>;
+}
+
+function IconButtonVariants() {
+  return <div className="doc-example-row">
+    <IconButton label="添加资源" variant="secondary"><Plus size={16} /></IconButton>
+    <IconButton label="删除资源" variant="danger"><Trash2 size={16} /></IconButton>
+  </div>;
+}
+
+function IconButtonStates() {
+  return <div className="doc-example-row">
+    <IconButton label="添加资源（处理中）" loading><Plus size={16} /></IconButton>
+    <IconButton label="添加资源（不可用）" disabled><Plus size={16} /></IconButton>
+  </div>;
+}
+
+function AvatarFallback() {
+  return <div className="doc-example-row">
+    <Avatar name="林杏" />
+    <Avatar name="Ada Lovelace" />
+  </div>;
+}
+
+function AvatarImage() {
+  return <div className="doc-example-row">
+    <Avatar name="林杏" src={avatarImage} />
+    <Avatar name="林杏" src={avatarImage} shape="square" />
+  </div>;
+}
+
+function AvatarSizes() {
+  return <div className="doc-example-row">
+    <Avatar name="林杏" size="sm" />
+    <Avatar name="林杏" size="md" />
+    <Avatar name="林杏" size="lg" />
+    <Avatar name="装饰头像" decorative size="sm" />
+  </div>;
+}
+
+function TagBasic() {
+  return <div className="doc-example-row">
+    <Tag>组件</Tag>
+    <Tag>令牌</Tag>
+    <Tag>可访问性</Tag>
+  </div>;
+}
+
+function TagLong() {
+  return <div style={{ maxWidth: 220 }}>
+    <Tag>这是一段较长的标签文本，用于检查换行与容器宽度</Tag>
+  </div>;
+}
+
+function TagInline() {
+  return <p>筛选条件：<Tag>文档</Tag> <Tag>清单</Tag>，共 2 项。</p>;
+}
+
+function StatusBadgeTones() {
+  return <div className="doc-example-row">
+    <StatusBadge tone="neutral">草稿</StatusBadge>
+    <StatusBadge tone="info">审核中</StatusBadge>
+    <StatusBadge tone="success">已发布</StatusBadge>
+    <StatusBadge tone="warning">待确认</StatusBadge>
+    <StatusBadge tone="danger">失败</StatusBadge>
+  </div>;
+}
+
+function StatusBadgeList() {
+  return <div className="doc-example-stack">
+    <div className="doc-example-row"><span>发布检查清单</span><StatusBadge tone="success">已发布</StatusBadge></div>
+    <div className="doc-example-row"><span>接口规范</span><StatusBadge tone="info">审核中</StatusBadge></div>
+    <div className="doc-example-row"><span>迁移记录</span><StatusBadge tone="warning">待确认</StatusBadge></div>
+  </div>;
+}
+
+function StatusBadgeCompare() {
+  return <div className="doc-example-row">
+    <Tag>文档</Tag>
+    <StatusBadge tone="success">已发布</StatusBadge>
+    <span className="doc-example-note">Tag 表达分类，StatusBadge 表达状态。</span>
+  </div>;
+}
+
+function ToggleGroupSingle() {
+  const [value, setValue] = useState('list');
+  return <ToggleGroup type="single" label="视图" value={value} onValueChange={setValue} items={[
+    { value: 'list', label: '列表' },
+    { value: 'grid', label: '网格' },
+  ]} />;
+}
+
+function ToggleGroupMultiple() {
+  const [value, setValue] = useState<string[]>(['bold']);
+  return <ToggleGroup type="multiple" label="文本格式" value={value} onValueChange={setValue} items={[
+    { value: 'bold', label: '粗体' },
+    { value: 'italic', label: '斜体' },
+    { value: 'underline', label: '下划线' },
+  ]} />;
+}
+
+function ToggleGroupSizes() {
+  const [value, setValue] = useState('day');
+  return <div className="doc-example-stack">
+    <ToggleGroup type="single" label="范围" size="sm" value={value} onValueChange={setValue} items={[
+      { value: 'day', label: '日' },
+      { value: 'week', label: '周' },
+      { value: 'month', label: '月' },
+      { value: 'year', label: '年', disabled: true },
+    ]} />
+    <p className="doc-example-note">禁用项被方向键跳过。</p>
+  </div>;
+}
+
+function PaginationBasic() {
+  const [page, setPage] = useState(2);
+  const [pageSize, setPageSize] = useState(10);
+  const total = 42;
+  return <Pagination page={page} pageCount={Math.ceil(total / pageSize)} pageSize={pageSize} totalItems={total}
+    onPageChange={setPage} onPageSizeChange={size => { setPageSize(size); setPage(1); }} />;
+}
+
+function PaginationSizes() {
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
+  const total = 42;
+  return <div className="doc-example-stack">
+    <Pagination page={page} pageCount={Math.ceil(total / pageSize)} pageSize={pageSize} totalItems={total}
+      pageSizeOptions={[5, 10, 20]} onPageChange={setPage} onPageSizeChange={size => { setPageSize(size); setPage(1); }} />
+    <p className="doc-example-note">当前第 {page} 页，每页 {pageSize} 条。</p>
+  </div>;
+}
+
+function PaginationSingle() {
+  return <Pagination page={1} pageCount={1} pageSize={10} totalItems={8} onPageChange={() => {}} onPageSizeChange={() => {}} />;
+}
+
+function TocBasic() {
+  const [current, setCurrent] = useState('import');
+  return <TableOfContents label="页内目录" currentId={current} onNavigate={(id, event) => { event.preventDefault(); setCurrent(id); }} items={[
+    { id: 'import', text: '导入' },
+    { id: 'examples', text: '示例' },
+    { id: 'api', text: 'API' },
+  ]} />;
+}
+
+function TocLevels() {
+  return <TableOfContents label="章节" currentId="api" onNavigate={(_, event) => event.preventDefault()} items={[
+    { id: 'import', text: '导入' },
+    { id: 'examples', text: '示例' },
+    { id: 'api', text: 'API', level: 3 },
+    { id: 'keyboard', text: '键盘与可访问性', level: 3 },
+  ]} />;
+}
+
+function TocNavigate() {
+  const [current, setCurrent] = useState('overview');
+  return <div className="doc-example-stack">
+    <TableOfContents label="目录" currentId={current} onNavigate={(id, event) => { event.preventDefault(); setCurrent(id); }} items={[
+      { id: 'overview', text: '概览' },
+      { id: 'settings', text: '设置' },
+    ]} />
+    <p className="doc-example-note">当前：{current}</p>
+  </div>;
 }
 
 function SelectBasic() {
@@ -1370,6 +1542,256 @@ const [open, setOpen] = useState(false);
   <a href="#/catalog">组件目录</a>
 </Tooltip>`,
       preview: <TooltipLink />,
+    },
+  ],
+  'icon-button': [
+    {
+      id: 'basic',
+      title: '基础图标按钮',
+      description: 'label 必填；图标只作视觉，名称由 label 提供。',
+      code: `<div>
+  <IconButton label="添加资源"><Plus size={16} /></IconButton>
+  <IconButton label="删除资源"><Trash2 size={16} /></IconButton>
+</div>`,
+      preview: <IconButtonBasic />,
+    },
+    {
+      id: 'variants',
+      title: '变体',
+      description: '默认 ghost；危险操作使用 danger。',
+      code: `<div>
+  <IconButton label="添加资源" variant="secondary"><Plus size={16} /></IconButton>
+  <IconButton label="删除资源" variant="danger"><Trash2 size={16} /></IconButton>
+</div>`,
+      preview: <IconButtonVariants />,
+    },
+    {
+      id: 'states',
+      title: '加载与禁用',
+      description: 'loading 只显示 spinner 并保留焦点；disabled 退出 Tab 顺序。',
+      code: `<div>
+  <IconButton label="添加资源（处理中）" loading><Plus size={16} /></IconButton>
+  <IconButton label="添加资源（不可用）" disabled><Plus size={16} /></IconButton>
+</div>`,
+      preview: <IconButtonStates />,
+    },
+  ],
+  avatar: [
+    {
+      id: 'fallback',
+      title: '首字回退',
+      description: '没有图片时取名字首字；中文单字与英文缩写都可用。',
+      code: `<div>
+  <Avatar name="林杏" />
+  <Avatar name="Ada Lovelace" />
+</div>`,
+      preview: <AvatarFallback />,
+    },
+    {
+      id: 'image',
+      title: '图片与形状',
+      description: 'src 加载失败回退到首字；shape 控制圆形或圆角方形。',
+      code: `const avatarImage = '/avatar.svg';
+
+<Avatar name="林杏" src={avatarImage} />
+<Avatar name="林杏" src={avatarImage} shape="square" />`,
+      preview: <AvatarImage />,
+    },
+    {
+      id: 'sizes',
+      title: '尺寸与装饰',
+      description: '三档尺寸；decorative 时对辅助技术隐藏。',
+      code: `<div>
+  <Avatar name="林杏" size="sm" />
+  <Avatar name="林杏" size="md" />
+  <Avatar name="林杏" size="lg" />
+  <Avatar name="装饰头像" decorative size="sm" />
+</div>`,
+      preview: <AvatarSizes />,
+    },
+  ],
+  tag: [
+    {
+      id: 'basic',
+      title: '基础标签',
+      description: '中性文本标签；状态语义请用 StatusBadge。',
+      code: `<div>
+  <Tag>组件</Tag>
+  <Tag>令牌</Tag>
+  <Tag>可访问性</Tag>
+</div>`,
+      preview: <TagBasic />,
+    },
+    {
+      id: 'long',
+      title: '长文本',
+      description: '容器宽度决定换行，不截断内容。',
+      code: `<div style={{ maxWidth: 220 }}>
+  <Tag>这是一段较长的标签文本，用于检查换行与容器宽度</Tag>
+</div>`,
+      preview: <TagLong />,
+    },
+    {
+      id: 'inline',
+      title: '行内组合',
+      description: '行内与文本混排时保持基线对齐。',
+      code: `<p>筛选条件：<Tag>文档</Tag> <Tag>清单</Tag>，共 2 项。</p>`,
+      preview: <TagInline />,
+    },
+  ],
+  'status-badge': [
+    {
+      id: 'tones',
+      title: '状态层级',
+      description: '五个语气；文字本身要能说明状态，不能只靠颜色。',
+      code: `<div>
+  <StatusBadge tone="neutral">草稿</StatusBadge>
+  <StatusBadge tone="info">审核中</StatusBadge>
+  <StatusBadge tone="success">已发布</StatusBadge>
+  <StatusBadge tone="warning">待确认</StatusBadge>
+  <StatusBadge tone="danger">失败</StatusBadge>
+</div>`,
+      preview: <StatusBadgeTones />,
+    },
+    {
+      id: 'list',
+      title: '列表中的状态',
+      description: '名称与状态分列，状态不抢主信息的层级。',
+      code: `<div>
+  <div><span>发布检查清单</span><StatusBadge tone="success">已发布</StatusBadge></div>
+  <div><span>接口规范</span><StatusBadge tone="info">审核中</StatusBadge></div>
+  <div><span>迁移记录</span><StatusBadge tone="warning">待确认</StatusBadge></div>
+</div>`,
+      preview: <StatusBadgeList />,
+    },
+    {
+      id: 'compare',
+      title: '与 Tag 的分工',
+      description: 'Tag 表达分类，StatusBadge 表达状态。',
+      code: `<div>
+  <Tag>文档</Tag>
+  <StatusBadge tone="success">已发布</StatusBadge>
+  <span>Tag 表达分类，StatusBadge 表达状态。</span>
+</div>`,
+      preview: <StatusBadgeCompare />,
+    },
+  ],
+  'toggle-group': [
+    {
+      id: 'single',
+      title: '单选分段',
+      description: 'radiogroup 语义，方向键移动即选中。',
+      code: `const [value, setValue] = useState('list');
+
+<ToggleGroup type="single" label="视图" value={value} onValueChange={setValue} items={[
+  { value: 'list', label: '列表' },
+  { value: 'grid', label: '网格' },
+]} />`,
+      preview: <ToggleGroupSingle />,
+    },
+    {
+      id: 'multiple',
+      title: '多选工具条',
+      description: 'toolbar / aria-pressed 语义，方向键只移动焦点。',
+      code: `const [value, setValue] = useState<string[]>(['bold']);
+
+<ToggleGroup type="multiple" label="文本格式" value={value} onValueChange={setValue} items={[
+  { value: 'bold', label: '粗体' },
+  { value: 'italic', label: '斜体' },
+  { value: 'underline', label: '下划线' },
+]} />`,
+      preview: <ToggleGroupMultiple />,
+    },
+    {
+      id: 'sizes',
+      title: '尺寸与禁用',
+      description: 'size="sm" 用于紧凑工具条；禁用项被跳过。',
+      code: `const [value, setValue] = useState('day');
+
+<ToggleGroup type="single" label="范围" size="sm" value={value} onValueChange={setValue} items={[
+  { value: 'day', label: '日' },
+  { value: 'week', label: '周' },
+  { value: 'month', label: '月' },
+  { value: 'year', label: '年', disabled: true },
+]} />`,
+      preview: <ToggleGroupSizes />,
+    },
+  ],
+  pagination: [
+    {
+      id: 'basic',
+      title: '基础分页',
+      description: '页码、页大小与跳页；pageCount 由调用方计算。',
+      code: `const [page, setPage] = useState(2);
+const [pageSize, setPageSize] = useState(10);
+const total = 42;
+
+<Pagination page={page} pageCount={Math.ceil(total / pageSize)} pageSize={pageSize} totalItems={total}
+  onPageChange={setPage} onPageSizeChange={size => { setPageSize(size); setPage(1); }} />`,
+      preview: <PaginationBasic />,
+    },
+    {
+      id: 'sizes',
+      title: '每页条数',
+      description: 'pageSizeOptions 控制可选项；切换后回到第一页。',
+      code: `const [page, setPage] = useState(1);
+const [pageSize, setPageSize] = useState(5);
+const total = 42;
+
+<Pagination page={page} pageCount={Math.ceil(total / pageSize)} pageSize={pageSize} totalItems={total}
+  pageSizeOptions={[5, 10, 20]} onPageChange={setPage}
+  onPageSizeChange={size => { setPageSize(size); setPage(1); }} />`,
+      preview: <PaginationSizes />,
+    },
+    {
+      id: 'single',
+      title: '单页',
+      description: '只有一页时隐藏页码与跳页，保留当前位置。',
+      code: `<Pagination page={1} pageCount={1} pageSize={10} totalItems={8}
+  onPageChange={() => {}} onPageSizeChange={() => {}} />`,
+      preview: <PaginationSingle />,
+    },
+  ],
+  'table-of-contents': [
+    {
+      id: 'basic',
+      title: '基础目录',
+      description: 'currentId 标记当前章节；onNavigate 可拦截跳转。',
+      code: `const [current, setCurrent] = useState('import');
+
+<TableOfContents label="页内目录" currentId={current}
+  onNavigate={(id, event) => { event.preventDefault(); setCurrent(id); }} items={[
+    { id: 'import', text: '导入' },
+    { id: 'examples', text: '示例' },
+    { id: 'api', text: 'API' },
+  ]} />`,
+      preview: <TocBasic />,
+    },
+    {
+      id: 'levels',
+      title: '层级',
+      description: 'level 控制缩进；当前项不只靠颜色。',
+      code: `<TableOfContents label="章节" currentId="api"
+  onNavigate={(_, event) => event.preventDefault()} items={[
+    { id: 'import', text: '导入' },
+    { id: 'examples', text: '示例' },
+    { id: 'api', text: 'API', level: 3 },
+    { id: 'keyboard', text: '键盘与可访问性', level: 3 },
+  ]} />`,
+      preview: <TocLevels />,
+    },
+    {
+      id: 'navigate',
+      title: '当前项联动',
+      description: '点击后更新 currentId，用 aria-current 表达位置。',
+      code: `const [current, setCurrent] = useState('overview');
+
+<TableOfContents label="目录" currentId={current}
+  onNavigate={(id, event) => { event.preventDefault(); setCurrent(id); }} items={[
+    { id: 'overview', text: '概览' },
+    { id: 'settings', text: '设置' },
+  ]} />`,
+      preview: <TocNavigate />,
     },
   ],
 };
