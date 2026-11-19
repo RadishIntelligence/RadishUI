@@ -1,4 +1,4 @@
-export type ComponentGroupId = 'actions' | 'fields' | 'selection' | 'feedback' | 'navigation';
+export type ComponentGroupId = 'actions' | 'fields' | 'selection' | 'feedback' | 'navigation' | 'primitives';
 export type ComponentStatus = 'stable' | 'preview';
 
 export interface ComponentEntry {
@@ -16,6 +16,7 @@ export const componentGroups: readonly { id: ComponentGroupId; label: string; la
   { id: 'selection', label: '选择', labelEn: 'Choice' },
   { id: 'feedback', label: '反馈', labelEn: 'Feedback' },
   { id: 'navigation', label: '导航', labelEn: 'Navigation' },
+  { id: 'primitives', label: '页面原语', labelEn: 'Page primitives' },
 ] as const;
 
 /**
@@ -51,6 +52,9 @@ export const componentCatalog: readonly ComponentEntry[] = [
   { id: 'tooltip', name: 'Tooltip', group: 'feedback', status: 'stable', detail: true, summary: '短文字提示，补充可访问名称；不替代 label、字段帮助或必要操作入口。' },
   { id: 'pagination', name: 'Pagination', group: 'navigation', status: 'stable', detail: true, summary: '页码、页大小与跳页；桌面 / 移动尺度随密度，单页渐进披露。' },
   { id: 'table-of-contents', name: 'TableOfContents', group: 'navigation', status: 'stable', detail: true, summary: '文档目录，当前章节用 aria-current；hrefFor 与 onNavigate 交回页面处理。' },
+  { id: 'card', name: 'Card', group: 'primitives', status: 'stable', detail: true, summary: '内容表面：默认、muted 与 app 三种角色；padding 与 asChild 链接卡片。' },
+  { id: 'section', name: 'Section', group: 'primitives', status: 'stable', detail: true, summary: '页面分区：标题、eyebrow、说明与 sm / md 两档。' },
+  { id: 'table', name: 'Table', group: 'primitives', status: 'stable', detail: true, summary: '原生表格：可访问名称与可选吸顶表头。' },
 ] as const;
 
 export function findComponent(id: string): ComponentEntry | undefined {

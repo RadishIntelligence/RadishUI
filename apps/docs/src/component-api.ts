@@ -534,4 +534,54 @@ export const pilotDocs: Record<string, PilotDoc> = {
     ],
     related: ['pagination', 'tabs'],
   },
+  card: {
+    importCode: "import { Card } from '@radish-ui/react';\nimport '@radish-ui/react/styles.css';",
+    api: [
+      { name: 'tone', type: "'surface' | 'muted' | 'app'", defaultValue: "'surface'", required: false, description: '表面角色：内容卡、弱化内嵌或预览画布。' },
+      { name: 'padding', type: "'none' | 'sm' | 'md'", defaultValue: "'md'", required: false, description: '内边距：sm 12px、md 16px；none 由内部分区自管。' },
+      { name: 'asChild', type: 'boolean', defaultValue: 'false', required: false, description: '把表面挂到唯一子元素，例如链接卡片，保留原有语义。' },
+      { name: 'children', type: 'ReactNode', required: false, description: '卡片内容；复杂卡片自行分区时配合 padding="none"。' },
+      { name: 'className', type: 'string', defaultValue: "''", required: false, description: '附加类名，不替代 tone / padding。' },
+      { name: '其余属性', type: "ComponentPropsWithoutRef<'div'>", required: false, description: '原生 div 属性透传；asChild 时交给子元素。' },
+    ],
+    keyboard: [
+      '纯容器不承担键盘行为；asChild 链接卡片保留链接的 Tab 与 Enter。',
+      '卡片本身不加点击或 role，交互入口放在子元素上。',
+      '长内容与窄屏由内容决定高度，不固定卡片高度。',
+    ],
+    related: ['section', 'table'],
+  },
+  section: {
+    importCode: "import { Section } from '@radish-ui/react';\nimport '@radish-ui/react/styles.css';",
+    api: [
+      { name: 'title', type: 'ReactNode', required: true, description: '区块标题；默认生成 id 并关联 aria-labelledby。' },
+      { name: 'eyebrow', type: 'ReactNode', required: false, description: '标题上方的短标签，用于流程或分组。' },
+      { name: 'description', type: 'ReactNode', required: false, description: '文档区块的说明；产品页面按 DR-18 保持克制。' },
+      { name: 'size', type: "'sm' | 'md'", defaultValue: "'md'", required: false, description: 'md 阅读区块；sm 密集参考区。' },
+      { name: 'aria-labelledby', type: 'string', required: false, description: '覆盖默认标题 id，适合标题由外部提供时。' },
+      { name: 'className', type: 'string', defaultValue: "''", required: false, description: '附加类名。' },
+      { name: '其余属性', type: "ComponentPropsWithoutRef<'section'>", required: false, description: '原生 section 属性透传。' },
+    ],
+    keyboard: [
+      '区块是地标容器，不进入 Tab 顺序；标题用于屏幕阅读器导航。',
+      '标题层级固定为 h2，页面主标题仍由 PageHeader 提供。',
+      '说明文字不作为必填项；需要时再传 description。',
+    ],
+    related: ['card', 'table'],
+  },
+  table: {
+    importCode: "import { Table } from '@radish-ui/react';\nimport '@radish-ui/react/styles.css';",
+    api: [
+      { name: 'label', type: 'string', required: true, description: '表格的可访问名称，渲染为视觉隐藏的 caption。' },
+      { name: 'stickyHeader', type: 'boolean', defaultValue: 'true', required: false, description: '表头吸顶；页面级滚动退化时关闭。' },
+      { name: 'className', type: 'string', defaultValue: "''", required: false, description: '附加类名。' },
+      { name: '其余属性', type: "ComponentPropsWithoutRef<'table'>", required: false, description: '原生 table 属性透传；列宽与对齐由页面决定。' },
+    ],
+    keyboard: [
+      '表格本身不进入 Tab 顺序；内部链接与按钮按 DOM 顺序聚焦。',
+      'caption 对视觉隐藏但对辅助技术可见，始终提供 label。',
+      '表头吸顶只影响滚动呈现，不改变阅读顺序。',
+    ],
+    related: ['table-of-contents', 'card'],
+  },
 };

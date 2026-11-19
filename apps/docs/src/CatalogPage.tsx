@@ -22,6 +22,8 @@ function ComponentCard({ entry, t }: { entry: ComponentEntry; t: Translate }) {
 export function CatalogPage({ t }: { t: Translate }) {
   const [query, setQuery] = useState('');
   const detailCount = componentCatalog.filter(component => component.detail).length;
+  const primitiveCount = componentCatalog.filter(component => component.group === 'primitives').length;
+  const componentCount = componentCatalog.length - primitiveCount;
   const entries = useMemo(() => filterComponents(query), [query]);
   const groups = useMemo(() => componentGroups
     .map(group => ({ ...group, entries: entries.filter(entry => entry.group === group.id) }))
@@ -31,8 +33,11 @@ export function CatalogPage({ t }: { t: Translate }) {
     <PageHeader title={t('组件目录', 'Component catalog')} back={{ href: '#/overview', label: t('概览', 'Overview') }}
       actions={<a className="rd-button rd-button--secondary rd-button--sm" href="#/components">{t('全部示例', 'All examples')}</a>} />
     <p className="catalog-intro">
-      {t(`按能力浏览共享组件。已有 ${detailCount} 个组件提供独立文档页；其余组件暂时先进入当前的组件用法页。`,
-        `Browse shared components by capability. ${detailCount} components have dedicated pages; the rest currently open the single-page reference.`)}
+      {detailCount === componentCatalog.length
+        ? t('按能力浏览共享组件与页面原语；全部条目已提供独立文档页。',
+          'Browse shared components and page primitives; every entry has a dedicated page.')
+        : t(`按能力浏览共享组件。已有 ${detailCount} 个条目提供独立文档页；其余条目暂时先进入组件用法页。`,
+          `Browse shared components by capability. ${detailCount} entries have dedicated pages; the rest currently open the component reference.`)}
     </p>
     <div className="catalog-toolbar">
       <div className="catalog-search">
@@ -57,8 +62,8 @@ export function CatalogPage({ t }: { t: Translate }) {
       </div>
     </section>)}
     <p className="catalog-footnote">
-      {t(`目录共 ${componentCatalog.length} 个组件；全部为当前内部稳定范围，发行状态另见版本策略。Card / Section / Table 是页面原语，随 P1 纳入。`,
-        `${componentCatalog.length} components in the catalog; all are in the current internal stable scope. Card, Section and Table are page primitives and join in P1.`)}
+      {t(`目录共 ${componentCatalog.length} 个条目：${componentCount} 个组件与 ${primitiveCount} 个页面原语；全部为当前内部稳定范围，发行状态另见版本策略。`,
+        `${componentCatalog.length} entries: ${componentCount} components and ${primitiveCount} page primitives; all are in the current internal stable scope.`)}
     </p>
   </section>;
 }

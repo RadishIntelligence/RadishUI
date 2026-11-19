@@ -1,6 +1,6 @@
 import { useRef, useState, type ReactNode } from 'react';
 import { Plus, Trash2 } from 'lucide-react';
-import { Accordion, Avatar, Button, Checkbox, ConfirmDialog, Dialog, Drawer, FormField, IconButton, InlineAlert, Input, InputOTP, Menu, Pagination, RadioGroup, Select, Skeleton, StatusBadge, Switch, TableOfContents, Tabs, TabsContent, TabsList, Tag, TagInput, Textarea, Toast, ToggleGroup, Tooltip } from '@radish-ui/react';
+import { Accordion, Avatar, Button, Card, Checkbox, ConfirmDialog, Dialog, Drawer, FormField, IconButton, InlineAlert, Input, InputOTP, Menu, Pagination, RadioGroup, Section, Select, Skeleton, StatusBadge, Switch, Table, TableOfContents, Tabs, TabsContent, TabsList, Tag, TagInput, Textarea, Toast, ToggleGroup, Tooltip } from '@radish-ui/react';
 
 export interface PilotExample {
   id: string;
@@ -662,6 +662,75 @@ function TocNavigate() {
     ]} />
     <p className="doc-example-note">当前：{current}</p>
   </div>;
+}
+
+function CardBasic() {
+  return <Card>
+    <h3>发布检查清单</h3>
+    <p className="doc-example-note">默认表面与 16px 内边距。</p>
+  </Card>;
+}
+
+function CardTones() {
+  return <div className="doc-example-stack">
+    <Card tone="muted" padding="sm"><p>muted · sm</p></Card>
+    <Card tone="app" padding="sm"><p>app · sm</p></Card>
+    <Card padding="none"><div style={{ padding: 16 }}>none · 由内容自管内边距</div></Card>
+  </div>;
+}
+
+function CardLink() {
+  return <Card asChild padding="sm">
+    <a href="#/catalog">打开组件目录 →</a>
+  </Card>;
+}
+
+function SectionBasic() {
+  return <Section title="资源信息">
+    <p>区块用于页面分区，标题由组件生成并关联 aria-labelledby。</p>
+  </Section>;
+}
+
+function SectionMeta() {
+  return <Section eyebrow="发布流程" title="检查清单" description="发布前逐项确认。">
+    <p>说明只在该文档区块使用。</p>
+  </Section>;
+}
+
+function SectionSmall() {
+  return <Section title="紧凑区块" size="sm">
+    <p>sm 用于密集参考区，20px 内边距、16px 标题。</p>
+  </Section>;
+}
+
+function TableBasic() {
+  return <Table label="资源列表">
+    <thead><tr><th scope="col">名称</th><th scope="col">类型</th><th scope="col">状态</th></tr></thead>
+    <tbody>
+      <tr><td>发布检查清单</td><td>清单</td><td>已发布</td></tr>
+      <tr><td>接口规范</td><td>文档</td><td>审核中</td></tr>
+    </tbody>
+  </Table>;
+}
+
+function TableNoSticky() {
+  return <Table label="资源列表（不吸顶）" stickyHeader={false}>
+    <thead><tr><th scope="col">名称</th><th scope="col">类型</th><th scope="col">状态</th></tr></thead>
+    <tbody>
+      <tr><td>迁移记录</td><td>文档</td><td>待确认</td></tr>
+      <tr><td>发布检查清单</td><td>清单</td><td>已发布</td></tr>
+    </tbody>
+  </Table>;
+}
+
+function TableLong() {
+  return <Table label="长内容表格">
+    <thead><tr><th scope="col">名称</th><th scope="col">说明</th></tr></thead>
+    <tbody>
+      <tr><td>发布检查清单</td><td>这是一段较长的说明，用于检查单元格换行与行高。</td></tr>
+      <tr><td>接口规范与迁移记录</td><td>第二行内容。</td></tr>
+    </tbody>
+  </Table>;
 }
 
 function SelectBasic() {
@@ -1792,6 +1861,108 @@ const total = 42;
     { id: 'settings', text: '设置' },
   ]} />`,
       preview: <TocNavigate />,
+    },
+  ],
+  card: [
+    {
+      id: 'basic',
+      title: '基础表面',
+      description: '默认 surface 与 16px 内边距，用于内容分组。',
+      code: `<Card>
+  <h3>发布检查清单</h3>
+  <p>默认表面与 16px 内边距。</p>
+</Card>`,
+      preview: <CardBasic />,
+    },
+    {
+      id: 'tones',
+      title: '表面与内边距',
+      description: 'muted 用于弱化内嵌，app 用于预览画布；padding="none" 由内容自管。',
+      code: `<div>
+  <Card tone="muted" padding="sm"><p>muted · sm</p></Card>
+  <Card tone="app" padding="sm"><p>app · sm</p></Card>
+  <Card padding="none"><div style={{ padding: 16 }}>none · 由内容自管内边距</div></Card>
+</div>`,
+      preview: <CardTones />,
+    },
+    {
+      id: 'link',
+      title: '链接卡片',
+      description: 'asChild 把表面挂到链接上，保留链接语义与键盘行为。',
+      code: `<Card asChild padding="sm">
+  <a href="#/catalog">打开组件目录 →</a>
+</Card>`,
+      preview: <CardLink />,
+    },
+  ],
+  section: [
+    {
+      id: 'basic',
+      title: '基础区块',
+      description: '标题由组件生成并关联 aria-labelledby。',
+      code: `<Section title="资源信息">
+  <p>区块用于页面分区，标题由组件生成并关联 aria-labelledby。</p>
+</Section>`,
+      preview: <SectionBasic />,
+    },
+    {
+      id: 'meta',
+      title: 'eyebrow 与说明',
+      description: 'eyebrow 提供流程标签；description 仅用于文档区块。',
+      code: `<Section eyebrow="发布流程" title="检查清单" description="发布前逐项确认。">
+  <p>说明只在该文档区块使用。</p>
+</Section>`,
+      preview: <SectionMeta />,
+    },
+    {
+      id: 'small',
+      title: '紧凑区块',
+      description: 'size="sm" 降低标题与内边距，用于密集参考区。',
+      code: `<Section title="紧凑区块" size="sm">
+  <p>sm 用于密集参考区，20px 内边距、16px 标题。</p>
+</Section>`,
+      preview: <SectionSmall />,
+    },
+  ],
+  table: [
+    {
+      id: 'basic',
+      title: '基础表格',
+      description: 'label 渲染为视觉隐藏的 caption；表头默认吸顶。',
+      code: `<Table label="资源列表">
+  <thead><tr><th scope="col">名称</th><th scope="col">类型</th><th scope="col">状态</th></tr></thead>
+  <tbody>
+    <tr><td>发布检查清单</td><td>清单</td><td>已发布</td></tr>
+    <tr><td>接口规范</td><td>文档</td><td>审核中</td></tr>
+  </tbody>
+</Table>`,
+      preview: <TableBasic />,
+    },
+    {
+      id: 'no-sticky',
+      title: '不吸顶',
+      description: '页面级滚动退化时关闭 stickyHeader。',
+      code: `<Table label="资源列表（不吸顶）" stickyHeader={false}>
+  <thead><tr><th scope="col">名称</th><th scope="col">类型</th><th scope="col">状态</th></tr></thead>
+  <tbody>
+    <tr><td>迁移记录</td><td>文档</td><td>待确认</td></tr>
+    <tr><td>发布检查清单</td><td>清单</td><td>已发布</td></tr>
+  </tbody>
+</Table>`,
+      preview: <TableNoSticky />,
+    },
+    {
+      id: 'long',
+      title: '长内容',
+      description: '单元格长文本换行由内容决定，列宽由页面控制。',
+      code: `<Table label="长内容表格">
+  <thead><tr><th scope="col">名称</th><th scope="col">说明</th></tr></thead>
+  <tbody>
+    <tr><td>发布检查清单</td><td>这是一段较长的说明，用于检查单元格换行与行高。</td></tr>
+    <tr><td>接口规范与迁移记录</td><td>第二行内容。</td></tr>
+  </tbody>
+</Table>`,
+      preview: <TableLong />,
     },
   ],
 };
