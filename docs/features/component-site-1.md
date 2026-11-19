@@ -1,6 +1,6 @@
 # 组件站 1.0
 
-状态：2026-11-17 所有者确认作为下一阶段；2026-11-19 完成 P0 三页用法复审并进入 P1，已迁移 FormField / Input / Textarea / InputOTP / TagInput / RadioGroup / Checkbox / Switch / Dialog / Drawer / ConfirmDialog / Menu / Accordion 十三个组件（独立页共 16 个）。P2 外部采用与 P3 Flutter 暂缓。2026-11-18 按所有者确认增补机器可读契约、行为归属与交互行为测试评估，见[契约与行为](#contract-and-behavior-2026-11-18)。
+状态：2026-11-17 所有者确认作为下一阶段；2026-11-19 完成 P0 三页用法复审并进入 P1，已迁移 FormField / Input / Textarea / InputOTP / TagInput / RadioGroup / Checkbox / Switch / Dialog / Drawer / ConfirmDialog / Menu / Accordion / InlineAlert / Skeleton / Toast / Tooltip 十七个组件（独立页共 20 个）。P2 外部采用与 P3 Flutter 暂缓。2026-11-18 按所有者确认增补机器可读契约、行为归属与交互行为测试评估，见[契约与行为](#contract-and-behavior-2026-11-18)。
 主要归属：E：展示与页面范例（组件文档站）/ C：跨平台通用组件；协同 F：视觉基础、G：工程与交付。
 需求输入：[家族组件需求盘点](family-component-demand.md)；既有组件合同见 [C-02](react-workbench-components.md)，页面范例见 [E-02](workbench-preview.md)。
 
@@ -40,7 +40,7 @@
 | 阶段 | 交付 | 状态 |
 | --- | --- | --- |
 | **P0 垂直切片** | 目录页、搜索、Button / Select / Tabs 独立页、API 表、示例、复制、测试 | 已实现（`42019fe`），复审完成（2026-11-19） |
-| **P1 迁移 27 个** | 现有组件全部进入模板；Card / Section / Table 页面原语一并纳入目录；单页参考退为“全部示例” | 进行中（已迁移 13 个，独立页共 16 个） |
+| **P1 迁移 27 个** | 现有组件全部进入模板；Card / Section / Table 页面原语一并纳入目录；单页参考退为“全部示例” | 进行中（已迁移 17 个，独立页共 20 个） |
 | **P2 类型 / API 全量** | 导出缺失 props 类型；JSDoc / 默认值 / 事件 / ref；单一来源生成 API 表与 `llms.txt`，行为归属随 P3 进入同一来源；`--check` 漂移门禁；类型测试与完整性检查 | 待开始 |
 | **P3 用法深度** | 每组件 3+ 示例、变体 / 受控 / 表单 / 组合；代码高亮（新增依赖需确认）；每示例主题 / 密度；逐组件 a11y 与行为归属声明及对应断言（依赖待确认） | 待开始 |
 | **P4 目录扩展** | 按[家族需求盘点](family-component-demand.md)排序；Form、Upload、InputNumber / Slider 等逐项确认 | 待开始 |
@@ -98,11 +98,12 @@ P0 垂直切片与 P1 首批共用以下文件：
 
 - 字段组首批：FormField / Input / Textarea；
 - 字段与选择第二批：InputOTP / TagInput / RadioGroup / Checkbox / Switch；
-- 浮层与反馈第三批：Dialog / Drawer / ConfirmDialog / Menu / Accordion。
+- 浮层与反馈第三批：Dialog / Drawer / ConfirmDialog / Menu / Accordion；
+- 反馈第四批：InlineAlert / Skeleton / Toast / Tooltip。
 
 每件 3 个示例、API 表、键盘 / a11y 与相关组件，目录卡片改为独立页；示例代码与预览使用同一结构。证据在 `output/component-site-p1-2026-11-19/`（`batch1.json` / `batch2.json`、`styles.json` / `batch2-dark.json` 与截图；1440 / 390、明暗、键盘交互、错误关联、无 pageerror）。
 
-其余 11 个组件（icon-button、avatar、tag、toggle-group、status-badge、inline-alert、skeleton、toast、tooltip、pagination、table-of-contents）与 Card / Section / Table 页面原语按反馈、导航分组继续；每批仍交付 1440 / 390、明暗、键盘与无 pageerror 证据。
+其余 7 个组件（icon-button、avatar、tag、toggle-group、status-badge、pagination、table-of-contents）与 Card / Section / Table 页面原语继续；每批仍交付 1440 / 390、明暗、键盘与无 pageerror 证据。
 
 <a id="contract-and-behavior-2026-11-18"></a>
 

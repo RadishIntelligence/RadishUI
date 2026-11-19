@@ -1,5 +1,6 @@
 import { useRef, useState, type ReactNode } from 'react';
-import { Accordion, Button, Checkbox, ConfirmDialog, Dialog, Drawer, FormField, Input, InputOTP, Menu, RadioGroup, Select, Switch, Tabs, TabsContent, TabsList, TagInput, Textarea } from '@radish-ui/react';
+import { Plus } from 'lucide-react';
+import { Accordion, Button, Checkbox, ConfirmDialog, Dialog, Drawer, FormField, IconButton, InlineAlert, Input, InputOTP, Menu, RadioGroup, Select, Skeleton, Switch, Tabs, TabsContent, TabsList, TagInput, Textarea, Toast, Tooltip } from '@radish-ui/react';
 
 export interface PilotExample {
   id: string;
@@ -409,6 +410,86 @@ function AccordionDisabled() {
     { value: 'overview', label: '概览', content: <p>受控展开项；由调用方保存当前值。</p> },
     { value: 'history', label: '历史（不可用）', content: <p>禁用内容。</p>, disabled: true },
   ]} />;
+}
+
+function InlineAlertTones() {
+  return <div className="doc-example-stack">
+    <InlineAlert tone="info">资源会在保存后同步。</InlineAlert>
+    <InlineAlert tone="success">发布成功。</InlineAlert>
+    <InlineAlert tone="warning">有 2 个标签待确认。</InlineAlert>
+    <InlineAlert tone="danger">保存失败，请重试。</InlineAlert>
+  </div>;
+}
+
+function InlineAlertTitle() {
+  return <InlineAlert tone="warning" title="待处理">有 2 个标签待确认，确认后才能发布。</InlineAlert>;
+}
+
+function InlineAlertLong() {
+  return <InlineAlert tone="danger" title="同步失败">
+    <p>服务器暂时不可用，本地草稿已保留。恢复网络后重试，或稍后再打开此页。</p>
+  </InlineAlert>;
+}
+
+function SkeletonBasic() {
+  return <div className="doc-example-stack">
+    <Skeleton width={240} height={16} />
+    <Skeleton width="60%" height={12} />
+  </div>;
+}
+
+function SkeletonText() {
+  return <div className="doc-example-stack">
+    <Skeleton width="100%" height={14} />
+    <Skeleton width="80%" height={14} />
+    <Skeleton width="60%" height={14} />
+  </div>;
+}
+
+function SkeletonCard() {
+  return <div className="doc-example-row" style={{ alignItems: 'stretch' }}>
+    <Skeleton width={40} height={40} />
+    <div className="doc-example-stack" style={{ flex: 1 }}>
+      <Skeleton width="70%" height={14} />
+      <Skeleton width="40%" height={14} />
+    </div>
+  </div>;
+}
+
+function ToastBasic() {
+  const [open, setOpen] = useState(false);
+  return <>
+    <div className="doc-example-row"><Button onClick={() => setOpen(true)}>显示通知</Button></div>
+    <Toast open={open} onOpenChange={setOpen} message="资源已保存" />
+  </>;
+}
+
+function ToastLabel() {
+  const [open, setOpen] = useState(false);
+  return <>
+    <div className="doc-example-row"><Button onClick={() => setOpen(true)}>显示发布通知</Button></div>
+    <Toast open={open} onOpenChange={setOpen} message="发布完成" label="发布通知" closeLabel="关闭发布通知" />
+  </>;
+}
+
+function ToastManual() {
+  const [open, setOpen] = useState(false);
+  return <>
+    <div className="doc-example-row"><Button onClick={() => setOpen(true)}>显示可关闭通知</Button></div>
+    <Toast open={open} onOpenChange={setOpen} message="标签已添加，可在列表继续编辑" closeLabel="关闭标签通知" />
+  </>;
+}
+
+function TooltipBasic() {
+  return <div className="doc-example-row"><Tooltip content="保存当前修改"><Button>保存</Button></Tooltip></div>;
+}
+
+function TooltipIcon() {
+  return <div className="doc-example-row"><Tooltip content="添加资源"><IconButton label="添加资源"><Plus size={16} /></IconButton></Tooltip></div>;
+}
+
+function TooltipLink() {
+  return <div className="doc-example-row"><Tooltip content="返回组件目录"><a className="text-link" href="#/catalog">组件目录</a></Tooltip></div>;
 }
 
 function SelectBasic() {
@@ -1154,6 +1235,141 @@ const [loading, setLoading] = useState(false);
   { value: 'history', label: '历史（不可用）', content: <p>禁用内容。</p>, disabled: true },
 ]} />`,
       preview: <AccordionDisabled />,
+    },
+  ],
+  'inline-alert': [
+    {
+      id: 'tones',
+      title: '状态层级',
+      description: '四种语气对应不同图标与播报角色；danger 立即播报。',
+      code: `<div>
+  <InlineAlert tone="info">资源会在保存后同步。</InlineAlert>
+  <InlineAlert tone="success">发布成功。</InlineAlert>
+  <InlineAlert tone="warning">有 2 个标签待确认。</InlineAlert>
+  <InlineAlert tone="danger">保存失败，请重试。</InlineAlert>
+</div>`,
+      preview: <InlineAlertTones />,
+    },
+    {
+      id: 'title',
+      title: '带标题',
+      description: 'title 提供加粗摘要，正文保持简短。',
+      code: `<InlineAlert tone="warning" title="待处理">有 2 个标签待确认，确认后才能发布。</InlineAlert>`,
+      preview: <InlineAlertTitle />,
+    },
+    {
+      id: 'long',
+      title: '长内容',
+      description: '错误保留为页面内容，不只放在 Toast 或 Tooltip 中。',
+      code: `<InlineAlert tone="danger" title="同步失败">
+  <p>服务器暂时不可用，本地草稿已保留。恢复网络后重试，或稍后再打开此页。</p>
+</InlineAlert>`,
+      preview: <InlineAlertLong />,
+    },
+  ],
+  skeleton: [
+    {
+      id: 'basic',
+      title: '基础占位',
+      description: '宽高由 width / height 控制；纯展示且 aria-hidden。',
+      code: `<div>
+  <Skeleton width={240} height={16} />
+  <Skeleton width="60%" height={12} />
+</div>`,
+      preview: <SkeletonBasic />,
+    },
+    {
+      id: 'text',
+      title: '文本骨架',
+      description: '多行文本用百分比宽度模拟段落。',
+      code: `<div>
+  <Skeleton width="100%" height={14} />
+  <Skeleton width="80%" height={14} />
+  <Skeleton width="60%" height={14} />
+</div>`,
+      preview: <SkeletonText />,
+    },
+    {
+      id: 'card',
+      title: '卡片骨架',
+      description: '组合头像与两行文本骨架；加载完成后移除。',
+      code: `<div>
+  <Skeleton width={40} height={40} />
+  <div>
+    <Skeleton width="70%" height={14} />
+    <Skeleton width="40%" height={14} />
+  </div>
+</div>`,
+      preview: <SkeletonCard />,
+    },
+  ],
+  toast: [
+    {
+      id: 'basic',
+      title: '基础通知',
+      description: 'open / onOpenChange 控制显示；4.5 秒后自动关闭。',
+      code: `import { useState } from 'react';
+
+const [open, setOpen] = useState(false);
+
+<>
+  <div><Button onClick={() => setOpen(true)}>显示通知</Button></div>
+  <Toast open={open} onOpenChange={setOpen} message="资源已保存" />
+</>`,
+      preview: <ToastBasic />,
+    },
+    {
+      id: 'label',
+      title: '自定义区域名',
+      description: 'label 同时用于区域名与 F8 提示。',
+      code: `const [open, setOpen] = useState(false);
+
+<>
+  <div><Button onClick={() => setOpen(true)}>显示发布通知</Button></div>
+  <Toast open={open} onOpenChange={setOpen} message="发布完成" label="发布通知" closeLabel="关闭发布通知" />
+</>`,
+      preview: <ToastLabel />,
+    },
+    {
+      id: 'manual',
+      title: '手动关闭',
+      description: '关闭按钮显示剩余时间；悬停或聚焦暂停倒计时。',
+      code: `const [open, setOpen] = useState(false);
+
+<>
+  <div><Button onClick={() => setOpen(true)}>显示可关闭通知</Button></div>
+  <Toast open={open} onOpenChange={setOpen} message="标签已添加，可在列表继续编辑" closeLabel="关闭标签通知" />
+</>`,
+      preview: <ToastManual />,
+    },
+  ],
+  tooltip: [
+    {
+      id: 'button',
+      title: '按钮提示',
+      description: '悬停 400ms 或键盘聚焦显示。',
+      code: `<Tooltip content="保存当前修改">
+  <Button>保存</Button>
+</Tooltip>`,
+      preview: <TooltipBasic />,
+    },
+    {
+      id: 'icon',
+      title: '图标按钮',
+      description: '补充已有可访问名称，不替代 label。',
+      code: `<Tooltip content="添加资源">
+  <IconButton label="添加资源"><Plus size={16} /></IconButton>
+</Tooltip>`,
+      preview: <TooltipIcon />,
+    },
+    {
+      id: 'link',
+      title: '链接提示',
+      description: 'Escape 关闭；触屏没有悬停，必要说明不能只放这里。',
+      code: `<Tooltip content="返回组件目录">
+  <a href="#/catalog">组件目录</a>
+</Tooltip>`,
+      preview: <TooltipLink />,
     },
   ],
 };

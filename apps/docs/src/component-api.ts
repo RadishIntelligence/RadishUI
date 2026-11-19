@@ -350,4 +350,65 @@ export const pilotDocs: Record<string, PilotDoc> = {
     ],
     related: ['tabs', 'menu'],
   },
+  'inline-alert': {
+    importCode: "import { InlineAlert } from '@radish-ui/react';\nimport '@radish-ui/react/styles.css';",
+    api: [
+      { name: 'tone', type: "'info' | 'success' | 'warning' | 'danger'", defaultValue: "'info'", required: false, description: '状态层级；决定图标、颜色与播报角色。' },
+      { name: 'title', type: 'string', required: false, description: '可选的加粗标题。' },
+      { name: 'children', type: 'ReactNode', required: true, description: '提示正文；可包含必要的操作入口，但不替代字段错误。' },
+      { name: 'className', type: 'string', defaultValue: "''", required: false, description: '附加类名。' },
+    ],
+    keyboard: [
+      '静态提示不进入 Tab 顺序；内部操作按钮可聚焦。',
+      'danger 使用 role=alert 立即播报，其余状态使用 role=status。',
+      '错误不应只放在 Tooltip 或瞬时 Toast 中，需保留为页面内容。',
+    ],
+    related: ['toast', 'tooltip', 'input'],
+  },
+  skeleton: {
+    importCode: "import { Skeleton } from '@radish-ui/react';\nimport '@radish-ui/react/styles.css';",
+    api: [
+      { name: 'width', type: 'string | number', required: false, description: '占位宽度；数字按 px 处理。' },
+      { name: 'height', type: 'string | number', required: false, description: '占位高度；数字按 px 处理。' },
+      { name: 'className', type: 'string', defaultValue: "''", required: false, description: '附加类名；可复用文本行与卡片形状。' },
+      { name: 'style', type: 'CSSProperties', required: false, description: '内联样式，与其他尺寸属性合并。' },
+      { name: 'id', type: 'string', required: false, description: '原生 id；其余 div 属性一并透传。' },
+      { name: 'ref', type: 'Ref<HTMLDivElement>', required: false, description: '转发到原生 div。' },
+    ],
+    keyboard: [
+      '纯展示占位，aria-hidden，不进入 Tab 顺序。',
+      '加载状态由外层 aria-busy 或 role=status 表达，不依赖骨架本身播报。',
+      '减少动效时保持静态，不播放扫光动画。',
+    ],
+    related: ['avatar', 'inline-alert'],
+  },
+  toast: {
+    importCode: "import { Toast } from '@radish-ui/react';\nimport '@radish-ui/react/styles.css';",
+    api: [
+      { name: 'open', type: 'boolean', required: true, description: '受控显示状态；挂载后自动计时关闭。' },
+      { name: 'onOpenChange', type: '(open: boolean) => void', required: true, description: '关闭请求回调；超时、Esc 与关闭按钮都会触发。' },
+      { name: 'message', type: 'string', required: true, description: '单行提示文案。' },
+      { name: 'label', type: 'string', defaultValue: "'通知'", required: false, description: '区域名，同时用于 F8 快捷键提示。' },
+      { name: 'closeLabel', type: 'string', defaultValue: "'关闭通知'", required: false, description: '关闭按钮的可访问名称。' },
+    ],
+    keyboard: [
+      'F8 或 Tab 进入通知区域；关闭后焦点回到打开它的控件。',
+      '悬停或聚焦暂停 4.5 秒倒计时；Escape 关闭。',
+      '非模态提示，不阻塞页面操作，也不替调用方声明保存成功。',
+    ],
+    related: ['inline-alert', 'button'],
+  },
+  tooltip: {
+    importCode: "import { Tooltip } from '@radish-ui/react';\nimport '@radish-ui/react/styles.css';",
+    api: [
+      { name: 'content', type: 'string', required: true, description: '提示文案；不能承载必要说明或错误。' },
+      { name: 'children', type: 'ReactElement', required: true, description: '单个触发器；需可聚焦。' },
+    ],
+    keyboard: [
+      '悬停 400ms 或键盘聚焦显示；Escape 关闭。',
+      'Tooltip 补充已有可访问名称，不替代 label、字段帮助或必要操作入口。',
+      '触屏没有悬停，必要的说明不能只放在 Tooltip 中。',
+    ],
+    related: ['menu', 'inline-alert'],
+  },
 };
