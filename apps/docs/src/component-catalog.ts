@@ -26,9 +26,9 @@ export const componentGroups: readonly { id: ComponentGroupId; label: string; la
 export const componentCatalog: readonly ComponentEntry[] = [
   { id: 'button', name: 'Button', group: 'actions', status: 'stable', detail: true, summary: '主要、次要、幽灵与危险操作；sm / md 两档，loading 保留焦点并拦截重复激活。' },
   { id: 'icon-button', name: 'IconButton', group: 'actions', status: 'stable', detail: false, summary: '纯图标按钮，label 必填；默认 ghost，继承 Button 的尺寸、loading 与焦点。' },
-  { id: 'form-field', name: 'FormField', group: 'fields', status: 'stable', detail: false, summary: '字段标签、说明与错误关联；Input / Textarea / Select 自动读取字段上下文。' },
-  { id: 'input', name: 'Input', group: 'fields', status: 'stable', detail: false, summary: '单行文本输入，outline / filled 表面；原生 input 属性与 ref 透传。' },
-  { id: 'textarea', name: 'Textarea', group: 'fields', status: 'stable', detail: false, summary: '多行文本输入，支持只读、禁用与字段错误；保留垂直 resize。' },
+  { id: 'form-field', name: 'FormField', group: 'fields', status: 'stable', detail: true, summary: '字段标签、说明与错误关联；Input / Textarea / Select 自动读取字段上下文。' },
+  { id: 'input', name: 'Input', group: 'fields', status: 'stable', detail: true, summary: '单行文本输入，outline / filled 表面；原生 input 属性与 ref 透传。' },
+  { id: 'textarea', name: 'Textarea', group: 'fields', status: 'stable', detail: true, summary: '多行文本输入，支持只读、禁用与字段错误；保留垂直 resize。' },
   { id: 'input-otp', name: 'InputOTP', group: 'fields', status: 'stable', detail: false, summary: '六位验证码输入，自动前进、粘贴与逐格错误关联；Enter 回调可接管提交。' },
   { id: 'select', name: 'Select', group: 'fields', status: 'stable', detail: true, summary: '受控选择器，键盘高亮、碰撞避让与字段关联；chrome 用 sm，表单用 md。' },
   { id: 'tag-input', name: 'TagInput', group: 'fields', status: 'stable', detail: false, summary: '标签草稿与去重、删除；Enter / 按钮添加，空输入 Backspace 移除末项。' },

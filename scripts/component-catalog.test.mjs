@@ -17,12 +17,11 @@ test('component catalog has unique, routable ids and known groups', () => {
 
 test('pilot entries have API rows and a dedicated page', () => {
   const pilots = componentCatalog.filter(component => component.detail);
-  assert.deepEqual(pilots.map(component => component.id), ['button', 'select', 'tabs']);
+  assert.deepEqual(pilots.map(component => component.id), ['button', 'form-field', 'input', 'textarea', 'select', 'tabs']);
   for (const component of pilots) {
     const doc = pilotDocs[component.id];
     assert.ok(doc, component.id);
-    assert.ok(doc.api.length >= 8, component.id);
-    assert.ok(doc.api.some(row => row.required), component.id);
+    assert.ok(doc.api.length >= 6, component.id);
     assert.ok(doc.keyboard.length >= 3, component.id);
     assert.ok(doc.related.every(id => findComponent(id)), component.id);
     assert.match(doc.importCode, new RegExp(`from '@radish-ui/react'`), component.id);

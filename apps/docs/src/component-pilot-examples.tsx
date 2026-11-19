@@ -1,5 +1,5 @@
 import { useState, type ReactNode } from 'react';
-import { Button, FormField, Select, Tabs, TabsContent, TabsList } from '@radish-ui/react';
+import { Button, FormField, Input, Select, Tabs, TabsContent, TabsList, Textarea } from '@radish-ui/react';
 
 export interface PilotExample {
   id: string;
@@ -42,6 +42,77 @@ function ButtonStates() {
   return <div className="doc-example-row">
     <Button loading>保存中</Button>
     <Button disabled>不可用</Button>
+  </div>;
+}
+
+function FormFieldBasic() {
+  return <FormField label="资源名称" hint="显示在资源列表与详情页。">
+    <Input placeholder="例如：发布检查清单" />
+  </FormField>;
+}
+
+function FormFieldError() {
+  return <FormField label="资源名称" required error="名称不能为空。">
+    <Input placeholder="请输入资源名称" />
+  </FormField>;
+}
+
+function FormFieldGroup() {
+  return <div className="doc-example-stack">
+    <FormField label="资源名称" hint="显示在资源列表与详情页。">
+      <Input placeholder="例如：发布检查清单" />
+    </FormField>
+    <FormField label="资源说明" hint="可选，支持多行。">
+      <Textarea rows={3} placeholder="一句话说明用途" />
+    </FormField>
+  </div>;
+}
+
+function InputBasic() {
+  return <FormField label="资源名称" hint="最多 60 个字符。">
+    <Input placeholder="例如：发布检查清单" />
+  </FormField>;
+}
+
+function InputSurface() {
+  return <div className="doc-example-stack">
+    <FormField label="描边表面"><Input placeholder="outline（默认）" /></FormField>
+    <FormField label="填充表面"><Input surface="filled" placeholder="filled" /></FormField>
+  </div>;
+}
+
+function InputStates() {
+  return <div className="doc-example-stack">
+    <FormField label="资源名称" required error="名称不能为空。">
+      <Input placeholder="请输入资源名称" />
+    </FormField>
+    <FormField label="资源 ID">
+      <Input readOnly value="resource-042" />
+    </FormField>
+  </div>;
+}
+
+function TextareaBasic() {
+  return <FormField label="资源说明" hint="支持多行；保留垂直 resize。">
+    <Textarea rows={4} placeholder="一句话说明用途" />
+  </FormField>;
+}
+
+function TextareaSurface() {
+  return <div className="doc-example-stack">
+    <FormField label="描边表面"><Textarea rows={3} placeholder="outline（默认）" /></FormField>
+    <FormField label="填充表面"><Textarea rows={3} surface="filled" placeholder="filled" /></FormField>
+  </div>;
+}
+
+function TextareaStates() {
+  return <div className="doc-example-stack">
+    <FormField label="资源说明" error="说明不能超过 500 个字符。">
+      <Textarea rows={3} defaultValue="超出长度限制的说明示例。" />
+    </FormField>
+    <FormField label="只读说明">
+      <Textarea rows={3} readOnly value="只读内容保留选择与复制。" />
+    </FormField>
   </div>;
 }
 
@@ -140,6 +211,110 @@ export const pilotExamples: Record<string, readonly PilotExample[]> = {
       preview: <ButtonStates />,
     },
   ],
+  'form-field': [
+    {
+      id: 'basic',
+      title: '标签与说明',
+      description: '标签通过 htmlFor 关联字段控件；hint 作为补充说明。',
+      code: `<FormField label="资源名称" hint="显示在资源列表与详情页。">
+  <Input placeholder="例如：发布检查清单" />
+</FormField>`,
+      preview: <FormFieldBasic />,
+    },
+    {
+      id: 'error',
+      title: '必填与错误',
+      description: 'required 显示必填标记；error 优先于 hint 并以 alert 播报。',
+      code: `<FormField label="资源名称" required error="名称不能为空。">
+  <Input placeholder="请输入资源名称" />
+</FormField>`,
+      preview: <FormFieldError />,
+    },
+    {
+      id: 'group',
+      title: '成组字段',
+      description: '多个 FormField 垂直排列；控件自动继承字段上下文。',
+      code: `<div>
+  <FormField label="资源名称" hint="显示在资源列表与详情页。">
+    <Input placeholder="例如：发布检查清单" />
+  </FormField>
+  <FormField label="资源说明" hint="可选，支持多行。">
+    <Textarea rows={3} placeholder="一句话说明用途" />
+  </FormField>
+</div>`,
+      preview: <FormFieldGroup />,
+    },
+  ],
+  input: [
+    {
+      id: 'basic',
+      title: '基础输入',
+      description: '标签、说明与输入由 FormField 关联；placeholder 只作提示。',
+      code: `<FormField label="资源名称" hint="最多 60 个字符。">
+  <Input placeholder="例如：发布检查清单" />
+</FormField>`,
+      preview: <InputBasic />,
+    },
+    {
+      id: 'surface',
+      title: '表面',
+      description: 'outline 为默认；filled 用于强调或分组背景。',
+      code: `<div>
+  <FormField label="描边表面"><Input placeholder="outline（默认）" /></FormField>
+  <FormField label="填充表面"><Input surface="filled" placeholder="filled" /></FormField>
+</div>`,
+      preview: <InputSurface />,
+    },
+    {
+      id: 'states',
+      title: '错误与只读',
+      description: '错误由 FormField 传入；只读保留选择与复制。',
+      code: `<div>
+  <FormField label="资源名称" required error="名称不能为空。">
+    <Input placeholder="请输入资源名称" />
+  </FormField>
+  <FormField label="资源 ID">
+    <Input readOnly value="resource-042" />
+  </FormField>
+</div>`,
+      preview: <InputStates />,
+    },
+  ],
+  textarea: [
+    {
+      id: 'basic',
+      title: '基础多行',
+      description: 'rows 只设初始可见行数；仍保留垂直 resize。',
+      code: `<FormField label="资源说明" hint="支持多行；保留垂直 resize。">
+  <Textarea rows={4} placeholder="一句话说明用途" />
+</FormField>`,
+      preview: <TextareaBasic />,
+    },
+    {
+      id: 'surface',
+      title: '表面',
+      description: '与 Input 使用同一组语义表面。',
+      code: `<div>
+  <FormField label="描边表面"><Textarea rows={3} placeholder="outline（默认）" /></FormField>
+  <FormField label="填充表面"><Textarea rows={3} surface="filled" placeholder="filled" /></FormField>
+</div>`,
+      preview: <TextareaSurface />,
+    },
+    {
+      id: 'states',
+      title: '错误与只读',
+      description: '错误优先于 hint；只读不响应编辑。',
+      code: `<div>
+  <FormField label="资源说明" error="说明不能超过 500 个字符。">
+    <Textarea rows={3} defaultValue="超出长度限制的说明示例。" />
+  </FormField>
+  <FormField label="只读说明">
+    <Textarea rows={3} readOnly value="只读内容保留选择与复制。" />
+  </FormField>
+</div>`,
+      preview: <TextareaStates />,
+    },
+  ],
   select: [
     {
       id: 'basic',
@@ -154,9 +329,12 @@ const typeOptions = [
 ];
 const [type, setType] = useState('');
 
-<FormField label="资源类型" hint="选择后立即生效，当前值会保留在本页。">
-  <Select value={type} onValueChange={setType} options={typeOptions} placeholder="请选择类型" />
-</FormField>`,
+<div>
+  <FormField label="资源类型" hint="选择后立即生效，当前值会保留在本页。">
+    <Select value={type} onValueChange={setType} options={typeOptions} placeholder="请选择类型" />
+  </FormField>
+  <p>当前值：{type || '未选择'}</p>
+</div>`,
       preview: <SelectBasic />,
     },
     {
@@ -207,8 +385,8 @@ const [type, setType] = useState('document');
     { value: 'overview', label: '概览' },
     { value: 'history', label: '历史' },
   ]} />
-  <TabsContent value="overview">概览内容</TabsContent>
-  <TabsContent value="history">历史内容</TabsContent>
+  <TabsContent value="overview"><p>概览：当前资源的摘要与关键状态。</p></TabsContent>
+  <TabsContent value="history"><p>历史：只显示合成示例内容。</p></TabsContent>
 </Tabs>`,
       preview: <TabsBasic />,
     },
@@ -220,14 +398,17 @@ const [type, setType] = useState('document');
 
 const [tab, setTab] = useState('overview');
 
-<Tabs value={tab} onValueChange={setTab}>
-  <TabsList label="受控标签组" items={[
-    { value: 'overview', label: '概览' },
-    { value: 'history', label: '历史' },
-  ]} />
-  <TabsContent value="overview">概览面板。</TabsContent>
-  <TabsContent value="history">历史面板。</TabsContent>
-</Tabs>`,
+<div>
+  <Tabs value={tab} onValueChange={setTab}>
+    <TabsList label="受控标签组" items={[
+      { value: 'overview', label: '概览' },
+      { value: 'history', label: '历史' },
+    ]} />
+    <TabsContent value="overview"><p>概览面板。</p></TabsContent>
+    <TabsContent value="history"><p>历史面板。</p></TabsContent>
+  </Tabs>
+  <p>当前标签：{tab}</p>
+</div>`,
       preview: <TabsControlled />,
     },
     {
@@ -240,8 +421,8 @@ const [tab, setTab] = useState('overview');
     { value: 'history', label: '历史' },
     { value: 'locked', label: '不可用', disabled: true },
   ]} />
-  <TabsContent value="overview">概览面板。</TabsContent>
-  <TabsContent value="history">历史面板。</TabsContent>
+  <TabsContent value="overview"><p>禁用项不会进入方向键与 Tab 顺序。</p></TabsContent>
+  <TabsContent value="history"><p>历史面板。</p></TabsContent>
 </Tabs>`,
       preview: <TabsDisabled />,
     },

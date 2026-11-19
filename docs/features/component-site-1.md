@@ -1,6 +1,6 @@
 # 组件站 1.0
 
-状态：2026-11-17 所有者确认作为下一阶段，P0 垂直切片已实现（`42019fe`）、待复审；P2 外部采用与 P3 Flutter 暂缓。2026-11-18 按所有者确认增补机器可读契约、行为归属与交互行为测试评估，见[契约与行为](#contract-and-behavior-2026-11-18)。
+状态：2026-11-17 所有者确认作为下一阶段；2026-11-19 完成 P0 三页用法复审并进入 P1，首批 FormField / Input / Textarea 已迁入独立页。P2 外部采用与 P3 Flutter 暂缓。2026-11-18 按所有者确认增补机器可读契约、行为归属与交互行为测试评估，见[契约与行为](#contract-and-behavior-2026-11-18)。
 主要归属：E：展示与页面范例（组件文档站）/ C：跨平台通用组件；协同 F：视觉基础、G：工程与交付。
 需求输入：[家族组件需求盘点](family-component-demand.md)；既有组件合同见 [C-02](react-workbench-components.md)，页面范例见 [E-02](workbench-preview.md)。
 
@@ -39,8 +39,8 @@
 
 | 阶段 | 交付 | 状态 |
 | --- | --- | --- |
-| **P0 垂直切片** | 目录页、搜索、Button / Select / Tabs 独立页、API 表、示例、复制、测试 | 已实现（`42019fe`），待复审 |
-| **P1 迁移 27 个** | 现有组件全部进入模板；Card / Section / Table 页面原语一并纳入目录；单页参考退为“全部示例” | 待开始 |
+| **P0 垂直切片** | 目录页、搜索、Button / Select / Tabs 独立页、API 表、示例、复制、测试 | 已实现（`42019fe`），复审完成（2026-11-19） |
+| **P1 迁移 27 个** | 现有组件全部进入模板；Card / Section / Table 页面原语一并纳入目录；单页参考退为“全部示例” | 进行中（首批 FormField / Input / Textarea） |
 | **P2 类型 / API 全量** | 导出缺失 props 类型；JSDoc / 默认值 / 事件 / ref；单一来源生成 API 表与 `llms.txt`，行为归属随 P3 进入同一来源；`--check` 漂移门禁；类型测试与完整性检查 | 待开始 |
 | **P3 用法深度** | 每组件 3+ 示例、变体 / 受控 / 表单 / 组合；代码高亮（新增依赖需确认）；每示例主题 / 密度；逐组件 a11y 与行为归属声明及对应断言（依赖待确认） | 待开始 |
 | **P4 目录扩展** | 按[家族需求盘点](family-component-demand.md)排序；Form、Upload、InputNumber / Slider 等逐项确认 | 待开始 |
@@ -54,22 +54,55 @@ P2 / P3 的生成与声明范围见[契约与行为](#contract-and-behavior-2026
 
 请一名开发者只从目录和 Button、Select、Tabs 三页入手，在本仓示例中选择并导入组件，完成一次选择、切换与键盘操作。记录需要翻源码或额外解释的步骤，以及缺少的参数、状态或示例。能独立完成就提交 P0 复审并转入 P1 迁移；遇到阻碍先修模板或示例，再走相同步骤。复审者暂缺时保留 P0 待复审状态。此项使用本仓工作区，外部采用另行安排。
 
-## P0 已实施范围
+2026-11-19 按此路径完成执行，结果与修正见[用法复审记录](#p0-usage-review-2026-11-19)。
+
+<a id="p0-usage-review-2026-11-19"></a>
+
+## P0 用法复审记录（2026-11-19）
+
+按所有者指示，由 AI 协作者按开发者路径执行三页用法复审；结论与证据：
+
+- 目录：27 个卡片；搜索 button 命中 Button / IconButton；无结果空态可清除；卡片深链进入独立页。
+- Button：导入代码复制与剪贴板一致；3 个示例、9 行 API、3 条键盘说明、2 个相关组件齐全。
+- Select：Enter 展开、方向键移动、Enter 确认；选中「清单」后触发器与「当前值」同步；Escape 关闭并把焦点还给触发器。
+- Tabs：进入标签组后焦点落在当前标签；方向键切换选中；禁用项 `tabIndex=-1` 且被跳过；面板随选中更新。
+- 1440 / 390 无横向溢出，无 pageerror / console error。
+
+当批修正：
+
+1. Select「受控选择」预览显示当前值，代码省略 → 代码补齐同结构。
+2. Tabs 三个示例的预览使用带样式的段落，代码为纯文本；受控示例预览显示当前标签，代码缺失 → 代码补齐面板结构与状态行。
+
+记录但不在 P0 修：Select 的 filled 表面、Tabs 的 size、Button 的表单提交均无示例，归 P3 的变体 / 表单示例。
+
+证据：`output/component-site-p0-review-2026-11-19/`（`review.json` 与三张 1440 截图）。复审结论：三页可独立完成选型、导入、选择与键盘操作；P0 转入 P1。
+
+边界：复审由 AI 协作者执行，没有真实开发者首次上手的时间与困惑数据；后续如有开发者反馈，按同一路径补充。
+
+## 已实施范围（P0 与 P1 首批）
+
+P0 垂直切片与 P1 首批共用以下文件：
 
 - `apps/docs/src/component-catalog.ts`：27 个组件的单一目录数据（id、名称、分组、摘要、状态、是否有独立页）；
 - `apps/docs/src/CatalogPage.tsx`：搜索、分组、计数、空结果与卡片深链；
 - `apps/docs/src/ComponentDetailPage.tsx`：导入、示例、API、键盘 / a11y、相关组件；
-- `apps/docs/src/component-api.ts`：Button / Select / Tabs 的 API 行与导入代码；当前手工镜像导出类型，P2 改为从源码生成；
-- `apps/docs/src/component-pilot-examples.tsx`：3 × 3 个示例，预览使用真实共享组件；
+- `apps/docs/src/component-api.ts`：已迁移组件的 API 行与导入代码（P0 的 Button / Select / Tabs 与 P1 首批 FormField / Input / Textarea）；当前手工镜像导出类型，P2 改为从源码生成；
+- `apps/docs/src/component-pilot-examples.tsx`：已迁移组件的示例（当前 6 × 3），预览使用真实共享组件；
 - `apps/docs/src/CopyButton.tsx`：复制代码 / 导入片段；无第三方依赖；
 - 路由：`#/catalog`、`#/components/<id>`；旧 `#/components` 保留；目录与详情页按路由懒加载，避免主包持续膨胀；
 - 测试：`scripts/component-catalog.test.mjs` 与 `parseRoute` 新用例；`npm run test:catalog` 纳入 `check` 与 PR Checks 的 `web-build`。
+
+## P1 迁移
+
+2026-11-19 开始 P1，按分组迁移。首批为字段组 FormField / Input / Textarea：每件 3 个示例、API 表、键盘 / a11y 与相关组件，目录卡片改为独立页；示例代码与预览使用同一结构。证据在 `output/component-site-p1-2026-11-19/`（1440 / 390、明暗、标签聚焦与错误关联、无 pageerror）。
+
+其余 21 个组件与 Card / Section / Table 页面原语按表单、选择、反馈、导航分组继续；每批仍交付 1440 / 390、明暗、键盘与无 pageerror 证据。
 
 <a id="contract-and-behavior-2026-11-18"></a>
 
 ## 契约与行为（2026-11-18）
 
-2026-11-18 所有者确认三项增补：API 与行为声明的机器可读契约、逐组件行为归属，以及交互行为测试。P0 仍按三页用法复审验收。
+2026-11-18 所有者确认三项增补：API 与行为声明的机器可读契约、逐组件行为归属，以及交互行为测试。P0 已按三页用法复审验收（[记录](#p0-usage-review-2026-11-19)）。
 
 ### 机器可读契约
 
@@ -89,7 +122,7 @@ P2 / P3 的生成与声明范围见[契约与行为](#contract-and-behavior-2026
 | 单选 ToggleGroup 响应方向键 | Radix 移动焦点，RadishUI 在可用项获得焦点时同步选中值。 |
 | Button 进入 loading | RadishUI 保留焦点，设置 `aria-disabled` / `aria-busy` 并拦截重复激活。焦点环遵循 [DR-17](../design/design-rules.md#dr-17)。 |
 
-用途：a11y 声明的依据、回归检查清单、Flutter 端语义对应，以及未来更换行为层时的迁移清单。P3 覆盖已迁移的全部组件（含现有 Button / Select / Tabs）；未迁移或没有真实页面承载的组件不加壳。
+用途：a11y 声明的依据、回归检查清单、Flutter 端语义对应，以及未来更换行为层时的迁移清单。P3 覆盖已迁移的全部组件；未迁移或没有真实页面承载的组件不加壳。
 
 ### 交互行为测试
 

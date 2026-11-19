@@ -21,6 +21,7 @@ function ComponentCard({ entry, t }: { entry: ComponentEntry; t: Translate }) {
 
 export function CatalogPage({ t }: { t: Translate }) {
   const [query, setQuery] = useState('');
+  const detailCount = componentCatalog.filter(component => component.detail).length;
   const entries = useMemo(() => filterComponents(query), [query]);
   const groups = useMemo(() => componentGroups
     .map(group => ({ ...group, entries: entries.filter(entry => entry.group === group.id) }))
@@ -30,8 +31,8 @@ export function CatalogPage({ t }: { t: Translate }) {
     <PageHeader title={t('组件目录', 'Component catalog')} back={{ href: '#/overview', label: t('概览', 'Overview') }}
       actions={<a className="rd-button rd-button--secondary rd-button--sm" href="#/components">{t('全部示例', 'All examples')}</a>} />
     <p className="catalog-intro">
-      {t('按能力浏览共享组件。Button、Select、Tabs 已提供独立文档页；其余组件暂时先进入当前的组件用法页。',
-        'Browse shared components by capability. Button, Select and Tabs have dedicated pages; the rest currently open the single-page reference.')}
+      {t(`按能力浏览共享组件。已有 ${detailCount} 个组件提供独立文档页；其余组件暂时先进入当前的组件用法页。`,
+        `Browse shared components by capability. ${detailCount} components have dedicated pages; the rest currently open the single-page reference.`)}
     </p>
     <div className="catalog-toolbar">
       <div className="catalog-search">
