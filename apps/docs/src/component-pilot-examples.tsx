@@ -1,5 +1,5 @@
 import { useState, type ReactNode } from 'react';
-import { Button, FormField, Input, Select, Tabs, TabsContent, TabsList, Textarea } from '@radish-ui/react';
+import { Button, Checkbox, FormField, Input, InputOTP, RadioGroup, Select, Switch, Tabs, TabsContent, TabsList, TagInput, Textarea } from '@radish-ui/react';
 
 export interface PilotExample {
   id: string;
@@ -113,6 +113,138 @@ function TextareaStates() {
     <FormField label="只读说明">
       <Textarea rows={3} readOnly value="只读内容保留选择与复制。" />
     </FormField>
+  </div>;
+}
+
+function InputOTPBasic() {
+  const [code, setCode] = useState('');
+  return <InputOTP label="验证码" value={code} onValueChange={setCode} hint="6 位数字；粘贴会从当前位填充。" />;
+}
+
+function InputOTPError() {
+  return <InputOTP label="验证码" value="123" onValueChange={() => {}} required error="验证码应为 6 位。" />;
+}
+
+function InputOTPForm() {
+  const [code, setCode] = useState('');
+  const [submitted, setSubmitted] = useState('');
+  return <form className="doc-example-stack" onSubmit={event => { event.preventDefault(); setSubmitted(code); }}>
+    <InputOTP label="验证码" value={code} onValueChange={setCode} name="code" onEnterPress={() => setSubmitted(code)} />
+    <div className="doc-example-row"><Button type="submit">提交验证码</Button></div>
+    <p className="doc-example-note">{submitted ? `已提交：${submitted}` : 'Enter 触发 onEnterPress；提交按钮走表单提交。'}</p>
+  </form>;
+}
+
+function TagInputBasic() {
+  const [tags, setTags] = useState(['发布', '验收']);
+  const [draft, setDraft] = useState('');
+  const add = () => {
+    const next = draft.trim();
+    if (!next) return;
+    if (!tags.includes(next)) setTags([...tags, next]);
+    setDraft('');
+  };
+  return <FormField label="标签" hint="Enter 或按钮添加；空输入 Backspace 删除末项。">
+    <TagInput value={tags} onValueChange={setTags} draft={draft} onDraftChange={setDraft} onAdd={add} addLabel="添加" removeLabel={tag => `移除标签 ${tag}`} />
+  </FormField>;
+}
+
+function TagInputDelete() {
+  const [tags, setTags] = useState(['组件', '令牌']);
+  const [draft, setDraft] = useState('');
+  return <FormField label="标签" hint="输入为空时按 Backspace 删除最后一个标签。">
+    <TagInput value={tags} onValueChange={setTags} draft={draft} onDraftChange={setDraft} onAdd={() => {}} addLabel="添加" removeLabel={tag => `移除标签 ${tag}`} />
+  </FormField>;
+}
+
+function TagInputDisabled() {
+  return <FormField label="标签" hint="禁用时仍可阅读现有标签。">
+    <TagInput value={['只读示例']} onValueChange={() => {}} draft="" onDraftChange={() => {}} onAdd={() => {}} addLabel="添加" removeLabel={tag => `移除标签 ${tag}`} disabled />
+  </FormField>;
+}
+
+function RadioGroupBasic() {
+  const [value, setValue] = useState('document');
+  return <FormField label="资源类型" hint="方向键移动即选中。">
+    <RadioGroup value={value} onValueChange={setValue} options={[
+      { value: 'document', label: '文档' },
+      { value: 'checklist', label: '清单' },
+      { value: 'example', label: '范例' },
+    ]} />
+  </FormField>;
+}
+
+function RadioGroupHorizontal() {
+  const [value, setValue] = useState('standard');
+  return <FormField label="显示密度">
+    <RadioGroup value={value} onValueChange={setValue} orientation="horizontal" options={[
+      { value: 'compact', label: '紧凑' },
+      { value: 'standard', label: '标准' },
+      { value: 'spacious', label: '宽松' },
+    ]} />
+  </FormField>;
+}
+
+function RadioGroupStates() {
+  const [value, setValue] = useState('');
+  return <FormField label="资源类型" required error="请选择一个类型。">
+    <RadioGroup value={value} onValueChange={setValue} options={[
+      { value: 'document', label: '文档' },
+      { value: 'checklist', label: '清单' },
+      { value: 'archived', label: '已归档（不可选）', disabled: true },
+    ]} />
+  </FormField>;
+}
+
+function CheckboxBasic() {
+  const [checked, setChecked] = useState(false);
+  return <Checkbox checked={checked} onChange={event => setChecked(event.target.checked)}>接收发布通知</Checkbox>;
+}
+
+function CheckboxGroup() {
+  const [selected, setSelected] = useState<string[]>(['document']);
+  const toggle = (value: string) => setSelected(current => current.includes(value) ? current.filter(item => item !== value) : [...current, value]);
+  return <div className="doc-example-stack">
+    <Checkbox checked={selected.includes('document')} onChange={() => toggle('document')}>文档</Checkbox>
+    <Checkbox checked={selected.includes('checklist')} onChange={() => toggle('checklist')}>清单</Checkbox>
+    <Checkbox checked={selected.includes('example')} onChange={() => toggle('example')}>范例</Checkbox>
+  </div>;
+}
+
+function CheckboxStates() {
+  return <div className="doc-example-stack">
+    <Checkbox checked onChange={() => {}}>已选中的复选框</Checkbox>
+    <Checkbox disabled>不可用的复选框</Checkbox>
+  </div>;
+}
+
+function SwitchBasic() {
+  const [enabled, setEnabled] = useState(true);
+  return <div className="doc-example-stack">
+    <div className="doc-example-row">
+      <label htmlFor="pref-notifications">接收通知</label>
+      <Switch id="pref-notifications" checked={enabled} onCheckedChange={setEnabled} />
+    </div>
+    <p className="doc-example-note">当前：{enabled ? '开启' : '关闭'}</p>
+  </div>;
+}
+
+function SwitchLabels() {
+  const [enabled, setEnabled] = useState(false);
+  return <div className="doc-example-stack">
+    <div className="doc-example-row">
+      <label htmlFor="pref-digest">每日摘要</label>
+      <Switch id="pref-digest" checked={enabled} onCheckedChange={setEnabled} />
+    </div>
+    <p className="doc-example-note">用外部 label 显式关联，开关本身不渲染文字。</p>
+  </div>;
+}
+
+function SwitchStates() {
+  return <div className="doc-example-stack">
+    <div className="doc-example-row"><label htmlFor="switch-on">已开启</label><Switch id="switch-on" defaultChecked /></div>
+    <div className="doc-example-row"><label htmlFor="switch-off">已关闭</label><Switch id="switch-off" /></div>
+    <div className="doc-example-row"><label htmlFor="switch-disabled">不可用</label><Switch id="switch-disabled" disabled /></div>
   </div>;
 }
 
@@ -425,6 +557,217 @@ const [tab, setTab] = useState('overview');
   <TabsContent value="history"><p>历史面板。</p></TabsContent>
 </Tabs>`,
       preview: <TabsDisabled />,
+    },
+  ],
+  'input-otp': [
+    {
+      id: 'basic',
+      title: '基础验证码',
+      description: '逐位输入数字并自动前进；粘贴多位会从当前位填充。',
+      code: `import { useState } from 'react';
+
+const [code, setCode] = useState('');
+
+<InputOTP label="验证码" value={code} onValueChange={setCode} hint="6 位数字；粘贴会从当前位填充。" />`,
+      preview: <InputOTPBasic />,
+    },
+    {
+      id: 'error',
+      title: '错误与必填',
+      description: 'error 替代 hint 并以 alert 播报，每一位输入都关联错误。',
+      code: `<InputOTP label="验证码" value="123" onValueChange={() => {}} required error="验证码应为 6 位。" />`,
+      preview: <InputOTPError />,
+    },
+    {
+      id: 'form',
+      title: '表单提交',
+      description: '有 onEnterPress 时 Enter 只触发回调；提交按钮保留表单提交。',
+      code: `import { useState } from 'react';
+
+const [code, setCode] = useState('');
+const [submitted, setSubmitted] = useState('');
+
+<form onSubmit={event => { event.preventDefault(); setSubmitted(code); }}>
+  <InputOTP label="验证码" value={code} onValueChange={setCode} name="code" onEnterPress={() => setSubmitted(code)} />
+  <div><Button type="submit">提交验证码</Button></div>
+  <p>{submitted ? '已提交：' + submitted : 'Enter 触发 onEnterPress；提交按钮走表单提交。'}</p>
+</form>`,
+      preview: <InputOTPForm />,
+    },
+  ],
+  'tag-input': [
+    {
+      id: 'basic',
+      title: '基础添加',
+      description: 'Enter 或添加按钮提交草稿；去重与上限由调用方决定。',
+      code: `import { useState } from 'react';
+
+const [tags, setTags] = useState(['发布', '验收']);
+const [draft, setDraft] = useState('');
+function add() {
+  const next = draft.trim();
+  if (!next) return;
+  if (!tags.includes(next)) setTags([...tags, next]);
+  setDraft('');
+}
+
+<FormField label="标签" hint="Enter 或按钮添加；空输入 Backspace 删除末项。">
+  <TagInput value={tags} onValueChange={setTags} draft={draft} onDraftChange={setDraft}
+    onAdd={add} addLabel="添加" removeLabel={tag => '移除标签 ' + tag} />
+</FormField>`,
+      preview: <TagInputBasic />,
+    },
+    {
+      id: 'delete',
+      title: '回退删除',
+      description: '输入框为空时 Backspace 删除最后一个标签，焦点回到输入框。',
+      code: `const [tags, setTags] = useState(['组件', '令牌']);
+const [draft, setDraft] = useState('');
+
+<FormField label="标签" hint="输入为空时按 Backspace 删除最后一个标签。">
+  <TagInput value={tags} onValueChange={setTags} draft={draft} onDraftChange={setDraft}
+    onAdd={() => {}} addLabel="添加" removeLabel={tag => '移除标签 ' + tag} />
+</FormField>`,
+      preview: <TagInputDelete />,
+    },
+    {
+      id: 'disabled',
+      title: '禁用',
+      description: '禁用后输入、添加与删除都不可用，现有标签仍可阅读。',
+      code: `<FormField label="标签" hint="禁用时仍可阅读现有标签。">
+  <TagInput value={['只读示例']} onValueChange={() => {}} draft="" onDraftChange={() => {}}
+    onAdd={() => {}} addLabel="添加" removeLabel={tag => '移除标签 ' + tag} disabled />
+</FormField>`,
+      preview: <TagInputDisabled />,
+    },
+  ],
+  'radio-group': [
+    {
+      id: 'basic',
+      title: '基础单选',
+      description: '方向键移动即选中；FormField 自动关联标签、说明与错误。',
+      code: `import { useState } from 'react';
+
+const [value, setValue] = useState('document');
+
+<FormField label="资源类型" hint="方向键移动即选中。">
+  <RadioGroup value={value} onValueChange={setValue} options={[
+    { value: 'document', label: '文档' },
+    { value: 'checklist', label: '清单' },
+    { value: 'example', label: '范例' },
+  ]} />
+</FormField>`,
+      preview: <RadioGroupBasic />,
+    },
+    {
+      id: 'horizontal',
+      title: '横向排列',
+      description: 'orientation="horizontal" 用于紧凑选项。',
+      code: `const [value, setValue] = useState('standard');
+
+<FormField label="显示密度">
+  <RadioGroup value={value} onValueChange={setValue} orientation="horizontal" options={[
+    { value: 'compact', label: '紧凑' },
+    { value: 'standard', label: '标准' },
+    { value: 'spacious', label: '宽松' },
+  ]} />
+</FormField>`,
+      preview: <RadioGroupHorizontal />,
+    },
+    {
+      id: 'states',
+      title: '必填与禁用',
+      description: 'error 优先于 hint；禁用项被方向键跳过。',
+      code: `const [value, setValue] = useState('');
+
+<FormField label="资源类型" required error="请选择一个类型。">
+  <RadioGroup value={value} onValueChange={setValue} options={[
+    { value: 'document', label: '文档' },
+    { value: 'checklist', label: '清单' },
+    { value: 'archived', label: '已归档（不可选）', disabled: true },
+  ]} />
+</FormField>`,
+      preview: <RadioGroupStates />,
+    },
+  ],
+  checkbox: [
+    {
+      id: 'basic',
+      title: '单个复选',
+      description: '原生 checkbox 与键盘行为；children 提供可见标签。',
+      code: `import { useState } from 'react';
+
+const [checked, setChecked] = useState(false);
+
+<Checkbox checked={checked} onChange={event => setChecked(event.target.checked)}>接收发布通知</Checkbox>`,
+      preview: <CheckboxBasic />,
+    },
+    {
+      id: 'group',
+      title: '复选组',
+      description: '多选用受控数组维护；每个复选框独立聚焦。',
+      code: `const [selected, setSelected] = useState<string[]>(['document']);
+const toggle = (value: string) => setSelected(current =>
+  current.includes(value) ? current.filter(item => item !== value) : [...current, value]);
+
+<div>
+  <Checkbox checked={selected.includes('document')} onChange={() => toggle('document')}>文档</Checkbox>
+  <Checkbox checked={selected.includes('checklist')} onChange={() => toggle('checklist')}>清单</Checkbox>
+  <Checkbox checked={selected.includes('example')} onChange={() => toggle('example')}>范例</Checkbox>
+</div>`,
+      preview: <CheckboxGroup />,
+    },
+    {
+      id: 'states',
+      title: '选中与禁用',
+      description: '禁用不进入 Tab 顺序；选中态与焦点分别呈现。',
+      code: `<div>
+  <Checkbox checked onChange={() => {}}>已选中的复选框</Checkbox>
+  <Checkbox disabled>不可用的复选框</Checkbox>
+</div>`,
+      preview: <CheckboxStates />,
+    },
+  ],
+  switch: [
+    {
+      id: 'basic',
+      title: '受控开关',
+      description: 'checked / onCheckedChange 由调用方持有。',
+      code: `import { useState } from 'react';
+
+const [enabled, setEnabled] = useState(true);
+
+<div>
+  <div>
+    <label htmlFor="pref-notifications">接收通知</label>
+    <Switch id="pref-notifications" checked={enabled} onCheckedChange={setEnabled} />
+  </div>
+  <p>当前：{enabled ? '开启' : '关闭'}</p>
+</div>`,
+      preview: <SwitchBasic />,
+    },
+    {
+      id: 'labels',
+      title: '标签关联',
+      description: 'Switch 不渲染文字，用外部 label 的 htmlFor 关联。',
+      code: `const [enabled, setEnabled] = useState(false);
+
+<div>
+  <label htmlFor="pref-digest">每日摘要</label>
+  <Switch id="pref-digest" checked={enabled} onCheckedChange={setEnabled} />
+</div>`,
+      preview: <SwitchLabels />,
+    },
+    {
+      id: 'states',
+      title: '状态',
+      description: '非受控、选中与禁用三种状态。',
+      code: `<div>
+  <div><label htmlFor="switch-on">已开启</label><Switch id="switch-on" defaultChecked /></div>
+  <div><label htmlFor="switch-off">已关闭</label><Switch id="switch-off" /></div>
+  <div><label htmlFor="switch-disabled">不可用</label><Switch id="switch-disabled" disabled /></div>
+</div>`,
+      preview: <SwitchStates />,
     },
   ],
 };
