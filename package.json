@@ -24,6 +24,7 @@
     "check:notices": "node scripts/generate-notices.mjs --check",
     "check:tokens": "node scripts/generate-tokens.mjs --check",
     "tokens:generate": "node scripts/generate-tokens.mjs",
+    "llms:generate": "node scripts/generate-llms.mjs",
     "type-check": "tsc --noEmit"
   },
   "devDependencies": {

@@ -1,7 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import { componentCatalog, componentGroups, filterComponents, findComponent, groupLabel } from '../apps/docs/src/component-catalog.ts';
 import { pilotDocs } from '../apps/docs/src/component-api.ts';
+import { buildLlmsText } from './generate-llms.mjs';
 
 test('component catalog has unique, routable ids and known groups', () => {
   assert.equal(componentCatalog.length, 30);
@@ -27,6 +29,11 @@ test('pilot entries have API rows and a dedicated page', () => {
     assert.match(doc.importCode, new RegExp(`from '@radish-ui/react'`), component.id);
   }
   for (const id of Object.keys(pilotDocs)) assert.equal(findComponent(id)?.detail, true, id);
+});
+
+test('llms.txt matches generated component contracts', () => {
+  const file = new URL('../apps/docs/public/llms.txt', import.meta.url);
+  assert.equal(readFileSync(file, 'utf8'), buildLlmsText());
 });
 
 test('catalog search filters names, summaries and group labels', () => {

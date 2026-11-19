@@ -78,7 +78,8 @@ export function Menu({ trigger, items, label, align = 'end' }: MenuProps) {
   </DropdownMenu.Root>;
 }
 
-export function Tooltip({ content, children }: { content: string; children: ReactElement }) {
+export interface TooltipProps { content: string; children: ReactElement }
+export function Tooltip({ content, children }: TooltipProps) {
   return <TooltipPrimitive.Provider delayDuration={400}><TooltipPrimitive.Root>
     <TooltipPrimitive.Trigger asChild>{children}</TooltipPrimitive.Trigger>
     <TooltipPrimitive.Portal><TooltipPrimitive.Content className="rd-tooltip" sideOffset={7} collisionPadding={12}>

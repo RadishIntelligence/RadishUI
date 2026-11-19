@@ -55,7 +55,8 @@ export function TabsContent({ className = '', ...props }: ComponentPropsWithoutR
 }
 
 export type StatusTone = 'neutral' | 'success' | 'warning' | 'danger' | 'info';
-export function StatusBadge({ tone = 'neutral', children, className = '' }: { tone?: StatusTone; children: ReactNode; className?: string }) {
+export interface StatusBadgeProps { tone?: StatusTone; children: ReactNode; className?: string }
+export function StatusBadge({ tone = 'neutral', children, className = '' }: StatusBadgeProps) {
   return <span className={`rd-badge rd-badge--${tone} ${className}`}>{children}</span>;
 }
 
