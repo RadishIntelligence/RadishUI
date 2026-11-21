@@ -1,6 +1,6 @@
 # 组件站 1.0
 
-状态：2026-11-17 所有者确认作为下一阶段；2026-11-19 完成 P0 三页用法复审并进入 P1，P1 同日完成：30 个条目（27 个组件与 Card / Section / Table 页面原语）均有独立页；P2 待开始。P2 外部采用与 P3 Flutter 暂缓。2026-11-18 按所有者确认增补机器可读契约、行为归属与交互行为测试评估，见[契约与行为](#contract-and-behavior-2026-11-18)。
+状态：2026-11-17 所有者确认作为下一阶段；2026-11-19 完成 P0 三页用法复审并进入 P1，P1 同日完成：30 个条目（27 个组件与 Card / Section / Table 页面原语）均有独立页；2026-11-21 完成 P2 的源码类型、JSDoc 与默认值生成，手写契约只保留回退字段。P2 外部采用与 P3 Flutter 暂缓。2026-11-18 按所有者确认增补机器可读契约、行为归属与交互行为测试评估，见[契约与行为](#contract-and-behavior-2026-11-18)。
 主要归属：E：展示与页面范例（组件文档站）/ C：跨平台通用组件；协同 F：视觉基础、G：工程与交付。
 需求输入：[家族组件需求盘点](family-component-demand.md)；既有组件合同见 [C-02](react-workbench-components.md)，页面范例见 [E-02](workbench-preview.md)。
 
@@ -41,7 +41,7 @@
 | --- | --- | --- |
 | **P0 垂直切片** | 目录页、搜索、Button / Select / Tabs 独立页、API 表、示例、复制、测试 | 已实现（`42019fe`），复审完成（2026-11-19） |
 | **P1 迁移 27 个** | 现有组件全部进入模板；Card / Section / Table 页面原语一并纳入目录；单页参考退为“全部示例” | 已完成（30 个条目） |
-| **P2 类型 / API 全量** | 导出缺失 props 类型；JSDoc / 默认值 / 事件 / ref；单一来源生成 API 表与 `llms.txt`，行为归属随 P3 进入同一来源；`--check` 漂移门禁；类型测试与完整性检查 | 进行中（API 表与 `llms.txt` 已由源码类型 + 契约数据生成；描述 / 默认值仍手写） |
+| **P2 类型 / API 全量** | 导出缺失 props 类型；JSDoc / 默认值 / 事件 / ref；单一来源生成 API 表与 `llms.txt`，行为归属随 P3 进入同一来源；`--check` 漂移门禁；类型测试与完整性检查 | 已完成（2026-11-21）：类型、JSDoc 说明、解构默认值与事件签名由源码生成；原生 / Radix 继承属性、union 类型与未解构默认值保留契约回退 |
 | **P3 用法深度** | 每组件 3+ 示例、变体 / 受控 / 表单 / 组合；代码高亮（新增依赖需确认）；每示例主题 / 密度；逐组件 a11y 与行为归属声明及对应断言（依赖待确认） | 待开始 |
 | **P4 目录扩展** | 按[家族需求盘点](family-component-demand.md)排序；Form、Upload、InputNumber / Slider 等逐项确认 | 待开始 |
 | **P5 站点能力** | 版本 / 变更记录、状态与弃用、双语文档、图标参考、站点搜索索引；公开安装 / CLI / registry 属 P4 发行 | 待开始 |
@@ -86,7 +86,7 @@ P0 垂直切片与 P1 首批共用以下文件：
 - `apps/docs/src/component-catalog.ts`：27 个组件的单一目录数据（id、名称、分组、摘要、状态、是否有独立页）；
 - `apps/docs/src/CatalogPage.tsx`：搜索、分组、计数、空结果与卡片深链；
 - `apps/docs/src/ComponentDetailPage.tsx`：导入、示例、API、键盘 / a11y、相关组件；
-- `apps/docs/src/component-api.ts`：已迁移组件的 API 行与导入代码（P0 的 Button / Select / Tabs 与 P1 首批 FormField / Input / Textarea）；当前手工镜像导出类型，P2 改为从源码生成；
+- `apps/docs/src/component-api.ts`：组件导入代码、键盘 / 相关组件与 API 回退行（原生 / Radix 继承属性、union 类型、`其余属性` 与未解构默认值）；P2 起 props 类型、说明与可解构默认值由 `packages/react/src` 生成到 `component-api.generated.ts`；
 - `apps/docs/src/component-pilot-examples.tsx`：已迁移组件的示例（当前 6 × 3），预览使用真实共享组件；
 - `apps/docs/src/CopyButton.tsx`：复制代码 / 导入片段；无第三方依赖；
 - 路由：`#/catalog`、`#/components/<id>`；旧 `#/components` 保留；目录与详情页按路由懒加载，避免主包持续膨胀；
@@ -111,14 +111,24 @@ P1 完成：30 个条目均有独立页；目录新增「页面原语」分组�
 
 - 类型：补齐并导出 `StatusBadgeProps`、`TooltipProps`，其余组件的 props 类型已导出。
 - 契约：`scripts/generate-llms.mjs` 从组件目录与 `component-api.ts` 生成 `apps/docs/public/llms.txt`；`npm run llms:generate` 更新，`--check` 与 `test:catalog` 用例比较漂移，构建产物包含 `dist/llms.txt`。
-- 下一步：把默认值与描述逐步迁入 JSDoc，再缩减手写契约。
+- 下一步：把默认值与描述逐步迁入 JSDoc，再缩减手写契约（2026-11-21 已收尾，见下文）。
 
 ## P2 源码类型生成（2026-11-21）
 
 - 类型：补齐 `InputProps`、`TextareaProps`、`SwitchProps`、`TabsProps`、`TabsContentProps` 并导出；`SwitchProps` 与 `SkeletonProps` 改用包含 ref 的 `ComponentProps`。
 - 生成：`scripts/generate-api.mjs` 读取 `packages/react/src` 的导出 props 类型，与 `component-api.ts` 的描述 / 默认值合并，生成 `apps/docs/src/component-api.generated.ts`；组件页 API 表与 `llms.txt` 都消费该产物。
 - 校验：每个 API 行必须能在源码类型中找到，源码中公开声明的 props 必须登记；`--check` 与 `test:catalog` 新增用例比对生成文件，随现有 `check` 与 PR `web-build` 生效。
-- 未覆盖：union 类型（ToggleGroup / Accordion）保留手写类型文本；默认值与描述仍在契约数据；`ref` 等原生 / Radix 继承属性沿用契约文本，只做存在性校验。
+- 未覆盖：union 类型（ToggleGroup / Accordion）保留手写类型文本；默认值与描述仍在契约数据；`ref` 等原生 / Radix 继承属性沿用契约文本，只做存在性校验。以上三项在 P2 收尾中处理：union 与继承属性按设计保留契约回退，自有 props 的描述与可解构默认值改为源码生成。
+
+## P2 收尾：JSDoc 与默认值生成（2026-11-21）
+
+- 默认值：`scripts/generate-api.mjs` 从组件函数参数（含 `const { ... } = props`）的解构默认值提取 `defaultValue` 写入生成物；契约中重复声明的默认值删除。源码无法解构的语义默认值（原生布尔缺省、Radix 默认与未解构 props）仍由契约回退。
+- 描述：仓库自有 props 的中文说明迁入 `packages/react/src` 的 JSDoc，生成器优先读取 JSDoc；原生 / Radix 继承属性、union 类型（ToggleGroup / Accordion）、`其余属性` 行回退到契约文本。
+- 契约：`component-api.ts` 只保留生成器无法推导的字段；`component-api-types.ts` 新增 `AuthoredApiRow` / `AuthoredPilotDoc`，生成器在自有 props 仍手写类型 / 必填 / 描述、重复声明默认值或缺少 JSDoc 时失败。
+- 修正：函数签名（如 `onValueChange`、`onOpenChange`、`removeLabel`）此前被读成返回类型 `void` / 参数类型；现按方法签名生成完整函数类型。`FieldSurface` 从 `@radish-ui/react` 导出，供 API 表引用。
+- 生成物差异：`component-api.generated.ts` 与 `llms.txt` 各 31 行差异（30 行 API 记录与 1 行来源说明），其中 23 行类型修正（17 行函数签名、6 行类型别名 `FieldSurface` / `StatusTone` / `CardTone` / `CardPadding`）、7 行描述去重（IconButton 复用 Button、Drawer 复用 Dialog、Card / Section / Table 英文 JSDoc 改中文）；默认值文本未变。
+- 回退清单：93 行仍依赖契约回退，其中 68 行原生 / Radix 继承属性、16 行 union 类型、5 行 `其余属性`、4 行自有 props 的默认值；默认值回退共 11 项：`button.disabled`、`form-field.required`、`textarea.readOnly`、`select.disabled` / `select.required`、`tag-input.disabled`、`icon-button.disabled` / `icon-button.type`、`accordion.type` / `accordion.collapsible`、`toggle-group.type`。
+- 验证：操作 / 字段 / 选择 / 反馈 / 导航 / 页面原语六组分别运行 `npm run api:generate`、`npm run llms:generate`、`npm run test:catalog`、`npm run check`、`npm run build` 通过；`test:catalog` 新增契约回退、源码默认值与函数类型断言（7 项）。未改运行时行为、未新增依赖；本轮实现已本地提交（`780cbcd`），未推送、未部署。
 
 <a id="contract-and-behavior-2026-11-18"></a>
 
@@ -131,7 +141,7 @@ P1 完成：30 个条目均有独立页；目录新增「页面原语」分组�
 - P2 以组件源码导出的 props 类型、JSDoc 和组件目录元数据为输入。P3 接入一份逐组件的行为归属与可访问性声明，记录键盘、焦点、ARIA 和已知限制。
 - 生成消费：组件页 API 表、`llms.txt`（站点产物与未来发行包内文档目录共用同一份）与类型 / 完整性检查。沿用 token 管线的生成 + `--check` 范式，不手改生成物。
 - `llms.txt` 只描述已实现能力与 import 路径，不承诺未发布的包名、CLI 或 registry；P4 发行前只随展示站产出，不写进 npm 包路径。
-- 判定：结构可解析、覆盖全部导出、示例能按其中 import 运行；生成物与源码漂移由 `npm run check` 拦截。2026-11-19 已落地 `llms.txt` 生成与 `test:catalog` 漂移检查；2026-11-21 起组件页 API 表由源码类型与契约数据共同生成，描述 / 默认值仍手写，JSDoc 迁移待续。
+- 判定：结构可解析、覆盖全部导出、示例能按其中 import 运行；生成物与源码漂移由 `npm run check` 拦截。2026-11-19 已落地 `llms.txt` 生成与 `test:catalog` 漂移检查；2026-11-21 起组件页 API 表与 `llms.txt` 由源码 props 类型、JSDoc、解构默认值与契约回退数据生成；手写契约只保留原生 / Radix 继承属性、union 类型与无法解构的默认值。
 
 ### 行为归属
 
