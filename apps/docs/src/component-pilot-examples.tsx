@@ -262,6 +262,21 @@ function RadioGroupStates() {
   </FormField>;
 }
 
+function RadioGroupForm() {
+  const [value, setValue] = useState('document');
+  const [submitted, setSubmitted] = useState('');
+  return <form className="doc-example-stack" onSubmit={event => {
+    event.preventDefault();
+    setSubmitted(String(new FormData(event.currentTarget).get('type') ?? ''));
+  }}>
+    <FormField label="资源类型" required hint="name 让单选值进入原生表单提交。">
+      <RadioGroup name="type" value={value} onValueChange={setValue} options={typeOptions} />
+    </FormField>
+    <div className="doc-example-row"><Button type="submit" variant="secondary">提交表单</Button></div>
+    <p className="doc-example-note">{submitted ? `已提交：${submitted}` : '尚未提交。'}</p>
+  </form>;
+}
+
 function CheckboxBasic() {
   const [checked, setChecked] = useState(false);
   return <Checkbox checked={checked} onChange={event => setChecked(event.target.checked)}>接收发布通知</Checkbox>;
@@ -282,6 +297,28 @@ function CheckboxStates() {
     <Checkbox checked onChange={() => {}}>已选中的复选框</Checkbox>
     <Checkbox disabled>不可用的复选框</Checkbox>
   </div>;
+}
+
+function CheckboxGroupError() {
+  const options = ['发布记录', '验收步骤', '回滚方案'];
+  const [selected, setSelected] = useState<string[]>([]);
+  const [error, setError] = useState('');
+  return <form className="doc-example-stack" onSubmit={event => {
+    event.preventDefault();
+    setError(selected.length === 0 ? '至少选择一项检查项。' : '');
+  }}>
+    <FormField label="发布检查" required error={error || undefined} hint="组内多个复选框需调用方自行校验。">
+      <div className="doc-example-stack">
+        {options.map(option => <Checkbox key={option} checked={selected.includes(option)}
+          onChange={event => {
+            setSelected(current => event.target.checked ? [...current, option] : current.filter(value => value !== option));
+            if (error) setError('');
+          }}>{option}</Checkbox>)}
+      </div>
+    </FormField>
+    <div className="doc-example-row"><Button type="submit" variant="secondary">提交检查</Button></div>
+    <p className="doc-example-note">{selected.length ? `已选：${selected.join('、')}` : '尚未选择。'}</p>
+  </form>;
 }
 
 function SwitchBasic() {
@@ -350,6 +387,28 @@ function DialogLoading() {
     <Dialog open={open} onOpenChange={setOpen} title="正在发布" closeDisabled
       footer={<Button loading>发布中</Button>}>
       <p>处理中不能使用头部关闭按钮；完成后才能关闭。</p>
+    </Dialog>
+  </>;
+}
+
+function DialogForm() {
+  const [open, setOpen] = useState(false);
+  const [name, setName] = useState('');
+  const [saved, setSaved] = useState('');
+  const close = () => setOpen(false);
+  return <>
+    <div className="doc-example-row">
+      <Button onClick={() => setOpen(true)}>编辑资源</Button>
+      {saved && <p className="doc-example-note">已保存：{saved}</p>}
+    </div>
+    <Dialog open={open} onOpenChange={setOpen} title="编辑资源" description="表单在对话框内完成；关闭后焦点回到入口。"
+      footer={<>
+        <Button variant="secondary" onClick={close}>取消</Button>
+        <Button disabled={!name.trim()} onClick={() => { setSaved(name.trim()); close(); }}>保存</Button>
+      </>}>
+      <FormField label="资源名称" hint="保存后关闭对话框并回到「编辑资源」。">
+        <Input value={name} onChange={event => setName(event.target.value)} placeholder="例如：发布检查清单" />
+      </FormField>
     </Dialog>
   </>;
 }
@@ -494,6 +553,20 @@ function InlineAlertLong() {
   return <InlineAlert tone="danger" title="同步失败">
     <p>服务器暂时不可用，本地草稿已保留。恢复网络后重试，或稍后再打开此页。</p>
   </InlineAlert>;
+}
+
+function InlineAlertAction() {
+  const [message, setMessage] = useState('');
+  return <div className="doc-example-stack">
+    <InlineAlert tone="warning" title="待处理">
+      有 2 个标签待确认，确认后才能发布。
+      <div className="doc-example-row" style={{ marginTop: 8 }}>
+        <Button size="sm" variant="secondary" onClick={() => setMessage('已打开标签确认。')}>确认标签</Button>
+        <Button size="sm" variant="ghost" onClick={() => setMessage('已稍后处理。')}>稍后处理</Button>
+      </div>
+    </InlineAlert>
+    <p className="doc-example-note">{message || '提示内可放操作入口，但错误文案本身仍需保留在页面。'}</p>
+  </div>;
 }
 
 function SkeletonBasic() {
@@ -708,6 +781,17 @@ function PaginationSingle() {
   return <Pagination page={1} pageCount={1} pageSize={10} totalItems={8} onPageChange={() => {}} onPageSizeChange={() => {}} />;
 }
 
+function PaginationJump() {
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const total = 76;
+  return <div className="doc-example-stack">
+    <Pagination page={page} pageCount={Math.ceil(total / pageSize)} pageSize={pageSize} totalItems={total}
+      onPageChange={setPage} onPageSizeChange={size => { setPageSize(size); setPage(1); }} />
+    <p className="doc-example-note">跳页输入非法值时提示 1–总页数之间的整数；按 Enter 提交。</p>
+  </div>;
+}
+
 function TocBasic() {
   const [current, setCurrent] = useState('import');
   return <TableOfContents label="页内目录" currentId={current} onNavigate={(id, event) => { event.preventDefault(); setCurrent(id); }} items={[
@@ -737,6 +821,22 @@ function TocNavigate() {
   </div>;
 }
 
+function TocSections() {
+  const [current, setCurrent] = useState('toc-overview');
+  const items = [
+    { id: 'toc-overview', text: '概览' },
+    { id: 'toc-settings', text: '设置' },
+    { id: 'toc-history', text: '历史' },
+  ];
+  return <div className="doc-example-stack">
+    <TableOfContents label="页面章节" currentId={current} onNavigate={(id, event) => { event.preventDefault(); setCurrent(id); }} items={items} />
+    <Section title="概览" id="toc-overview"><p className="doc-example-note">当前项由页面状态驱动，目录不监听滚动。</p></Section>
+    <Section title="设置" id="toc-settings"><p className="doc-example-note">点击目录切换 currentId，aria-current 随更新。</p></Section>
+    <Section title="历史" id="toc-history"><p className="doc-example-note">示例只更新目录状态，不改变站点路由。</p></Section>
+    <p className="doc-example-note">当前：{current}</p>
+  </div>;
+}
+
 function CardBasic() {
   return <Card>
     <h3>发布检查清单</h3>
@@ -755,6 +855,21 @@ function CardTones() {
 function CardLink() {
   return <Card asChild padding="sm">
     <a href="#/catalog">打开组件目录 →</a>
+  </Card>;
+}
+
+function CardActions() {
+  return <Card tone="surface" padding="md">
+    <div className="doc-example-stack">
+      <div>
+        <strong>发布检查清单</strong>
+        <p className="doc-example-note">卡片内容与操作由调用方组合；卡片本身不加 role 或点击。</p>
+      </div>
+      <div className="doc-example-row">
+        <Button size="sm" variant="secondary">查看详情</Button>
+        <Button size="sm">发布</Button>
+      </div>
+    </div>
   </Card>;
 }
 
@@ -804,6 +919,21 @@ function TableLong() {
       <tr><td>接口规范与迁移记录</td><td>第二行内容。</td></tr>
     </tbody>
   </Table>;
+}
+
+function TableActions() {
+  return <div className="doc-example-stack">
+    <Table label="资源操作列表">
+      <thead><tr><th scope="col">资源</th><th scope="col">状态</th><th scope="col">操作</th></tr></thead>
+      <tbody>
+        <tr><td>发布检查清单</td><td><StatusBadge tone="success">已发布</StatusBadge></td>
+          <td><IconButton label="编辑发布检查清单" size="sm" variant="secondary"><Pencil size={14} /></IconButton></td></tr>
+        <tr><td>接口规范</td><td><StatusBadge tone="warning">审核中</StatusBadge></td>
+          <td><IconButton label="编辑接口规范" size="sm" variant="secondary"><Pencil size={14} /></IconButton></td></tr>
+      </tbody>
+    </Table>
+    <p className="doc-example-note">表格只负责结构；行内状态与操作由调用方组合，操作按钮保留独立可访问名称。</p>
+  </div>;
 }
 
 function SelectBasic() {
@@ -1426,6 +1556,31 @@ const [value, setValue] = useState('document');
 </FormField>`,
       preview: <RadioGroupStates />,
     },
+    {
+      id: 'form',
+      title: '表单提交',
+      description: 'name 让单选值进入原生表单提交；required 由字段上下文传给控件。',
+      code: `import { useState } from 'react';
+
+const [value, setValue] = useState('document');
+const [submitted, setSubmitted] = useState('');
+
+<form onSubmit={event => {
+  event.preventDefault();
+  setSubmitted(String(new FormData(event.currentTarget).get('type') ?? ''));
+}}>
+  <FormField label="资源类型" required hint="name 让单选值进入原生表单提交。">
+    <RadioGroup name="type" value={value} onValueChange={setValue} options={[
+      { value: 'document', label: '文档' },
+      { value: 'checklist', label: '清单' },
+      { value: 'example', label: '范例' },
+    ]} />
+  </FormField>
+  <div><Button type="submit" variant="secondary">提交表单</Button></div>
+  <p>{submitted ? '已提交：' + submitted : '尚未提交。'}</p>
+</form>`,
+      preview: <RadioGroupForm />,
+    },
   ],
   checkbox: [
     {
@@ -1463,6 +1618,34 @@ const toggle = (value: string) => setSelected(current =>
   <Checkbox disabled>不可用的复选框</Checkbox>
 </div>`,
       preview: <CheckboxStates />,
+    },
+    {
+      id: 'validation',
+      title: '复选组校验',
+      description: '组内多个复选框由调用方校验；错误通过 FormField 关联并以 alert 播报。',
+      code: `import { useState } from 'react';
+
+const options = ['发布记录', '验收步骤', '回滚方案'];
+const [selected, setSelected] = useState<string[]>([]);
+const [error, setError] = useState('');
+
+<form onSubmit={event => {
+  event.preventDefault();
+  setError(selected.length === 0 ? '至少选择一项检查项。' : '');
+}}>
+  <FormField label="发布检查" required error={error || undefined} hint="组内多个复选框需调用方自行校验。">
+    <div>
+      {options.map(option => <Checkbox key={option} checked={selected.includes(option)}
+        onChange={event => setSelected(current =>
+          event.target.checked ? [...current, option] : current.filter(value => value !== option))}>
+        {option}
+      </Checkbox>)}
+    </div>
+  </FormField>
+  <div><Button type="submit" variant="secondary">提交检查</Button></div>
+  <p>{selected.length ? '已选：' + selected.join('、') : '尚未选择。'}</p>
+</form>`,
+      preview: <CheckboxGroupError />,
     },
   ],
   switch: [
@@ -1560,6 +1743,33 @@ const nameRef = useRef<HTMLInputElement>(null);
   <p>处理中不能使用头部关闭按钮；完成后才能关闭。</p>
 </Dialog>`,
       preview: <DialogLoading />,
+    },
+    {
+      id: 'form',
+      title: '表单对话框',
+      description: '对话框内承载表单与校验；保存后关闭并把焦点还给入口。',
+      code: `import { useState } from 'react';
+
+const [open, setOpen] = useState(false);
+const [name, setName] = useState('');
+const [saved, setSaved] = useState('');
+
+<>
+  <div>
+    <Button onClick={() => setOpen(true)}>编辑资源</Button>
+    {saved && <p>已保存：{saved}</p>}
+  </div>
+  <Dialog open={open} onOpenChange={setOpen} title="编辑资源" description="表单在对话框内完成；关闭后焦点回到入口。"
+    footer={<>
+      <Button variant="secondary" onClick={() => setOpen(false)}>取消</Button>
+      <Button disabled={!name.trim()} onClick={() => { setSaved(name.trim()); setOpen(false); }}>保存</Button>
+    </>}>
+    <FormField label="资源名称" hint="保存后关闭对话框并回到「编辑资源」。">
+      <Input value={name} onChange={event => setName(event.target.value)} placeholder="例如：发布检查清单" />
+    </FormField>
+  </Dialog>
+</>`,
+      preview: <DialogForm />,
     },
   ],
   drawer: [
@@ -1758,6 +1968,26 @@ const [loading, setLoading] = useState(false);
   <p>服务器暂时不可用，本地草稿已保留。恢复网络后重试，或稍后再打开此页。</p>
 </InlineAlert>`,
       preview: <InlineAlertLong />,
+    },
+    {
+      id: 'action',
+      title: '带操作入口',
+      description: '提示正文可包含操作按钮；错误文案本身仍需保留在页面。',
+      code: `import { useState } from 'react';
+
+const [message, setMessage] = useState('');
+
+<div>
+  <InlineAlert tone="warning" title="待处理">
+    有 2 个标签待确认，确认后才能发布。
+    <div>
+      <Button size="sm" variant="secondary" onClick={() => setMessage('已打开标签确认。')}>确认标签</Button>
+      <Button size="sm" variant="ghost" onClick={() => setMessage('已稍后处理。')}>稍后处理</Button>
+    </div>
+  </InlineAlert>
+  <p>{message || '提示内可放操作入口，但错误文案本身仍需保留在页面。'}</p>
+</div>`,
+      preview: <InlineAlertAction />,
     },
   ],
   skeleton: [
@@ -2085,6 +2315,20 @@ const total = 42;
   onPageChange={() => {}} onPageSizeChange={() => {}} />`,
       preview: <PaginationSingle />,
     },
+    {
+      id: 'jump',
+      title: '跳页与校验',
+      description: '跳页输入按 Enter 提交；非法值提示 1–总页数之间的整数。',
+      code: `import { useState } from 'react';
+
+const [page, setPage] = useState(1);
+const [pageSize, setPageSize] = useState(10);
+const total = 76;
+
+<Pagination page={page} pageCount={Math.ceil(total / pageSize)} pageSize={pageSize} totalItems={total}
+  onPageChange={setPage} onPageSizeChange={size => { setPageSize(size); setPage(1); }} />`,
+      preview: <PaginationJump />,
+    },
   ],
   'table-of-contents': [
     {
@@ -2127,6 +2371,29 @@ const total = 42;
   ]} />`,
       preview: <TocNavigate />,
     },
+    {
+      id: 'sections',
+      title: '与页面分区联动',
+      description: '目录与页面分区组合；currentId 由页面驱动，组件不监听滚动。',
+      code: `import { useState } from 'react';
+
+const [current, setCurrent] = useState('toc-overview');
+const items = [
+  { id: 'toc-overview', text: '概览' },
+  { id: 'toc-settings', text: '设置' },
+  { id: 'toc-history', text: '历史' },
+];
+
+<div>
+  <TableOfContents label="页面章节" currentId={current}
+    onNavigate={(id, event) => { event.preventDefault(); setCurrent(id); }} items={items} />
+  <Section title="概览" id="toc-overview"><p>当前项由页面状态驱动，目录不监听滚动。</p></Section>
+  <Section title="设置" id="toc-settings"><p>点击目录切换 currentId，aria-current 随更新。</p></Section>
+  <Section title="历史" id="toc-history"><p>示例只更新目录状态，不改变站点路由。</p></Section>
+  <p>当前：{current}</p>
+</div>`,
+      preview: <TocSections />,
+    },
   ],
   card: [
     {
@@ -2158,6 +2425,24 @@ const total = 42;
   <a href="#/catalog">打开组件目录 →</a>
 </Card>`,
       preview: <CardLink />,
+    },
+    {
+      id: 'actions',
+      title: '带操作的卡片',
+      description: '内容与操作由调用方组合；卡片本身不声明 role 或点击行为。',
+      code: `<Card tone="surface" padding="md">
+  <div>
+    <div>
+      <strong>发布检查清单</strong>
+      <p>卡片内容与操作由调用方组合；卡片本身不加 role 或点击。</p>
+    </div>
+    <div>
+      <Button size="sm" variant="secondary">查看详情</Button>
+      <Button size="sm">发布</Button>
+    </div>
+  </div>
+</Card>`,
+      preview: <CardActions />,
     },
   ],
   section: [
@@ -2228,6 +2513,21 @@ const total = 42;
   </tbody>
 </Table>`,
       preview: <TableLong />,
+    },
+    {
+      id: 'actions',
+      title: '行内状态与操作',
+      description: '表格只负责结构；行内状态与操作由调用方组合，操作按钮保留独立可访问名称。',
+      code: `<Table label="资源操作列表">
+  <thead><tr><th scope="col">资源</th><th scope="col">状态</th><th scope="col">操作</th></tr></thead>
+  <tbody>
+    <tr><td>发布检查清单</td><td><StatusBadge tone="success">已发布</StatusBadge></td>
+      <td><IconButton label="编辑发布检查清单" size="sm" variant="secondary"><Pencil size={14} /></IconButton></td></tr>
+    <tr><td>接口规范</td><td><StatusBadge tone="warning">审核中</StatusBadge></td>
+      <td><IconButton label="编辑接口规范" size="sm" variant="secondary"><Pencil size={14} /></IconButton></td></tr>
+  </tbody>
+</Table>`,
+      preview: <TableActions />,
     },
   ],
 };
