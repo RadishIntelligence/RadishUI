@@ -4,6 +4,7 @@ import { PageHeader } from './PageHeader';
 import { CopyButton } from './CopyButton';
 import { findComponent, type ComponentEntry } from './component-catalog';
 import { pilotDocs } from './component-api.generated';
+import { behaviorSourceLabels, behaviorTopicLabels } from './component-api-types';
 import { pilotExamples } from './component-pilot-examples';
 import './component-site.css';
 
@@ -92,7 +93,24 @@ export function ComponentDetailPage({ id, t }: { id: string; t: Translate }) {
 
     <section className="doc-section" aria-labelledby="doc-keyboard">
       <h2 id="doc-keyboard">{t('键盘与可访问性', 'Keyboard and accessibility')}</h2>
-      <ul className="doc-keyboard">{doc.keyboard.map(item => <li key={item}>{item}</li>)}</ul>
+      <div className="doc-behavior-scroll" tabIndex={0} role="region"
+        aria-label={t('行为与可访问性声明，可横向滚动', 'Behavior and accessibility declarations, horizontally scrollable')}>
+        <table className="doc-behavior">
+          <caption className="sr-only">{t(`${entry.name} 的行为来源与可访问性声明`, `${entry.name} behavior sources and accessibility declarations`)}</caption>
+          <thead><tr>
+            <th scope="col">{t('主题', 'Topic')}</th>
+            <th scope="col">{t('来源', 'Source')}</th>
+            <th scope="col">{t('说明', 'Description')}</th>
+          </tr></thead>
+          <tbody>
+            {doc.behavior.map((item, index) => <tr key={`${item.topic}-${item.source}-${index}`}>
+              <th scope="row">{behaviorTopicLabels[item.topic]}</th>
+              <td>{behaviorSourceLabels[item.source]}</td>
+              <td>{item.text}</td>
+            </tr>)}
+          </tbody>
+        </table>
+      </div>
     </section>
 
     {related.length > 0 && <section className="doc-section" aria-labelledby="doc-related">

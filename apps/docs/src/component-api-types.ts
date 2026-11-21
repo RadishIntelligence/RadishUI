@@ -8,10 +8,36 @@ export interface ComponentApiRow {
   description: string;
 }
 
+export const behaviorTopics = ['keyboard', 'focus', 'aria', 'limitation'] as const;
+export type BehaviorTopic = (typeof behaviorTopics)[number];
+
+export const behaviorSources = ['native', 'radix', 'radish'] as const;
+export type BehaviorSource = (typeof behaviorSources)[number];
+
+export const behaviorTopicLabels: Record<BehaviorTopic, string> = {
+  keyboard: '键盘',
+  focus: '焦点',
+  aria: 'ARIA',
+  limitation: '已知限制',
+};
+
+export const behaviorSourceLabels: Record<BehaviorSource, string> = {
+  native: '浏览器原生',
+  radix: 'Radix',
+  radish: 'RadishUI',
+};
+
+/** One behavior / focus / ARIA / limitation fact and the layer that provides it. */
+export interface BehaviorEntry {
+  topic: BehaviorTopic;
+  source: BehaviorSource;
+  text: string;
+}
+
 export interface PilotDoc {
   api: readonly ComponentApiRow[];
+  behavior: readonly BehaviorEntry[];
   importCode: string;
-  keyboard: readonly string[];
   related: readonly string[];
 }
 
@@ -33,6 +59,5 @@ export interface AuthoredApiRow {
 export interface AuthoredPilotDoc {
   api: readonly AuthoredApiRow[];
   importCode: string;
-  keyboard: readonly string[];
   related: readonly string[];
 }

@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { componentCatalog, componentGroups, filterComponents, findComponent, groupLabel } from '../apps/docs/src/component-catalog.ts';
 import { pilotDocs } from '../apps/docs/src/component-api.generated.ts';
+import { behaviorSources, behaviorTopics } from '../apps/docs/src/component-api-types.ts';
 import { buildLlmsText } from './generate-llms.mjs';
 import { auditApiContract, buildGeneratedApi } from './generate-api.mjs';
 
@@ -25,7 +26,7 @@ test('pilot entries have API rows and a dedicated page', () => {
     const doc = pilotDocs[component.id];
     assert.ok(doc, component.id);
     assert.ok(doc.api.length >= 2, component.id);
-    assert.ok(doc.keyboard.length >= 3, component.id);
+    assert.ok(doc.behavior.length >= 3, component.id);
     assert.ok(doc.related.every(id => findComponent(id)), component.id);
     assert.match(doc.importCode, new RegExp(`from '@radish-ui/react'`), component.id);
   }
@@ -35,6 +36,24 @@ test('pilot entries have API rows and a dedicated page', () => {
 test('component-api.generated.ts matches component source types', () => {
   const file = new URL('../apps/docs/src/component-api.generated.ts', import.meta.url);
   assert.equal(readFileSync(file, 'utf8'), buildGeneratedApi());
+});
+
+test('behavior declarations cover every component with sources and topics', () => {
+  for (const component of componentCatalog) {
+    const doc = pilotDocs[component.id];
+    assert.ok(doc.behavior.length >= 3, component.id);
+    for (const item of doc.behavior) {
+      assert.ok(behaviorTopics.includes(item.topic), `${component.id}: ${item.topic}`);
+      assert.ok(behaviorSources.includes(item.source), `${component.id}: ${item.source}`);
+      assert.ok(item.text.trim().length > 0, component.id);
+    }
+    assert.ok(doc.behavior.some(item => item.topic === 'keyboard'), `${component.id} 缺少键盘行为`);
+    assert.ok(doc.behavior.some(item => item.topic !== 'limitation'), `${component.id} 只有限制声明`);
+  }
+  const sources = new Set(componentCatalog.flatMap(component => pilotDocs[component.id].behavior.map(item => item.source)));
+  assert.deepEqual([...sources].sort(), ['native', 'radish', 'radix']);
+  const topics = new Set(componentCatalog.flatMap(component => pilotDocs[component.id].behavior.map(item => item.topic)));
+  assert.deepEqual([...topics].sort(), ['aria', 'focus', 'keyboard', 'limitation']);
 });
 
 test('authored contract only keeps fields the source cannot provide', () => {

@@ -3,6 +3,7 @@ import { resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { componentCatalog, componentGroups } from '../apps/docs/src/component-catalog.ts';
 import { pilotDocs } from '../apps/docs/src/component-api.generated.ts';
+import { behaviorSourceLabels, behaviorTopicLabels } from '../apps/docs/src/component-api-types.ts';
 
 const root = new URL('../', import.meta.url);
 const output = new URL('apps/docs/public/llms.txt', root);
@@ -20,7 +21,7 @@ export function buildLlmsText() {
     `- 条目：${componentCatalog.length} 个（${componentCount} 个组件 + ${primitiveCount} 个页面原语）`,
     '- 文档：https://ui.radishx.com',
     '',
-    '本文件由 `apps/docs/src/component-catalog.ts`、`packages/react/src` 的 props 类型 / JSDoc / 解构默认值与 `component-api.ts` 的回退数据生成；运行 `npm run llms:generate` 更新，`npm run test:catalog` 检查漂移。',
+    '本文件由 `apps/docs/src/component-catalog.ts`、`packages/react/src` 的 props 类型 / JSDoc / 解构默认值、`component-api.ts` 的 API 回退与 `component-behavior.ts` 的行为声明生成；运行 `npm run llms:generate` 更新，`npm run test:catalog` 检查漂移。',
     '',
   ];
   for (const group of componentGroups) {
@@ -42,8 +43,8 @@ export function buildLlmsText() {
         if (row.required) meta.push('必填');
         lines.push(`- \`${name}\` — ${meta.join('；')} — ${row.description}`);
       }
-      lines.push('', '键盘与可访问性：', '');
-      for (const item of doc.keyboard) lines.push(`- ${item}`);
+      lines.push('', '行为与可访问性：', '');
+      for (const item of doc.behavior) lines.push(`- ${behaviorTopicLabels[item.topic]} · ${behaviorSourceLabels[item.source]}：${item.text}`);
       const related = doc.related.map(id => componentCatalog.find(entry => entry.id === id)?.name).filter(Boolean);
       lines.push('', `相关：${related.length ? related.join('、') : '无'}`, '');
     }

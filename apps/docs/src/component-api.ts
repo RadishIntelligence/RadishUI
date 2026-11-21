@@ -22,7 +22,6 @@ export const authoredDocs: Record<string, AuthoredPilotDoc> = {
       { name: 'className', type: 'string', required: false, description: '附加类名，不替代 variant / size。' },
       { name: 'ref', type: 'Ref<HTMLButtonElement>', required: false, description: '转发到原生 button；其余原生属性一并透传。' },
     ],
-    keyboard: ['Tab 聚焦，Enter / Space 触发。', 'loading 时焦点保留在按钮上，重复激活被拦截。', 'disabled 不进入 Tab 顺序。'],
     related: ['icon-button', 'dialog'],
   },
   'form-field': {
@@ -36,7 +35,6 @@ export const authoredDocs: Record<string, AuthoredPilotDoc> = {
       { name: 'className' },
       { name: 'children' },
     ],
-    keyboard: ['字段原语不承担键盘行为；点击标签聚焦关联控件。', '错误以 role=alert 播报，说明与错误通过 aria-describedby 关联。', '必填标记对辅助技术隐藏，required 由字段内控件原生表达。'],
     related: ['input', 'textarea', 'select'],
   },
   input: {
@@ -53,11 +51,6 @@ export const authoredDocs: Record<string, AuthoredPilotDoc> = {
       { name: 'aria-invalid', type: 'boolean', required: false, description: '显式传入时优先；FormField 有 error 时自动为 true。' },
       { name: 'className', type: 'string', required: false, description: '附加类名，不替代 surface。' },
       { name: 'ref', type: 'Ref<HTMLInputElement>', required: false, description: '转发到原生 input；其余原生属性一并透传。' },
-    ],
-    keyboard: [
-      '原生文本输入：Tab 聚焦，方向键 / Home / End 移动光标，编辑快捷键沿用浏览器。',
-      '错误以 role=alert 播报，说明与错误通过 aria-describedby 关联。',
-      'required 使用原生属性，由表单校验与辅助技术识别。',
     ],
     related: ['form-field', 'textarea', 'input-otp'],
   },
@@ -76,7 +69,6 @@ export const authoredDocs: Record<string, AuthoredPilotDoc> = {
       { name: 'className', type: 'string', required: false, description: '附加类名；保留垂直 resize。' },
       { name: 'ref', type: 'Ref<HTMLTextAreaElement>', required: false, description: '转发到原生 textarea；其余原生属性一并透传。' },
     ],
-    keyboard: ['Tab 聚焦，Enter 换行；编辑快捷键沿用原生 textarea。', '保留垂直 resize，拖拽尺寸不改变键盘行为。', '说明与错误通过 aria-describedby 关联，错误以 role=alert 播报。'],
     related: ['form-field', 'input'],
   },
   select: {
@@ -95,7 +87,6 @@ export const authoredDocs: Record<string, AuthoredPilotDoc> = {
       { name: 'size' },
       { name: 'className' },
     ],
-    keyboard: ['Space / Enter 展开，方向键与 Home / End 移动。', 'Enter 确认，Escape 关闭并把焦点还给触发器。', '选项以高亮表达键盘焦点，不叠加 1px 环。'],
     related: ['form-field', 'radio-group'],
   },
   tabs: {
@@ -113,7 +104,6 @@ export const authoredDocs: Record<string, AuthoredPilotDoc> = {
       { component: 'TabsContent', name: 'children', type: 'ReactNode', required: true, description: '面板内容；切换时只显示当前面板。' },
       { component: 'TabsContent', name: 'className', type: 'string', required: false, description: '附加类名；其余 Radix Content 属性透传。' },
     ],
-    keyboard: ['Tab 进入当前标签，左右方向键切换，Home / End 到首尾。', '禁用标签被跳过；焦点与选中分别呈现。', '标签组在窄屏可换行，避免入口被裁切。'],
     related: ['toggle-group', 'accordion'],
   },
   'input-otp': {
@@ -134,11 +124,6 @@ export const authoredDocs: Record<string, AuthoredPilotDoc> = {
       { name: 'className' },
       { name: 'onEnterPress' },
     ],
-    keyboard: [
-      '输入数字自动进入下一位；粘贴多位数字会从当前位起填充。',
-      'Backspace 删除当前位或回退删除前一位；Delete、方向键与 Home / End 可逐位移动。',
-      '有 onEnterPress 时 Enter 只触发回调；没有回调时 Enter 交给表单提交；非数字键被忽略。',
-    ],
     related: ['input', 'form-field'],
   },
   'tag-input': {
@@ -153,11 +138,6 @@ export const authoredDocs: Record<string, AuthoredPilotDoc> = {
       { name: 'removeLabel' },
       { name: 'label' },
       { name: 'disabled', defaultValue: 'false' },
-    ],
-    keyboard: [
-      'Enter 添加当前草稿；输入框为空时 Backspace 删除最后一个标签。',
-      '每个标签的删除按钮可 Tab 到达，也可用 Enter / Space 触发。',
-      '中文输入法组合期间不触发添加；Safari 的组合确认键同样被忽略。',
     ],
     related: ['tag', 'form-field', 'input'],
   },
@@ -175,7 +155,6 @@ export const authoredDocs: Record<string, AuthoredPilotDoc> = {
       { name: 'className' },
       { name: 'id' },
     ],
-    keyboard: ['方向键在选项间移动并立即选中；禁用项被跳过。', 'Tab 进入整组一次，离开时不会逐个经过选项。', '错误通过 FormField 关联，role=alert 播报。'],
     related: ['form-field', 'checkbox', 'select'],
   },
   checkbox: {
@@ -192,7 +171,6 @@ export const authoredDocs: Record<string, AuthoredPilotDoc> = {
       { name: 'className', type: 'string', required: false, description: '附加类名。' },
       { name: 'ref', type: 'Ref<HTMLInputElement>', required: false, description: '转发到原生 input。' },
     ],
-    keyboard: ['原生复选框：Space 切换选中，Tab 聚焦。', '禁用项不进入 Tab 顺序。', '标签点击与 Space 等价；焦点环使用共享 1px token。'],
     related: ['radio-group', 'switch', 'form-field'],
   },
   switch: {
@@ -209,7 +187,6 @@ export const authoredDocs: Record<string, AuthoredPilotDoc> = {
       { name: 'className', type: 'string', required: false, description: '附加类名。' },
       { name: 'ref', type: 'Ref<HTMLButtonElement>', required: false, description: '转发到 Radix Root 的 button。' },
     ],
-    keyboard: ['Space / Enter 切换状态；Tab 聚焦。', 'Switch 本身不带可见标签，调用方用 label 显式关联或提供 aria-label。', '禁用后不进入 Tab 顺序。'],
     related: ['checkbox', 'radio-group'],
   },
   dialog: {
@@ -227,7 +204,6 @@ export const authoredDocs: Record<string, AuthoredPilotDoc> = {
       { name: 'role' },
       { name: 'className' },
     ],
-    keyboard: ['Escape 关闭；Tab / Shift+Tab 在对话框内循环，焦点不落到页面其他区域。', '关闭后焦点回到打开它的入口；从菜单项打开时回到菜单触发器。', '初始焦点可指定；未指定时 Radix 聚焦第一个可交互元素。'],
     related: ['confirm-dialog', 'drawer'],
   },
   drawer: {
@@ -245,7 +221,6 @@ export const authoredDocs: Record<string, AuthoredPilotDoc> = {
       { name: 'role' },
       { name: 'className' },
     ],
-    keyboard: ['与 Dialog 使用同一弹层合同：Escape 关闭，Tab 在抽屉内循环。', '关闭后焦点回到入口；抽屉用于辅助内容，不改变页面的主流程语义。', '窄屏下从边缘打开，正文可滚动，footer 保持可见。'],
     related: ['dialog', 'confirm-dialog'],
   },
   'confirm-dialog': {
@@ -263,7 +238,6 @@ export const authoredDocs: Record<string, AuthoredPilotDoc> = {
       { name: 'closeLabel' },
       { name: 'onConfirm' },
     ],
-    keyboard: ['初始焦点在取消按钮；Escape 与遮罩关闭等同于取消。', 'loading 时取消与关闭按钮禁用，确认按钮保留焦点并拦截重复激活。', '确认后由调用方关闭对话框并恢复入口焦点。'],
     related: ['dialog', 'button'],
   },
   menu: {
@@ -282,7 +256,6 @@ export const authoredDocs: Record<string, AuthoredPilotDoc> = {
       { component: 'MenuItem', name: 'danger' },
       { component: 'MenuItem', name: 'separatorBefore' },
     ],
-    keyboard: ['Enter / Space / ArrowDown 打开菜单；方向键在项间移动。', 'Enter 执行当前项，Escape 关闭并把焦点还给触发器。', '禁用项跳过；选项以 data-highlighted 高亮表达焦点。'],
     related: ['dialog', 'tooltip'],
   },
   accordion: {
@@ -297,7 +270,6 @@ export const authoredDocs: Record<string, AuthoredPilotDoc> = {
       { name: 'collapsible', type: 'boolean', defaultValue: 'false', required: false, description: 'single 时允许收起当前项。' },
       { name: 'className', type: 'string', required: false, description: '附加类名。' },
     ],
-    keyboard: ['Tab 到达标题按钮，Enter / Space 展开或收起。', '方向键在标题间移动；Home / End 到首尾。', '禁用项不可聚焦；内容区域展开后按 DOM 顺序继续 Tab。'],
     related: ['tabs', 'menu'],
   },
   'inline-alert': {
@@ -307,11 +279,6 @@ export const authoredDocs: Record<string, AuthoredPilotDoc> = {
       { name: 'title' },
       { name: 'children' },
       { name: 'className' },
-    ],
-    keyboard: [
-      '静态提示不进入 Tab 顺序；内部操作按钮可聚焦。',
-      'danger 使用 role=alert 立即播报，其余状态使用 role=status。',
-      '错误不应只放在 Tooltip 或瞬时 Toast 中，需保留为页面内容。',
     ],
     related: ['toast', 'tooltip', 'input'],
   },
@@ -325,7 +292,6 @@ export const authoredDocs: Record<string, AuthoredPilotDoc> = {
       { name: 'id', type: 'string', required: false, description: '原生 id；其余 div 属性一并透传。' },
       { name: 'ref', type: 'Ref<HTMLDivElement>', required: false, description: '转发到原生 div。' },
     ],
-    keyboard: ['纯展示占位，aria-hidden，不进入 Tab 顺序。', '加载状态由外层 aria-busy 或 role=status 表达，不依赖骨架本身播报。', '减少动效时保持静态，不播放扫光动画。'],
     related: ['avatar', 'inline-alert'],
   },
   toast: {
@@ -337,7 +303,6 @@ export const authoredDocs: Record<string, AuthoredPilotDoc> = {
       { name: 'label' },
       { name: 'closeLabel' },
     ],
-    keyboard: ['F8 或 Tab 进入通知区域；关闭后焦点回到打开它的控件。', '悬停或聚焦暂停 4.5 秒倒计时；Escape 关闭。', '非模态提示，不阻塞页面操作，也不替调用方声明保存成功。'],
     related: ['inline-alert', 'button'],
   },
   tooltip: {
@@ -346,7 +311,6 @@ export const authoredDocs: Record<string, AuthoredPilotDoc> = {
       { name: 'content' },
       { name: 'children' },
     ],
-    keyboard: ['悬停 400ms 或键盘聚焦显示；Escape 关闭。', 'Tooltip 补充已有可访问名称，不替代 label、字段帮助或必要操作入口。', '触屏没有悬停，必要的说明不能只放在 Tooltip 中。'],
     related: ['menu', 'inline-alert'],
   },
   'icon-button': {
@@ -363,7 +327,6 @@ export const authoredDocs: Record<string, AuthoredPilotDoc> = {
       { name: 'className', type: 'string', required: false, description: '附加类名。' },
       { name: 'ref', type: 'Ref<HTMLButtonElement>', required: false, description: '转发到原生 button。' },
     ],
-    keyboard: ['Tab 聚焦，Enter / Space 触发。', 'label 提供可访问名称；不要用图标替代名称。', 'loading 时焦点保留在按钮上，重复激活被拦截。'],
     related: ['button', 'tooltip'],
   },
   avatar: {
@@ -378,7 +341,6 @@ export const authoredDocs: Record<string, AuthoredPilotDoc> = {
       { name: 'className', type: 'string', required: false, description: '附加类名。' },
       { name: '其余属性', type: "ComponentPropsWithoutRef<'span'>", required: false, description: '原生 span 属性透传。' },
     ],
-    keyboard: ['纯展示，不进入 Tab 顺序。', '图片加载失败时保留布局并回退到首字；重试由调用方替换 src 触发。', 'decorative 时对辅助技术隐藏，旁边需有等价的可见名称。'],
     related: ['tag', 'skeleton'],
   },
   tag: {
@@ -388,7 +350,6 @@ export const authoredDocs: Record<string, AuthoredPilotDoc> = {
       { name: 'className', type: 'string', required: false, description: '附加类名。' },
       { name: '其余属性', type: "ComponentPropsWithoutRef<'span'>", required: false, description: '原生 span 属性透传。' },
     ],
-    keyboard: ['纯展示，不进入 Tab 顺序。', '不作为按钮或筛选器；需要交互时使用 Button 或 ToggleGroup。', '长文本换行由容器宽度决定，不截断内容。'],
     related: ['status-badge', 'tag-input'],
   },
   'status-badge': {
@@ -398,7 +359,6 @@ export const authoredDocs: Record<string, AuthoredPilotDoc> = {
       { name: 'children' },
       { name: 'className' },
     ],
-    keyboard: ['纯展示，不进入 Tab 顺序。', '状态语义由文字表达，不能只靠颜色。', '可筛选的状态入口应使用 ToggleGroup 或 Button，而不是给徽标加点击。'],
     related: ['tag', 'inline-alert'],
   },
   'toggle-group': {
@@ -413,7 +373,6 @@ export const authoredDocs: Record<string, AuthoredPilotDoc> = {
       { name: 'size', type: "'sm' | 'md' | 'lg'", required: false, description: '分段尺寸。' },
       { name: 'className', type: 'string', required: false, description: '附加类名。' },
     ],
-    keyboard: ['单选：方向键移动即选中；多选：方向键只移动焦点，Space / Enter 切换。', '禁用项跳过；Tab 进入整组一次。', '多选用 aria-pressed 表达，单选用 radiogroup / radio 语义。'],
     related: ['tabs', 'radio-group'],
   },
   pagination: {
@@ -429,7 +388,6 @@ export const authoredDocs: Record<string, AuthoredPilotDoc> = {
       { name: 'labels' },
       { name: 'className' },
     ],
-    keyboard: ['页码与前后翻页可 Tab 到达，Enter / Space 触发。', '跳页输入按 Enter 提交；非法值提示 1–总页数之间的整数。', '单页时隐藏页码与跳页，只显示当前位置。'],
     related: ['table-of-contents', 'select'],
   },
   'table-of-contents': {
@@ -442,7 +400,6 @@ export const authoredDocs: Record<string, AuthoredPilotDoc> = {
       { name: 'onNavigate' },
       { name: 'className' },
     ],
-    keyboard: ['链接按 DOM 顺序 Tab 到达，Enter 跳转。', '当前章节用 aria-current="location" 表达，不只靠颜色。', '目录更新由页面驱动的 currentId 控制，组件不监听滚动。'],
     related: ['pagination', 'tabs'],
   },
   card: {
@@ -455,7 +412,6 @@ export const authoredDocs: Record<string, AuthoredPilotDoc> = {
       { name: 'className', type: 'string', required: false, description: '附加类名，不替代 tone / padding。' },
       { name: '其余属性', type: "ComponentPropsWithoutRef<'div'>", required: false, description: '原生 div 属性透传；asChild 时交给子元素。' },
     ],
-    keyboard: ['纯容器不承担键盘行为；asChild 链接卡片保留链接的 Tab 与 Enter。', '卡片本身不加点击或 role，交互入口放在子元素上。', '长内容与窄屏由内容决定高度，不固定卡片高度。'],
     related: ['section', 'table'],
   },
   section: {
@@ -469,7 +425,6 @@ export const authoredDocs: Record<string, AuthoredPilotDoc> = {
       { name: 'className', type: 'string', required: false, description: '附加类名。' },
       { name: '其余属性', type: "ComponentPropsWithoutRef<'section'>", required: false, description: '原生 section 属性透传。' },
     ],
-    keyboard: ['区块是地标容器，不进入 Tab 顺序；标题用于屏幕阅读器导航。', '标题层级固定为 h2，页面主标题仍由 PageHeader 提供。', '说明文字不作为必填项；需要时再传 description。'],
     related: ['card', 'table'],
   },
   table: {
@@ -480,7 +435,6 @@ export const authoredDocs: Record<string, AuthoredPilotDoc> = {
       { name: 'className', type: 'string', required: false, description: '附加类名。' },
       { name: '其余属性', type: "ComponentPropsWithoutRef<'table'>", required: false, description: '原生 table 属性透传；列宽与对齐由页面决定。' },
     ],
-    keyboard: ['表格本身不进入 Tab 顺序；内部链接与按钮按 DOM 顺序聚焦。', 'caption 对视觉隐藏但对辅助技术可见，始终提供 label。', '表头吸顶只影响滚动呈现，不改变阅读顺序。'],
     related: ['table-of-contents', 'card'],
   },
 };
