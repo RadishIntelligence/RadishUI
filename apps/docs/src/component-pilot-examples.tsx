@@ -1,5 +1,5 @@
 import { useRef, useState, type ReactNode } from 'react';
-import { Plus, Trash2 } from 'lucide-react';
+import { Copy, Pencil, Plus, Trash2 } from 'lucide-react';
 import { Accordion, Avatar, Button, Card, Checkbox, ConfirmDialog, Dialog, Drawer, FormField, IconButton, InlineAlert, Input, InputOTP, Menu, Pagination, RadioGroup, Section, Select, Skeleton, StatusBadge, Switch, Table, TableOfContents, Tabs, TabsContent, TabsList, Tag, TagInput, Textarea, Toast, ToggleGroup, Tooltip } from '@radish-ui/react';
 
 export interface PilotExample {
@@ -46,6 +46,23 @@ function ButtonStates() {
     <Button loading>保存中</Button>
     <Button disabled>不可用</Button>
   </div>;
+}
+
+function ButtonFormSubmit() {
+  const [submitted, setSubmitted] = useState('');
+  return <form className="doc-example-stack" onSubmit={event => {
+    event.preventDefault();
+    setSubmitted(String(new FormData(event.currentTarget).get('name') ?? ''));
+  }}>
+    <FormField label="资源名称" hint="提交按钮显式传 type=submit；默认 type=button 不触发表单提交。">
+      <Input name="name" defaultValue="发布检查清单" />
+    </FormField>
+    <div className="doc-example-row">
+      <Button type="submit">保存资源</Button>
+      <Button variant="secondary" onClick={() => setSubmitted('')}>清除结果</Button>
+    </div>
+    <p className="doc-example-note">{submitted ? `已提交：${submitted}` : '尚未提交。'}</p>
+  </form>;
 }
 
 function FormFieldBasic() {
@@ -95,6 +112,17 @@ function InputStates() {
   </div>;
 }
 
+function InputControlled() {
+  const [name, setName] = useState('发布检查清单');
+  const limit = 20;
+  return <div className="doc-example-stack">
+    <FormField label="资源名称" hint="受控值；最多 20 个字符。">
+      <Input value={name} maxLength={limit} onChange={event => setName(event.target.value)} />
+    </FormField>
+    <p className="doc-example-note">当前长度：{name.length} / {limit}</p>
+  </div>;
+}
+
 function TextareaBasic() {
   return <FormField label="资源说明" hint="支持多行；保留垂直 resize。">
     <Textarea rows={4} placeholder="一句话说明用途" />
@@ -119,6 +147,17 @@ function TextareaStates() {
   </div>;
 }
 
+function TextareaControlled() {
+  const [note, setNote] = useState('一段受控的多行说明。');
+  const limit = 40;
+  return <div className="doc-example-stack">
+    <FormField label="资源说明" hint="受控值；保留垂直 resize。">
+      <Textarea rows={3} value={note} maxLength={limit} onChange={event => setNote(event.target.value)} />
+    </FormField>
+    <p className="doc-example-note">当前长度：{note.length} / {limit}</p>
+  </div>;
+}
+
 function InputOTPBasic() {
   const [code, setCode] = useState('');
   return <InputOTP label="验证码" value={code} onValueChange={setCode} hint="6 位数字；粘贴会从当前位填充。" />;
@@ -136,6 +175,14 @@ function InputOTPForm() {
     <div className="doc-example-row"><Button type="submit">提交验证码</Button></div>
     <p className="doc-example-note">{submitted ? `已提交：${submitted}` : 'Enter 触发 onEnterPress；提交按钮走表单提交。'}</p>
   </form>;
+}
+
+function InputOTPLength() {
+  const [code, setCode] = useState('');
+  return <div className="doc-example-stack">
+    <InputOTP label="四位验证码" length={4} value={code} onValueChange={setCode} hint="length 控制位数；输入、删除与粘贴按四位处理。" />
+    <InputOTP label="禁用验证码" length={4} value="1234" onValueChange={() => {}} disabled hint="禁用后不响应输入、删除与粘贴。" />
+  </div>;
 }
 
 function TagInputBasic() {
@@ -163,6 +210,22 @@ function TagInputDelete() {
 function TagInputDisabled() {
   return <FormField label="标签" hint="禁用时仍可阅读现有标签。">
     <TagInput value={['只读示例']} onValueChange={() => {}} draft="" onDraftChange={() => {}} onAdd={() => {}} addLabel="添加" removeLabel={tag => `移除标签 ${tag}`} disabled />
+  </FormField>;
+}
+
+function TagInputLimit() {
+  const [tags, setTags] = useState(['发布', '验收']);
+  const [draft, setDraft] = useState('');
+  const limit = 3;
+  const full = tags.length >= limit;
+  const add = () => {
+    const next = draft.trim();
+    if (!next || tags.includes(next) || full) return;
+    setTags([...tags, next]);
+    setDraft('');
+  };
+  return <FormField label="标签" hint="去重与上限由调用方控制；最多 3 个。" error={full ? '已达上限，先删除一个标签再添加。' : undefined}>
+    <TagInput value={tags} onValueChange={setTags} draft={draft} onDraftChange={setDraft} onAdd={add} addLabel="添加" removeLabel={tag => `移除标签 ${tag}`} />
   </FormField>;
 }
 
@@ -515,6 +578,16 @@ function IconButtonStates() {
   </div>;
 }
 
+function IconButtonToolbar() {
+  return <Card tone="muted" padding="sm">
+    <div className="doc-example-row">
+      <IconButton label="复制资源"><Copy size={16} /></IconButton>
+      <IconButton label="编辑资源" variant="secondary"><Pencil size={16} /></IconButton>
+      <IconButton label="删除资源" variant="danger"><Trash2 size={16} /></IconButton>
+    </div>
+  </Card>;
+}
+
 function AvatarFallback() {
   return <div className="doc-example-row">
     <Avatar name="林杏" />
@@ -761,6 +834,19 @@ function SelectLongOptions() {
   </FormField>;
 }
 
+function SelectSurfaceSize() {
+  const [type, setType] = useState('document');
+  const [filter, setFilter] = useState('document');
+  return <div className="doc-example-stack">
+    <FormField label="资源类型" hint="filled 用于强调或分组背景；表单字段使用 md。">
+      <Select surface="filled" value={type} onValueChange={setType} options={typeOptions} />
+    </FormField>
+    <FormField label="页面筛选" hint="页面 chrome 使用 sm，避免工具栏过高。">
+      <Select surface="filled" size="sm" value={filter} onValueChange={setFilter} options={typeOptions} />
+    </FormField>
+  </div>;
+}
+
 function TabsBasic() {
   return <Tabs defaultValue="overview">
     <TabsList label="资源详情分组" items={[
@@ -799,6 +885,29 @@ function TabsDisabled() {
   </Tabs>;
 }
 
+function TabsSizes() {
+  return <div className="doc-example-stack">
+    <Card tone="muted" padding="sm">
+      <Tabs defaultValue="overview">
+        <TabsList size="sm" label="紧凑标签组" items={[
+          { value: 'overview', label: '概览' },
+          { value: 'history', label: '历史' },
+        ]} />
+        <TabsContent value="overview"><p className="doc-example-note">sm：用于卡片工具栏与紧凑参考区。</p></TabsContent>
+        <TabsContent value="history"><p className="doc-example-note">历史面板。</p></TabsContent>
+      </Tabs>
+    </Card>
+    <Tabs defaultValue="overview">
+      <TabsList size="lg" label="大尺寸标签组" items={[
+        { value: 'overview', label: '概览' },
+        { value: 'history', label: '历史' },
+      ]} />
+      <TabsContent value="overview"><p className="doc-example-note">lg：用于页面级分区，与卡片工具栏分开使用。</p></TabsContent>
+      <TabsContent value="history"><p className="doc-example-note">历史面板。</p></TabsContent>
+    </Tabs>
+  </div>;
+}
+
 export const pilotExamples: Record<string, readonly PilotExample[]> = {
   button: [
     {
@@ -826,6 +935,29 @@ export const pilotExamples: Record<string, readonly PilotExample[]> = {
       code: `<Button loading>保存中</Button>
 <Button disabled>不可用</Button>`,
       preview: <ButtonStates />,
+    },
+    {
+      id: 'form-submit',
+      title: '表单提交',
+      description: '默认 type=button 不触发表单提交；提交按钮显式传 type=submit。',
+      code: `import { useState } from 'react';
+
+const [submitted, setSubmitted] = useState('');
+
+<form onSubmit={event => {
+  event.preventDefault();
+  setSubmitted(String(new FormData(event.currentTarget).get('name') ?? ''));
+}}>
+  <FormField label="资源名称" hint="提交按钮显式传 type=submit；默认 type=button 不触发表单提交。">
+    <Input name="name" defaultValue="发布检查清单" />
+  </FormField>
+  <div>
+    <Button type="submit">保存资源</Button>
+    <Button variant="secondary" onClick={() => setSubmitted('')}>清除结果</Button>
+  </div>
+  <p>已提交：{submitted || '尚未提交。'}</p>
+</form>`,
+      preview: <ButtonFormSubmit />,
     },
   ],
   'form-field': [
@@ -896,6 +1028,23 @@ export const pilotExamples: Record<string, readonly PilotExample[]> = {
 </div>`,
       preview: <InputStates />,
     },
+    {
+      id: 'controlled',
+      title: '受控与长度',
+      description: 'value / onChange 由调用方持有；maxLength 交给原生输入约束。',
+      code: `import { useState } from 'react';
+
+const [name, setName] = useState('发布检查清单');
+const limit = 20;
+
+<div>
+  <FormField label="资源名称" hint="受控值；最多 20 个字符。">
+    <Input value={name} maxLength={limit} onChange={event => setName(event.target.value)} />
+  </FormField>
+  <p>当前长度：{name.length} / {limit}</p>
+</div>`,
+      preview: <InputControlled />,
+    },
   ],
   textarea: [
     {
@@ -930,6 +1079,23 @@ export const pilotExamples: Record<string, readonly PilotExample[]> = {
   </FormField>
 </div>`,
       preview: <TextareaStates />,
+    },
+    {
+      id: 'controlled',
+      title: '受控与长度',
+      description: '受控多行输入与字符计数；仍保留原生垂直 resize。',
+      code: `import { useState } from 'react';
+
+const [note, setNote] = useState('一段受控的多行说明。');
+const limit = 40;
+
+<div>
+  <FormField label="资源说明" hint="受控值；保留垂直 resize。">
+    <Textarea rows={3} value={note} maxLength={limit} onChange={event => setNote(event.target.value)} />
+  </FormField>
+  <p>当前长度：{note.length} / {limit}</p>
+</div>`,
+      preview: <TextareaControlled />,
     },
   ],
   select: [
@@ -991,6 +1157,30 @@ const [type, setType] = useState('document');
 </FormField>`,
       preview: <SelectLongOptions />,
     },
+    {
+      id: 'surface-size',
+      title: 'filled 与尺寸',
+      description: 'surface=filled 用于强调或分组背景；表单字段用 md，页面 chrome 用 sm。',
+      code: `import { useState } from 'react';
+
+const typeOptions = [
+  { value: 'document', label: '文档' },
+  { value: 'checklist', label: '清单' },
+  { value: 'example', label: '范例' },
+];
+const [type, setType] = useState('document');
+const [filter, setFilter] = useState('document');
+
+<div>
+  <FormField label="资源类型" hint="filled 用于强调或分组背景；表单字段使用 md。">
+    <Select surface="filled" value={type} onValueChange={setType} options={typeOptions} />
+  </FormField>
+  <FormField label="页面筛选" hint="页面 chrome 使用 sm，避免工具栏过高。">
+    <Select surface="filled" size="sm" value={filter} onValueChange={setFilter} options={typeOptions} />
+  </FormField>
+</div>`,
+      preview: <SelectSurfaceSize />,
+    },
   ],
   tabs: [
     {
@@ -1043,6 +1233,30 @@ const [tab, setTab] = useState('overview');
 </Tabs>`,
       preview: <TabsDisabled />,
     },
+    {
+      id: 'sizes',
+      title: '尺寸与组合',
+      description: 'size 提供 sm / md / lg；卡片工具栏用 sm，页面分区用 lg，同页不混用。',
+      code: `<Card tone="muted" padding="sm">
+  <Tabs defaultValue="overview">
+    <TabsList size="sm" label="紧凑标签组" items={[
+      { value: 'overview', label: '概览' },
+      { value: 'history', label: '历史' },
+    ]} />
+    <TabsContent value="overview"><p>sm：用于卡片工具栏与紧凑参考区。</p></TabsContent>
+    <TabsContent value="history"><p>历史面板。</p></TabsContent>
+  </Tabs>
+</Card>
+<Tabs defaultValue="overview">
+  <TabsList size="lg" label="大尺寸标签组" items={[
+    { value: 'overview', label: '概览' },
+    { value: 'history', label: '历史' },
+  ]} />
+  <TabsContent value="overview"><p>lg：用于页面级分区，与卡片工具栏分开使用。</p></TabsContent>
+  <TabsContent value="history"><p>历史面板。</p></TabsContent>
+</Tabs>`,
+      preview: <TabsSizes />,
+    },
   ],
   'input-otp': [
     {
@@ -1078,6 +1292,20 @@ const [submitted, setSubmitted] = useState('');
   <p>{submitted ? '已提交：' + submitted : 'Enter 触发 onEnterPress；提交按钮走表单提交。'}</p>
 </form>`,
       preview: <InputOTPForm />,
+    },
+    {
+      id: 'length',
+      title: '位数与禁用',
+      description: 'length 控制位数；disabled 禁用全部输入位与隐藏字段。',
+      code: `import { useState } from 'react';
+
+const [code, setCode] = useState('');
+
+<div>
+  <InputOTP label="四位验证码" length={4} value={code} onValueChange={setCode} hint="length 控制位数；输入、删除与粘贴按四位处理。" />
+  <InputOTP label="禁用验证码" length={4} value="1234" onValueChange={() => {}} disabled hint="禁用后不响应输入、删除与粘贴。" />
+</div>`,
+      preview: <InputOTPLength />,
     },
   ],
   'tag-input': [
@@ -1124,6 +1352,30 @@ const [draft, setDraft] = useState('');
     onAdd={() => {}} addLabel="添加" removeLabel={tag => '移除标签 ' + tag} disabled />
 </FormField>`,
       preview: <TagInputDisabled />,
+    },
+    {
+      id: 'limit',
+      title: '上限与错误',
+      description: '去重与上限由调用方维护；达到上限时由 FormField 展示错误。',
+      code: `import { useState } from 'react';
+
+const [tags, setTags] = useState(['发布', '验收']);
+const [draft, setDraft] = useState('');
+const limit = 3;
+const full = tags.length >= limit;
+function add() {
+  const next = draft.trim();
+  if (!next || tags.includes(next) || full) return;
+  setTags([...tags, next]);
+  setDraft('');
+}
+
+<FormField label="标签" hint="去重与上限由调用方控制；最多 3 个。"
+  error={full ? '已达上限，先删除一个标签再添加。' : undefined}>
+  <TagInput value={tags} onValueChange={setTags} draft={draft} onDraftChange={setDraft}
+    onAdd={add} addLabel="添加" removeLabel={tag => '移除标签 ' + tag} />
+</FormField>`,
+      preview: <TagInputLimit />,
     },
   ],
   'radio-group': [
@@ -1643,6 +1895,19 @@ const [open, setOpen] = useState(false);
   <IconButton label="添加资源（不可用）" disabled><Plus size={16} /></IconButton>
 </div>`,
       preview: <IconButtonStates />,
+    },
+    {
+      id: 'toolbar',
+      title: '工具栏组合',
+      description: '多个图标按钮组成工具栏；每个按钮的 label 独立，图标不承担可访问名称。',
+      code: `<Card tone="muted" padding="sm">
+  <div>
+    <IconButton label="复制资源"><Copy size={16} /></IconButton>
+    <IconButton label="编辑资源" variant="secondary"><Pencil size={16} /></IconButton>
+    <IconButton label="删除资源" variant="danger"><Trash2 size={16} /></IconButton>
+  </div>
+</Card>`,
+      preview: <IconButtonToolbar />,
     },
   ],
   avatar: [
