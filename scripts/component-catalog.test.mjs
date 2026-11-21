@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
+import ts from 'typescript';
 import { componentCatalog, componentGroups, filterComponents, findComponent, groupLabel } from '../apps/docs/src/component-catalog.ts';
 import { pilotDocs } from '../apps/docs/src/component-api.generated.ts';
 import { behaviorSources, behaviorTopics } from '../apps/docs/src/component-api-types.ts';
@@ -104,6 +105,50 @@ test('descriptions and default values come from component source', () => {
       }
     }
   }
+});
+
+test('example catalog covers every detail component with usable snippets', () => {
+  const file = new URL('../apps/docs/src/component-pilot-examples.tsx', import.meta.url);
+  const source = ts.createSourceFile('component-pilot-examples.tsx', readFileSync(file, 'utf8'),
+    ts.ScriptTarget.ES2022, true, ts.ScriptKind.TSX);
+  let catalog;
+  const findCatalog = node => {
+    if (ts.isVariableDeclaration(node) && ts.isIdentifier(node.name) && node.name.text === 'pilotExamples') catalog = node.initializer;
+    ts.forEachChild(node, findCatalog);
+  };
+  ts.forEachChild(source, findCatalog);
+  assert.ok(catalog && ts.isObjectLiteralExpression(catalog), 'pilotExamples 必须是对象字面量');
+
+  const details = new Map();
+  for (const property of catalog.properties) {
+    assert.ok(ts.isPropertyAssignment(property), '示例目录项必须是属性赋值');
+    const key = ts.isIdentifier(property.name) || ts.isStringLiteral(property.name) ? property.name.text : undefined;
+    assert.ok(key, '示例目录键必须可静态读取');
+    assert.ok(ts.isArrayLiteralExpression(property.initializer), `${key} 的示例必须是数组`);
+    const examples = property.initializer.elements;
+    assert.ok(examples.length >= 3, `${key} 至少需要 3 个示例`);
+    const ids = new Set();
+    for (const element of examples) {
+      assert.ok(ts.isObjectLiteralExpression(element), `${key} 的示例必须是对象字面量`);
+      const fields = new Map(element.properties.filter(property => ts.isPropertyAssignment(property))
+        .map(property => [property.name.getText(source).replace(/^'|'$/g, ''), property.initializer]));
+      const id = fields.get('id');
+      const title = fields.get('title');
+      const description = fields.get('description');
+      const code = fields.get('code');
+      assert.ok(id && ts.isStringLiteral(id) && /^[a-z0-9]+(-[a-z0-9]+)*$/.test(id.text), `${key} 示例缺少可路由 id`);
+      assert.ok(!ids.has(id.text), `${key} 示例 id 重复：${id.text}`);
+      ids.add(id.text);
+      assert.ok(title && ts.isStringLiteral(title) && title.text.trim().length > 0, `${key}.${id.text} 缺少标题`);
+      assert.ok(description && ts.isStringLiteral(description) && description.text.trim().length > 0, `${key}.${id.text} 缺少说明`);
+      const snippet = code && (ts.isStringLiteral(code) || ts.isNoSubstitutionTemplateLiteral(code)) ? code.text : undefined;
+      assert.ok(snippet && snippet.trim().length > 20 && snippet.includes('<'), `${key}.${id.text} 的代码片段不可用`);
+      assert.ok(fields.has('preview'), `${key}.${id.text} 缺少预览`);
+    }
+    details.set(key, examples.length);
+  }
+  const detailIds = componentCatalog.filter(component => component.detail).map(component => component.id).sort();
+  assert.deepEqual([...details.keys()].sort(), detailIds);
 });
 
 test('llms.txt matches generated component contracts', () => {

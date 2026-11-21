@@ -1,3 +1,4 @@
+import { useState, type ReactNode } from 'react';
 import { StatusBadge } from '@radish-ui/react';
 import type { Translate } from './model';
 import { PageHeader } from './PageHeader';
@@ -7,6 +8,49 @@ import { pilotDocs } from './component-api.generated';
 import { behaviorSourceLabels, behaviorTopicLabels } from './component-api-types';
 import { pilotExamples } from './component-pilot-examples';
 import './component-site.css';
+
+type PreviewTheme = 'system' | 'light' | 'dark';
+type PreviewDensity = 'system' | 'compact' | 'standard' | 'spacious';
+
+const previewThemeOptions: readonly { value: PreviewTheme; zh: string; en: string }[] = [
+  { value: 'system', zh: '跟随站点', en: 'Site default' },
+  { value: 'light', zh: '明', en: 'Light' },
+  { value: 'dark', zh: '暗', en: 'Dark' },
+];
+const previewDensityOptions: readonly { value: PreviewDensity; zh: string; en: string }[] = [
+  { value: 'system', zh: '跟随站点', en: 'Site default' },
+  { value: 'compact', zh: '紧凑', en: 'Compact' },
+  { value: 'standard', zh: '标准', en: 'Standard' },
+  { value: 'spacious', zh: '宽松', en: 'Spacious' },
+];
+
+function ExamplePreview({ title, preview, t }: { title: string; preview: ReactNode; t: Translate }) {
+  const [theme, setTheme] = useState<PreviewTheme>('system');
+  const [density, setDensity] = useState<PreviewDensity>('system');
+  return <div className="doc-preview-shell">
+    <div className="doc-preview-toolbar">
+      <span className="doc-preview-toolbar__hint">{t('预览设置', 'Preview settings')}</span>
+      <label className="doc-preview-control">
+        <span>{t('主题', 'Theme')}</span>
+        <select value={theme} aria-label={t(`预览主题：${title}`, `Preview theme: ${title}`)}
+          onChange={event => setTheme(event.target.value as PreviewTheme)}>
+          {previewThemeOptions.map(option => <option key={option.value} value={option.value}>{t(option.zh, option.en)}</option>)}
+        </select>
+      </label>
+      <label className="doc-preview-control">
+        <span>{t('密度', 'Density')}</span>
+        <select value={density} aria-label={t(`预览密度：${title}`, `Preview density: ${title}`)}
+          onChange={event => setDensity(event.target.value as PreviewDensity)}>
+          {previewDensityOptions.map(option => <option key={option.value} value={option.value}>{t(option.zh, option.en)}</option>)}
+        </select>
+      </label>
+    </div>
+    <div className="doc-preview" data-rd-theme={theme === 'system' ? undefined : theme}
+      data-preview-density={density === 'system' ? undefined : density}>
+      {preview}
+    </div>
+  </div>;
+}
 
 function DocCode({ code, label }: { code: string; label: string }) {
   return <div className="doc-code">
@@ -54,12 +98,12 @@ export function ComponentDetailPage({ id, t }: { id: string; t: Translate }) {
 
     <section className="doc-section" aria-labelledby="doc-examples">
       <h2 id="doc-examples">{t('示例', 'Examples')}</h2>
-      {examples.map(example => <article className="doc-example" key={example.id}>
+      {examples.map(example => <article className="doc-example" key={`${entry.id}-${example.id}`}>
         <div className="doc-example__head">
           <h3>{example.title}</h3>
           <p>{example.description}</p>
         </div>
-        <div className="doc-preview">{example.preview}</div>
+        <ExamplePreview title={example.title} preview={example.preview} t={t} />
         <DocCode code={example.code} label={t(`复制 ${example.title} 代码`, `Copy ${example.title} code`)} />
       </article>)}
     </section>
