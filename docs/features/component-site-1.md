@@ -1,6 +1,6 @@
 # 组件站 1.0
 
-状态：2026-11-17 所有者确认作为下一阶段；2026-11-19 完成 P0 三页用法复审并进入 P1，P1 同日完成：30 个条目（27 个组件与 Card / Section / Table 页面原语）均有独立页；2026-11-21 完成 P2 的源码类型、JSDoc 与默认值生成，手写契约只保留回退字段。P2 外部采用与 P3 Flutter 暂缓。2026-11-18 按所有者确认增补机器可读契约、行为归属与交互行为测试评估，见[契约与行为](#contract-and-behavior-2026-11-18)。
+状态：2026-11-17 所有者确认作为下一阶段；2026-11-19 完成 P0 三页用法复审并进入 P1，P1 同日完成：30 个条目（27 个组件与 Card / Section / Table 页面原语）均有独立页；2026-11-21 完成 P2 的源码类型、JSDoc 与默认值生成，手写契约只保留回退字段；同日 P3 起步，逐组件行为归属与 a11y 声明进入同一契约来源。P2 外部采用与 P3 Flutter 暂缓。2026-11-18 按所有者确认增补机器可读契约、行为归属与交互行为测试评估，见[契约与行为](#contract-and-behavior-2026-11-18)。
 主要归属：E：展示与页面范例（组件文档站）/ C：跨平台通用组件；协同 F：视觉基础、G：工程与交付。
 需求输入：[家族组件需求盘点](family-component-demand.md)；既有组件合同见 [C-02](react-workbench-components.md)，页面范例见 [E-02](workbench-preview.md)。
 
@@ -32,7 +32,7 @@
 2. 导入：包路径与样式导入，可复制；明确当前为 private workspace；
 3. 示例：至少 3 个，覆盖基础、变体 / 状态、组合 / 表单；每个示例有预览、代码与复制；
 4. API：属性 / 类型 / 默认值 / 必填 / 说明；多部件组件带“组件”列；
-5. 键盘与可访问性：焦点、按键、ARIA、已知限制；行为来源（浏览器原生 / Radix / RadishUI）自 P3 起补齐。
+5. 键盘与可访问性：主题（键盘 / 焦点 / ARIA / 已知限制）、来源（浏览器原生 / Radix / RadishUI）与说明；P3 起由 `component-behavior.ts` 生成。
 6. 相关组件：只链接真实存在的目录项。
 
 ## 阶段
@@ -42,7 +42,7 @@
 | **P0 垂直切片** | 目录页、搜索、Button / Select / Tabs 独立页、API 表、示例、复制、测试 | 已实现（`42019fe`），复审完成（2026-11-19） |
 | **P1 迁移 27 个** | 现有组件全部进入模板；Card / Section / Table 页面原语一并纳入目录；单页参考退为“全部示例” | 已完成（30 个条目） |
 | **P2 类型 / API 全量** | 导出缺失 props 类型；JSDoc / 默认值 / 事件 / ref；单一来源生成 API 表与 `llms.txt`，行为归属随 P3 进入同一来源；`--check` 漂移门禁；类型测试与完整性检查 | 已完成（2026-11-21）：类型、JSDoc 说明、解构默认值与事件签名由源码生成；原生 / Radix 继承属性、union 类型与未解构默认值保留契约回退 |
-| **P3 用法深度** | 每组件 3+ 示例、变体 / 受控 / 表单 / 组合；代码高亮（新增依赖需确认）；每示例主题 / 密度；逐组件 a11y 与行为归属声明及对应断言（依赖待确认） | 待开始 |
+| **P3 用法深度** | 每组件 3+ 示例、变体 / 受控 / 表单 / 组合；代码高亮（新增依赖需确认）；每示例主题 / 密度；逐组件 a11y 与行为归属声明及对应断言（依赖待确认） | 进行中（2026-11-21 起行为归属与 a11y 声明已进入契约并生成到组件页 / `llms.txt`；示例深度、代码高亮与交互断言待续） |
 | **P4 目录扩展** | 按[家族需求盘点](family-component-demand.md)排序；Form、Upload、InputNumber / Slider 等逐项确认 | 待开始 |
 | **P5 站点能力** | 版本 / 变更记录、状态与弃用、双语文档、图标参考、站点搜索索引；公开安装 / CLI / registry 属 P4 发行 | 待开始 |
 
@@ -86,7 +86,8 @@ P0 垂直切片与 P1 首批共用以下文件：
 - `apps/docs/src/component-catalog.ts`：27 个组件的单一目录数据（id、名称、分组、摘要、状态、是否有独立页）；
 - `apps/docs/src/CatalogPage.tsx`：搜索、分组、计数、空结果与卡片深链；
 - `apps/docs/src/ComponentDetailPage.tsx`：导入、示例、API、键盘 / a11y、相关组件；
-- `apps/docs/src/component-api.ts`：组件导入代码、键盘 / 相关组件与 API 回退行（原生 / Radix 继承属性、union 类型、`其余属性` 与未解构默认值）；P2 起 props 类型、说明与可解构默认值由 `packages/react/src` 生成到 `component-api.generated.ts`；
+- `apps/docs/src/component-api.ts`：组件导入代码、相关组件与 API 回退行（原生 / Radix 继承属性、union 类型、`其余属性` 与未解构默认值）；P2 起 props 类型、说明与可解构默认值由 `packages/react/src` 生成到 `component-api.generated.ts`；
+- `apps/docs/src/component-behavior.ts`：P3 起逐组件行为归属与 a11y 声明（键盘 / 焦点 / ARIA / 已知限制及来源），经同一生成器写入 `component-api.generated.ts`；
 - `apps/docs/src/component-pilot-examples.tsx`：已迁移组件的示例（当前 6 × 3），预览使用真实共享组件；
 - `apps/docs/src/CopyButton.tsx`：复制代码 / 导入片段；无第三方依赖；
 - 路由：`#/catalog`、`#/components/<id>`；旧 `#/components` 保留；目录与详情页按路由懒加载，避免主包持续膨胀；
@@ -130,6 +131,15 @@ P1 完成：30 个条目均有独立页；目录新增「页面原语」分组�
 - 回退清单：93 行仍依赖契约回退，其中 68 行原生 / Radix 继承属性、16 行 union 类型、5 行 `其余属性`、4 行自有 props 的默认值；默认值回退共 11 项：`button.disabled`、`form-field.required`、`textarea.readOnly`、`select.disabled` / `select.required`、`tag-input.disabled`、`icon-button.disabled` / `icon-button.type`、`accordion.type` / `accordion.collapsible`、`toggle-group.type`。
 - 验证：操作 / 字段 / 选择 / 反馈 / 导航 / 页面原语六组分别运行 `npm run api:generate`、`npm run llms:generate`、`npm run test:catalog`、`npm run check`、`npm run build` 通过；`test:catalog` 新增契约回退、源码默认值与函数类型断言（7 项）。未改运行时行为、未新增依赖；本轮实现已本地提交（`780cbcd`），未推送、未部署。
 
+## P3 起步：行为归属与 a11y 声明（2026-11-21）
+
+- 契约：新增 `apps/docs/src/component-behavior.ts`，逐组件声明键盘、焦点、ARIA 与已知限制，每条注明来源（浏览器原生 / Radix / RadishUI）；同一交互涉及多方时按来源拆条，例如 ToggleGroup 单选由 Radix 移动焦点、RadishUI 同步选中。
+- 生成：`scripts/generate-api.mjs` 校验目录覆盖、主题 / 来源合法、文本非空与重复、每组件至少 3 条且含键盘声明；`component-api.generated.ts` 以 `behavior` 替换原 `keyboard` 字符串数组，组件页与 `llms.txt` 共用；API 契约中的 `keyboard` 数组删除，避免重复来源。
+- 展示：组件页「键盘与可访问性」改为「主题 / 来源 / 说明」三列表格，窄屏提供可聚焦横向滚动容器；`llms.txt` 以 `键盘 · 浏览器原生：…` 形式输出，页面与 llms 文案同源。
+- 校验：`test:catalog` 增至 8 项，新增覆盖断言（每组件 ≥3 条、至少 1 条键盘声明、主题 / 来源合法、三来源与四主题均出现）；生成文件与 `llms.txt` 漂移仍由现有用例拦截。
+- 验证：`npm run api:generate`、`npm run llms:generate`、`npm run test:catalog`、`npm run check`、`npm run build` 通过；Chrome 157 浏览器探针覆盖 11 个代表组件 × 1440 / 390 与明暗，行为表内容与生成声明逐条一致，无 pageerror / console error / 页面级横向溢出；证据在忽略目录 `output/p3-behavior-2026-11-21/`。
+- 边界：这些是声明而非可执行断言；DOM / 焦点 / `forced-colors` 断言仍需测试依赖或浏览器探针，按 P3 后续确认。变体 / 受控 / 表单 / 组合示例深度、代码高亮与主题 / 密度示例仍待 P3；本轮未改运行时行为、未新增依赖；实现已本地提交（`30d6ac6`），文档登记同批本地提交，未推送、未部署。
+
 <a id="contract-and-behavior-2026-11-18"></a>
 
 ## 契约与行为（2026-11-18）
@@ -138,10 +148,10 @@ P1 完成：30 个条目均有独立页；目录新增「页面原语」分组�
 
 ### 机器可读契约
 
-- P2 以组件源码导出的 props 类型、JSDoc 和组件目录元数据为输入。P3 接入一份逐组件的行为归属与可访问性声明，记录键盘、焦点、ARIA 和已知限制。
-- 生成消费：组件页 API 表、`llms.txt`（站点产物与未来发行包内文档目录共用同一份）与类型 / 完整性检查。沿用 token 管线的生成 + `--check` 范式，不手改生成物。
+- P2 以组件源码导出的 props 类型、JSDoc 和组件目录元数据为输入。P3 的行为归属与可访问性声明已落在 `apps/docs/src/component-behavior.ts`，记录键盘、焦点、ARIA 和已知限制及来源。
+- 生成消费：组件页 API 表与行为声明、`llms.txt`（站点产物与未来发行包内文档目录共用同一份）与类型 / 完整性检查。沿用 token 管线的生成 + `--check` 范式，不手改生成物。
 - `llms.txt` 只描述已实现能力与 import 路径，不承诺未发布的包名、CLI 或 registry；P4 发行前只随展示站产出，不写进 npm 包路径。
-- 判定：结构可解析、覆盖全部导出、示例能按其中 import 运行；生成物与源码漂移由 `npm run check` 拦截。2026-11-19 已落地 `llms.txt` 生成与 `test:catalog` 漂移检查；2026-11-21 起组件页 API 表与 `llms.txt` 由源码 props 类型、JSDoc、解构默认值与契约回退数据生成；手写契约只保留原生 / Radix 继承属性、union 类型与无法解构的默认值。
+- 判定：结构可解析、覆盖全部导出、示例能按其中 import 运行；生成物与源码漂移由 `npm run check` 拦截。2026-11-19 已落地 `llms.txt` 生成与 `test:catalog` 漂移检查；2026-11-21 起组件页 API 表与 `llms.txt` 由源码 props 类型、JSDoc、解构默认值与契约回退数据生成；手写契约只保留原生 / Radix 继承属性、union 类型与无法解构的默认值。同日 P3 起步：30 个条目的行为归属与 a11y 声明经生成器校验后进入组件页与 `llms.txt`，组合行为按来源拆条。
 
 ### 行为归属
 
@@ -155,6 +165,8 @@ P1 完成：30 个条目均有独立页；目录新增「页面原语」分组�
 | Button 进入 loading | RadishUI 保留焦点，设置 `aria-disabled` / `aria-busy` 并拦截重复激活。焦点环遵循 [DR-17](../design/design-rules.md#dr-17)。 |
 
 用途：a11y 声明的依据、回归检查清单、Flutter 端语义对应，以及未来更换行为层时的迁移清单。P3 覆盖已迁移的全部组件；未迁移或没有真实页面承载的组件不加壳。
+
+2026-11-21 起逐组件声明落在 `apps/docs/src/component-behavior.ts`：30 个条目共 138 条（键盘 53、焦点 15、ARIA 42、已知限制 28；浏览器原生 29、Radix 32、RadishUI 77），经 `scripts/generate-api.mjs` 校验后生成到组件页「键盘与可访问性」表与 `llms.txt`。上表保留为跨组件示例；逐组件完整清单以生成物为准。
 
 ### 交互行为测试
 
@@ -179,7 +191,7 @@ P1 完成：30 个条目均有独立页；目录新增「页面原语」分组�
 - 用法：P3 起每组件至少 3 个真实示例；示例代码与预览一致；不能只靠静态截图。
 - 站点：搜索、深链、复制、键盘焦点可用；不因新增页面破坏 Workbench 与既有路由。
 - 契约：P2 起 API 表与 `llms.txt` 由单一来源生成并有 `--check` 漂移门禁，行为归属在 P3 进入同一来源；手写镜像只作为过渡并在同批标注到期阶段。
-- 行为：P3 组件页逐项注明浏览器原生、Radix 与 RadishUI 承担的行为；键盘与焦点验收记录验证环境、证据来源及未覆盖项。
+- 行为：P3 组件页逐项注明浏览器原生、Radix 与 RadishUI 承担的行为（2026-11-21 起已进入契约生成）；键盘与焦点验收记录验证环境、证据来源及未覆盖项。
 - 不以组件数量或文档页数量替代验收；每项必须有可复验证据。
 
 ## 边界与依赖
