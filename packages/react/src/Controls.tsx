@@ -2,7 +2,10 @@ import { useState, type ComponentProps, type ComponentPropsWithRef, type Compone
 import { Accordion as AccordionPrimitive, Switch as SwitchPrimitive, Tabs as TabsPrimitive, ToggleGroup as ToggleGroupPrimitive } from 'radix-ui';
 import { Check, ChevronDown } from 'lucide-react';
 
-export interface CheckboxProps extends Omit<ComponentPropsWithRef<'input'>, 'type'> { children?: ReactNode }
+export interface CheckboxProps extends Omit<ComponentPropsWithRef<'input'>, 'type'> {
+  /** 可见标签文字；无文字时必须提供可访问名称。 */
+  children?: ReactNode;
+}
 export function Checkbox({ children, className = '', ...props }: CheckboxProps) {
   return <label className={`rd-checkbox ${className}`}>
     <input {...props} type="checkbox" />
@@ -24,7 +27,16 @@ export function Tabs({ className = '', ...props }: TabsProps) {
 }
 
 export interface TabOption { value: string; label: ReactNode; disabled?: boolean }
-export interface TabsListProps { label: string; items: readonly TabOption[]; size?: 'sm' | 'md' | 'lg'; className?: string }
+export interface TabsListProps {
+  /** 标签组的可访问名称。 */
+  label: string;
+  /** 标签定义；禁用项跳过键盘移动。 */
+  items: readonly TabOption[];
+  /** 标签轨道尺寸；默认随站点尺度。 */
+  size?: 'sm' | 'md' | 'lg';
+  /** 附加类名。 */
+  className?: string;
+}
 export function TabsList({ label, items, size, className = '' }: TabsListProps) {
   // Radix focuses the trigger on pointerdown, which Chrome reports as :focus-visible.
   // Track pointer-driven focus so mouse clicks don't leave a ring that the toolbar
@@ -58,7 +70,14 @@ export function TabsContent({ className = '', ...props }: TabsContentProps) {
 }
 
 export type StatusTone = 'neutral' | 'success' | 'warning' | 'danger' | 'info';
-export interface StatusBadgeProps { tone?: StatusTone; children: ReactNode; className?: string }
+export interface StatusBadgeProps {
+  /** 状态语义；由文字与图标共同表达时不要只靠颜色。 */
+  tone?: StatusTone;
+  /** 状态文字；图标由调用方提供。 */
+  children: ReactNode;
+  /** 附加类名。 */
+  className?: string;
+}
 export function StatusBadge({ tone = 'neutral', children, className = '' }: StatusBadgeProps) {
   return <span className={`rd-badge rd-badge--${tone} ${className}`}>{children}</span>;
 }

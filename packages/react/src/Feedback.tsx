@@ -3,7 +3,16 @@ import { Toast as ToastPrimitive } from 'radix-ui';
 import { CircleCheck, Info, TriangleAlert, X } from 'lucide-react';
 import { IconButton } from './Button';
 
-export interface InlineAlertProps { tone?: 'info' | 'success' | 'warning' | 'danger'; children: ReactNode; title?: string; className?: string }
+export interface InlineAlertProps {
+  /** 状态层级；决定图标、颜色与播报角色。 */
+  tone?: 'info' | 'success' | 'warning' | 'danger';
+  /** 提示正文；可包含必要的操作入口，但不替代字段错误。 */
+  children: ReactNode;
+  /** 可选的加粗标题。 */
+  title?: string;
+  /** 附加类名。 */
+  className?: string;
+}
 export function InlineAlert({ tone = 'info', children, title, className = '' }: InlineAlertProps) {
   const Icon = tone === 'danger' || tone === 'warning' ? TriangleAlert : tone === 'success' ? CircleCheck : Info;
   return <div className={`rd-alert rd-alert--${tone} ${className}`} role={tone === 'danger' ? 'alert' : 'status'}>
@@ -35,7 +44,18 @@ function focusable(element: HTMLElement | null | undefined): element is HTMLElem
     && !element.matches(':disabled') && element.getAttribute('aria-disabled') !== 'true');
 }
 
-export interface ToastProps { open: boolean; onOpenChange(open: boolean): void; message: string; label?: string; closeLabel?: string }
+export interface ToastProps {
+  /** 受控显示状态；挂载后自动计时关闭。 */
+  open: boolean;
+  /** 关闭请求回调；超时、Esc 与关闭按钮都会触发。 */
+  onOpenChange(open: boolean): void;
+  /** 单行提示文案。 */
+  message: string;
+  /** 区域名，同时用于 F8 快捷键提示。 */
+  label?: string;
+  /** 关闭按钮的可访问名称。 */
+  closeLabel?: string;
+}
 export function Toast({ open, onOpenChange, message, label = '通知', closeLabel = '关闭通知' }: ToastProps) {
   const [paused, setPaused] = useState(false);
   const viewport = useRef<HTMLOListElement>(null);

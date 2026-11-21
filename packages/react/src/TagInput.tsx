@@ -5,14 +5,23 @@ import { Tag } from './Display';
 import { Input } from './Fields';
 
 export interface TagInputProps {
+  /** 已保存的标签；渲染与删除都以此为准。 */
   value: readonly string[];
+  /** 删除标签时回传新数组；添加由 onAdd 处理。 */
   onValueChange(value: string[]): void;
+  /** 输入框草稿；由调用方持有。 */
   draft: string;
+  /** 草稿变化回调。 */
   onDraftChange(draft: string): void;
+  /** Enter 或添加按钮触发；是否去重、限长由调用方决定。 */
   onAdd(): void;
+  /** 添加按钮文案。 */
   addLabel: string;
+  /** 每个删除按钮的可访问名称。 */
   removeLabel(tag: string): string;
+  /** 独立使用时的可访问名称；在 FormField 内由字段标签关联。 */
   label?: string;
+  /** 禁用输入、添加与删除。 */
   disabled?: boolean;
 }
 

@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 import { componentCatalog, componentGroups, filterComponents, findComponent, groupLabel } from '../apps/docs/src/component-catalog.ts';
 import { pilotDocs } from '../apps/docs/src/component-api.generated.ts';
 import { buildLlmsText } from './generate-llms.mjs';
-import { buildGeneratedApi } from './generate-api.mjs';
+import { auditApiContract, buildGeneratedApi } from './generate-api.mjs';
 
 test('component catalog has unique, routable ids and known groups', () => {
   assert.equal(componentCatalog.length, 30);
@@ -35,6 +35,56 @@ test('pilot entries have API rows and a dedicated page', () => {
 test('component-api.generated.ts matches component source types', () => {
   const file = new URL('../apps/docs/src/component-api.generated.ts', import.meta.url);
   assert.equal(readFileSync(file, 'utf8'), buildGeneratedApi());
+});
+
+test('authored contract only keeps fields the source cannot provide', () => {
+  const audit = auditApiContract();
+  assert.deepEqual(audit.problems, []);
+  assert.deepEqual(audit.tightening, []);
+  // Default values that are not destructured in source stay authored; adding or
+  // removing one should be a deliberate contract change, not silent drift.
+  const authoredDefaults = audit.fallbacks
+    .filter(fallback => fallback.fields.includes('defaultValue'))
+    .map(fallback => `${fallback.id}.${fallback.name}`)
+    .sort();
+  assert.deepEqual(authoredDefaults, [
+    'accordion.collapsible',
+    'accordion.type',
+    'button.disabled',
+    'form-field.required',
+    'icon-button.disabled',
+    'icon-button.type',
+    'select.disabled',
+    'select.required',
+    'tag-input.disabled',
+    'textarea.readOnly',
+    'toggle-group.type',
+  ]);
+});
+
+test('descriptions and default values come from component source', () => {
+  const row = (id, name, component) => {
+    const found = pilotDocs[id].api.find(entry => entry.name === name && (!component || entry.component === component));
+    assert.ok(found, `${id}.${name}`);
+    return found;
+  };
+  assert.equal(row('button', 'variant').description, '操作层级；一个区域只保留一个主要操作。');
+  assert.equal(row('button', 'variant').defaultValue, "'primary'");
+  assert.equal(row('icon-button', 'variant').defaultValue, "'ghost'");
+  assert.equal(row('icon-button', 'size').defaultValue, "'md'");
+  assert.equal(row('dialog', 'role').defaultValue, "'dialog'");
+  assert.equal(row('pagination', 'pageSizeOptions').defaultValue, '[5, 10, 20, 50]');
+  assert.equal(row('table-of-contents', 'hrefFor').defaultValue, 'id => `#${id}`');
+  assert.equal(row('card', 'tone').description, '表面角色：内容卡、弱化内嵌或预览画布。');
+  assert.equal(row('section', 'size').description, 'md 阅读区块；sm 密集参考区。');
+  assert.equal(row('table', 'label').description, '表格的可访问名称，渲染为视觉隐藏的 caption。');
+  for (const doc of Object.values(pilotDocs)) {
+    for (const entry of doc.api) {
+      if (/^on[A-Z]/.test(entry.name) || entry.name === 'hrefFor' || entry.name === 'removeLabel') {
+        assert.match(entry.type, /=>|Handler</, `${entry.name} 应保留函数类型`);
+      }
+    }
+  }
 });
 
 test('llms.txt matches generated component contracts', () => {

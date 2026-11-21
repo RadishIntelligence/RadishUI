@@ -20,7 +20,7 @@ export function buildLlmsText() {
     `- 条目：${componentCatalog.length} 个（${componentCount} 个组件 + ${primitiveCount} 个页面原语）`,
     '- 文档：https://ui.radishx.com',
     '',
-    '本文件由 `apps/docs/src/component-catalog.ts` 与 `component-api.ts` 生成；运行 `npm run llms:generate` 更新，`npm run test:catalog` 检查漂移。',
+    '本文件由 `apps/docs/src/component-catalog.ts`、`packages/react/src` 的 props 类型 / JSDoc / 解构默认值与 `component-api.ts` 的回退数据生成；运行 `npm run llms:generate` 更新，`npm run test:catalog` 检查漂移。',
     '',
   ];
   for (const group of componentGroups) {

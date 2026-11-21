@@ -1,9 +1,9 @@
 import type { ComponentPropsWithoutRef } from 'react';
 
 export interface TableProps extends ComponentPropsWithoutRef<'table'> {
-  /** Accessible name, rendered as a visually hidden caption. */
+  /** 表格的可访问名称，渲染为视觉隐藏的 caption。 */
   label: string;
-  /** Turn off when the page falls back to page-level scrolling. */
+  /** 表头吸顶；页面级滚动退化时关闭。 */
   stickyHeader?: boolean;
 }
 

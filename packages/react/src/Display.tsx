@@ -10,11 +10,17 @@ function fallbackInitials(name: string) {
 }
 
 export interface AvatarProps extends Omit<ComponentPropsWithoutRef<'span'>, 'children'> {
+  /** 可访问名称与首字回退来源。 */
   name: string;
+  /** 头像图片；加载失败回退到首字。 */
   src?: string;
+  /** 自定义回退内容；未传时取名字首字。 */
   fallback?: ReactNode;
+  /** 圆形或圆角方形。 */
   shape?: 'circle' | 'square';
+  /** 三档尺寸。 */
   size?: 'sm' | 'md' | 'lg';
+  /** 纯装饰：移除 role 与 aria-label 并 aria-hidden。 */
   decorative?: boolean;
 }
 
@@ -29,14 +35,19 @@ export function Avatar({ name, src, fallback, shape = 'circle', size = 'md', dec
   </span>;
 }
 
-export interface TagProps extends ComponentPropsWithoutRef<'span'> { children: ReactNode }
+export interface TagProps extends ComponentPropsWithoutRef<'span'> {
+  /** 中性标签文本；状态语义改用 StatusBadge。 */
+  children: ReactNode;
+}
 
 export function Tag({ className = '', children, ...props }: TagProps) {
   return <span {...props} className={`rd-tag ${className}`.trim()}>{children}</span>;
 }
 
 export interface SkeletonProps extends ComponentProps<'div'> {
+  /** 占位宽度；数字按 px 处理。 */
   width?: string | number;
+  /** 占位高度；数字按 px 处理。 */
   height?: string | number;
 }
 

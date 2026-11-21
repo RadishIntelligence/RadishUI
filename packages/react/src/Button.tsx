@@ -1,8 +1,11 @@
 import type { ComponentPropsWithRef, ReactNode } from 'react';
 
 export interface ButtonProps extends ComponentPropsWithRef<'button'> {
+  /** 操作层级；一个区域只保留一个主要操作。 */
   variant?: 'primary' | 'secondary' | 'ghost' | 'danger';
+  /** 保留焦点，设置 aria-disabled / aria-busy，并拦截重复激活。 */
   loading?: boolean;
+  /** sm 用于工具栏与紧凑行，md 用于页面和表单操作。 */
   size?: 'sm' | 'md';
 }
 
@@ -25,7 +28,9 @@ export function Button({ variant = 'primary', size = 'md', loading = false, disa
 }
 
 export interface IconButtonProps extends Omit<ButtonProps, 'children'> {
+  /** 可访问名称；没有可见文字时必须提供。 */
   label: string;
+  /** 图标内容；通常为 lucide 图标并设置尺寸。 */
   children: ReactNode;
 }
 

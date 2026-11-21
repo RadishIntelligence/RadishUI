@@ -6,7 +6,7 @@
 - 条目：30 个（27 个组件 + 3 个页面原语）
 - 文档：https://ui.radishx.com
 
-本文件由 `apps/docs/src/component-catalog.ts` 与 `component-api.ts` 生成；运行 `npm run llms:generate` 更新，`npm run test:catalog` 检查漂移。
+本文件由 `apps/docs/src/component-catalog.ts`、`packages/react/src` 的 props 类型 / JSDoc / 解构默认值与 `component-api.ts` 的回退数据生成；运行 `npm run llms:generate` 更新，`npm run test:catalog` 检查漂移。
 
 ## 操作（Actions）
 
@@ -56,9 +56,9 @@ import '@radish-ui/react/styles.css';
 
 - `label` — 类型 `string`；必填 — 可访问名称；没有可见文字时必须提供。
 - `children` — 类型 `ReactNode`；必填 — 图标内容；通常为 lucide 图标并设置尺寸。
-- `variant` — 类型 `'primary' | 'secondary' | 'ghost' | 'danger'`；默认 'ghost' — 与 Button 相同的操作层级；默认 ghost。
-- `size` — 类型 `'sm' | 'md'`；默认 'md' — 图标按钮尺寸。
-- `loading` — 类型 `boolean`；默认 false — 保留焦点并拦截重复激活；loading 时只显示 spinner。
+- `variant` — 类型 `'primary' | 'secondary' | 'ghost' | 'danger'`；默认 'ghost' — 操作层级；一个区域只保留一个主要操作。
+- `size` — 类型 `'sm' | 'md'`；默认 'md' — sm 用于工具栏与紧凑行，md 用于页面和表单操作。
+- `loading` — 类型 `boolean`；默认 false — 保留焦点，设置 aria-disabled / aria-busy，并拦截重复激活。
 - `disabled` — 类型 `boolean`；默认 false — 原生禁用，不进入 Tab 顺序。
 - `type` — 类型 `'button' | 'submit' | 'reset'`；默认 'button' — 默认不触发表单提交。
 - `onClick` — 类型 `MouseEventHandler<HTMLButtonElement>` — 原生点击回调；loading 时不执行。
@@ -121,7 +121,7 @@ import '@radish-ui/react/styles.css';
 - `defaultValue` — 类型 `string` — 非受控初始值。
 - `onChange` — 类型 `ChangeEventHandler<HTMLInputElement>` — 输入变化回调；其余原生 input 事件透传。
 - `placeholder` — 类型 `string` — 空值提示；不替代字段标签。
-- `surface` — 类型 `'outline' | 'filled'`；默认 'outline' — 输入表面；filled 用于强调或分组背景。
+- `surface` — 类型 `FieldSurface`；默认 'outline' — 输入表面；filled 用于强调或分组背景。
 - `id` — 类型 `string` — 控件 id；在 FormField 内自动继承。
 - `required` — 类型 `boolean` — 未传时继承 FormField 的 required。
 - `aria-describedby` — 类型 `string` — 与字段说明 / 错误合并，不覆盖字段上下文。
@@ -155,7 +155,7 @@ import '@radish-ui/react/styles.css';
 - `onChange` — 类型 `ChangeEventHandler<HTMLTextAreaElement>` — 输入变化回调；其余原生 textarea 事件透传。
 - `rows` — 类型 `number` — 初始可见行数；实际高度仍可拖拽调整。
 - `readOnly` — 类型 `boolean`；默认 false — 只读；保留选择与复制，不响应编辑。
-- `surface` — 类型 `'outline' | 'filled'`；默认 'outline' — 输入表面；与 Input 使用同一组语义。
+- `surface` — 类型 `FieldSurface`；默认 'outline' — 输入表面；与 Input 使用同一组语义。
 - `id` — 类型 `string` — 控件 id；在 FormField 内自动继承。
 - `required` — 类型 `boolean` — 未传时继承 FormField 的 required。
 - `aria-describedby` — 类型 `string` — 与字段说明 / 错误合并，不覆盖字段上下文。
@@ -184,7 +184,7 @@ import '@radish-ui/react/styles.css';
 属性：
 
 - `value` — 类型 `string`；必填 — 受控验证码；按数字字符保存，空位不占位。
-- `onValueChange` — 类型 `void`；必填 — 输入、删除或粘贴后回传完整数字串。
+- `onValueChange` — 类型 `(value: string) => void`；必填 — 输入、删除或粘贴后回传完整数字串。
 - `label` — 类型 `string`；必填 — 字段标签，并用于逐位输入的可访问名称。
 - `length` — 类型 `number`；默认 6 — 位数；小于 1 时按 1 处理。
 - `hint` — 类型 `string` — 说明文本；error 存在时不显示。
@@ -196,7 +196,7 @@ import '@radish-ui/react/styles.css';
 - `name` — 类型 `string` — 表单提交用的隐藏字段名；值始终是完整数字串。
 - `id` — 类型 `string` — 第一位输入的 id；其余位由组件生成。
 - `className` — 类型 `string`；默认 '' — 附加类名。
-- `onEnterPress` — 类型 `void` — 提供时 Enter 只触发回调并阻止表单提交；未提供时保留浏览器默认提交。
+- `onEnterPress` — 类型 `() => void` — 提供时 Enter 只触发回调并阻止表单提交；未提供时保留浏览器默认提交。
 
 键盘与可访问性：
 
@@ -220,7 +220,7 @@ import '@radish-ui/react/styles.css';
 属性：
 
 - `value` — 类型 `string`；必填 — 受控当前值；空字符串表示未选择。
-- `onValueChange` — 类型 `void`；必填 — 选择变化回调；由调用方保存状态。
+- `onValueChange` — 类型 `(value: string) => void`；必填 — 选择变化回调；由调用方保存状态。
 - `options` — 类型 `readonly SelectOption[]`；必填 — 选项列表；禁用项会跳过键盘移动。
 - `label` — 类型 `string` — 独立使用时的可访问名称；在 FormField 内由字段标签关联。
 - `placeholder` — 类型 `string` — 未选择时的触发器文案。
@@ -228,7 +228,7 @@ import '@radish-ui/react/styles.css';
 - `required` — 类型 `boolean`；默认 false — 未传时继承 FormField 的 required。
 - `name` — 类型 `string` — 表单提交用的隐藏字段名。
 - `id` — 类型 `string` — 触发器 id；在 FormField 内自动生成。
-- `surface` — 类型 `'outline' | 'filled'`；默认 'outline' — 触发器表面；filled 只作为可选形态。
+- `surface` — 类型 `FieldSurface`；默认 'outline' — 触发器表面；filled 只作为可选形态。
 - `size` — 类型 `'sm' | 'md'`；默认 'md' — sm 用于页面 chrome，md 用于表单字段。
 - `className` — 类型 `string`；默认 '' — 附加类名，不改变浮层行为。
 
@@ -254,12 +254,12 @@ import '@radish-ui/react/styles.css';
 属性：
 
 - `value` — 类型 `readonly string[]`；必填 — 已保存的标签；渲染与删除都以此为准。
-- `onValueChange` — 类型 `void`；必填 — 删除标签时回传新数组；添加由 onAdd 处理。
+- `onValueChange` — 类型 `(value: string[]) => void`；必填 — 删除标签时回传新数组；添加由 onAdd 处理。
 - `draft` — 类型 `string`；必填 — 输入框草稿；由调用方持有。
-- `onDraftChange` — 类型 `void`；必填 — 草稿变化回调。
-- `onAdd` — 类型 `void`；必填 — Enter 或添加按钮触发；是否去重、限长由调用方决定。
+- `onDraftChange` — 类型 `(draft: string) => void`；必填 — 草稿变化回调。
+- `onAdd` — 类型 `() => void`；必填 — Enter 或添加按钮触发；是否去重、限长由调用方决定。
 - `addLabel` — 类型 `string`；必填 — 添加按钮文案。
-- `removeLabel` — 类型 `string`；必填 — 每个删除按钮的可访问名称。
+- `removeLabel` — 类型 `(tag: string) => string`；必填 — 每个删除按钮的可访问名称。
 - `label` — 类型 `string` — 独立使用时的可访问名称；在 FormField 内由字段标签关联。
 - `disabled` — 类型 `boolean`；默认 false — 禁用输入、添加与删除。
 
@@ -287,7 +287,7 @@ import '@radish-ui/react/styles.css';
 属性：
 
 - `value` — 类型 `string`；必填 — 受控当前值。
-- `onValueChange` — 类型 `void`；必填 — 选择或方向键移动时回传。
+- `onValueChange` — 类型 `(value: string) => void`；必填 — 选择或方向键移动时回传。
 - `options` — 类型 `readonly RadioOption[]`；必填 — 选项列表；label 为字符串，保证可访问名称。
 - `label` — 类型 `string` — 独立使用时的可访问名称；FormField 内由字段标签关联。
 - `name` — 类型 `string` — 表单提交字段名。
@@ -500,7 +500,7 @@ import '@radish-ui/react/styles.css';
 
 属性：
 
-- `tone` — 类型 `'neutral' | 'success' | 'warning' | 'danger' | 'info'`；默认 'neutral' — 状态语义；由文字与图标共同表达时不要只靠颜色。
+- `tone` — 类型 `StatusTone`；默认 'neutral' — 状态语义；由文字与图标共同表达时不要只靠颜色。
 - `children` — 类型 `ReactNode`；必填 — 状态文字；图标由调用方提供。
 - `className` — 类型 `string`；默认 '' — 附加类名。
 
@@ -528,8 +528,8 @@ import '@radish-ui/react/styles.css';
 属性：
 
 - `open` — 类型 `boolean`；必填 — 受控打开状态。
-- `onOpenChange` — 类型 `void`；必填 — Escape、遮罩与关闭按钮的关闭请求。
-- `title` — 类型 `ReactNode`；必填 — 标题，作为对话框的可访问名称。
+- `onOpenChange` — 类型 `(open: boolean) => void`；必填 — Escape、遮罩与关闭按钮的关闭请求。
+- `title` — 类型 `ReactNode`；必填 — 标题，作为对话框 / 抽屉的可访问名称。
 - `description` — 类型 `ReactNode` — 补充说明，关联到 aria-describedby。
 - `children` — 类型 `ReactNode`；必填 — 正文内容。
 - `footer` — 类型 `ReactNode` — 底部操作区；按钮顺序由调用方决定。
@@ -561,7 +561,7 @@ import '@radish-ui/react/styles.css';
 属性：
 
 - `open` — 类型 `boolean`；必填 — 受控打开状态。
-- `onOpenChange` — 类型 `void`；必填 — 取消、Escape 与遮罩的关闭请求；loading 时被拦截。
+- `onOpenChange` — 类型 `(open: boolean) => void`；必填 — 取消、Escape 与遮罩的关闭请求；loading 时被拦截。
 - `title` — 类型 `ReactNode`；必填 — 确认标题。
 - `description` — 类型 `ReactNode` — 补充说明，关联到 aria-describedby。
 - `children` — 类型 `ReactNode` — 需要用户确认的正文。
@@ -570,7 +570,7 @@ import '@radish-ui/react/styles.css';
 - `tone` — 类型 `'default' | 'danger'`；默认 'default' — 确认动作的危险级别；danger 使用危险按钮。
 - `loading` — 类型 `boolean`；默认 false — 确认中：拦截关闭、禁用取消与头部关闭按钮。
 - `closeLabel` — 类型 `string` — 头部关闭按钮的可访问名称。
-- `onConfirm` — 类型 `void`；必填 — 确认回调；加载状态由调用方维护。
+- `onConfirm` — 类型 `() => void`；必填 — 确认回调；加载状态由调用方维护。
 
 键盘与可访问性：
 
@@ -624,15 +624,15 @@ import '@radish-ui/react/styles.css';
 属性：
 
 - `open` — 类型 `boolean`；必填 — 受控打开状态。
-- `onOpenChange` — 类型 `void`；必填 — Escape、遮罩与关闭按钮的关闭请求。
-- `title` — 类型 `ReactNode`；必填 — 标题，作为抽屉的可访问名称。
+- `onOpenChange` — 类型 `(open: boolean) => void`；必填 — Escape、遮罩与关闭按钮的关闭请求。
+- `title` — 类型 `ReactNode`；必填 — 标题，作为对话框 / 抽屉的可访问名称。
 - `description` — 类型 `ReactNode` — 补充说明，关联到 aria-describedby。
 - `children` — 类型 `ReactNode`；必填 — 正文内容。
-- `footer` — 类型 `ReactNode` — 底部操作区。
+- `footer` — 类型 `ReactNode` — 底部操作区；按钮顺序由调用方决定。
 - `closeLabel` — 类型 `string`；默认 '关闭' — 头部关闭按钮的可访问名称。
 - `closeDisabled` — 类型 `boolean`；默认 false — 禁用头部关闭按钮但保留在 DOM。
 - `initialFocusRef` — 类型 `RefObject<HTMLElement | null>` — 打开时的初始焦点；关闭后回到打开它的入口。
-- `role` — 类型 `'dialog' | 'alertdialog'`；默认 'dialog' — 语义角色，与 Dialog 相同。
+- `role` — 类型 `'dialog' | 'alertdialog'`；默认 'dialog' — 语义角色；确认类使用 alertdialog。
 - `className` — 类型 `string`；默认 '' — 附加类名。
 
 键盘与可访问性：
@@ -745,7 +745,7 @@ import '@radish-ui/react/styles.css';
 属性：
 
 - `open` — 类型 `boolean`；必填 — 受控显示状态；挂载后自动计时关闭。
-- `onOpenChange` — 类型 `void`；必填 — 关闭请求回调；超时、Esc 与关闭按钮都会触发。
+- `onOpenChange` — 类型 `(open: boolean) => void`；必填 — 关闭请求回调；超时、Esc 与关闭按钮都会触发。
 - `message` — 类型 `string`；必填 — 单行提示文案。
 - `label` — 类型 `string`；默认 '通知' — 区域名，同时用于 F8 快捷键提示。
 - `closeLabel` — 类型 `string`；默认 '关闭通知' — 关闭按钮的可访问名称。
@@ -801,8 +801,8 @@ import '@radish-ui/react/styles.css';
 - `pageCount` — 类型 `number`；必填 — 总页数；为 1 时渐进披露为单页。
 - `pageSize` — 类型 `number`；必填 — 每页条数。
 - `totalItems` — 类型 `number`；必填 — 总条数，用于摘要。
-- `onPageChange` — 类型 `void`；必填 — 页码变化回调。
-- `onPageSizeChange` — 类型 `void`；必填 — 每页条数变化回调。
+- `onPageChange` — 类型 `(page: number) => void`；必填 — 页码变化回调。
+- `onPageSizeChange` — 类型 `(size: number) => void`；必填 — 每页条数变化回调。
 - `pageSizeOptions` — 类型 `readonly number[]`；默认 [5, 10, 20, 50] — 页大小选项。
 - `labels` — 类型 `Partial<PaginationLabels>` — 覆盖导航、摘要、跳页等文案。
 - `className` — 类型 `string`；默认 '' — 附加类名。
@@ -831,8 +831,8 @@ import '@radish-ui/react/styles.css';
 - `label` — 类型 `string`；必填 — 目录导航的可访问名称。
 - `items` — 类型 `readonly TableOfContentsItem[]`；必填 — 章节列表；level 控制缩进。
 - `currentId` — 类型 `string` — 当前章节；对应链接带 aria-current="location"。
-- `hrefFor` — 类型 `string`；默认 id => `#${id}` — 自定义链接目标。
-- `onNavigate` — 类型 `void` — 点击回调；可拦截默认跳转。
+- `hrefFor` — 类型 `(id: string) => string`；默认 id => `#${id}` — 自定义链接目标。
+- `onNavigate` — 类型 `(id: string, event: MouseEvent<HTMLAnchorElement>) => void` — 点击回调；可拦截默认跳转。
 - `className` — 类型 `string`；默认 '' — 附加类名。
 
 键盘与可访问性：
@@ -858,8 +858,8 @@ import '@radish-ui/react/styles.css';
 
 属性：
 
-- `tone` — 类型 `'surface' | 'muted' | 'app'`；默认 'surface' — 表面角色：内容卡、弱化内嵌或预览画布。
-- `padding` — 类型 `'none' | 'sm' | 'md'`；默认 'md' — 内边距：sm 12px、md 16px；none 由内部分区自管。
+- `tone` — 类型 `CardTone`；默认 'surface' — 表面角色：内容卡、弱化内嵌或预览画布。
+- `padding` — 类型 `CardPadding`；默认 'md' — 内边距：sm 12px、md 16px；none 由内部分区自管。
 - `asChild` — 类型 `boolean`；默认 false — 把表面挂到唯一子元素，例如链接卡片，保留原有语义。
 - `children` — 类型 `ReactNode` — 卡片内容；复杂卡片自行分区时配合 padding="none"。
 - `className` — 类型 `string`；默认 '' — 附加类名，不替代 tone / padding。

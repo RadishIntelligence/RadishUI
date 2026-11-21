@@ -5,11 +5,11 @@ export type CardTone = 'surface' | 'muted' | 'app';
 export type CardPadding = 'none' | 'sm' | 'md';
 
 export interface CardProps extends ComponentPropsWithoutRef<'div'> {
-  /** Surface role: default content surface, muted inset, or app canvas (for previews). */
+  /** 表面角色：内容卡、弱化内嵌或预览画布。 */
   tone?: CardTone;
-  /** `sm` = 12px, `md` = 16px page spacing; `none` when the card manages its own sections. */
+  /** 内边距：sm 12px、md 16px；none 由内部分区自管。 */
   padding?: CardPadding;
-  /** Attach the surface to the single child element, e.g. a link card. */
+  /** 把表面挂到唯一子元素，例如链接卡片，保留原有语义。 */
   asChild?: boolean;
 }
 
@@ -19,11 +19,13 @@ export function Card({ tone = 'surface', padding = 'md', asChild = false, classN
 }
 
 export interface SectionProps extends Omit<ComponentPropsWithoutRef<'section'>, 'title'> {
+  /** 区块标题；默认生成 id 并关联 aria-labelledby。 */
   title: ReactNode;
+  /** 标题上方的短标签，用于流程或分组。 */
   eyebrow?: ReactNode;
-  /** Reserved for documentation sections; product pages keep control help to DR-18. */
+  /** 文档区块的说明；产品页面按 DR-18 保持克制。 */
   description?: ReactNode;
-  /** `md` = reading sections (18px heading, 24px block padding); `sm` = dense reference sections (16px, 20px). */
+  /** md 阅读区块；sm 密集参考区。 */
   size?: 'sm' | 'md';
 }
 

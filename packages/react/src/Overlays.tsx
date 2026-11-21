@@ -4,17 +4,27 @@ import { X } from 'lucide-react';
 import { IconButton } from './Button';
 
 export interface DialogProps {
+  /** 受控打开状态。 */
   open: boolean;
+  /** Escape、遮罩与关闭按钮的关闭请求。 */
   onOpenChange(open: boolean): void;
+  /** 标题，作为对话框 / 抽屉的可访问名称。 */
   title: ReactNode;
+  /** 补充说明，关联到 aria-describedby。 */
   description?: ReactNode;
+  /** 正文内容。 */
   children: ReactNode;
+  /** 底部操作区；按钮顺序由调用方决定。 */
   footer?: ReactNode;
+  /** 头部关闭按钮的可访问名称。 */
   closeLabel?: string;
-  /** Disable the header close button without unmounting it, e.g. while a confirmation is loading. */
+  /** 禁用头部关闭按钮但保留在 DOM。 */
   closeDisabled?: boolean;
+  /** 打开时的初始焦点；关闭后回到打开它的入口。 */
   initialFocusRef?: RefObject<HTMLElement | null>;
+  /** 语义角色；确认类使用 alertdialog。 */
   role?: 'dialog' | 'alertdialog';
+  /** 附加类名。 */
   className?: string;
 }
 
@@ -53,16 +63,33 @@ export function Dialog(props: DialogProps) { return <DialogSurface {...props} />
 export function Drawer(props: DialogProps) { return <DialogSurface {...props} drawer />; }
 
 export interface MenuItem {
+  /** 稳定标识。 */
   id: string;
+  /** 菜单项文案。 */
   label: ReactNode;
+  /** 前置图标。 */
   icon?: ReactNode;
+  /** 选择回调；链接项由 href 导航。 */
   onSelect?: () => void;
+  /** 提供时渲染为链接项。 */
   href?: string;
+  /** 禁用；跳过键盘移动。 */
   disabled?: boolean;
+  /** 危险操作样式。 */
   danger?: boolean;
+  /** 在本项前插入分隔线。 */
   separatorBefore?: boolean;
 }
-export interface MenuProps { trigger: ReactElement; items: readonly MenuItem[]; label?: string; align?: 'start' | 'center' | 'end' }
+export interface MenuProps {
+  /** 菜单触发器；需要可聚焦且可访问名称。 */
+  trigger: ReactElement;
+  /** 菜单项定义；支持分隔、禁用、危险与链接。 */
+  items: readonly MenuItem[];
+  /** 菜单分组标题。 */
+  label?: string;
+  /** 相对触发器的对齐方式。 */
+  align?: 'start' | 'center' | 'end';
+}
 export function Menu({ trigger, items, label, align = 'end' }: MenuProps) {
   return <DropdownMenu.Root><DropdownMenu.Trigger asChild>{trigger}</DropdownMenu.Trigger>
     <DropdownMenu.Portal><DropdownMenu.Content className="rd-menu" align={align} sideOffset={6} collisionPadding={12}>
@@ -78,7 +105,12 @@ export function Menu({ trigger, items, label, align = 'end' }: MenuProps) {
   </DropdownMenu.Root>;
 }
 
-export interface TooltipProps { content: string; children: ReactElement }
+export interface TooltipProps {
+  /** 提示文案；不能承载必要说明或错误。 */
+  content: string;
+  /** 单个触发器；需可聚焦。 */
+  children: ReactElement;
+}
 export function Tooltip({ content, children }: TooltipProps) {
   return <TooltipPrimitive.Provider delayDuration={400}><TooltipPrimitive.Root>
     <TooltipPrimitive.Trigger asChild>{children}</TooltipPrimitive.Trigger>

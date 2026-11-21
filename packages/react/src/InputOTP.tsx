@@ -5,19 +5,33 @@ function sanitizeDigits(value: string) {
 }
 
 export interface InputOTPProps {
+  /** 受控验证码；按数字字符保存，空位不占位。 */
   value: string;
+  /** 输入、删除或粘贴后回传完整数字串。 */
   onValueChange(value: string): void;
+  /** 字段标签，并用于逐位输入的可访问名称。 */
   label: string;
+  /** 位数；小于 1 时按 1 处理。 */
   length?: number;
+  /** 说明文本；error 存在时不显示。 */
   hint?: string;
+  /** 错误文本；role=alert，并关联到每一位输入。 */
   error?: string;
+  /** 禁用全部输入位与隐藏字段。 */
   disabled?: boolean;
+  /** 显示必填标记，并以 group aria-required 表达。 */
   required?: boolean;
+  /** 挂载后聚焦第一个空位。 */
   autoFocus?: boolean;
+  /** 仅第一位设置，供浏览器自动填充验证码。 */
   autoComplete?: string;
+  /** 表单提交用的隐藏字段名；值始终是完整数字串。 */
   name?: string;
+  /** 第一位输入的 id；其余位由组件生成。 */
   id?: string;
+  /** 附加类名。 */
   className?: string;
+  /** 提供时 Enter 只触发回调并阻止表单提交；未提供时保留浏览器默认提交。 */
   onEnterPress?(): void;
 }
 

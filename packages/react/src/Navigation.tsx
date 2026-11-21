@@ -35,14 +35,23 @@ export const defaultPaginationLabels: PaginationLabels = {
 };
 
 export interface PaginationProps {
+  /** 当前页，从 1 开始。 */
   page: number;
+  /** 总页数；为 1 时渐进披露为单页。 */
   pageCount: number;
+  /** 每页条数。 */
   pageSize: number;
+  /** 总条数，用于摘要。 */
   totalItems: number;
+  /** 页码变化回调。 */
   onPageChange(page: number): void;
+  /** 每页条数变化回调。 */
   onPageSizeChange(size: number): void;
+  /** 页大小选项。 */
   pageSizeOptions?: readonly number[];
+  /** 覆盖导航、摘要、跳页等文案。 */
   labels?: Partial<PaginationLabels>;
+  /** 附加类名。 */
   className?: string;
 }
 
@@ -100,11 +109,17 @@ export interface TableOfContentsItem {
 }
 
 export interface TableOfContentsProps {
+  /** 目录导航的可访问名称。 */
   label: string;
+  /** 章节列表；level 控制缩进。 */
   items: readonly TableOfContentsItem[];
+  /** 当前章节；对应链接带 aria-current="location"。 */
   currentId?: string;
+  /** 自定义链接目标。 */
   hrefFor?(id: string): string;
+  /** 点击回调；可拦截默认跳转。 */
   onNavigate?(id: string, event: MouseEvent<HTMLAnchorElement>): void;
+  /** 附加类名。 */
   className?: string;
 }
 

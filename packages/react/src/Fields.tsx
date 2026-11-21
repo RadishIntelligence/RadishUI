@@ -7,12 +7,19 @@ export type FieldSurface = 'outline' | 'filled';
 const FieldContext = createContext<FieldState | undefined>(undefined);
 
 export interface FormFieldProps {
+  /** 控件 id；未传时生成稳定 id。 */
   id?: string;
+  /** 字段标签；通过 htmlFor 关联字段内控件。 */
   label: ReactNode;
+  /** 补充说明；error 存在时不显示。 */
   hint?: ReactNode;
+  /** 错误文本；role=alert，并把 aria-invalid 传给字段内控件。 */
   error?: ReactNode;
+  /** 显示必填标记，并把 required 传给字段内控件。 */
   required?: boolean;
+  /** 附加类名，不改变字段结构。 */
   className?: string;
+  /** 字段控件；Input / Textarea / Select 自动读取标签、说明、错误与必填。 */
   children: ReactNode;
 }
 
@@ -33,15 +40,25 @@ export function FormField({ id: suppliedId, label, hint, error, required, classN
 
 export interface RadioOption { value: string; label: string; disabled?: boolean }
 export interface RadioGroupProps {
+  /** 受控当前值。 */
   value: string;
+  /** 选择或方向键移动时回传。 */
   onValueChange(value: string): void;
+  /** 选项列表；label 为字符串，保证可访问名称。 */
   options: readonly RadioOption[];
+  /** 独立使用时的可访问名称；FormField 内由字段标签关联。 */
   label?: string;
+  /** 表单提交字段名。 */
   name?: string;
+  /** 禁用整组；禁用项不进入方向键顺序。 */
   disabled?: boolean;
+  /** 未传时继承 FormField 的 required。 */
   required?: boolean;
+  /** 排列方向；水平用于紧凑选项。 */
   orientation?: 'vertical' | 'horizontal';
+  /** 附加类名。 */
   className?: string;
+  /** 组内第一项的 id 基准；FormField 内自动继承。 */
   id?: string;
 }
 export function RadioGroup({ value, onValueChange, options, label, name, disabled, required, orientation = 'vertical', className = '', id: suppliedId }: RadioGroupProps) {
@@ -74,7 +91,10 @@ export function RadioGroup({ value, onValueChange, options, label, name, disable
   </RadioGroupPrimitive.Root>;
 }
 
-export interface InputProps extends ComponentPropsWithRef<'input'> { surface?: FieldSurface }
+export interface InputProps extends ComponentPropsWithRef<'input'> {
+  /** 输入表面；filled 用于强调或分组背景。 */
+  surface?: FieldSurface;
+}
 export function Input({ className = '', surface = 'outline', id, required, 'aria-describedby': description, 'aria-invalid': invalid, ...props }: InputProps) {
   const field = useContext(FieldContext);
   return <input {...props} id={id ?? field?.id} required={required ?? field?.required}
@@ -82,7 +102,10 @@ export function Input({ className = '', surface = 'outline', id, required, 'aria
     aria-invalid={invalid ?? (field?.invalid || undefined)} data-surface={surface} className={`rd-input ${className}`} />;
 }
 
-export interface TextareaProps extends ComponentPropsWithRef<'textarea'> { surface?: FieldSurface }
+export interface TextareaProps extends ComponentPropsWithRef<'textarea'> {
+  /** 输入表面；与 Input 使用同一组语义。 */
+  surface?: FieldSurface;
+}
 export function Textarea({ className = '', surface = 'outline', id, required, 'aria-describedby': description, 'aria-invalid': invalid, ...props }: TextareaProps) {
   const field = useContext(FieldContext);
   return <textarea {...props} id={id ?? field?.id} required={required ?? field?.required}
@@ -92,17 +115,29 @@ export function Textarea({ className = '', surface = 'outline', id, required, 'a
 
 export interface SelectOption { value: string; label: string; disabled?: boolean }
 export interface SelectProps {
+  /** 受控当前值；空字符串表示未选择。 */
   value: string;
+  /** 选择变化回调；由调用方保存状态。 */
   onValueChange(value: string): void;
+  /** 选项列表；禁用项会跳过键盘移动。 */
   options: readonly SelectOption[];
+  /** 触发器 id；在 FormField 内自动生成。 */
   id?: string;
+  /** 表单提交用的隐藏字段名。 */
   name?: string;
+  /** 独立使用时的可访问名称；在 FormField 内由字段标签关联。 */
   label?: string;
+  /** 未选择时的触发器文案。 */
   placeholder?: string;
+  /** 触发器不可用，不进入 Tab 顺序。 */
   disabled?: boolean;
+  /** 未传时继承 FormField 的 required。 */
   required?: boolean;
+  /** 附加类名，不改变浮层行为。 */
   className?: string;
+  /** 触发器表面；filled 只作为可选形态。 */
   surface?: FieldSurface;
+  /** sm 用于页面 chrome，md 用于表单字段。 */
   size?: 'sm' | 'md';
 }
 
