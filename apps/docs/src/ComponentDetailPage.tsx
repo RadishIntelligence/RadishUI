@@ -3,7 +3,7 @@ import type { Translate } from './model';
 import { PageHeader } from './PageHeader';
 import { CopyButton } from './CopyButton';
 import { findComponent, type ComponentEntry } from './component-catalog';
-import { pilotDocs } from './component-api';
+import { pilotDocs } from './component-api.generated';
 import { pilotExamples } from './component-pilot-examples';
 import './component-site.css';
 

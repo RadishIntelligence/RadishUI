@@ -41,7 +41,7 @@
 | --- | --- | --- |
 | **P0 垂直切片** | 目录页、搜索、Button / Select / Tabs 独立页、API 表、示例、复制、测试 | 已实现（`42019fe`），复审完成（2026-11-19） |
 | **P1 迁移 27 个** | 现有组件全部进入模板；Card / Section / Table 页面原语一并纳入目录；单页参考退为“全部示例” | 已完成（30 个条目） |
-| **P2 类型 / API 全量** | 导出缺失 props 类型；JSDoc / 默认值 / 事件 / ref；单一来源生成 API 表与 `llms.txt`，行为归属随 P3 进入同一来源；`--check` 漂移门禁；类型测试与完整性检查 | 进行中（类型导出、`llms.txt` 生成与漂移检查已落地；API 表仍手写） |
+| **P2 类型 / API 全量** | 导出缺失 props 类型；JSDoc / 默认值 / 事件 / ref；单一来源生成 API 表与 `llms.txt`，行为归属随 P3 进入同一来源；`--check` 漂移门禁；类型测试与完整性检查 | 进行中（API 表与 `llms.txt` 已由源码类型 + 契约数据生成；描述 / 默认值仍手写） |
 | **P3 用法深度** | 每组件 3+ 示例、变体 / 受控 / 表单 / 组合；代码高亮（新增依赖需确认）；每示例主题 / 密度；逐组件 a11y 与行为归属声明及对应断言（依赖待确认） | 待开始 |
 | **P4 目录扩展** | 按[家族需求盘点](family-component-demand.md)排序；Form、Upload、InputNumber / Slider 等逐项确认 | 待开始 |
 | **P5 站点能力** | 版本 / 变更记录、状态与弃用、双语文档、图标参考、站点搜索索引；公开安装 / CLI / registry 属 P4 发行 | 待开始 |
@@ -111,7 +111,14 @@ P1 完成：30 个条目均有独立页；目录新增「页面原语」分组�
 
 - 类型：补齐并导出 `StatusBadgeProps`、`TooltipProps`，其余组件的 props 类型已导出。
 - 契约：`scripts/generate-llms.mjs` 从组件目录与 `component-api.ts` 生成 `apps/docs/public/llms.txt`；`npm run llms:generate` 更新，`--check` 与 `test:catalog` 用例比较漂移，构建产物包含 `dist/llms.txt`。
-- 下一步：把 API 表的类型 / 默认值改为源码生成（补 JSDoc 与默认值），再让组件页与 `llms.txt` 共用同一生成入口；描述文字当前仍手工维护。
+- 下一步：把默认值与描述逐步迁入 JSDoc，再缩减手写契约。
+
+## P2 源码类型生成（2026-11-21）
+
+- 类型：补齐 `InputProps`、`TextareaProps`、`SwitchProps`、`TabsProps`、`TabsContentProps` 并导出；`SwitchProps` 与 `SkeletonProps` 改用包含 ref 的 `ComponentProps`。
+- 生成：`scripts/generate-api.mjs` 读取 `packages/react/src` 的导出 props 类型，与 `component-api.ts` 的描述 / 默认值合并，生成 `apps/docs/src/component-api.generated.ts`；组件页 API 表与 `llms.txt` 都消费该产物。
+- 校验：每个 API 行必须能在源码类型中找到，源码中公开声明的 props 必须登记；`--check` 与 `test:catalog` 新增用例比对生成文件，随现有 `check` 与 PR `web-build` 生效。
+- 未覆盖：union 类型（ToggleGroup / Accordion）保留手写类型文本；默认值与描述仍在契约数据；`ref` 等原生 / Radix 继承属性沿用契约文本，只做存在性校验。
 
 <a id="contract-and-behavior-2026-11-18"></a>
 
@@ -124,7 +131,7 @@ P1 完成：30 个条目均有独立页；目录新增「页面原语」分组�
 - P2 以组件源码导出的 props 类型、JSDoc 和组件目录元数据为输入。P3 接入一份逐组件的行为归属与可访问性声明，记录键盘、焦点、ARIA 和已知限制。
 - 生成消费：组件页 API 表、`llms.txt`（站点产物与未来发行包内文档目录共用同一份）与类型 / 完整性检查。沿用 token 管线的生成 + `--check` 范式，不手改生成物。
 - `llms.txt` 只描述已实现能力与 import 路径，不承诺未发布的包名、CLI 或 registry；P4 发行前只随展示站产出，不写进 npm 包路径。
-- 判定：结构可解析、覆盖全部导出、示例能按其中 import 运行；生成物与源码漂移由 `npm run check` 拦截。2026-11-19 已落地 `llms.txt` 生成与 `test:catalog` 漂移检查；API 表仍由同一契约数据手写，P2 下一步改为源码类型生成。
+- 判定：结构可解析、覆盖全部导出、示例能按其中 import 运行；生成物与源码漂移由 `npm run check` 拦截。2026-11-19 已落地 `llms.txt` 生成与 `test:catalog` 漂移检查；2026-11-21 起组件页 API 表由源码类型与契约数据共同生成，描述 / 默认值仍手写，JSDoc 迁移待续。
 
 ### 行为归属
 

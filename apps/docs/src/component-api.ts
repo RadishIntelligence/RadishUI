@@ -1,25 +1,13 @@
-export interface ComponentApiRow {
-  component?: string;
-  name: string;
-  type: string;
-  defaultValue?: string;
-  required: boolean;
-  description: string;
-}
-
-export interface PilotDoc {
-  api: readonly ComponentApiRow[];
-  importCode: string;
-  keyboard: readonly string[];
-  related: readonly string[];
-}
+import type { PilotDoc } from './component-api-types';
 
 /**
- * The pilot entries are the first per-component pages. Their API rows mirror
- * the exported TypeScript types; the next phase replaces this file with a
- * generator that reads the source interfaces directly.
+ * Authored contract annotations: descriptions, defaults, keyboard notes, related
+ * links, and fallback type / required text for props inherited from native or Radix
+ * types. `scripts/generate-api.mjs` merges these rows with props declared in
+ * packages/react/src and writes component-api.generated.ts. Do not import this
+ * module from the site; use the generated file.
  */
-export const pilotDocs: Record<string, PilotDoc> = {
+export const authoredDocs: Record<string, PilotDoc> = {
   button: {
     importCode: "import { Button } from '@radish-ui/react';\nimport '@radish-ui/react/styles.css';",
     api: [
@@ -342,6 +330,7 @@ export const pilotDocs: Record<string, PilotDoc> = {
       { name: 'defaultValue', type: 'string | string[]', required: false, description: '非受控初始展开项。' },
       { name: 'onValueChange', type: '(value: string | string[]) => void', required: false, description: '展开变化回调。' },
       { name: 'collapsible', type: 'boolean', defaultValue: 'false', required: false, description: 'single 时允许收起当前项。' },
+      { name: 'className', type: 'string', defaultValue: "''", required: false, description: '附加类名。' },
     ],
     keyboard: [
       'Tab 到达标题按钮，Enter / Space 展开或收起。',
@@ -415,6 +404,7 @@ export const pilotDocs: Record<string, PilotDoc> = {
     importCode: "import { IconButton } from '@radish-ui/react';\nimport '@radish-ui/react/styles.css';",
     api: [
       { name: 'label', type: 'string', required: true, description: '可访问名称；没有可见文字时必须提供。' },
+      { name: 'children', type: 'ReactNode', required: true, description: '图标内容；通常为 lucide 图标并设置尺寸。' },
       { name: 'variant', type: "'primary' | 'secondary' | 'ghost' | 'danger'", defaultValue: "'ghost'", required: false, description: '与 Button 相同的操作层级；默认 ghost。' },
       { name: 'size', type: "'sm' | 'md'", defaultValue: "'md'", required: false, description: '图标按钮尺寸。' },
       { name: 'loading', type: 'boolean', defaultValue: 'false', required: false, description: '保留焦点并拦截重复激活；loading 时只显示 spinner。' },

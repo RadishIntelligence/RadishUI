@@ -74,14 +74,16 @@ export function RadioGroup({ value, onValueChange, options, label, name, disable
   </RadioGroupPrimitive.Root>;
 }
 
-export function Input({ className = '', surface = 'outline', id, required, 'aria-describedby': description, 'aria-invalid': invalid, ...props }: ComponentPropsWithRef<'input'> & { surface?: FieldSurface }) {
+export interface InputProps extends ComponentPropsWithRef<'input'> { surface?: FieldSurface }
+export function Input({ className = '', surface = 'outline', id, required, 'aria-describedby': description, 'aria-invalid': invalid, ...props }: InputProps) {
   const field = useContext(FieldContext);
   return <input {...props} id={id ?? field?.id} required={required ?? field?.required}
     aria-describedby={[description, field?.describedBy].filter(Boolean).join(' ') || undefined}
     aria-invalid={invalid ?? (field?.invalid || undefined)} data-surface={surface} className={`rd-input ${className}`} />;
 }
 
-export function Textarea({ className = '', surface = 'outline', id, required, 'aria-describedby': description, 'aria-invalid': invalid, ...props }: ComponentPropsWithRef<'textarea'> & { surface?: FieldSurface }) {
+export interface TextareaProps extends ComponentPropsWithRef<'textarea'> { surface?: FieldSurface }
+export function Textarea({ className = '', surface = 'outline', id, required, 'aria-describedby': description, 'aria-invalid': invalid, ...props }: TextareaProps) {
   const field = useContext(FieldContext);
   return <textarea {...props} id={id ?? field?.id} required={required ?? field?.required}
     aria-describedby={[description, field?.describedBy].filter(Boolean).join(' ') || undefined}

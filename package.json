@@ -25,6 +25,7 @@
     "check:tokens": "node scripts/generate-tokens.mjs --check",
     "tokens:generate": "node scripts/generate-tokens.mjs",
     "llms:generate": "node scripts/generate-llms.mjs",
+    "api:generate": "node scripts/generate-api.mjs",
     "type-check": "tsc --noEmit"
   },
   "devDependencies": {

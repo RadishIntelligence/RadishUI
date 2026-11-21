@@ -1,4 +1,4 @@
-import { useState, type ComponentPropsWithRef, type ComponentPropsWithoutRef, type FocusEvent, type ReactNode } from 'react';
+import { useState, type ComponentProps, type ComponentPropsWithRef, type ComponentPropsWithoutRef, type FocusEvent, type ReactNode } from 'react';
 import { Accordion as AccordionPrimitive, Switch as SwitchPrimitive, Tabs as TabsPrimitive, ToggleGroup as ToggleGroupPrimitive } from 'radix-ui';
 import { Check, ChevronDown } from 'lucide-react';
 
@@ -11,13 +11,15 @@ export function Checkbox({ children, className = '', ...props }: CheckboxProps) 
   </label>;
 }
 
-export function Switch({ className = '', ...props }: ComponentPropsWithoutRef<typeof SwitchPrimitive.Root>) {
+export interface SwitchProps extends ComponentProps<typeof SwitchPrimitive.Root> {}
+export function Switch({ className = '', ...props }: SwitchProps) {
   return <SwitchPrimitive.Root {...props} className={`rd-switch ${className}`}>
     <SwitchPrimitive.Thumb className="rd-switch-thumb" />
   </SwitchPrimitive.Root>;
 }
 
-export function Tabs({ className = '', ...props }: ComponentPropsWithoutRef<typeof TabsPrimitive.Root>) {
+export interface TabsProps extends ComponentPropsWithoutRef<typeof TabsPrimitive.Root> {}
+export function Tabs({ className = '', ...props }: TabsProps) {
   return <TabsPrimitive.Root {...props} className={`rd-tabs ${className}`} />;
 }
 
@@ -50,7 +52,8 @@ export function TabsList({ label, items, size, className = '' }: TabsListProps) 
   </TabsPrimitive.List>;
 }
 
-export function TabsContent({ className = '', ...props }: ComponentPropsWithoutRef<typeof TabsPrimitive.Content>) {
+export interface TabsContentProps extends ComponentPropsWithoutRef<typeof TabsPrimitive.Content> {}
+export function TabsContent({ className = '', ...props }: TabsContentProps) {
   return <TabsPrimitive.Content {...props} className={`rd-tabs-content ${className}`} />;
 }
 

@@ -2,7 +2,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { componentCatalog, componentGroups } from '../apps/docs/src/component-catalog.ts';
-import { pilotDocs } from '../apps/docs/src/component-api.ts';
+import { pilotDocs } from '../apps/docs/src/component-api.generated.ts';
 
 const root = new URL('../', import.meta.url);
 const output = new URL('apps/docs/public/llms.txt', root);

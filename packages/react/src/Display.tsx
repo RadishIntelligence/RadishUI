@@ -1,4 +1,4 @@
-import { useState, type ComponentPropsWithoutRef, type ReactNode } from 'react';
+import { useState, type ComponentProps, type ComponentPropsWithoutRef, type ReactNode } from 'react';
 
 function fallbackInitials(name: string) {
   const trimmed = name.trim();
@@ -35,7 +35,7 @@ export function Tag({ className = '', children, ...props }: TagProps) {
   return <span {...props} className={`rd-tag ${className}`.trim()}>{children}</span>;
 }
 
-export interface SkeletonProps extends ComponentPropsWithoutRef<'div'> {
+export interface SkeletonProps extends ComponentProps<'div'> {
   width?: string | number;
   height?: string | number;
 }
