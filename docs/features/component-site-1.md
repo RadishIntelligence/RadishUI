@@ -42,7 +42,7 @@
 | **P0 垂直切片** | 目录页、搜索、Button / Select / Tabs 独立页、API 表、示例、复制、测试 | 已实现（`42019fe`），复审完成（2026-11-19） |
 | **P1 迁移 27 个** | 现有组件全部进入模板；Card / Section / Table 页面原语一并纳入目录；单页参考退为“全部示例” | 已完成（30 个条目） |
 | **P2 类型 / API 全量** | 导出缺失 props 类型；JSDoc / 默认值 / 事件 / ref；单一来源生成 API 表与 `llms.txt`，行为归属随 P3 进入同一来源；`--check` 漂移门禁；类型测试与完整性检查 | 已完成（2026-11-21）：类型、JSDoc 说明、解构默认值与事件签名由源码生成；原生 / Radix 继承属性、union 类型与未解构默认值保留契约回退 |
-| **P3 用法深度** | 每组件 3+ 示例、变体 / 受控 / 表单 / 组合；代码高亮（新增依赖需确认）；每示例主题 / 密度；逐组件 a11y 与行为归属声明及对应断言（依赖待确认） | 进行中（2026-11-21 起行为归属与 a11y 声明已进入契约并生成到组件页 / `llms.txt`；示例深度、代码高亮与交互断言待续） |
+| **P3 用法深度** | 每组件 3+ 示例、变体 / 受控 / 表单 / 组合；代码高亮（新增依赖需确认）；每示例主题 / 密度；逐组件 a11y 与行为归属声明及对应断言（依赖待确认） | 进行中（行为归属与 a11y 声明已进入契约并生成；示例深度已补 P0 遗留与操作 / 字段组，共 98 个示例；余下分组、代码高亮与交互断言待续） |
 | **P4 目录扩展** | 按[家族需求盘点](family-component-demand.md)排序；Form、Upload、InputNumber / Slider 等逐项确认 | 待开始 |
 | **P5 站点能力** | 版本 / 变更记录、状态与弃用、双语文档、图标参考、站点搜索索引；公开安装 / CLI / registry 属 P4 发行 | 待开始 |
 
@@ -139,6 +139,14 @@ P1 完成：30 个条目均有独立页；目录新增「页面原语」分组�
 - 校验：`test:catalog` 增至 8 项，新增覆盖断言（每组件 ≥3 条、至少 1 条键盘声明、主题 / 来源合法、三来源与四主题均出现）；生成文件与 `llms.txt` 漂移仍由现有用例拦截。
 - 验证：`npm run api:generate`、`npm run llms:generate`、`npm run test:catalog`、`npm run check`、`npm run build` 通过；Chrome 157 浏览器探针覆盖 11 个代表组件 × 1440 / 390 与明暗，行为表内容与生成声明逐条一致，无 pageerror / console error / 页面级横向溢出；证据在忽略目录 `output/p3-behavior-2026-11-21/`。
 - 边界：这些是声明而非可执行断言；DOM / 焦点 / `forced-colors` 断言仍需测试依赖或浏览器探针，按 P3 后续确认。变体 / 受控 / 表单 / 组合示例深度、代码高亮与主题 / 密度示例仍待 P3；本轮未改运行时行为、未新增依赖；实现已本地提交（`30d6ac6`），文档登记同批本地提交，未推送、未部署。
+
+## P3 示例深度：P0 遗留与操作 / 字段组（2026-11-21）
+
+- 第一批（P0 复审遗留）：Button 增「表单提交」（显式 `type="submit"`、`FormData` 回读、次要按钮不提交）；Select 增「filled 与尺寸」（`surface="filled"`，表单 md / 页面 chrome sm）；Tabs 增「尺寸与组合」（sm 卡片工具栏 + lg 页面分区，`size` 三档口径）。
+- 第二批（操作 / 字段组）：IconButton 增「工具栏组合」（多个图标按钮 + 独立 label + Card 组合）；Input / Textarea 增「受控与长度」（`value` / `onChange` / `maxLength` + 实时计数）；InputOTP 增「位数与禁用」（`length={4}`、`disabled` 全格与隐藏字段）；TagInput 增「上限与错误」（去重与最多 3 个由调用方控制，达到上限由 FormField 展示 `error`）。
+- 计数：30 个条目示例从 90 增至 98；P0 复审记录的三项缺口（Select filled、Tabs size、Button 表单提交）已关闭。
+- 验证：`npm run type-check`、`npm run test:catalog`、`npm run check`、`npm run build` 通过；Chrome 157 定向验证新增示例交互（表单提交与清除、filled 选择、sm / lg 标签切换、工具栏具名按钮、受控计数与 maxLength 截断、OTP 位数与禁用、TagInput 上限错误），1440 / 390 与暗色无页面级横向溢出，无 pageerror / console error；证据在忽略目录 `output/p3-examples-2026-11-21/`。
+- 边界：示例代码与预览同构由人工对照与浏览器交互验证，尚无自动化断言；代码高亮与每示例主题 / 密度仍待 P3，新增依赖需确认；本轮未新增依赖；实现已本地提交（`0572532`），文档登记同批本地提交，未推送、未部署。
 
 <a id="contract-and-behavior-2026-11-18"></a>
 
