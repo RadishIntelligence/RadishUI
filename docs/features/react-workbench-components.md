@@ -37,7 +37,7 @@
 | InlineAlert | info / success / warning / danger，错误以 alert 播报，其余状态使用 status；必要说明不只放在 Tooltip |
 | Toast / Tooltip | Toast 以顶部胶囊提供可关闭的短时反馈，关闭按钮显示剩余时间，悬停 / 聚焦暂停，超时自动关闭；区域名随 `label` 本地化并带 F8 提示，F8 / Tab 进入提示后关闭会先回到打开它的控件、其次回到进入提示前的位置，viewport 与胶囊在键盘焦点下显示 1px token 环；Tooltip 补充已有可访问名称；不替代持久错误、字段帮助或必要操作入口 |
 
-本表记录已确认的组件行为。组件站 P3 将逐项注明浏览器原生语义、Radix 和 RadishUI 的贡献，组合行为可有多个来源。页面、合同与实际行为不一致时，按[设计系统契约](../development/design-system.md)核对并修正过期的说明或发生回归的实现。登记范围见 [E-03 契约与行为](component-site-1.md#contract-and-behavior-2026-11-18)。
+本表记录已确认的组件行为。组件站 P3 已于 2026-11-21 把逐组件行为来源声明落在 `apps/docs/src/component-behavior.ts`，并经生成器输出到组件页与 `llms.txt`；组合行为按来源拆条，完整清单以生成物为准。页面、合同与实际行为不一致时，按[设计系统契约](../development/design-system.md)核对并修正过期的说明或发生回归的实现。登记范围见 [E-03 契约与行为](component-site-1.md#contract-and-behavior-2026-11-18)。
 
 A 批 10 个基础组件与 B 批 6 个反馈 / 浮层组件由三代表页实际消费。第二版运行基线累计 24 个组件，随后为资源新建新增 TagInput，2026-11-14 新增 Pagination 与 TableOfContents，当前共 27 个。AppShell、表格和业务数据仍属于展示站组合；分页与目录已抽为共享原语。 2026-11-12 起进入组件与视觉完善阶段：逐项审计现有组件与 shadcn/ui 的范围、状态、键盘 / 焦点、明暗与页面承载，按批次修订；新增组件必须有 Workbench 页面使用位置。
 

@@ -12,7 +12,7 @@
 - [家族设计资料](design/README.md)：通用基础、参考索引、原生候选及来源 / 撤回记录。
 - [设计条例与约束](design/design-rules.md)：标题与控件说明的准入、交互辨识、密度与风格的默认规则，以及参考图提炼建议和适用例外。
 - [首批 React 组件](features/react-workbench-components.md)、[三代表页运行范例](features/workbench-preview.md)：本仓实施合同、实际行为与验收进度。
-- [组件站 1.0](features/component-site-1.md)、[家族组件需求盘点](features/family-component-demand.md)：组件目录 / 独立页 / API、契约与用法深度计划，以及 2026-11-17 家族仓库只读需求统计。
+- [组件站 1.0](features/component-site-1.md)、[家族组件需求盘点](features/family-component-demand.md)：组件目录 / 独立页 / API、行为契约与用法深度（P2 已完成，P3 进行中），以及 2026-11-17 家族仓库只读需求统计。
 - [ADR 0001](adr/0001-branch-and-pr-governance.md)：分支、合并、回流与 Ruleset 决策。
 - [GitHub 设置与 Rulesets](../.github/rulesets/README.md)：远端目标、启用顺序和回滚。
 - [初始化目标](features/bootstrap.md)：首批范围与验收。
