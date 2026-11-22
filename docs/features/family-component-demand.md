@@ -55,7 +55,7 @@ Catalyst / Flow / Chat / Forge / Axiom / AxiomChecker 等不是统一 React Web 
 | Select | console 42、client 5；Mind RunSelect / LanguageSelector | 已有 | 文档深度；搜索型选择另评估 Combobox |
 | Form / 字段校验 | console Form 14 + FormInstance；Mind / Nexus 自建 Field | Form + FormField（2026-11-22） | **已补首项**：调用方校验 + 共享提交编排（noValidate、提交门禁、首个错误聚焦）；规则 DSL、异步校验与字段数组未做 |
 | Modal / Dialog | client 10、console 22、Ink 10、X 1 | 已有 Dialog / ConfirmDialog | 文档深度；BottomSheet 见下 |
-| BottomSheet | client 10、console 19 | Drawer 仅侧向 | 可先给 Drawer 增加 bottom 编排，不新增第二套浮层 |
+| BottomSheet | client 10、console 19 | Drawer 侧向 / 底部（2026-11-22） | 已给 Drawer 增加 bottom 编排并用于窄屏资源详情，不新增第二套浮层；拖拽把手 / 下滑关闭 / 半展开待真实移动场景 |
 | Toast / Notification | client 29、console message 33、Ink 2 | Toast / InlineAlert | 基础已有；NotificationCenter 先作领域 |
 | Menu / ContextMenu | client 2；Ink ActionMenu / FileMenu | Menu 已有 | 文档深度；不新增第二套菜单 |
 | Table / DataTable | console Table 20 / 9 | Table 基础原语 | DataTable 先由 Table + Pagination 组合，不急着加壳 |
@@ -91,7 +91,7 @@ Catalyst / Flow / Chat / Forge / Axiom / AxiomChecker 等不是统一 React Web 
 1. **Form 与字段校验**：与 FormField、Input、Select 的现有上下文衔接；先定校验责任在库内还是调用方，避免引入第二个表单框架。**2026-11-22 已完成首项**：所有者确认走调用方校验 + 共享提交编排，Form 已加入组件目录并用于资源新建 / 文档编辑。
 2. **Upload**：通用选择 / 拖拽 / 进度 / 错误；分片、图片裁切、灯箱等留在产品侧或后续专项。
 3. **InputNumber / Slider**：数字与范围输入；先定步进、精度、键盘与触控规则。
-4. **BottomSheet 编排**：优先扩展现有 Drawer 的侧向 / 底部变体，不新增第二套浮层。
+4. **BottomSheet 编排**：优先扩展现有 Drawer 的侧向 / 底部变体，不新增第二套浮层。**2026-11-22 已完成**：`DrawerProps.side` 支持 bottom，工作台窄屏资源详情已采用；拖拽 / 半展开未做。
 5. **布局原语**：Divider / Stack / Grid 是否由 CSS 与现有 Card / Section 承担，先做一次真实页面审计，避免为了 API 而 API。
 6. **Progress / Steps / Descriptions / Empty**：有真实流程或页面时再做。
 7. **DataTable**：先用 Table + Pagination 组合验证真实需求，再决定是否提供高级表格。

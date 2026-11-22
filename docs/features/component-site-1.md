@@ -43,7 +43,7 @@
 | **P1 迁移 27 个** | 现有组件全部进入模板；Card / Section / Table 页面原语一并纳入目录；单页参考退为“全部示例” | 已完成（30 个条目） |
 | **P2 类型 / API 全量** | 导出缺失 props 类型；JSDoc / 默认值 / 事件 / ref；单一来源生成 API 表与 `llms.txt`，行为归属随 P3 进入同一来源；`--check` 漂移门禁；类型测试与完整性检查 | 已完成（2026-11-21）：类型、JSDoc 说明、解构默认值与事件签名由源码生成；原生 / Radix 继承属性、union 类型与未解构默认值保留契约回退 |
 | **P3 用法深度** | 每组件 3+ 示例、变体 / 受控 / 表单 / 组合；代码高亮（新增依赖需确认）；每示例主题 / 密度；逐组件 a11y 与行为归属声明及对应断言（依赖待确认） | 已完成（2026-11-22）：行为归属与 a11y 声明进入契约生成；示例深度覆盖六组共 106 个示例；每示例主题 / 密度；代码高亮构建期生成；交互断言以 `test:interaction` 入仓并进入 CI。断言覆盖代表性行为，不等于 138 条声明逐条可执行 |
-| **P4 目录扩展** | 按[家族需求盘点](family-component-demand.md)排序；Form、Upload、InputNumber / Slider 等逐项确认 | 进行中（2026-11-22 完成首项 Form 与字段校验：调用方校验 + 共享提交编排，并用于资源新建与文档编辑；其余条目待逐项确认） |
+| **P4 目录扩展** | 按[家族需求盘点](family-component-demand.md)排序；Form、Upload、InputNumber / Slider 等逐项确认 | 进行中（2026-11-22 完成首项 Form 与字段校验，以及 Drawer 底部编排——后者是既有 Drawer 的方位扩展，不新增浮层；其余条目待逐项确认） |
 | **P5 站点能力** | 版本 / 变更记录、状态与弃用、双语文档、图标参考、站点搜索索引；公开安装 / CLI / registry 属 P4 发行 | 待开始 |
 
 P2 / P3 的生成与声明范围见[契约与行为](#contract-and-behavior-2026-11-18)；交互断言的执行环境与依赖确认见该节。
@@ -88,7 +88,7 @@ P0 垂直切片与 P1 首批共用以下文件：
 - `apps/docs/src/ComponentDetailPage.tsx`：导入、示例（含每示例主题 / 密度预览设置与代码高亮）、API、键盘 / a11y、相关组件；页面根与示例暴露 `data-component` / `data-example` 供交互断言稳定定位；
 - `apps/docs/src/component-api.ts`：组件导入代码、相关组件与 API 回退行（原生 / Radix 继承属性、union 类型、`其余属性` 与未解构默认值）；P2 起 props 类型、说明与可解构默认值由 `packages/react/src` 生成到 `component-api.generated.ts`；
 - `apps/docs/src/component-behavior.ts`：P3 起逐组件行为归属与 a11y 声明（键盘 / 焦点 / ARIA / 已知限制及来源），经同一生成器写入 `component-api.generated.ts`；
-- `apps/docs/src/component-pilot-examples.tsx`：已迁移组件的示例（31 个条目共 109 个示例，含 P4 新增 Form），预览使用真实共享组件；代码片段同时是高亮生成器的输入；
+- `apps/docs/src/component-pilot-examples.tsx`：已迁移组件的示例（31 个条目共 110 个示例，含 P4 新增 Form 与 Drawer 底部编排），预览使用真实共享组件；代码片段同时是高亮生成器的输入；
 - `apps/docs/src/component-code.generated.ts`：P3 起由 `scripts/generate-code.mjs` 生成的逐条高亮 HTML（导入片段与示例），组件页消费；生成物入仓并由测试拦截漂移；
 - `scripts/generate-code.mjs`：构建期高亮入口（`npm run code:generate` / `--check`），用 TypeScript AST 读取示例并用开发依赖 `shiki` 生成，不进入浏览器包；
 - `apps/docs/src/CopyButton.tsx`：复制代码 / 导入片段；无第三方依赖；
@@ -183,8 +183,8 @@ P1 完成：30 个条目均有独立页；目录新增「页面原语」分组�
 - 范围：把组件页代表性键盘、焦点、ARIA 与强制颜色行为固化为入仓浏览器断言，补上 P3 最后一项；不改共享组件、token、路由与示例内容，只给组件页加稳定测试定位属性（`data-component` / `data-example`）。
 - 依赖：新增开发依赖 `@playwright/test@1.65.1`，经所有者确认；使用已安装的 Google Chrome（`channel: 'chrome'`），不下载或缓存浏览器二进制，仓库与 CI 缓存都不新增浏览器产物。
 - 入口：`npm run test:interaction` 先构建展示站，再由 Playwright 配置启动预览服务器并执行 `tests/interaction.spec.mjs`；CI 的 `Web Build` 在构建步骤后执行同一条命令（依赖 runner 预装 Chrome）。`check-repo` 的工作流合同已登记该步骤，移除会让仓库检查失败。
-- 用例（14 项）：Button loading 的 `aria-busy` / `aria-disabled`、焦点保留与 disabled；Tabs 方向键切换并跳过禁用项；Select 键盘选择、受控值同步与 Escape 回焦；ToggleGroup 单选方向键同步选中；Dialog 初始焦点与 Escape 回焦；Checkbox / Switch 空格切换；复制按钮取纯文本；强制颜色下分页当前页与标签选中保留系统色轮廓；31 个组件页 1440 冒烟（行为表 ≥3 行、代码块有高亮、无 pageerror / 页面级横向溢出）；390 窄屏无页面级横向溢出；2026-11-22 增补 Form 提交校验 / 焦点顺序与工作台资源新建、文档编辑两个真实表单。
-- 验证：`npm run test:interaction` 14 项通过（Chrome 157，约 10 秒，分别验证预设服务器与 CI 模式自启服务器）；`npm run check`、`npm run build` 通过；实现 `62fd350` 与文档登记 `95d9a03` 已推送 `origin/dev`，手动 PR Checks run `44991120585` 的 Web Build 在 Ubuntu runner 上执行同一入口并通过（使用 runner 预装 Chrome）。未部署。
+- 用例（16 项）：Button loading 的 `aria-busy` / `aria-disabled`、焦点保留与 disabled；Tabs 方向键切换并跳过禁用项；Select 键盘选择、受控值同步与 Escape 回焦；ToggleGroup 单选方向键同步选中；Dialog 初始焦点与 Escape 回焦；Checkbox / Switch 空格切换；复制按钮取纯文本；强制颜色下分页当前页与标签选中保留系统色轮廓；31 个组件页 1440 冒烟（行为表 ≥3 行、代码块有高亮、无 pageerror / 页面级横向溢出）；390 窄屏无页面级横向溢出；2026-11-22 增补 Form 提交校验 / 焦点顺序、工作台资源新建 / 文档编辑两个真实表单，以及 Drawer 底部编排的回焦与工作台 390 资源详情。
+- 验证：`npm run test:interaction` 16 项通过（Chrome 157，约 11 秒，分别验证预设服务器与 CI 模式自启服务器）；`npm run check`、`npm run build` 通过；实现 `62fd350` 与文档登记 `95d9a03` 已推送 `origin/dev`，手动 PR Checks run `44991120585` 的 Web Build 在 Ubuntu runner 上执行同一入口并通过（使用 runner 预装 Chrome）。未部署。
 - 边界：断言覆盖代表性行为，不等同 138 条行为声明逐条可执行；只跑 Chrome，`forced-colors` 为浏览器模拟而非 Windows 真实高对比；Safari / Firefox、真实屏幕阅读器与实体设备仍未覆盖。视觉配色仍待所有者复审。
 
 <a id="p4-form-2026-11-22"></a>
@@ -197,6 +197,17 @@ P1 完成：30 个条目均有独立页；目录新增「页面原语」分组�
 - 组件站：Form 加入 fields 分组（31 个条目 / 28 个组件）；组件页 3 个示例覆盖提交前校验、首个错误字段聚焦与 `validate` / `onInvalid` / `onValidSubmit` 事件；API 表、行为声明、`llms.txt` 与代码高亮均由原生成链路产出。
 - 校验：`test:catalog` 11 项（计数与 pilot 顺序同时更新）、`test:interaction` 14 项（新增 Form 两项、工作台资源新建与文档编辑各一项）、`check`、`build` 通过；Chrome 157 探针覆盖 Form 页 1440 明暗 / 390 与两个工作台表单错误态，7 项检查 0 失败，证据在忽略目录 `output/p4-form-2026-11-22/`。
 - 边界：不包含规则 DSL、异步校验与字段数组；错误只有焦点定位与 FormField alert，没有单独的可见汇总块；Safari / Firefox 未复验；两个工作台表单只换提交编排、不改视觉，仍待所有者复审。实现 `2a053c1` 与文档登记 `a4f1223` 已推送 `origin/dev`，手动 PR Checks run `45017363740` 的 Web Build 执行 `npm run test:interaction`（14 项）通过；未部署。
+
+<a id="p4-drawer-2026-11-22"></a>
+
+## P4-② Drawer 底部编排（2026-11-22）
+
+- 范围：P4 第 4 项「BottomSheet 编排」——优先扩展现有 Drawer 的方位能力，不新增第二套浮层；同时收掉工作台资源详情的 `.rd-drawer.resource-sheet` 页面级覆盖。
+- API 与样式：`DrawerProps.side?: 'right' | 'bottom'`（默认 right）；底部编排复用同一 Dialog 合同（角色、Escape、焦点约束、回焦、header / body / footer 结构），只改方位；共享 CSS 负责占满宽度、贴底、顶部圆角（`--rd-radius-panel`）、`env(safe-area-inset-bottom)` 与 86dvh 内滚动，481px 起居中 560px。
+- 采用：资源库窄屏资源详情改用 `<Drawer side="bottom">`；删除 `.rd-drawer.resource-sheet` 覆盖、页面 `resource-sheet` 类名与 `rd-sheet-in` 页面动画。
+- 组件站：Drawer 页新增「底部编排」示例（共 4 个示例）；API 表、行为声明、`llms.txt` 与代码高亮生成物同批更新。
+- 校验：`test:interaction` 16 项（新增组件页底部抽屉与工作台 390 资源详情）、`check`、`build` 通过；Chrome 157 探针 12 项检查 0 失败，覆盖 390 明暗、1440 居中底部面板与 1200 侧向抽屉不变，证据在忽略目录 `output/p4-drawer-2026-11-22/`。
+- 边界：不包含拖拽把手 / 下滑关闭 / 半展开状态；圆角由页面 20px 硬编码改为语义 token 16px，视觉变化待所有者复审；Safari / Firefox 未复验。实现 `2693e81` 与文档登记随后推送，远端 run 结果见[当前规划](../planning/current.md)停止线。
 
 <a id="contract-and-behavior-2026-11-18"></a>
 
@@ -224,7 +235,7 @@ P1 完成：30 个条目均有独立页；目录新增「页面原语」分组�
 
 用途：a11y 声明的依据、回归检查清单、Flutter 端语义对应，以及未来更换行为层时的迁移清单。P3 覆盖 30 个条目，P4 起新增条目同批登记（2026-11-22 起 31 个条目）；未迁移或没有真实页面承载的组件不加壳。
 
-2026-11-21 起逐组件声明落在 `apps/docs/src/component-behavior.ts`：30 个条目共 138 条（键盘 53、焦点 15、ARIA 42、已知限制 28；浏览器原生 29、Radix 32、RadishUI 77），经 `scripts/generate-api.mjs` 校验后生成到组件页「键盘与可访问性」表与 `llms.txt`。上表保留为跨组件示例；逐组件完整清单以生成物为准。2026-11-22 新增 Form 后共 31 个条目 142 条（键盘 54、焦点 16、ARIA 43、已知限制 29；浏览器原生 31、Radix 32、RadishUI 79）。
+2026-11-21 起逐组件声明落在 `apps/docs/src/component-behavior.ts`：30 个条目共 138 条（键盘 53、焦点 15、ARIA 42、已知限制 28；浏览器原生 29、Radix 32、RadishUI 77），经 `scripts/generate-api.mjs` 校验后生成到组件页「键盘与可访问性」表与 `llms.txt`。上表保留为跨组件示例；逐组件完整清单以生成物为准。2026-11-22 新增 Form 与 Drawer 底部编排后共 31 个条目 143 条（键盘 54、焦点 16、ARIA 44、已知限制 29；浏览器原生 31、Radix 32、RadishUI 80）。
 
 ### 交互行为测试
 

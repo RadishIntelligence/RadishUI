@@ -32,7 +32,7 @@
 | Tag | 中性标签文本；纯展示，不进入 Tab 顺序；状态用 StatusBadge，不用 Tag 伪装状态 |
 | TagInput | 受控标签与草稿。Enter 或添加按钮调用 `onAdd`，空输入的 Backspace 移除末项，每个标签可单独删除；粗指针下标签行随控件高度撑高，删除按钮视觉随控件、命中经外扩到至少 44。添加规则与表单提交由调用方负责，使用 FormField 关联帮助和错误 |
 | Skeleton | width / height（CSS 长度或数字）、className / style；纯展示占位并 aria-hidden；外层用 aria-busy / status 说明加载中，加载完成移除；减少动效时保持静态 |
-| Dialog / Drawer | 受控 open / onOpenChange，标题、可选说明、正文与 footer；role: dialog（默认）/ alertdialog；支持 Escape、焦点约束、可指定初始焦点并恢复入口；菜单项打开时关闭后回到菜单触发器；`closeDisabled` 可在 loading 时禁用头部关闭按钮。关闭按钮 32px 可视、44px 命中由共享组件提供。Drawer 是同一弹层合同的侧向编排 |
+| Dialog / Drawer | 受控 open / onOpenChange，标题、可选说明、正文与 footer；role: dialog（默认）/ alertdialog；支持 Escape、焦点约束、可指定初始焦点并恢复入口；菜单项打开时关闭后回到菜单触发器；`closeDisabled` 可在 loading 时禁用头部关闭按钮。关闭按钮 32px 可视、44px 命中由共享组件提供。Drawer 是同一弹层合同：`side="right"`（默认）从侧边滑入，`side="bottom"` 为底部抽屉，方位只改编排、不改变 Escape、焦点约束与回焦 |
 | Menu | trigger 与具名 items，支持禁用、危险项、分隔与链接 / 动作；键盘、关闭与焦点由行为基础维护；焦点项以 `data-highlighted` 高亮表达，不叠加 1px 环；强制颜色下改用 2px 系统色描边 |
 | ConfirmDialog | 基于 Dialog 的确认组合：open / onOpenChange、title、description、children、confirmLabel / cancelLabel、tone: default | danger、loading、onConfirm；初始焦点在取消，loading 时拦截关闭并禁用头部关闭按钮，确认按钮保留焦点并带 aria-disabled / aria-busy，role=alertdialog |
 | InlineAlert | info / success / warning / danger，错误以 alert 播报，其余状态使用 status；必要说明不只放在 Tooltip |
@@ -369,3 +369,12 @@ Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前
 - 生成与文档：Form 进入组件目录（fields 组，31 个条目 / 28 个组件）；`component-api.generated.ts`、`llms.txt` 与代码高亮生成物同批更新；组件页新增 3 个示例（提交前校验、首个错误字段聚焦、校验事件）。
 - 验证：`npm run type-check`、`npm run test:catalog`（11 项）、`npm run test:interaction`（14 项，新增 Form 两项与工作台两个真实表单各一项）、`npm run check`、`npm run build` 通过；Chrome 157 探针覆盖 Form 页 1440 明暗 / 390 与两个工作台表单错误态，7 项检查 0 失败，证据在忽略目录 `output/p4-form-2026-11-22/`。实现 `2a053c1` 与文档登记 `a4f1223` 已推送 `origin/dev`；手动 PR Checks run `45017363740` 的 Web Build 执行 `npm run test:interaction`（14 项）通过；未部署。
 - 边界：Form 不承担规则 DSL、异步校验与字段数组；错误只有焦点定位与 FormField alert，没有单独的可见汇总块；Safari / Firefox 未复验；两个工作台表单迁移不改视觉，仍需所有者复审。
+
+## Drawer 底部编排（2026-11-22）
+
+- 范围：P4 目录扩展第 4 项，优先扩展现有 Drawer 的方位能力而不是新增第二套浮层。工作台资源详情在窄屏原本用页面级 `.rd-drawer.resource-sheet` 覆盖成底部抽屉；本批把该编排收进共享组件并删除页面覆盖。
+- API：`DrawerProps` 增加 `side?: 'right' | 'bottom'`，默认 right；`side="bottom"` 使用同一 Dialog 合同——Escape、焦点约束、初始焦点与关闭回焦、标题 / 说明 / footer 结构不变，只改变出现方位与进入动效。
+- 样式：共享 `styles.css` 提供底部编排：窄屏占满宽度并贴底、顶部圆角消费 `--rd-radius-panel`、正文底部计算 `env(safe-area-inset-bottom)`、`max-height: min(86dvh, 720px)` 内滚动；481px 起为居中 560px 的底部面板。工作台原有的 20px 硬编码圆角与页面动画覆盖随之删除。
+- 组件站：Drawer 页新增「底部编排」示例；API 表由 `DrawerProps` 生成（新增 side 行），行为声明补充「方位只改变编排，合同与焦点约束不变」。
+- 验证：`npm run test:interaction` 16 项（新增组件页底部抽屉与工作台 390 资源详情两项）、`npm run check`、`npm run build` 通过；Chrome 157 探针覆盖 390 明暗、组件页 1440 居中底部面板与 1200 侧向抽屉不变，12 项检查 0 失败，证据在忽略目录 `output/p4-drawer-2026-11-22/`。实现 `2693e81` 与文档登记随后推送，远端 run 结果见[当前规划](../planning/current.md)停止线。
+- 边界：不包含拖拽把手 / 下滑关闭 / 半展开状态，这些需要真实移动场景与触控规则；Safari / Firefox 未复验；圆角从页面硬编码 20px 改为语义 token 16px，视觉变化待所有者复审。
