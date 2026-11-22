@@ -367,5 +367,5 @@ Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前
 - API：`Form` 包装原生 form 并透传原生属性；`validate?: () => FormErrors | undefined`、`onValidSubmit?`、`onInvalid?`、`children`。错误文案仍由 FormField 的 `role=alert` 渲染，Form 不渲染错误文案。未采用 Radix Form 的字段注册：现有 FormField 承载 Input / Textarea / Select / RadioGroup / TagInput 等多种控件，绑定 Form.Control 反而增加迁移成本。
 - 采用：资源新建弹窗与文档编辑表单改用共享 Form，保留原有失焦 / 提交校验、错误文案、输入清除错误的时机与保存逻辑；资源新建仍由 Dialog 初始焦点进入名称字段。
 - 生成与文档：Form 进入组件目录（fields 组，31 个条目 / 28 个组件）；`component-api.generated.ts`、`llms.txt` 与代码高亮生成物同批更新；组件页新增 3 个示例（提交前校验、首个错误字段聚焦、校验事件）。
-- 验证：`npm run type-check`、`npm run test:catalog`（11 项）、`npm run test:interaction`（14 项，新增 Form 两项与工作台两个真实表单各一项）、`npm run check`、`npm run build` 通过；Chrome 157 探针覆盖 Form 页 1440 明暗 / 390 与两个工作台表单错误态，7 项检查 0 失败，证据在忽略目录 `output/p4-form-2026-11-22/`。实现 `2a053c1` 与文档登记随后推送，远端 run 结果见[当前规划](../planning/current.md)停止线。
+- 验证：`npm run type-check`、`npm run test:catalog`（11 项）、`npm run test:interaction`（14 项，新增 Form 两项与工作台两个真实表单各一项）、`npm run check`、`npm run build` 通过；Chrome 157 探针覆盖 Form 页 1440 明暗 / 390 与两个工作台表单错误态，7 项检查 0 失败，证据在忽略目录 `output/p4-form-2026-11-22/`。实现 `2a053c1` 与文档登记 `a4f1223` 已推送 `origin/dev`；手动 PR Checks run `45017363740` 的 Web Build 执行 `npm run test:interaction`（14 项）通过；未部署。
 - 边界：Form 不承担规则 DSL、异步校验与字段数组；错误只有焦点定位与 FormField alert，没有单独的可见汇总块；Safari / Firefox 未复验；两个工作台表单迁移不改视觉，仍需所有者复审。
