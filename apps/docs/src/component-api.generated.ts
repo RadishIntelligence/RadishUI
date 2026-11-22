@@ -23,6 +23,24 @@ export const pilotDocs: Record<string, PilotDoc> = {
     ],
     related: ["icon-button", "dialog"],
   },
+  form: {
+    importCode: "import { Form, FormField, Input } from '@radish-ui/react';\nimport '@radish-ui/react/styles.css';",
+    api: [
+      { name: "validate", type: "() => FormErrors | undefined", required: false, description: "提交前校验；返回以字段 id 为键的错误，全部通过时返回空对象或 undefined。" },
+      { name: "onValidSubmit", type: "(event: FormEvent<HTMLFormElement>) => void", required: false, description: "校验通过后提交；原生提交已被阻止。" },
+      { name: "onInvalid", type: "(errors: FormErrors) => void", required: false, description: "校验未通过时回调，便于调用方同步错误状态。" },
+      { name: "children", type: "ReactNode", required: true, description: "字段与操作区。" },
+      { name: "className", type: "string", defaultValue: "''", required: false, description: "附加类名；布局与间距由调用方类或样式决定。" },
+      { name: "其余属性", type: "ComponentPropsWithoutRef<'form'>", required: false, description: "原生 form 属性透传；onSubmit / noValidate 由 Form 接管。" },
+    ],
+    behavior: [
+      { topic: "keyboard", source: "native", text: "单行输入内按 Enter 触发表单提交，提交事件由 Form 接管。" },
+      { topic: "focus", source: "radish", text: "校验未通过时把焦点移到 DOM 顺序中的第一个错误字段。" },
+      { topic: "aria", source: "native", text: "原生 form 提供表单语义；字段错误由 FormField 的 role=alert 播报。" },
+      { topic: "limitation", source: "radish", text: "Form 不计算校验规则、不渲染错误文案；规则、错误状态与 FormField error 由调用方维护。" },
+    ],
+    related: ["form-field", "input"],
+  },
   "form-field": {
     importCode: "import { FormField, Input } from '@radish-ui/react';\nimport '@radish-ui/react/styles.css';",
     api: [

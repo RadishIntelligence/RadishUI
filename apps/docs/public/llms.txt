@@ -3,7 +3,7 @@
 > RadishUI 是 RadishIntelligence 的 React 设计系统与组件文档站。当前为 private workspace，尚未发布 npm；导入路径仅在本仓与内部接入中有效。
 
 - 版本：26.11.1
-- 条目：30 个（27 个组件 + 3 个页面原语）
+- 条目：31 个（28 个组件 + 3 个页面原语）
 - 文档：https://ui.radishx.com
 
 本文件由 `apps/docs/src/component-catalog.ts`、`packages/react/src` 的 props 类型 / JSDoc / 解构默认值、`component-api.ts` 的 API 回退与 `component-behavior.ts` 的行为声明生成；运行 `npm run llms:generate` 更新，`npm run test:catalog` 检查漂移。
@@ -106,6 +106,35 @@ import '@radish-ui/react/styles.css';
 - 已知限制 · RadishUI：error 存在时不显示 hint；两者都需要时由调用方组织文案。
 
 相关：Input、Textarea、Select
+
+### Form
+
+- 页面：https://ui.radishx.com/#/components/form
+- 摘要：原生 form 语义与提交门禁：noValidate、调用方校验、首个错误字段聚焦；不渲染错误文案。
+- 导入：
+
+```ts
+import { Form, FormField, Input } from '@radish-ui/react';
+import '@radish-ui/react/styles.css';
+```
+
+属性：
+
+- `validate` — 类型 `() => FormErrors | undefined` — 提交前校验；返回以字段 id 为键的错误，全部通过时返回空对象或 undefined。
+- `onValidSubmit` — 类型 `(event: FormEvent<HTMLFormElement>) => void` — 校验通过后提交；原生提交已被阻止。
+- `onInvalid` — 类型 `(errors: FormErrors) => void` — 校验未通过时回调，便于调用方同步错误状态。
+- `children` — 类型 `ReactNode`；必填 — 字段与操作区。
+- `className` — 类型 `string`；默认 '' — 附加类名；布局与间距由调用方类或样式决定。
+- `其余属性` — 类型 `ComponentPropsWithoutRef<'form'>` — 原生 form 属性透传；onSubmit / noValidate 由 Form 接管。
+
+行为与可访问性：
+
+- 键盘 · 浏览器原生：单行输入内按 Enter 触发表单提交，提交事件由 Form 接管。
+- 焦点 · RadishUI：校验未通过时把焦点移到 DOM 顺序中的第一个错误字段。
+- ARIA · 浏览器原生：原生 form 提供表单语义；字段错误由 FormField 的 role=alert 播报。
+- 已知限制 · RadishUI：Form 不计算校验规则、不渲染错误文案；规则、错误状态与 FormField error 由调用方维护。
+
+相关：FormField、Input
 
 ### Input
 

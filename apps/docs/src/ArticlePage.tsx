@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent, type RefObject } from 'react';
-import { Button, Card, ConfirmDialog, Dialog, Drawer, FormField, IconButton, InlineAlert, Input, StatusBadge, TableOfContents, Textarea, Tag } from '@radish-ui/react';
+import { useCallback, useEffect, useMemo, useRef, useState, type RefObject } from 'react';
+import { Button, Card, ConfirmDialog, Dialog, Drawer, Form, FormField, IconButton, InlineAlert, Input, StatusBadge, TableOfContents, Textarea, Tag, type FormErrors } from '@radish-ui/react';
 import { Check, ChevronLeft, Copy, Info, ListTree, LockKeyhole, Pencil, Share2 } from 'lucide-react';
 import { articleForResource, welcomeArticle } from './document-seed';
 import { formatDate, isArticles, parseArticle, type Article, type Preferences, type Resource, type Translate } from './model';
@@ -112,14 +112,20 @@ function DocumentReader({ resourceId = 'welcome', resource, preferences, section
   }, [section, editing, article.body, scrollToHeading]);
 
   function exitEditing() { onDirtyChange(false); setEditing(false); setFormError(''); setTitleError(''); requestAnimationFrame(() => editButton.current?.focus()); }
-  function validateTitle() {
-    if (!draft.title.trim()) { setTitleError(t('请输入文档标题。', 'Enter a document title.')); return false; }
-    setTitleError('');
-    return true;
+  function titleErrorMessage(): string | undefined {
+    return draft.title.trim() ? undefined : t('请输入文档标题。', 'Enter a document title.');
   }
-  function save(event: FormEvent) {
-    event.preventDefault();
-    if (!validateTitle()) { titleInput.current?.focus(); return; }
+  function validateTitle() {
+    const message = titleErrorMessage() ?? '';
+    setTitleError(message);
+    return message === '';
+  }
+  function validateForm(): FormErrors {
+    const message = titleErrorMessage();
+    setTitleError(message ?? '');
+    return { 'document-title': message };
+  }
+  function save() {
     if (readonly || externalChange) { setFormError(t('当前文档只读，或已在其他标签页更新，请重新载入。', 'This document is read only or changed in another tab. Reload to continue.')); return; }
     const current = readStored(storageKeys.articles, isArticles);
     if (current.error) { setStoreError(current.error); return; }
@@ -160,14 +166,14 @@ function DocumentReader({ resourceId = 'welcome', resource, preferences, section
     </div>
     {storeError && <div className="document-storage-error"><InlineAlert tone="danger" title={t('本地文档未能读取', 'Local documents could not be read')}>{storeError}</InlineAlert>
       <Button variant="secondary" onClick={() => { setRestoreError(''); setRestoreOpen(true); }}>{t('重新初始化文档库', 'Reinitialize documents')}</Button></div>}
-    {editing ? <form className="document-editor" onSubmit={save} noValidate>
+    {editing ? <Form className="document-editor" validate={validateForm} onValidSubmit={save}>
       <FormField id="document-title" label={t('文档标题', 'Document title')} hint={t('最多 120 个字符。', 'Up to 120 characters.')} error={titleError} required><Input ref={titleInput} value={draft.title} maxLength={120} onBlur={validateTitle} onChange={event => { setDraft({ ...draft, title: event.target.value }); setTitleError(''); }} /></FormField>
       <FormField id="document-body" label={t('正文', 'Content')} hint={t('使用 ## 和 ### 分别表示二、三级标题；以 > 开头添加提示。其他内容以纯文本显示。', 'Use ## and ### for section and subsection headings, or > for a callout. Other content is displayed as plain text.')}>
         <Textarea value={draft.body} maxLength={50000} rows={18} onChange={event => setDraft({ ...draft, body: event.target.value })} />
       </FormField>
       {formError && <InlineAlert tone="danger">{formError}</InlineAlert>}
       <div className="editor-actions"><Button variant="secondary" onClick={() => { if (dirty) setDiscardOpen(true); else exitEditing(); }}>{t('取消', 'Cancel')}</Button><Button type="submit" disabled={!dirty || externalChange || Boolean(storeError)}>{t('保存文档', 'Save document')}</Button></div>
-    </form> : <div className="document-layout">
+    </Form> : <div className="document-layout">
       <article className="article-body" data-font-size={preferences.fontSize} data-line-height={preferences.lineHeight}>
         <header className="article-header"><h1>{article.title}</h1><div className="article-meta"><span>{resource?.creator ?? t('林杏', 'Lin Xing')}</span><span>·</span><time dateTime={article.updatedAt}>{formatDate(article.updatedAt, preferences.locale)}</time><span>·</span><span>{t(`约 ${Math.max(1, Math.ceil(article.body.length / 350))} 分钟`, `${Math.max(1, Math.ceil(article.body.length / 350))} min read`)}</span><StatusBadge tone={readonly ? 'neutral' : dirty ? 'warning' : 'success'}>{readonly ? <LockKeyhole /> : dirty ? <Pencil /> : <Check />}{readonly ? t('只读', 'Read only') : dirty ? t('未保存', 'Unsaved') : t('已保存', 'Saved')}</StatusBadge><StatusBadge tone="info">Workbench</StatusBadge></div></header>
         {blocks.length ? blocks.map((block, index) => block.type === 'heading' ? block.level === 2

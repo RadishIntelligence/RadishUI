@@ -1,4 +1,4 @@
-import { createContext, useContext, useId, useRef, useState, type ComponentPropsWithRef, type ReactNode } from 'react';
+import { createContext, useContext, useId, useRef, useState, type ComponentPropsWithoutRef, type ComponentPropsWithRef, type FormEvent, type ReactNode } from 'react';
 import { RadioGroup as RadioGroupPrimitive, Select as SelectPrimitive } from 'radix-ui';
 import { Check, ChevronDown, ChevronUp } from 'lucide-react';
 
@@ -36,6 +36,42 @@ export function FormField({ id: suppliedId, label, hint, error, required, classN
         : hint ? <p className="rd-field-hint" id={`${id}-hint`}>{hint}</p> : null}
     </div>
   </FieldContext.Provider>;
+}
+
+
+export type FormErrors = Record<string, ReactNode>;
+
+export interface FormProps extends Omit<ComponentPropsWithoutRef<'form'>, 'onSubmit' | 'onInvalid' | 'noValidate'> {
+  /** 提交前校验；返回以字段 id 为键的错误，全部通过时返回空对象或 undefined。 */
+  validate?: () => FormErrors | undefined;
+  /** 校验通过后提交；原生提交已被阻止。 */
+  onValidSubmit?: (event: FormEvent<HTMLFormElement>) => void;
+  /** 校验未通过时回调，便于调用方同步错误状态。 */
+  onInvalid?: (errors: FormErrors) => void;
+  /** 字段与操作区。 */
+  children: ReactNode;
+}
+
+/**
+ * Caller-owned validation wrapper: it never computes rules and never renders error
+ * text. Submitting asks `validate` for messages keyed by field id, then focuses the
+ * first invalid field in DOM order (FormField still renders the error and alert).
+ */
+export function Form({ validate, onValidSubmit, onInvalid, className = '', children, ...props }: FormProps) {
+  function submit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const errors = validate?.() ?? {};
+    const entries = Object.entries(errors).filter(([, message]) => message !== undefined && message !== null && message !== '');
+    if (entries.length === 0) { onValidSubmit?.(event); return; }
+    onInvalid?.(errors);
+    const form = event.currentTarget;
+    const target = entries
+      .map(([id]) => form.querySelector<HTMLElement>(`#${CSS.escape(id)}`))
+      .filter((element): element is HTMLElement => Boolean(element))
+      .sort((first, second) => first.compareDocumentPosition(second) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1)[0];
+    (target ?? form.querySelector<HTMLElement>('[aria-invalid="true"]'))?.focus();
+  }
+  return <form {...props} noValidate className={`rd-form ${className}`.trim()} onSubmit={submit}>{children}</form>;
 }
 
 export interface RadioOption { value: string; label: string; disabled?: boolean }

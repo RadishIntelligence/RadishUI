@@ -10,7 +10,7 @@ import { auditApiContract, buildGeneratedApi } from './generate-api.mjs';
 import { buildGeneratedCode, buildHighlightedCode, readExampleSources } from './generate-code.mjs';
 
 test('component catalog has unique, routable ids and known groups', () => {
-  assert.equal(componentCatalog.length, 30);
+  assert.equal(componentCatalog.length, 31);
   assert.equal(new Set(componentCatalog.map(component => component.id)).size, componentCatalog.length);
   assert.equal(new Set(componentCatalog.map(component => component.name)).size, componentCatalog.length);
   for (const component of componentCatalog) {
@@ -23,7 +23,7 @@ test('component catalog has unique, routable ids and known groups', () => {
 
 test('pilot entries have API rows and a dedicated page', () => {
   const pilots = componentCatalog.filter(component => component.detail);
-  assert.deepEqual(pilots.map(component => component.id), ['button', 'icon-button', 'form-field', 'input', 'textarea', 'input-otp', 'select', 'tag-input', 'radio-group', 'avatar', 'tag', 'toggle-group', 'checkbox', 'switch', 'tabs', 'status-badge', 'dialog', 'confirm-dialog', 'accordion', 'drawer', 'menu', 'inline-alert', 'skeleton', 'toast', 'tooltip', 'pagination', 'table-of-contents', 'card', 'section', 'table']);
+  assert.deepEqual(pilots.map(component => component.id), ['button', 'icon-button', 'form-field', 'form', 'input', 'textarea', 'input-otp', 'select', 'tag-input', 'radio-group', 'avatar', 'tag', 'toggle-group', 'checkbox', 'switch', 'tabs', 'status-badge', 'dialog', 'confirm-dialog', 'accordion', 'drawer', 'menu', 'inline-alert', 'skeleton', 'toast', 'tooltip', 'pagination', 'table-of-contents', 'card', 'section', 'table']);
   for (const component of pilots) {
     const doc = pilotDocs[component.id];
     assert.ok(doc, component.id);

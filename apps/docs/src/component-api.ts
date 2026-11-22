@@ -24,6 +24,18 @@ export const authoredDocs: Record<string, AuthoredPilotDoc> = {
     ],
     related: ['icon-button', 'dialog'],
   },
+  form: {
+    importCode: "import { Form, FormField, Input } from '@radish-ui/react';\nimport '@radish-ui/react/styles.css';",
+    api: [
+      { name: 'validate' },
+      { name: 'onValidSubmit' },
+      { name: 'onInvalid' },
+      { name: 'children' },
+      { name: 'className', type: 'string', required: false, description: '附加类名；布局与间距由调用方类或样式决定。' },
+      { name: '其余属性', type: "ComponentPropsWithoutRef<'form'>", required: false, description: '原生 form 属性透传；onSubmit / noValidate 由 Form 接管。' },
+    ],
+    related: ['form-field', 'input'],
+  },
   'form-field': {
     importCode: "import { FormField, Input } from '@radish-ui/react';\nimport '@radish-ui/react/styles.css';",
     api: [

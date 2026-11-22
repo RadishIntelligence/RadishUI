@@ -1,6 +1,6 @@
 import { useRef, useState, type ReactNode } from 'react';
 import { Copy, Pencil, Plus, Trash2 } from 'lucide-react';
-import { Accordion, Avatar, Button, Card, Checkbox, ConfirmDialog, Dialog, Drawer, FormField, IconButton, InlineAlert, Input, InputOTP, Menu, Pagination, RadioGroup, Section, Select, Skeleton, StatusBadge, Switch, Table, TableOfContents, Tabs, TabsContent, TabsList, Tag, TagInput, Textarea, Toast, ToggleGroup, Tooltip } from '@radish-ui/react';
+import { Accordion, Avatar, Button, Card, Checkbox, ConfirmDialog, Dialog, Drawer, Form, FormField, IconButton, InlineAlert, Input, InputOTP, Menu, Pagination, RadioGroup, Section, Select, Skeleton, StatusBadge, Switch, Table, TableOfContents, Tabs, TabsContent, TabsList, Tag, TagInput, Textarea, Toast, ToggleGroup, Tooltip } from '@radish-ui/react';
 
 export interface PilotExample {
   id: string;
@@ -86,6 +86,73 @@ function FormFieldGroup() {
       <Textarea rows={3} placeholder="一句话说明用途" />
     </FormField>
   </div>;
+}
+
+function FormBasic() {
+  const [name, setName] = useState('');
+  const [error, setError] = useState('');
+  const [created, setCreated] = useState('');
+  function validate() {
+    const message = name.trim() ? '' : '请输入资源名称。';
+    setError(message);
+    return { 'form-basic-name': message };
+  }
+  return <Form className="doc-example-stack" validate={validate} onValidSubmit={() => setCreated(name.trim())}>
+    <FormField id="form-basic-name" label="资源名称" required hint="提交时校验空值；校验通过才创建。" error={error}>
+      <Input value={name} maxLength={120} onChange={event => { setName(event.target.value); setError(''); }} />
+    </FormField>
+    <div className="doc-example-row">
+      <Button type="submit">创建资源</Button>
+      <Button variant="secondary" onClick={() => { setName(''); setError(''); setCreated(''); }}>重置</Button>
+    </div>
+    <p className="doc-example-note">{created ? `已创建：${created}` : '尚未创建。'}</p>
+  </Form>;
+}
+
+function FormFocusOrder() {
+  const [name, setName] = useState('');
+  const [summary, setSummary] = useState('');
+  const [nameError, setNameError] = useState('');
+  const [summaryError, setSummaryError] = useState('');
+  const [saved, setSaved] = useState(false);
+  function validate() {
+    const nextName = name.trim() ? '' : '请输入资源名称。';
+    const nextSummary = summary.trim() ? '' : '请输入资源说明。';
+    setNameError(nextName);
+    setSummaryError(nextSummary);
+    return { 'form-focus-name': nextName, 'form-focus-summary': nextSummary };
+  }
+  return <Form className="doc-example-stack" validate={validate} onValidSubmit={() => setSaved(true)}>
+    <FormField id="form-focus-name" label="资源名称" required error={nameError}>
+      <Input value={name} onChange={event => { setName(event.target.value); setNameError(''); }} />
+    </FormField>
+    <FormField id="form-focus-summary" label="资源说明" required error={summaryError}>
+      <Input value={summary} onChange={event => { setSummary(event.target.value); setSummaryError(''); }} />
+    </FormField>
+    <div className="doc-example-row"><Button type="submit">保存</Button></div>
+    <p className="doc-example-note">{saved ? '已保存。' : '两个字段都为空时提交，焦点停在 DOM 顺序中的第一个错误字段。'}</p>
+  </Form>;
+}
+
+function FormEvents() {
+  const [email, setEmail] = useState('');
+  const [error, setError] = useState('');
+  const [invalidCount, setInvalidCount] = useState(0);
+  const [accepted, setAccepted] = useState('');
+  function validate() {
+    const message = email.includes('@') ? '' : '请输入包含 @ 的邮箱。';
+    setError(message);
+    return { 'form-events-email': message };
+  }
+  return <Form className="doc-example-stack" validate={validate}
+    onInvalid={errors => setInvalidCount(Object.values(errors).filter(Boolean).length)}
+    onValidSubmit={() => { setAccepted(email.trim()); setInvalidCount(0); }}>
+    <FormField id="form-events-email" label="联系人邮箱" hint="提交时校验格式。" error={error}>
+      <Input value={email} onChange={event => { setEmail(event.target.value); setError(''); }} />
+    </FormField>
+    <div className="doc-example-row"><Button type="submit">提交</Button></div>
+    <p className="doc-example-note">{invalidCount ? `校验未通过：${invalidCount} 项` : accepted ? `已提交：${accepted}` : 'onInvalid / onValidSubmit 由调用方接管后续处理。'}</p>
+  </Form>;
 }
 
 function InputBasic() {
@@ -1122,6 +1189,66 @@ const [submitted, setSubmitted] = useState('');
   </FormField>
 </div>`,
       preview: <FormFieldGroup />,
+    },
+  ],
+  form: [
+    {
+      id: 'basic',
+      title: '提交前校验',
+      description: 'validate 返回以字段 id 为键的错误；校验通过才调用 onValidSubmit。',
+      code: `const [name, setName] = useState('');
+const [error, setError] = useState('');
+
+function validate() {
+  const message = name.trim() ? '' : '请输入资源名称。';
+  setError(message);
+  return { 'form-basic-name': message };
+}
+
+<Form validate={validate} onValidSubmit={() => createResource(name)}>
+  <FormField id="form-basic-name" label="资源名称" required error={error}>
+    <Input value={name} onChange={event => setName(event.target.value)} />
+  </FormField>
+  <Button type="submit">创建资源</Button>
+</Form>`,
+      preview: <FormBasic />,
+    },
+    {
+      id: 'focus-order',
+      title: '首个错误字段聚焦',
+      description: '多个字段同时报错时，焦点移到 DOM 顺序中的第一个错误字段。',
+      code: `function validate() {
+  const nextName = name.trim() ? '' : '请输入资源名称。';
+  const nextSummary = summary.trim() ? '' : '请输入资源说明。';
+  setNameError(nextName);
+  setSummaryError(nextSummary);
+  return { 'form-focus-name': nextName, 'form-focus-summary': nextSummary };
+}
+
+<Form validate={validate} onValidSubmit={save}>
+  <FormField id="form-focus-name" label="资源名称" required error={nameError}>
+    <Input value={name} onChange={event => setName(event.target.value)} />
+  </FormField>
+  <FormField id="form-focus-summary" label="资源说明" required error={summaryError}>
+    <Input value={summary} onChange={event => setSummary(event.target.value)} />
+  </FormField>
+  <Button type="submit">保存</Button>
+</Form>`,
+      preview: <FormFocusOrder />,
+    },
+    {
+      id: 'events',
+      title: '校验事件',
+      description: 'onInvalid 收到本次错误，onValidSubmit 只在全部通过后触发。',
+      code: `<Form validate={validate}
+  onInvalid={errors => setInvalidCount(Object.values(errors).filter(Boolean).length)}
+  onValidSubmit={() => submit(email)}>
+  <FormField id="form-events-email" label="联系人邮箱" error={error}>
+    <Input value={email} onChange={event => setEmail(event.target.value)} />
+  </FormField>
+  <Button type="submit">提交</Button>
+</Form>`,
+      preview: <FormEvents />,
     },
   ],
   input: [

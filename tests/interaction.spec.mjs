@@ -57,7 +57,7 @@ test('Select 键盘选择、受控值同步与 Escape 回焦', async ({ page }) 
   await page.keyboard.press('Enter');
   await expect(listbox).toBeVisible();
   await expect(trigger).toHaveAttribute('aria-expanded', 'true');
-  await page.keyboard.press('ArrowDown');
+  await page.keyboard.press('Home');
   await page.keyboard.press('Enter');
   await expect(listbox).toBeHidden();
   await expect(trigger).toContainText('文档');
@@ -142,10 +142,10 @@ test.describe('强制颜色', () => {
 test('全部组件页可加载，行为表与高亮齐全', async ({ page }) => {
   test.setTimeout(120_000);
   await page.goto('/#/catalog');
-  await page.waitForFunction(() => document.querySelectorAll('a.catalog-card[href^="#/components/"]').length === 30);
+  await page.waitForFunction(() => document.querySelectorAll('a.catalog-card[href^="#/components/"]').length === 31);
   const hrefs = await page.locator('a.catalog-card[href^="#/components/"]').evaluateAll(nodes => nodes.map(node => node.getAttribute('href')));
   const ids = [...new Set(hrefs.map(href => href.replace('#/components/', '')))];
-  expect(ids.length).toBe(30);
+  expect(ids.length).toBe(31);
   const failures = [];
   for (const id of ids) {
     const errors = [];
@@ -173,9 +173,61 @@ test('全部组件页可加载，行为表与高亮齐全', async ({ page }) => 
 
 test('窄屏组件页无页面级横向溢出', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  for (const id of ['button', 'select', 'table']) {
+  for (const id of ['button', 'select', 'form', 'table']) {
     await openComponent(page, id);
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1);
     expect(overflow, `${id} 在 390 下横向溢出`).toBe(false);
   }
+});
+
+test('Form 提交前校验并把焦点移到首个错误字段', async ({ page }) => {
+  const root = await openComponent(page, 'form');
+  const basic = example(root, 'basic');
+  const input = basic.getByRole('textbox');
+  const submit = basic.getByRole('button', { name: '创建资源' });
+  await submit.click();
+  await expect(input).toBeFocused();
+  await expect(basic.getByRole('alert')).toHaveText('请输入资源名称。');
+  await input.fill('发布检查清单');
+  await expect(basic.getByRole('alert')).toHaveCount(0);
+  await submit.click();
+  await expect(basic).toContainText('已创建：发布检查清单');
+});
+
+test('Form 多个错误时聚焦 DOM 顺序中的第一个字段', async ({ page }) => {
+  const root = await openComponent(page, 'form');
+  const focusOrder = example(root, 'focus-order');
+  const name = focusOrder.getByRole('textbox').first();
+  await focusOrder.getByRole('button', { name: '保存' }).click();
+  await expect(name).toBeFocused();
+  await expect(focusOrder.getByRole('alert')).toHaveCount(2);
+});
+
+test('工作台资源新建表单校验与提交', async ({ page }) => {
+  await page.goto('/#/resources');
+  await page.getByRole('button', { name: '新建资源' }).click();
+  const dialog = page.getByRole('dialog', { name: '新建资源' });
+  await expect(dialog).toBeVisible();
+  const name = dialog.getByRole('textbox', { name: '资源名称' });
+  await expect(name).toBeFocused();
+  await dialog.getByRole('button', { name: '创建资源' }).click();
+  await expect(dialog.getByRole('alert')).toHaveText('请输入资源名称。');
+  await expect(name).toBeFocused();
+  await name.fill('浏览器断言资源');
+  await dialog.getByRole('button', { name: '创建资源' }).click();
+  await expect(dialog).toBeHidden();
+  await expect(page.getByRole('table').getByText('浏览器断言资源')).toBeVisible();
+});
+
+test('工作台文档编辑表单校验与保存', async ({ page }) => {
+  await page.goto('/#/document/button-guidelines');
+  await page.getByRole('button', { name: '编辑文档' }).click();
+  const title = page.getByRole('textbox', { name: '文档标题' });
+  await title.fill('');
+  await page.getByRole('button', { name: '保存文档' }).click();
+  await expect(page.getByRole('alert')).toHaveText('请输入文档标题。');
+  await expect(title).toBeFocused();
+  await title.fill('Button 使用规范（回归）');
+  await page.getByRole('button', { name: '保存文档' }).click();
+  await expect(page.getByRole('heading', { level: 1, name: 'Button 使用规范（回归）' })).toBeVisible();
 });

@@ -28,6 +28,7 @@ export const componentCatalog: readonly ComponentEntry[] = [
   { id: 'button', name: 'Button', group: 'actions', status: 'stable', detail: true, summary: '主要、次要、幽灵与危险操作；sm / md 两档，loading 保留焦点并拦截重复激活。' },
   { id: 'icon-button', name: 'IconButton', group: 'actions', status: 'stable', detail: true, summary: '纯图标按钮，label 必填；默认 ghost，继承 Button 的尺寸、loading 与焦点。' },
   { id: 'form-field', name: 'FormField', group: 'fields', status: 'stable', detail: true, summary: '字段标签、说明与错误关联；Input / Textarea / Select 自动读取字段上下文。' },
+  { id: 'form', name: 'Form', group: 'fields', status: 'stable', detail: true, summary: '原生 form 语义与提交门禁：noValidate、调用方校验、首个错误字段聚焦；不渲染错误文案。' },
   { id: 'input', name: 'Input', group: 'fields', status: 'stable', detail: true, summary: '单行文本输入，outline / filled 表面；原生 input 属性与 ref 透传。' },
   { id: 'textarea', name: 'Textarea', group: 'fields', status: 'stable', detail: true, summary: '多行文本输入，支持只读、禁用与字段错误；保留垂直 resize。' },
   { id: 'input-otp', name: 'InputOTP', group: 'fields', status: 'stable', detail: true, summary: '六位验证码输入，自动前进、粘贴与逐格错误关联；Enter 回调可接管提交。' },

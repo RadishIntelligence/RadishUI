@@ -23,6 +23,12 @@ export const authoredBehavior: Record<string, readonly BehaviorEntry[]> = {
     { topic: 'focus', source: 'radish', text: 'loading 时保留焦点并只显示 spinner，重复激活被拦截。' },
     { topic: 'keyboard', source: 'native', text: 'disabled 使用原生 disabled，不进入 Tab 顺序。' },
   ],
+  form: [
+    { topic: 'keyboard', source: 'native', text: '单行输入内按 Enter 触发表单提交，提交事件由 Form 接管。' },
+    { topic: 'focus', source: 'radish', text: '校验未通过时把焦点移到 DOM 顺序中的第一个错误字段。' },
+    { topic: 'aria', source: 'native', text: '原生 form 提供表单语义；字段错误由 FormField 的 role=alert 播报。' },
+    { topic: 'limitation', source: 'radish', text: 'Form 不计算校验规则、不渲染错误文案；规则、错误状态与 FormField error 由调用方维护。' },
+  ],
   'form-field': [
     { topic: 'keyboard', source: 'native', text: '字段原语不承担键盘行为；点击标签聚焦关联控件。' },
     { topic: 'aria', source: 'radish', text: '错误以 role=alert 播报，说明与错误通过 aria-describedby 关联。' },

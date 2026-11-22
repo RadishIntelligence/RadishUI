@@ -15,6 +15,7 @@ const typeMap = {
   button: ['ButtonProps'],
   'icon-button': ['IconButtonProps'],
   'form-field': ['FormFieldProps'],
+  form: ['FormProps'],
   input: ['InputProps'],
   textarea: ['TextareaProps'],
   'input-otp': ['InputOTPProps'],
