@@ -376,5 +376,5 @@ Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前
 - API：`DrawerProps` 增加 `side?: 'right' | 'bottom'`，默认 right；`side="bottom"` 使用同一 Dialog 合同——Escape、焦点约束、初始焦点与关闭回焦、标题 / 说明 / footer 结构不变，只改变出现方位与进入动效。
 - 样式：共享 `styles.css` 提供底部编排：窄屏占满宽度并贴底、顶部圆角消费 `--rd-radius-panel`、正文底部计算 `env(safe-area-inset-bottom)`、`max-height: min(86dvh, 720px)` 内滚动；481px 起为居中 560px 的底部面板。工作台原有的 20px 硬编码圆角与页面动画覆盖随之删除。
 - 组件站：Drawer 页新增「底部编排」示例；API 表由 `DrawerProps` 生成（新增 side 行），行为声明补充「方位只改变编排，合同与焦点约束不变」。
-- 验证：`npm run test:interaction` 16 项（新增组件页底部抽屉与工作台 390 资源详情两项）、`npm run check`、`npm run build` 通过；Chrome 157 探针覆盖 390 明暗、组件页 1440 居中底部面板与 1200 侧向抽屉不变，12 项检查 0 失败，证据在忽略目录 `output/p4-drawer-2026-11-22/`。实现 `2693e81` 与文档登记随后推送，远端 run 结果见[当前规划](../planning/current.md)停止线。
+- 验证：`npm run test:interaction` 16 项（新增组件页底部抽屉与工作台 390 资源详情两项）、`npm run check`、`npm run build` 通过；Chrome 157 探针覆盖 390 明暗、组件页 1440 居中底部面板与 1200 侧向抽屉不变，12 项检查 0 失败，证据在忽略目录 `output/p4-drawer-2026-11-22/`。实现 `2693e81` 与文档登记 `3087220` 已推送 `origin/dev`；手动 PR Checks run `45025132513` 的 Web Build 执行 `npm run test:interaction`（16 项）通过；未部署。
 - 边界：不包含拖拽把手 / 下滑关闭 / 半展开状态，这些需要真实移动场景与触控规则；Safari / Firefox 未复验；圆角从页面硬编码 20px 改为语义 token 16px，视觉变化待所有者复审。

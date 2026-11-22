@@ -207,7 +207,7 @@ P1 完成：30 个条目均有独立页；目录新增「页面原语」分组�
 - 采用：资源库窄屏资源详情改用 `<Drawer side="bottom">`；删除 `.rd-drawer.resource-sheet` 覆盖、页面 `resource-sheet` 类名与 `rd-sheet-in` 页面动画。
 - 组件站：Drawer 页新增「底部编排」示例（共 4 个示例）；API 表、行为声明、`llms.txt` 与代码高亮生成物同批更新。
 - 校验：`test:interaction` 16 项（新增组件页底部抽屉与工作台 390 资源详情）、`check`、`build` 通过；Chrome 157 探针 12 项检查 0 失败，覆盖 390 明暗、1440 居中底部面板与 1200 侧向抽屉不变，证据在忽略目录 `output/p4-drawer-2026-11-22/`。
-- 边界：不包含拖拽把手 / 下滑关闭 / 半展开状态；圆角由页面 20px 硬编码改为语义 token 16px，视觉变化待所有者复审；Safari / Firefox 未复验。实现 `2693e81` 与文档登记随后推送，远端 run 结果见[当前规划](../planning/current.md)停止线。
+- 边界：不包含拖拽把手 / 下滑关闭 / 半展开状态；圆角由页面 20px 硬编码改为语义 token 16px，视觉变化待所有者复审；Safari / Firefox 未复验。实现 `2693e81` 与文档登记 `3087220` 已推送 `origin/dev`，手动 PR Checks run `45025132513` 的 Web Build 执行 `npm run test:interaction`（16 项）通过；未部署。
 
 <a id="contract-and-behavior-2026-11-18"></a>
 
