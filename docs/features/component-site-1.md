@@ -1,6 +1,6 @@
 # 组件站 1.0
 
-状态：2026-11-17 所有者确认作为下一阶段；2026-11-19 完成 P0 三页用法复审并进入 P1，P1 同日完成：30 个条目（27 个组件与 Card / Section / Table 页面原语）均有独立页；2026-11-21 完成 P2 的源码类型、JSDoc 与默认值生成，手写契约只保留回退字段；同日 P3 起步：逐组件行为归属与 a11y 声明进入同一契约来源，示例深度覆盖六组（106 个示例），每示例支持主题 / 密度预览；P3 余代码高亮与交互断言（依赖待确认）。P2 外部采用与 P3 Flutter 暂缓。2026-11-18 按所有者确认增补机器可读契约、行为归属与交互行为测试评估，见[契约与行为](#contract-and-behavior-2026-11-18)。
+状态：2026-11-17 所有者确认作为下一阶段；2026-11-19 完成 P0 三页用法复审并进入 P1，P1 同日完成：30 个条目（27 个组件与 Card / Section / Table 页面原语）均有独立页；2026-11-21 完成 P2 的源码类型、JSDoc 与默认值生成，手写契约只保留回退字段；同日 P3 起步：逐组件行为归属与 a11y 声明进入同一契约来源，示例深度覆盖六组（106 个示例），每示例支持主题 / 密度预览；2026-11-22 代码高亮经构建期生成落地（新增开发依赖经所有者确认）；P3 余交互断言（依赖待确认）。P2 外部采用与 P3 Flutter 暂缓。2026-11-18 按所有者确认增补机器可读契约、行为归属与交互行为测试评估，见[契约与行为](#contract-and-behavior-2026-11-18)。
 主要归属：E：展示与页面范例（组件文档站）/ C：跨平台通用组件；协同 F：视觉基础、G：工程与交付。
 需求输入：[家族组件需求盘点](family-component-demand.md)；既有组件合同见 [C-02](react-workbench-components.md)，页面范例见 [E-02](workbench-preview.md)。
 
@@ -42,7 +42,7 @@
 | **P0 垂直切片** | 目录页、搜索、Button / Select / Tabs 独立页、API 表、示例、复制、测试 | 已实现（`42019fe`），复审完成（2026-11-19） |
 | **P1 迁移 27 个** | 现有组件全部进入模板；Card / Section / Table 页面原语一并纳入目录；单页参考退为“全部示例” | 已完成（30 个条目） |
 | **P2 类型 / API 全量** | 导出缺失 props 类型；JSDoc / 默认值 / 事件 / ref；单一来源生成 API 表与 `llms.txt`，行为归属随 P3 进入同一来源；`--check` 漂移门禁；类型测试与完整性检查 | 已完成（2026-11-21）：类型、JSDoc 说明、解构默认值与事件签名由源码生成；原生 / Radix 继承属性、union 类型与未解构默认值保留契约回退 |
-| **P3 用法深度** | 每组件 3+ 示例、变体 / 受控 / 表单 / 组合；代码高亮（新增依赖需确认）；每示例主题 / 密度；逐组件 a11y 与行为归属声明及对应断言（依赖待确认） | 进行中（行为归属与 a11y 声明已进入契约并生成；示例深度已覆盖六组，共 106 个示例；每示例主题 / 密度预览控制已实现；余下代码高亮与交互断言待依赖确认） |
+| **P3 用法深度** | 每组件 3+ 示例、变体 / 受控 / 表单 / 组合；代码高亮（新增依赖需确认）；每示例主题 / 密度；逐组件 a11y 与行为归属声明及对应断言（依赖待确认） | 进行中（行为归属与 a11y 声明已进入契约并生成；示例深度已覆盖六组，共 106 个示例；每示例主题 / 密度预览控制已实现；代码高亮已于 2026-11-22 构建期生成；余下交互断言待依赖确认） |
 | **P4 目录扩展** | 按[家族需求盘点](family-component-demand.md)排序；Form、Upload、InputNumber / Slider 等逐项确认 | 待开始 |
 | **P5 站点能力** | 版本 / 变更记录、状态与弃用、双语文档、图标参考、站点搜索索引；公开安装 / CLI / registry 属 P4 发行 | 待开始 |
 
@@ -85,13 +85,15 @@ P0 垂直切片与 P1 首批共用以下文件：
 
 - `apps/docs/src/component-catalog.ts`：27 个组件的单一目录数据（id、名称、分组、摘要、状态、是否有独立页）；
 - `apps/docs/src/CatalogPage.tsx`：搜索、分组、计数、空结果与卡片深链；
-- `apps/docs/src/ComponentDetailPage.tsx`：导入、示例（含每示例主题 / 密度预览设置）、API、键盘 / a11y、相关组件；
+- `apps/docs/src/ComponentDetailPage.tsx`：导入、示例（含每示例主题 / 密度预览设置与代码高亮）、API、键盘 / a11y、相关组件；
 - `apps/docs/src/component-api.ts`：组件导入代码、相关组件与 API 回退行（原生 / Radix 继承属性、union 类型、`其余属性` 与未解构默认值）；P2 起 props 类型、说明与可解构默认值由 `packages/react/src` 生成到 `component-api.generated.ts`；
 - `apps/docs/src/component-behavior.ts`：P3 起逐组件行为归属与 a11y 声明（键盘 / 焦点 / ARIA / 已知限制及来源），经同一生成器写入 `component-api.generated.ts`；
-- `apps/docs/src/component-pilot-examples.tsx`：已迁移组件的示例（30 个条目共 106 个示例），预览使用真实共享组件；
+- `apps/docs/src/component-pilot-examples.tsx`：已迁移组件的示例（30 个条目共 106 个示例），预览使用真实共享组件；代码片段同时是高亮生成器的输入；
+- `apps/docs/src/component-code.generated.ts`：P3 起由 `scripts/generate-code.mjs` 生成的逐条高亮 HTML（导入片段与示例），组件页消费；生成物入仓并由测试拦截漂移；
+- `scripts/generate-code.mjs`：构建期高亮入口（`npm run code:generate` / `--check`），用 TypeScript AST 读取示例并用开发依赖 `shiki` 生成，不进入浏览器包；
 - `apps/docs/src/CopyButton.tsx`：复制代码 / 导入片段；无第三方依赖；
 - 路由：`#/catalog`、`#/components/<id>`；旧 `#/components` 保留；目录与详情页按路由懒加载，避免主包持续膨胀；
-- 测试：`scripts/component-catalog.test.mjs` 与 `parseRoute` 新用例（当前 9 项，含生成物 / `llms.txt` 漂移、API 回退、行为覆盖与示例完整性断言）；`npm run test:catalog` 纳入 `check` 与 PR Checks 的 `web-build`。
+- 测试：`scripts/component-catalog.test.mjs` 与 `parseRoute` 新用例（当前 11 项，含生成物 / `llms.txt` / 高亮产物漂移、API 回退、行为覆盖、示例完整性与高亮文本一致性断言）；`npm run test:catalog` 纳入 `check` 与 PR Checks 的 `web-build`。
 
 ## P1 迁移
 
@@ -160,6 +162,19 @@ P1 完成：30 个条目均有独立页；目录新增「页面原语」分组�
 - 验证：`npm run type-check`、`npm run test:catalog`、`npm run check`、`npm run build` 通过；Chrome 157 探针覆盖 1440 / 390、站点明暗交叉与全部 30 个组件页（无 pageerror、无页面级横向溢出、预览选择器在容器内），并验证主题 / 密度切换改变预览计算样式与控件高度；证据在忽略目录 `output/p3-preview-controls-2026-11-21/`。
 - 边界：代码高亮与 DOM / 焦点 / `forced-colors` 断言仍待 P3，均涉及新增依赖，需所有者确认；本轮未新增依赖；实现已本地提交（`4b020dc`），文档登记同批本地提交，未推送、未部署。
 
+<a id="p3-code-highlight-2026-11-22"></a>
+
+## P3-D 代码高亮（2026-11-22）
+
+- 范围：组件页的导入片段与全部示例代码块改为构建期语法高亮；不新增运行时依赖、不改共享组件、token 或路由；旧 `#/components` 单页参考保持纯文本（P1 后待退场的过渡页）。
+- 依赖：新增开发依赖 `shiki@4.6.0`，仅构建期使用，不进入浏览器包；经所有者 2026-11-22 确认。
+- 生成：`scripts/generate-code.mjs` 用 TypeScript AST 读取 `component-pilot-examples.tsx` 的示例（预览为 JSX，Node 不能直接导入），合并 API 契约里的导入代码，按自定义主题的 token 角色生成 HTML 到 `apps/docs/src/component-code.generated.ts`；`npm run code:generate` 更新，`--check` 与 `test:catalog` 拦截漂移。生成器同时校验覆盖、示例键唯一，并逐条确认高亮后的可见文本与源码完全一致（含空白与换行）。
+- 配色：生成器只声明 token 角色（关键字 / 标签、字符串、注释），`component-site.css` 把角色映射到现有语义 token（`text-action`、`state-success`、`text-secondary`），明暗随站点主题；不新增 token、不引入第二套配色。当前示例没有注释，注释角色保留给后续代码。
+- 渲染：组件页 `DocCode` 渲染生成的高亮 HTML，复制仍取原始纯文本；生成物只含 `span` 标记，页面不接收外部输入。
+- 验证：`npm run code:generate --check`、`npm run test:catalog`（11 项）、`npm run check`、`npm run build` 通过；Chrome 157 探针覆盖 30 个组件页 × 1440 / 390 与明暗，464 项检查 0 失败——高亮文本与源码逐字一致、每个代码块都有 token、无 pageerror / console error、无页面级横向溢出；明暗对比度（关键字 5.08 / 7.33、字符串 4.59 / 7.94、标签 5.08 / 7.33）均 ≥ 4.5，复制为纯文本、代码容器可 Tab 聚焦且有焦点环、强制颜色下文本保留，旧 `#/components` 仍可渲染。证据在忽略目录 `output/p3-highlight-2026-11-22/`。
+- 体积：`ComponentDetailPage` 懒加载分块 141 KiB → 226 KiB（gzip 42.24 kB），只影响组件页；主入口分块未变。
+- 边界：旧单页参考未接入高亮；未重新做 Safari / Firefox、真实屏幕阅读器复验；配色待所有者视觉复审。本轮实现已本地提交（`3a6fd34`），文档登记同批本地提交，未推送、未部署。
+
 <a id="contract-and-behavior-2026-11-18"></a>
 
 ## 契约与行为（2026-11-18）
@@ -206,19 +221,19 @@ P1 完成：30 个条目均有独立页；目录新增「页面原语」分组�
 ## 验收口径
 
 - 目录：27 个组件全部可搜索 / 分组；每个 id 可深链；无重复、无死链（未迁移项明确指向单页参考）。
-- 已迁移页：导入、≥3 示例、API 表、键盘 / a11y、相关组件齐全；代码可复制；1440 / 390 与明暗无页面级横向溢出、无 pageerror。
+- 已迁移页：导入、≥3 示例、API 表、键盘 / a11y、相关组件齐全；代码可复制并有构建期高亮（2026-11-22 起）；1440 / 390 与明暗无页面级横向溢出、无 pageerror。
 - 类型：P2 起每个公开 props 有类型、默认值、必填与说明；API 表由源码生成并在 CI 检查漂移。
 - 用法：P3 起每组件至少 3 个真实示例；示例代码与预览一致；每示例可在明暗与三档密度下预览；不能只靠静态截图。
 - 站点：搜索、深链、复制、键盘焦点可用；不因新增页面破坏 Workbench 与既有路由。
-- 契约：P2 起 API 表与 `llms.txt` 由单一来源生成并有 `--check` 漂移门禁；行为归属已于 2026-11-21 进入同一来源。手写镜像只作为过渡并在同批标注到期阶段。
+- 契约：P2 起 API 表与 `llms.txt` 由单一来源生成并有 `--check` 漂移门禁；行为归属已于 2026-11-21 进入同一来源，代码高亮产物于 2026-11-22 同属生成链路。手写镜像只作为过渡并在同批标注到期阶段。
 - 行为：P3 组件页逐项注明浏览器原生、Radix 与 RadishUI 承担的行为（2026-11-21 起已进入契约生成）；键盘与焦点验收记录验证环境、证据来源及未覆盖项。
 - 不以组件数量或文档页数量替代验收；每项必须有可复验证据。
 
 ## 边界与依赖
 
 - 当前包仍是 private workspace；导入示例写工作区包名，不代表已发布。
-- 新增开发依赖（代码高亮、API 生成器、Playwright / jsdom 等测试工具）需单独确认；P0 不新增依赖。
+- 新增开发依赖需单独确认：2026-11-22 已确认构建期代码高亮使用 `shiki`（不进入浏览器包）；Playwright / jsdom 等交互断言测试工具仍待确认。
 - 不引入 `@ui-sdk/*`、Agent Bridge 或 WebMCP 接入；外部行为层评估与重评触发点见[契约与行为](#contract-and-behavior-2026-11-18)。
 - 产品仓只读；家族需求盘点不构成接入授权。
-- 旧 `#/components` 与既有文档链接在 P1 前保持可用；迁移时再统一导航与重定向。
+- 旧 `#/components` 与既有文档链接在 P1 前保持可用；迁移时再统一导航与重定向。该过渡页未接入 P3 高亮，保持纯文本。
 - 证据写入开发记录；实现与文档分别提交，按批次由所有者复审。
