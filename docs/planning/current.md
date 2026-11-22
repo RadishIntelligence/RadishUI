@@ -78,7 +78,7 @@
 - 2026-11-22 的 P3-D 代码高亮实现 `3a6fd34`、P3-E 交互断言实现 `62fd350` 与文档登记 `95d9a03` 已推送 `origin/dev`；手动 PR Checks run `44991120585`（Repo Hygiene / Web Build / Candidate Quality）通过，其中 Web Build 执行了 `npm run test:interaction`（Chrome channel，未下载浏览器）。未部署，生产未更新。
 - 2026-11-22 的 P4-① Form 实现 `2a053c1` 与文档登记 `a4f1223` 已推送 `origin/dev`；手动 PR Checks run `45017363740` 通过，Web Build 在 Ubuntu runner 执行 `npm run test:interaction`（14 项，含 Form 与两个工作台表单回归）。未部署，生产未更新。
 - 2026-11-22 的 P4-② Drawer 底部编排实现 `2693e81` 与文档登记 `3087220` 已推送 `origin/dev`；手动 PR Checks run `45025132513` 通过，Web Build 在 Ubuntu runner 执行 `npm run test:interaction`（16 项，含底部抽屉与工作台窄屏回归）。未部署，生产未更新。
-- 2026-11-22 收尾：断点修复 `5be86c4`（保持 800–1099 侧向抽屉，交互断言 17 项）与本次文档复核提交随后推送并手动触发 PR Checks，结果待补记。未部署，生产未更新。
+- 2026-11-22 收尾：断点修复 `5be86c4`、交互断言 17 项与文档复核 `923f7a2` 已推送 `origin/dev`；手动 PR Checks run `45029495187` 通过，Web Build 执行 `npm run test:interaction`（含 800–1099 断点回归）。未部署，生产未更新。
 - 组件站 1.0 达标前不恢复兄弟项目试点；About 采用只作已闭环记录，不触发其他页面 / 产品接入。
 - 不引入跨框架行为层与 Agent 运行时桥接（`@ui-sdk/*`、Agent Bridge / WebMCP）。重评触发点见[组件站 1.0](../features/component-site-1.md#contract-and-behavior-2026-11-18)。Playwright 已于 2026-11-22 经所有者确认入仓（只用预装 Chrome）；新增其他测试依赖（jsdom / happy-dom 等）仍需单独确认。
 - React 18 / Flutter 支持、组件包发行、字体策略、全站 token 与 family-ui 资料迁移不随试点自动进入，也不作为本次有限采用的前置条件。未覆盖平台与辅助技术如实记录；影响所选关键路径的缺陷仍需处理。
