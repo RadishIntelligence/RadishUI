@@ -264,3 +264,17 @@ test('工作台窄屏资源详情使用底部抽屉', async ({ page }) => {
   await expect(sheet).toBeHidden();
   await expect(select).toBeFocused();
 });
+
+test('工作台 800–1099 资源详情保持侧向抽屉', async ({ page }) => {
+  await page.setViewportSize({ width: 900, height: 900 });
+  await page.goto('/#/resources');
+  await page.getByRole('table').getByRole('button').first().click();
+  const side = page.locator('.rd-drawer:not(.rd-drawer--bottom)');
+  await expect(side).toBeVisible();
+  await expect(page.locator('.rd-drawer--bottom')).toHaveCount(0);
+  await page.waitForTimeout(400);
+  const box = await side.boundingBox();
+  expect(page.viewportSize().width - (box.x + box.width)).toBeCloseTo(8, 0);
+  await page.keyboard.press('Escape');
+  await expect(side).toBeHidden();
+});

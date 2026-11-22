@@ -25,6 +25,7 @@ export function ResourcesPage({ resources, error, save, retry, t, locale, densit
   const [size, setSize] = useState(20);
   const [selectedId, setSelectedId] = useState('');
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [narrowDrawer, setNarrowDrawer] = useState(() => window.matchMedia('(max-width: 799px)').matches);
   const [createOpen, setCreateOpen] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState<Resource>();
   const [versionTarget, setVersionTarget] = useState<Resource>();
@@ -61,6 +62,13 @@ export function ResourcesPage({ resources, error, save, retry, t, locale, densit
     return () => { observer.disconnect(); window.removeEventListener('resize', measure); };
   }, [resources, error]);
 
+  useEffect(() => {
+    const media = window.matchMedia('(max-width: 799px)');
+    const apply = () => setNarrowDrawer(media.matches);
+    apply();
+    media.addEventListener('change', apply);
+    return () => media.removeEventListener('change', apply);
+  }, []);
   function select(item: Resource) {
     setSelectedId(item.id);
     if (window.matchMedia('(max-width: 1099px)').matches) setDrawerOpen(true);
@@ -171,7 +179,7 @@ export function ResourcesPage({ resources, error, save, retry, t, locale, densit
       <div className="sr-only" role="status">{resources !== undefined && !error && visible.length === 0 ? (resources.length ? t('没有匹配的资源', 'No matching resources') : t('还没有资源', 'No resources yet')) : ''}</div>
       {content}
     </div>
-    <Drawer side="bottom" open={drawerOpen && Boolean(selected)} onOpenChange={setDrawerOpen} title={selected?.name ?? t('资源详情', 'Resource details')} closeLabel={t('关闭', 'Close')}>{drawerDetails}</Drawer>
+    <Drawer side={narrowDrawer ? 'bottom' : 'right'} open={drawerOpen && Boolean(selected)} onOpenChange={setDrawerOpen} title={selected?.name ?? t('资源详情', 'Resource details')} closeLabel={t('关闭', 'Close')}>{drawerDetails}</Drawer>
     <CreateResource open={createOpen} onOpenChange={setCreateOpen} t={t} resources={resources ?? []} save={next => {
       const failure = save(next);
       if (!failure) { setQuery(''); setKind('all'); setStatus('all'); resetPage(); setSelectedId(next[0].id); notify(t('资源已创建', 'Resource created')); }
