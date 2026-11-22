@@ -36,7 +36,7 @@ const typeMap = {
   dialog: ['DialogProps'],
   'confirm-dialog': ['ConfirmDialogProps'],
   accordion: ['AccordionProps'],
-  drawer: ['DialogProps'],
+  drawer: ['DrawerProps'],
   menu: [
     { component: 'Menu', type: 'MenuProps' },
     { component: 'MenuItem', type: 'MenuItem' },

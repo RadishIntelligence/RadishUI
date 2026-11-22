@@ -171,7 +171,7 @@ export function ResourcesPage({ resources, error, save, retry, t, locale, densit
       <div className="sr-only" role="status">{resources !== undefined && !error && visible.length === 0 ? (resources.length ? t('没有匹配的资源', 'No matching resources') : t('还没有资源', 'No resources yet')) : ''}</div>
       {content}
     </div>
-    <Drawer className="resource-sheet" open={drawerOpen && Boolean(selected)} onOpenChange={setDrawerOpen} title={selected?.name ?? t('资源详情', 'Resource details')} closeLabel={t('关闭', 'Close')}>{drawerDetails}</Drawer>
+    <Drawer side="bottom" open={drawerOpen && Boolean(selected)} onOpenChange={setDrawerOpen} title={selected?.name ?? t('资源详情', 'Resource details')} closeLabel={t('关闭', 'Close')}>{drawerDetails}</Drawer>
     <CreateResource open={createOpen} onOpenChange={setCreateOpen} t={t} resources={resources ?? []} save={next => {
       const failure = save(next);
       if (!failure) { setQuery(''); setKind('all'); setStatus('all'); resetPage(); setSelectedId(next[0].id); notify(t('资源已创建', 'Resource created')); }

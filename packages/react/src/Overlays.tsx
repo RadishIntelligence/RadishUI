@@ -28,7 +28,7 @@ export interface DialogProps {
   className?: string;
 }
 
-function DialogSurface({ open, onOpenChange, title, description, children, footer, initialFocusRef, closeDisabled = false, role = 'dialog', closeLabel = '关闭', className = '', drawer = false }: DialogProps & { drawer?: boolean }) {
+function DialogSurface({ open, onOpenChange, title, description, children, footer, initialFocusRef, closeDisabled = false, role = 'dialog', closeLabel = '关闭', className = '', drawer = false, side = 'right' }: DialogProps & { drawer?: boolean; side?: 'right' | 'bottom' }) {
   const previousFocus = useRef<HTMLElement | null>(null);
   // A menu item is removed when its menu closes. Remember the menu trigger too, so a
   // dialog opened from that item can return focus somewhere stable on close.
@@ -36,7 +36,7 @@ function DialogSurface({ open, onOpenChange, title, description, children, foote
   return <DialogPrimitive.Root open={open} onOpenChange={onOpenChange}>
     <DialogPrimitive.Portal>
       <DialogPrimitive.Overlay className="rd-dialog-overlay" />
-      <DialogPrimitive.Content role={role} className={`rd-dialog ${drawer ? 'rd-drawer' : ''} ${className}`}
+      <DialogPrimitive.Content role={role} className={`rd-dialog ${drawer ? 'rd-drawer' : ''} ${drawer && side === 'bottom' ? 'rd-drawer--bottom' : ''} ${className}`.trim()}
         onOpenAutoFocus={event => {
           previousFocus.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
           menuTriggerFocus.current = document.querySelector<HTMLElement>('[aria-haspopup="menu"][aria-expanded="true"]');
@@ -60,7 +60,12 @@ function DialogSurface({ open, onOpenChange, title, description, children, foote
 }
 
 export function Dialog(props: DialogProps) { return <DialogSurface {...props} />; }
-export function Drawer(props: DialogProps) { return <DialogSurface {...props} drawer />; }
+
+export interface DrawerProps extends DialogProps {
+  /** 出现方位；right 从侧边滑入（默认），bottom 为底部抽屉。 */
+  side?: 'right' | 'bottom';
+}
+export function Drawer({ side = 'right', ...props }: DrawerProps) { return <DialogSurface {...props} drawer side={side} />; }
 
 export interface MenuItem {
   /** 稳定标识。 */

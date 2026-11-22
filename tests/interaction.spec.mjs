@@ -231,3 +231,36 @@ test('工作台文档编辑表单校验与保存', async ({ page }) => {
   await page.getByRole('button', { name: '保存文档' }).click();
   await expect(page.getByRole('heading', { level: 1, name: 'Button 使用规范（回归）' })).toBeVisible();
 });
+
+test('Drawer 底部编排共用同一合同并保持焦点回焦', async ({ page }) => {
+  const root = await openComponent(page, 'drawer');
+  const bottom = example(root, 'bottom');
+  const trigger = bottom.getByRole('button', { name: '打开底部抽屉' });
+  await trigger.click();
+  const sheet = page.locator('.rd-drawer--bottom');
+  await expect(sheet).toBeVisible();
+  await page.waitForTimeout(400);
+  const box = await sheet.boundingBox();
+  const viewport = page.viewportSize();
+  expect(box.y + box.height).toBeCloseTo(viewport.height, 0);
+  expect(box.width).toBeLessThan(viewport.width - 32);
+  await page.keyboard.press('Escape');
+  await expect(sheet).toBeHidden();
+  await expect(trigger).toBeFocused();
+});
+
+test('工作台窄屏资源详情使用底部抽屉', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/#/resources');
+  const select = page.locator('.resource-mobile-select').first();
+  await select.click();
+  const sheet = page.locator('.rd-drawer--bottom');
+  await expect(sheet).toBeVisible();
+  await page.waitForTimeout(400);
+  const box = await sheet.boundingBox();
+  expect(box.y + box.height).toBeCloseTo(844, 0);
+  expect(Math.round(box.width)).toBe(390);
+  await page.keyboard.press('Escape');
+  await expect(sheet).toBeHidden();
+  await expect(select).toBeFocused();
+});

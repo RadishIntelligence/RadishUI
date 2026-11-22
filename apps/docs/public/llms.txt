@@ -694,6 +694,7 @@ import '@radish-ui/react/styles.css';
 - `initialFocusRef` — 类型 `RefObject<HTMLElement | null>` — 打开时的初始焦点；关闭后回到打开它的入口。
 - `role` — 类型 `'dialog' | 'alertdialog'`；默认 'dialog' — 语义角色；确认类使用 alertdialog。
 - `className` — 类型 `string`；默认 '' — 附加类名。
+- `side` — 类型 `'right' | 'bottom'`；默认 'right' — 出现方位；right 从侧边滑入（默认），bottom 为底部抽屉。
 
 行为与可访问性：
 
@@ -701,7 +702,8 @@ import '@radish-ui/react/styles.css';
 - 焦点 · RadishUI：关闭后焦点回到入口；从菜单项打开时回到菜单触发器。
 - ARIA · Radix：标题作为可访问名称，说明关联 aria-describedby。
 - 已知限制 · RadishUI：抽屉用于辅助内容，不改变页面的主流程语义。
-- 已知限制 · RadishUI：窄屏下从边缘打开，正文滚动，footer 保持可见。
+- ARIA · RadishUI：底部编排只改变出现方位，可访问名称、说明与焦点约束与侧向一致。
+- 已知限制 · RadishUI：侧向与底部共用同一弹层合同；底部编排在窄屏占满宽度，从 481px 起居中，正文滚动、footer 保持可见。
 
 相关：Dialog、ConfirmDialog
 

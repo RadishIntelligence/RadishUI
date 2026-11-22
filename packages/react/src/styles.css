@@ -266,6 +266,14 @@ html[data-density="spacious"] .rd-table { --rd-table-head-height: 42px; --rd-tab
 .rd-drawer { left: auto; right: 8px; top: 8px; bottom: 8px; transform: none; width: min(400px, calc(100vw - 16px)); max-height: none; }
 .rd-drawer { animation: rd-drawer-in var(--rd-motion-base) var(--rd-ease-enter); }
 .rd-drawer .rd-dialog-body { flex: 1; }
+/* Bottom arrangement of the same drawer contract: full-width on phones, a centered
+   sheet from 481px up, safe-area padding in the body and the same scroll behaviour. */
+.rd-drawer--bottom { left: 0; right: 0; top: auto; bottom: 0; width: 100%; max-height: min(86dvh, 720px); transform: none; border-bottom: 0; border-radius: var(--rd-radius-panel) var(--rd-radius-panel) 0 0; animation: rd-sheet-in var(--rd-motion-base) var(--rd-ease-enter); }
+.rd-drawer--bottom .rd-dialog-header { padding: var(--rd-space-3) var(--rd-space-4); }
+.rd-drawer--bottom .rd-dialog-body { padding-bottom: calc(var(--rd-space-4) + env(safe-area-inset-bottom, 0px)); }
+@media (min-width: 481px) {
+  .rd-drawer--bottom { left: 50%; right: auto; width: min(560px, calc(100vw - 32px)); transform: translateX(-50%); }
+}
 .rd-menu { min-width: 190px; max-width: calc(100vw - 24px); }
 .rd-menu-item { justify-content: flex-start; text-decoration: none; color: inherit; }
 .rd-menu-item--danger { color: var(--rd-state-danger); }
@@ -306,6 +314,7 @@ html[data-density="spacious"] .rd-table { --rd-table-head-height: 42px; --rd-tab
 @keyframes rd-layer-in { from { opacity: 0; transform: scale(.96); } }
 @keyframes rd-dialog-in { from { opacity: 0; scale: .98; } }
 @keyframes rd-drawer-in { from { opacity: 0; translate: 16px 0; } }
+@keyframes rd-sheet-in { from { opacity: 0; translate: 0 16px; } }
 @keyframes rd-accordion-down { from { height: 0; opacity: 0; } to { height: var(--radix-accordion-content-height); opacity: 1; } }
 @keyframes rd-accordion-up { from { height: var(--radix-accordion-content-height); opacity: 1; } to { height: 0; opacity: 0; } }
 /* A narrow desktop pane still uses desktop controls. Size touch targets by input device. */

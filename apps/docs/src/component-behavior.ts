@@ -148,7 +148,8 @@ export const authoredBehavior: Record<string, readonly BehaviorEntry[]> = {
     { topic: 'focus', source: 'radish', text: '关闭后焦点回到入口；从菜单项打开时回到菜单触发器。' },
     { topic: 'aria', source: 'radix', text: '标题作为可访问名称，说明关联 aria-describedby。' },
     { topic: 'limitation', source: 'radish', text: '抽屉用于辅助内容，不改变页面的主流程语义。' },
-    { topic: 'limitation', source: 'radish', text: '窄屏下从边缘打开，正文滚动，footer 保持可见。' },
+    { topic: 'aria', source: 'radish', text: '底部编排只改变出现方位，可访问名称、说明与焦点约束与侧向一致。' },
+    { topic: 'limitation', source: 'radish', text: '侧向与底部共用同一弹层合同；底部编排在窄屏占满宽度，从 481px 起居中，正文滚动、footer 保持可见。' },
   ],
   menu: [
     { topic: 'keyboard', source: 'radix', text: 'Enter / Space / ArrowDown 打开菜单；方向键在项间移动。' },

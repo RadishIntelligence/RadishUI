@@ -232,6 +232,7 @@ export const authoredDocs: Record<string, AuthoredPilotDoc> = {
       { name: 'initialFocusRef' },
       { name: 'role' },
       { name: 'className' },
+      { name: 'side' },
     ],
     related: ['dialog', 'confirm-dialog'],
   },

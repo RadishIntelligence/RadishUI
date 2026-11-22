@@ -512,6 +512,20 @@ function DrawerLong() {
   </>;
 }
 
+
+function DrawerBottom() {
+  const [open, setOpen] = useState(false);
+  return <>
+    <div className="doc-example-row"><Button onClick={() => setOpen(true)}>打开底部抽屉</Button></div>
+    <Drawer side="bottom" open={open} onOpenChange={setOpen} title="资源详情" description="窄屏用底部抽屉承载详情与操作。"
+      footer={<><Button variant="secondary" onClick={() => setOpen(false)}>取消</Button><Button onClick={() => setOpen(false)}>打开资源</Button></>}>
+      <div className="doc-example-stack">
+        <p>底部编排与侧向抽屉共用同一合同：标题、说明、正文与 footer 结构一致。</p>
+        <p>正文可滚动；窄屏占满宽度，从 481px 起居中显示。</p>
+      </div>
+    </Drawer>
+  </>;
+}
 function DrawerLoading() {
   const [open, setOpen] = useState(false);
   return <>
@@ -1951,6 +1965,21 @@ const [kind, setKind] = useState('document');
   <p>同步期间禁用头部关闭按钮。</p>
 </Drawer>`,
       preview: <DrawerLoading />,
+    },
+    {
+      id: 'bottom',
+      title: '底部编排',
+      description: 'side="bottom" 使用同一抽屉合同；窄屏承载详情，焦点与 Escape 行为不变。',
+      code: `const [open, setOpen] = useState(false);
+
+<>
+  <Button onClick={() => setOpen(true)}>打开底部抽屉</Button>
+  <Drawer side="bottom" open={open} onOpenChange={setOpen} title="资源详情"
+    footer={<Button onClick={() => setOpen(false)}>打开资源</Button>}>
+    <p>正文可滚动；窄屏占满宽度，从 481px 起居中显示。</p>
+  </Drawer>
+</>`,
+      preview: <DrawerBottom />,
     },
   ],
   'confirm-dialog': [
