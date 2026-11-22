@@ -1,6 +1,6 @@
 # C-02：Workbench 首批 React 组件
 
-状态：进行中（2026-11-12 起按 shadcn/ui + lucide + ant.design 对标继续完善；先修同类控件与页面一致性，当前 27 个组件与 C-02.4 用法页为起点，组件数量不代替完成度；组件目录与独立文档页自 2026-11-17 起归 [E-03](component-site-1.md)，本文件继续维护组件合同与验收）
+状态：进行中（2026-11-12 起按 shadcn/ui + lucide + ant.design 对标继续完善；先修同类控件与页面一致性，当前 28 个组件与 C-02.4 用法页为起点（2026-11-22 新增 Form），组件数量不代替完成度；组件目录与独立文档页自 2026-11-17 起归 [E-03](component-site-1.md)，本文件继续维护组件合同与验收）
 主要归属：[C：跨平台通用组件](../planning/topics.md#components)，协同 F-01 / F-02 与 [E-02 三代表页](workbench-preview.md)。2026-11-04 萝卜SAMA明确授权在本仓 Web 展示站实施；当前现代圆角版作为首轮实现起点，后续视觉仍可调整，不代表产品采用或正式包发行。
 
 ## 范围与依赖
@@ -19,6 +19,7 @@
 | --- | --- |
 | Button / IconButton | 保留原生 button 属性、ref、四种 variant 与 loading，增加 sm / md；默认 type=button。loading 保留焦点，设置 aria-disabled / aria-busy 并拦截重复激活；显式 disabled 仍使用原生 disabled。IconButton 的 label 必填；loading 时仅显示 spinner 并替换图标，不与图标叠加 |
 | FormField / Input / Textarea | FormField 提供 label、hint / error、required 与稳定 id；Input / Textarea 读取字段上下文关联 aria-describedby / aria-invalid，也可独立传入原生属性；可选 surface: outline（默认）| filled。Switch 等其他控件由调用方显式关联 id / 标签及所需说明。失败不清空输入 |
+| Form | 调用方校验的表单编排：包装原生 form 并接管提交（noValidate），提交时调用 `validate()` 取以字段 id 为键的错误，全部通过才调用 `onValidSubmit`，未通过回调 `onInvalid` 并把焦点移到 DOM 顺序中第一个错误字段；不计算规则、不渲染错误文案，错误状态与 FormField error 仍由调用方维护；资源新建与文档编辑表单已采用 |
 | Select | 受控 value / onValueChange、options、placeholder、disabled / required；可选 surface: outline（默认）/ filled、size: sm（chrome 13px）/ md（表单，桌面 13 / 触屏 16）；触发值和箭头分离，浮层不透明，支持当前值、键盘、滚动与碰撞避让；已展开时再次点按触发器收起，触控关闭以同一次点按开始时的展开状态为准；outline 触发器 hover 时边界加深，filled 沿用背景变化；选项的键盘焦点由 `data-highlighted` 高亮承担，不叠加 1px 环；强制颜色下背景高亮会被系统色覆盖，改用 2px 系统色描边 |
 | Checkbox / Switch | Checkbox 保留原生表单与键盘行为，Switch 使用受控 checked / onCheckedChange；标签、禁用、焦点与选择状态分别表达。未选中 hover 加深边界 / 轨道，选中 hover 使用 action-hover；禁用不响应 hover |
 | InputOTP | 受控 value / onValueChange、label、length（默认 6）、hint / error、required、disabled、autoFocus、name、onEnterPress；数字输入、自动前进、退格 / 方向键 / Home / End、粘贴；每格为标准正方格并可访问，`name` 提交隐藏的完整值；有 `onEnterPress` 时 Enter 只触发回调并阻止表单提交，无回调时保留浏览器表单提交；错误用 `role="alert"` 并通过 `aria-describedby` 关联到每格；`required` 以 group `aria-required` 表达，原生表单校验由调用方基于受控值处理 |
@@ -39,7 +40,7 @@
 
 本表记录已确认的组件行为。组件站 P3 已于 2026-11-21 把逐组件行为来源声明落在 `apps/docs/src/component-behavior.ts`，并经生成器输出到组件页与 `llms.txt`；组合行为按来源拆条，完整清单以生成物为准。页面、合同与实际行为不一致时，按[设计系统契约](../development/design-system.md)核对并修正过期的说明或发生回归的实现。登记范围见 [E-03 契约与行为](component-site-1.md#contract-and-behavior-2026-11-18)。
 
-A 批 10 个基础组件与 B 批 6 个反馈 / 浮层组件由三代表页实际消费。第二版运行基线累计 24 个组件，随后为资源新建新增 TagInput，2026-11-14 新增 Pagination 与 TableOfContents，当前共 27 个。AppShell、表格和业务数据仍属于展示站组合；分页与目录已抽为共享原语。 2026-11-12 起进入组件与视觉完善阶段：逐项审计现有组件与 shadcn/ui 的范围、状态、键盘 / 焦点、明暗与页面承载，按批次修订；新增组件必须有 Workbench 页面使用位置。
+A 批 10 个基础组件与 B 批 6 个反馈 / 浮层组件由三代表页实际消费。第二版运行基线累计 24 个组件，随后为资源新建新增 TagInput，2026-11-14 新增 Pagination 与 TableOfContents，2026-11-22 新增 Form，当前共 28 个。AppShell、表格和业务数据仍属于展示站组合；分页与目录已抽为共享原语。 2026-11-12 起进入组件与视觉完善阶段：逐项审计现有组件与 shadcn/ui 的范围、状态、键盘 / 焦点、明暗与页面承载，按批次修订；新增组件必须有 Workbench 页面使用位置。
 
 ## 视觉与失败路径
 
@@ -358,3 +359,13 @@ Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前
 - C4 / C12 的 Tabs 与 ToggleGroup 在强制颜色下分别绘制 2px 系统色选中边线和 1px 外侧焦点环。悬停保留选中边线。
 - 本轮定向复验与边界见[开发记录](../devlogs/2026-W47.md#跨环境报告缺陷的修订与复验)。页面通知位置与保存回焦归 [E-02](workbench-preview.md#2026-11-17-窄屏通知与保存焦点)。
 - 实现与文档提交为 `6674bae`，2026-11-17 推送 `dev`，手动 PR Checks（run `44092521435`）通过；不新增 props、token 或其他共享 API。
+
+## Form 与字段校验（2026-11-22）
+
+- 范围：按 P4 首项补齐表单级共享能力，解决三个真实表单各自手写「阻止默认提交 + 校验 + 首个错误聚焦」的重复；不引入声明式校验规则或第二个表单框架，不改 token、路由与其他组件。
+- 决策（所有者 2026-11-22 确认方向）：校验责任留在调用方——规则、错误状态与 FormField error 仍由页面维护；Form 只做编排：接管原生提交（noValidate，避免浏览器校验气泡与共享错误 UI 冲突）、调用 `validate()` 取以字段 id 为键的错误、全部通过才调用 `onValidSubmit`、未通过回调 `onInvalid` 并把焦点移到 DOM 顺序中的第一个错误字段。
+- API：`Form` 包装原生 form 并透传原生属性；`validate?: () => FormErrors | undefined`、`onValidSubmit?`、`onInvalid?`、`children`。错误文案仍由 FormField 的 `role=alert` 渲染，Form 不渲染错误文案。未采用 Radix Form 的字段注册：现有 FormField 承载 Input / Textarea / Select / RadioGroup / TagInput 等多种控件，绑定 Form.Control 反而增加迁移成本。
+- 采用：资源新建弹窗与文档编辑表单改用共享 Form，保留原有失焦 / 提交校验、错误文案、输入清除错误的时机与保存逻辑；资源新建仍由 Dialog 初始焦点进入名称字段。
+- 生成与文档：Form 进入组件目录（fields 组，31 个条目 / 28 个组件）；`component-api.generated.ts`、`llms.txt` 与代码高亮生成物同批更新；组件页新增 3 个示例（提交前校验、首个错误字段聚焦、校验事件）。
+- 验证：`npm run type-check`、`npm run test:catalog`（11 项）、`npm run test:interaction`（14 项，新增 Form 两项与工作台两个真实表单各一项）、`npm run check`、`npm run build` 通过；Chrome 157 探针覆盖 Form 页 1440 明暗 / 390 与两个工作台表单错误态，7 项检查 0 失败，证据在忽略目录 `output/p4-form-2026-11-22/`。实现 `2a053c1` 与文档登记随后推送，远端 run 结果见[当前规划](../planning/current.md)停止线。
+- 边界：Form 不承担规则 DSL、异步校验与字段数组；错误只有焦点定位与 FormField alert，没有单独的可见汇总块；Safari / Firefox 未复验；两个工作台表单迁移不改视觉，仍需所有者复审。

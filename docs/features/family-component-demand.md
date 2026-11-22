@@ -53,7 +53,7 @@ Catalyst / Flow / Chat / Forge / Axiom / AxiomChecker 等不是统一 React Web 
 | Button / IconButton | Radish client 6 / console 39+348；X 2 | 已有 | 文档深度，不新增 |
 | Input / Textarea | console 66、client 8；Ink / Mind / Nexus 原生输入 | 已有 | 文档深度 |
 | Select | console 42、client 5；Mind RunSelect / LanguageSelector | 已有 | 文档深度；搜索型选择另评估 Combobox |
-| Form / 字段校验 | console Form 14 + FormInstance；Mind / Nexus 自建 Field | 仅 FormField | **缺 Form 能力**，需先定校验与字段上下文边界 |
+| Form / 字段校验 | console Form 14 + FormInstance；Mind / Nexus 自建 Field | Form + FormField（2026-11-22） | **已补首项**：调用方校验 + 共享提交编排（noValidate、提交门禁、首个错误聚焦）；规则 DSL、异步校验与字段数组未做 |
 | Modal / Dialog | client 10、console 22、Ink 10、X 1 | 已有 Dialog / ConfirmDialog | 文档深度；BottomSheet 见下 |
 | BottomSheet | client 10、console 19 | Drawer 仅侧向 | 可先给 Drawer 增加 bottom 编排，不新增第二套浮层 |
 | Toast / Notification | client 29、console message 33、Ink 2 | Toast / InlineAlert | 基础已有；NotificationCenter 先作领域 |
@@ -86,9 +86,9 @@ Catalyst / Flow / Chat / Forge / Axiom / AxiomChecker 等不是统一 React Web 
 
 ## 目录扩展优先级
 
-先完成现有 27 个组件的文档 / API / 用法深度，再按以下顺序确认目录扩展；每一件必须有真实页面、示例、API 与测试。
+先完成现有 27 个组件的文档 / API / 用法深度（2026-11-22 起为 28 个组件 / 31 个条目），再按以下顺序确认目录扩展；每一件必须有真实页面、示例、API 与测试。
 
-1. **Form 与字段校验**：与 FormField、Input、Select 的现有上下文衔接；先定校验责任在库内还是调用方，避免引入第二个表单框架。
+1. **Form 与字段校验**：与 FormField、Input、Select 的现有上下文衔接；先定校验责任在库内还是调用方，避免引入第二个表单框架。**2026-11-22 已完成首项**：所有者确认走调用方校验 + 共享提交编排，Form 已加入组件目录并用于资源新建 / 文档编辑。
 2. **Upload**：通用选择 / 拖拽 / 进度 / 错误；分片、图片裁切、灯箱等留在产品侧或后续专项。
 3. **InputNumber / Slider**：数字与范围输入；先定步进、精度、键盘与触控规则。
 4. **BottomSheet 编排**：优先扩展现有 Drawer 的侧向 / 底部变体，不新增第二套浮层。
