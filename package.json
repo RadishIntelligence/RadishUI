@@ -27,9 +27,11 @@
     "llms:generate": "node scripts/generate-llms.mjs",
     "api:generate": "node scripts/generate-api.mjs",
     "type-check": "tsc --noEmit",
-    "code:generate": "node scripts/generate-code.mjs"
+    "code:generate": "node scripts/generate-code.mjs",
+    "test:interaction": "npm run build --workspace @radish-ui/docs && playwright test --config playwright.config.mjs"
   },
   "devDependencies": {
+    "@playwright/test": "1.65.1",
     "@types/react": "19.2.17",
     "@types/react-dom": "19.2.3",
     "@vitejs/plugin-react": "6.0.2",

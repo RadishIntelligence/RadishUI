@@ -82,7 +82,7 @@ export function ComponentDetailPage({ id, t }: { id: string; t: Translate }) {
   const related = doc.related.map(findComponent).filter((item): item is ComponentEntry => Boolean(item));
   const hasComponentColumn = doc.api.some(row => row.component);
 
-  return <section className="component-doc">
+  return <section className="component-doc" data-component={entry.id}>
     <PageHeader title={entry.name} back={{ href: '#/catalog', label: t('组件目录', 'Component catalog') }}
       actions={<div className="component-doc__actions">
         <StatusBadge tone="info">{t('内部稳定', 'Internal stable')}</StatusBadge>
@@ -99,7 +99,7 @@ export function ComponentDetailPage({ id, t }: { id: string; t: Translate }) {
 
     <section className="doc-section" aria-labelledby="doc-examples">
       <h2 id="doc-examples">{t('示例', 'Examples')}</h2>
-      {examples.map(example => <article className="doc-example" key={`${entry.id}-${example.id}`}>
+      {examples.map(example => <article className="doc-example" key={`${entry.id}-${example.id}`} data-example={example.id}>
         <div className="doc-example__head">
           <h3>{example.title}</h3>
           <p>{example.description}</p>

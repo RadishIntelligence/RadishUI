@@ -119,7 +119,7 @@ export function checkWorkflow(source) {
     'node scripts/check-repo.mjs --base-ref "$PR_BASE_SHA" --head-ref "$PR_HEAD_SHA"',
     'npm run check:repo', 'npm run test:repo',
   ]) assert(jobs['repo-hygiene'].includes(line), `Repo Hygiene 缺少 ${line}`);
-  for (const command of ['npm ci', 'npm run test:workbench', 'npm run test:catalog', 'npm run check:tokens', 'npm run check:notices', 'npm run type-check', 'npm run build --workspace @radish-ui/docs']) {
+  for (const command of ['npm ci', 'npm run test:workbench', 'npm run test:catalog', 'npm run check:tokens', 'npm run check:notices', 'npm run type-check', 'npm run build --workspace @radish-ui/docs', 'npm run test:interaction']) {
     assert(jobs['web-build'].includes(`      - run: ${command}\n`), `Web Build 缺少 ${command}`);
   }
   const aggregate = jobs['candidate-quality'];

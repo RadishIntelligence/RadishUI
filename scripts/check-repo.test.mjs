@@ -74,6 +74,7 @@ test('工作流合同拒绝组件遗漏、条件跳过、触发漂移和未固�
     workflow.replace('    if: always()', '    if: success()'),
     workflow.replace('    name: Web Build', '    if: false\n    name: Web Build'),
     workflow.replace('      - run: npm run type-check\n', ''),
+    workflow.replace('      - run: npm run test:interaction\n', ''),
     workflow.replace('  workflow_dispatch:', '  push:\n  workflow_dispatch:'),
     workflow.replace('    branches: [dev, master]', '    branches: [master]'),
     workflow.replace(/actions\/checkout@[a-f0-9]{40}/g, 'actions/checkout@v5'),
