@@ -173,7 +173,7 @@ P1 完成：30 个条目均有独立页；目录新增「页面原语」分组�
 - 渲染：组件页 `DocCode` 渲染生成的高亮 HTML，复制仍取原始纯文本；生成物只含 `span` 标记，页面不接收外部输入。
 - 验证：`npm run code:generate --check`、`npm run test:catalog`（11 项）、`npm run check`、`npm run build` 通过；Chrome 157 探针覆盖 30 个组件页 × 1440 / 390 与明暗，464 项检查 0 失败——高亮文本与源码逐字一致、每个代码块都有 token、无 pageerror / console error、无页面级横向溢出；明暗对比度（关键字 5.08 / 7.33、字符串 4.59 / 7.94、标签 5.08 / 7.33）均 ≥ 4.5，复制为纯文本、代码容器可 Tab 聚焦且有焦点环、强制颜色下文本保留，旧 `#/components` 仍可渲染。证据在忽略目录 `output/p3-highlight-2026-11-22/`。
 - 体积：`ComponentDetailPage` 懒加载分块 141 KiB → 226 KiB（gzip 42.24 kB），只影响组件页；主入口分块未变。
-- 边界：旧单页参考未接入高亮；未重新做 Safari / Firefox、真实屏幕阅读器复验；配色待所有者视觉复审。本轮实现已本地提交（`3a6fd34`），文档登记同批本地提交，未推送、未部署。
+- 边界：旧单页参考未接入高亮；未重新做 Safari / Firefox、真实屏幕阅读器复验；配色待所有者视觉复审。实现 `3a6fd34` 与文档登记 `5e6321d` 已推送 `origin/dev`，手动 PR Checks run `44980341589` 通过；未部署。
 
 <a id="contract-and-behavior-2026-11-18"></a>
 
