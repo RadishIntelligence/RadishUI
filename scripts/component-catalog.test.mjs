@@ -7,6 +7,7 @@ import { pilotDocs } from '../apps/docs/src/component-api.generated.ts';
 import { behaviorSources, behaviorTopics } from '../apps/docs/src/component-api-types.ts';
 import { buildLlmsText } from './generate-llms.mjs';
 import { auditApiContract, buildGeneratedApi } from './generate-api.mjs';
+import { buildGeneratedCode, buildHighlightedCode, readExampleSources } from './generate-code.mjs';
 
 test('component catalog has unique, routable ids and known groups', () => {
   assert.equal(componentCatalog.length, 30);
@@ -149,6 +150,30 @@ test('example catalog covers every detail component with usable snippets', () =>
   }
   const detailIds = componentCatalog.filter(component => component.detail).map(component => component.id).sort();
   assert.deepEqual([...details.keys()].sort(), detailIds);
+});
+
+test('component-code.generated.ts matches example sources', () => {
+  const file = new URL('../apps/docs/src/component-code.generated.ts', import.meta.url);
+  assert.equal(readFileSync(file, 'utf8'), buildGeneratedCode());
+});
+
+test('highlighted code covers every import and example with escaped token markup', () => {
+  const { entries, roles } = buildHighlightedCode();
+  const examples = readExampleSources();
+  const snippets = new Map(entries);
+  assert.equal(snippets.size, entries.length);
+  assert.equal(entries.length, Object.keys(pilotDocs).length + [...examples.values()].reduce((total, list) => total + list.size, 0));
+  for (const id of Object.keys(pilotDocs)) {
+    assert.ok(snippets.has(`${id}/import`), `${id}/import 缺少高亮产物`);
+    for (const exampleId of examples.get(id).keys()) assert.ok(snippets.has(`${id}/${exampleId}`), `${id}/${exampleId} 缺少高亮产物`);
+  }
+  for (const [key, html] of entries) {
+    // Only generated span wrappers may carry markup; token text stays HTML-escaped,
+    // so attribute-looking text (onSubmit=, />) inside a snippet cannot become markup.
+    assert.doesNotMatch(html.replace(/<span class="tok-[a-z]">|<\/span>/g, ''), /[<>]/, `${key} 的产物含未转义标记`);
+  }
+  for (const role of ['k', 's', 't']) assert.ok(roles.has(role), `缺少 token 角色 ${role}`);
+  assert.deepEqual([...roles].filter(role => !['c', 'k', 's', 't'].includes(role)), []);
 });
 
 test('llms.txt matches generated component contracts', () => {
