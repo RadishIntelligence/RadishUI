@@ -1,6 +1,6 @@
 # 家族 UI 通用组件与视觉统一
 
-状态：进行中（2026-11-17 所有者确认视觉满意，组件站 1.0 为下一阶段；已落地 27 个共享组件；字体与图标策略已定；视觉纳入 F-02.4 第二版运行基线，外部试点与 Flutter 暂缓）
+状态：进行中（2026-11-17 所有者确认视觉满意，组件站 1.0 为下一阶段；已落地 28 个共享组件；字体与图标策略已定；视觉纳入 F-02.4 第二版运行基线，外部试点与 Flutter 暂缓）
 主要归属：F：视觉基础 / C：跨平台通用组件
 协同：E：展示与页面范例、F-02 设计来源、G：工程与交付
 
@@ -51,7 +51,7 @@
 
 | 仓库 / 包 | UI 技术栈 | 通用组件与视觉来源 | 图标 | 字体 | 备注 |
 | --- | --- | --- | --- | --- | --- |
-| RadishUI | React 19.2.7；Radix；lucide-react 1.68 | 27 个共享组件；`--rd-*`；Inter / JetBrains 优先，系统回退 | lucide-react | Inter / JetBrains 优先，系统回退 | 本仓，统一目标；Web 范例已引 fontsource |
+| RadishUI | React 19.2.7；Radix；lucide-react 1.68 | 28 个共享组件；`--rd-*`；Inter / JetBrains 优先，系统回退 | lucide-react | Inter / JetBrains 优先，系统回退 | 本仓，统一目标；Web 范例已引 fontsource |
 | Radish `Frontend/radish.ui` | React 19.2.7；`@radish/ui` 26.8.2；AntD 6.1 封装 | Button、Input、Modal、Toast、Select、ContextMenu、Skeleton、PasscodeInput、ConfirmDialog、BottomSheet、Markdown 编辑器 / 渲染器、图表、图片裁切等 | Iconify + MDI；部分 AntD 图标 | `--theme-font-*` | 组件量最大，含产品领域组件；AntD 封装不整体迁入 |
 | RadishX | React 19.2.7 | 官网外壳；family-ui `--rd-*` 副本 + `--rx-*` 映射 | 内联 SVG | `--rx-font-*` | 已有本地临时消费测试，不作为正式采用 |
 | RadishMind | React 19 | 控制平面面板；`--rm-*` + `--rd-*` 别名 | 内联 SVG | Inter + 系统 CJK | 面向工作流 / 管理，面板多 |
@@ -153,4 +153,4 @@
 
 - 受组件站 1.0 启动推动，对 Radish client / console、RadishX、RadishMind、RadishNexus、RadishInk 做了只读静态统计：组件导入 / JSX 标签次数、UI 库来源与自建原语；方法与限制见[家族组件需求盘点](family-component-demand.md)。
 - 结论：Radish 的 client / console 是最大需求源；共性缺口集中在 Form / 字段校验、Upload、InputNumber / Slider、Progress / Steps、Descriptions / Empty / 布局原语、BottomSheet 编排、DataTable 组合与 ColorPicker。Markdown、贴纸、表情、提及、图片裁切、图表等保留在产品侧，不进入通用核心。
-- 组件站 1.0 先做现有 27 个组件的文档 / API / 用法深度，再做目录扩展；范围、阶段与验收见[组件站 1.0](component-site-1.md)。产品仓仍只读，本盘点不构成接入授权。
+- 组件站 1.0 先做现有组件的文档 / API / 用法深度（2026-11-22 起 28 个组件 / 31 个条目），再做目录扩展（P4 首项 Form 与 Drawer 底部编排已落地）；范围、阶段与验收见[组件站 1.0](component-site-1.md)。产品仓仍只读，本盘点不构成接入授权。

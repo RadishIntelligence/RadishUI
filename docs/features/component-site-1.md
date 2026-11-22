@@ -1,6 +1,6 @@
 # 组件站 1.0
 
-状态：2026-11-17 所有者确认作为下一阶段；2026-11-19 完成 P0 三页用法复审并进入 P1，P1 同日完成：30 个条目（27 个组件与 Card / Section / Table 页面原语）均有独立页；2026-11-21 完成 P2 的源码类型、JSDoc 与默认值生成，手写契约只保留回退字段；同日 P3 起步：逐组件行为归属与 a11y 声明进入同一契约来源，示例深度覆盖六组（106 个示例），每示例支持主题 / 密度预览；2026-11-22 代码高亮经构建期生成落地，交互断言以 Playwright 入仓并进入 CI（新增开发依赖经所有者确认），P3 收口；同日按所有者确认的「调用方校验 + 共享 Form 编排」完成 P4 首项 Form 与字段校验，并在资源新建与文档编辑表单采用。P2 外部采用与 P3 Flutter 暂缓。2026-11-18 按所有者确认增补机器可读契约、行为归属与交互行为测试评估，见[契约与行为](#contract-and-behavior-2026-11-18)。
+状态：2026-11-17 所有者确认作为下一阶段；2026-11-19 完成 P0 三页用法复审并进入 P1，P1 同日完成：30 个条目（27 个组件与 Card / Section / Table 页面原语）均有独立页；2026-11-21 完成 P2 的源码类型、JSDoc 与默认值生成，手写契约只保留回退字段；同日 P3 起步：逐组件行为归属与 a11y 声明进入同一契约来源，示例深度覆盖六组（106 个示例），每示例支持主题 / 密度预览；2026-11-22 代码高亮经构建期生成落地，交互断言以 Playwright 入仓并进入 CI（新增开发依赖经所有者确认），P3 收口；同日按所有者确认的「调用方校验 + 共享 Form 编排」完成 P4 首项 Form 与字段校验，并在资源新建与文档编辑表单采用；同日完成 Drawer 底部编排（同组件方位扩展，不新增浮层）。P2 外部采用与 P3 Flutter 暂缓。2026-11-18 按所有者确认增补机器可读契约、行为归属与交互行为测试评估，见[契约与行为](#contract-and-behavior-2026-11-18)。
 主要归属：E：展示与页面范例（组件文档站）/ C：跨平台通用组件；协同 F：视觉基础、G：工程与交付。
 需求输入：[家族组件需求盘点](family-component-demand.md)；既有组件合同见 [C-02](react-workbench-components.md)，页面范例见 [E-02](workbench-preview.md)。
 
@@ -183,8 +183,8 @@ P1 完成：30 个条目均有独立页；目录新增「页面原语」分组�
 - 范围：把组件页代表性键盘、焦点、ARIA 与强制颜色行为固化为入仓浏览器断言，补上 P3 最后一项；不改共享组件、token、路由与示例内容，只给组件页加稳定测试定位属性（`data-component` / `data-example`）。
 - 依赖：新增开发依赖 `@playwright/test@1.65.1`，经所有者确认；使用已安装的 Google Chrome（`channel: 'chrome'`），不下载或缓存浏览器二进制，仓库与 CI 缓存都不新增浏览器产物。
 - 入口：`npm run test:interaction` 先构建展示站，再由 Playwright 配置启动预览服务器并执行 `tests/interaction.spec.mjs`；CI 的 `Web Build` 在构建步骤后执行同一条命令（依赖 runner 预装 Chrome）。`check-repo` 的工作流合同已登记该步骤，移除会让仓库检查失败。
-- 用例（16 项）：Button loading 的 `aria-busy` / `aria-disabled`、焦点保留与 disabled；Tabs 方向键切换并跳过禁用项；Select 键盘选择、受控值同步与 Escape 回焦；ToggleGroup 单选方向键同步选中；Dialog 初始焦点与 Escape 回焦；Checkbox / Switch 空格切换；复制按钮取纯文本；强制颜色下分页当前页与标签选中保留系统色轮廓；31 个组件页 1440 冒烟（行为表 ≥3 行、代码块有高亮、无 pageerror / 页面级横向溢出）；390 窄屏无页面级横向溢出；2026-11-22 增补 Form 提交校验 / 焦点顺序、工作台资源新建 / 文档编辑两个真实表单，以及 Drawer 底部编排的回焦与工作台 390 资源详情。
-- 验证：`npm run test:interaction` 16 项通过（Chrome 157，约 11 秒，分别验证预设服务器与 CI 模式自启服务器）；`npm run check`、`npm run build` 通过；实现 `62fd350` 与文档登记 `95d9a03` 已推送 `origin/dev`，手动 PR Checks run `44991120585` 的 Web Build 在 Ubuntu runner 上执行同一入口并通过（使用 runner 预装 Chrome）。未部署。
+- 用例（17 项）：Button loading 的 `aria-busy` / `aria-disabled`、焦点保留与 disabled；Tabs 方向键切换并跳过禁用项；Select 键盘选择、受控值同步与 Escape 回焦；ToggleGroup 单选方向键同步选中；Dialog 初始焦点与 Escape 回焦；Checkbox / Switch 空格切换；复制按钮取纯文本；强制颜色下分页当前页与标签选中保留系统色轮廓；31 个组件页 1440 冒烟（行为表 ≥3 行、代码块有高亮、无 pageerror / 页面级横向溢出）；390 窄屏无页面级横向溢出；2026-11-22 增补 Form 提交校验 / 焦点顺序、工作台资源新建 / 文档编辑两个真实表单，以及 Drawer 底部编排的回焦、工作台 390 资源详情与 900 侧向抽屉断点。
+- 验证：`npm run test:interaction` 17 项通过（Chrome 157，约 13 秒，分别验证预设服务器与 CI 模式自启服务器）；`npm run check`、`npm run build` 通过；实现 `62fd350` 与文档登记 `95d9a03` 已推送 `origin/dev`，手动 PR Checks run `44991120585` 的 Web Build 在 Ubuntu runner 上执行同一入口并通过（使用 runner 预装 Chrome）。未部署。
 - 边界：断言覆盖代表性行为，不等同 138 条行为声明逐条可执行；只跑 Chrome，`forced-colors` 为浏览器模拟而非 Windows 真实高对比；Safari / Firefox、真实屏幕阅读器与实体设备仍未覆盖。视觉配色仍待所有者复审。
 
 <a id="p4-form-2026-11-22"></a>
@@ -206,8 +206,8 @@ P1 完成：30 个条目均有独立页；目录新增「页面原语」分组�
 - API 与样式：`DrawerProps.side?: 'right' | 'bottom'`（默认 right）；底部编排复用同一 Dialog 合同（角色、Escape、焦点约束、回焦、header / body / footer 结构），只改方位；共享 CSS 负责占满宽度、贴底、顶部圆角（`--rd-radius-panel`）、`env(safe-area-inset-bottom)` 与 86dvh 内滚动，481px 起居中 560px。
 - 采用：资源库窄屏资源详情改用 `<Drawer side="bottom">`；删除 `.rd-drawer.resource-sheet` 覆盖、页面 `resource-sheet` 类名与 `rd-sheet-in` 页面动画。
 - 组件站：Drawer 页新增「底部编排」示例（共 4 个示例）；API 表、行为声明、`llms.txt` 与代码高亮生成物同批更新。
-- 校验：`test:interaction` 16 项（新增组件页底部抽屉与工作台 390 资源详情）、`check`、`build` 通过；Chrome 157 探针 12 项检查 0 失败，覆盖 390 明暗、1440 居中底部面板与 1200 侧向抽屉不变，证据在忽略目录 `output/p4-drawer-2026-11-22/`。
-- 边界：不包含拖拽把手 / 下滑关闭 / 半展开状态；圆角由页面 20px 硬编码改为语义 token 16px，视觉变化待所有者复审；Safari / Firefox 未复验。实现 `2693e81` 与文档登记 `3087220` 已推送 `origin/dev`，手动 PR Checks run `45025132513` 的 Web Build 执行 `npm run test:interaction`（16 项）通过；未部署。
+- 校验：`test:interaction` 17 项（新增组件页底部抽屉、工作台 390 资源详情与 800–1099 侧向抽屉断点）、`check`、`build` 通过；Chrome 157 探针 12 项检查 0 失败，覆盖 390 明暗、1440 居中底部面板与 1200 侧向抽屉不变，证据在忽略目录 `output/p4-drawer-2026-11-22/`。
+- 边界：不包含拖拽把手 / 下滑关闭 / 半展开状态；圆角由页面 20px 硬编码改为语义 token 16px，视觉变化待所有者复审；Safari / Firefox 未复验。实现 `2693e81` 与文档登记 `3087220` 已推送 `origin/dev`，手动 PR Checks run `45025132513` 的 Web Build 执行 `npm run test:interaction`（16 项）通过；收尾把 800–1099 断点纳入断言后为 17 项。未部署。
 
 <a id="contract-and-behavior-2026-11-18"></a>
 
