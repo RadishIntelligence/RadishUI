@@ -1,6 +1,6 @@
 # 组件站 1.0
 
-状态：2026-11-17 所有者确认作为下一阶段；2026-11-19 完成 P0 三页用法复审并进入 P1，P1 同日完成：30 个条目（27 个组件与 Card / Section / Table 页面原语）均有独立页；2026-11-21 完成 P2 的源码类型、JSDoc 与默认值生成，手写契约只保留回退字段；同日 P3 起步：逐组件行为归属与 a11y 声明进入同一契约来源，示例深度覆盖六组（106 个示例），每示例支持主题 / 密度预览；2026-11-22 代码高亮经构建期生成落地（新增开发依赖经所有者确认）；P3 余交互断言（依赖待确认）。P2 外部采用与 P3 Flutter 暂缓。2026-11-18 按所有者确认增补机器可读契约、行为归属与交互行为测试评估，见[契约与行为](#contract-and-behavior-2026-11-18)。
+状态：2026-11-17 所有者确认作为下一阶段；2026-11-19 完成 P0 三页用法复审并进入 P1，P1 同日完成：30 个条目（27 个组件与 Card / Section / Table 页面原语）均有独立页；2026-11-21 完成 P2 的源码类型、JSDoc 与默认值生成，手写契约只保留回退字段；同日 P3 起步：逐组件行为归属与 a11y 声明进入同一契约来源，示例深度覆盖六组（106 个示例），每示例支持主题 / 密度预览；2026-11-22 代码高亮经构建期生成落地，交互断言以 Playwright 入仓并进入 CI（新增开发依赖经所有者确认），P3 收口。P2 外部采用与 P3 Flutter 暂缓。2026-11-18 按所有者确认增补机器可读契约、行为归属与交互行为测试评估，见[契约与行为](#contract-and-behavior-2026-11-18)。
 主要归属：E：展示与页面范例（组件文档站）/ C：跨平台通用组件；协同 F：视觉基础、G：工程与交付。
 需求输入：[家族组件需求盘点](family-component-demand.md)；既有组件合同见 [C-02](react-workbench-components.md)，页面范例见 [E-02](workbench-preview.md)。
 
@@ -42,7 +42,7 @@
 | **P0 垂直切片** | 目录页、搜索、Button / Select / Tabs 独立页、API 表、示例、复制、测试 | 已实现（`42019fe`），复审完成（2026-11-19） |
 | **P1 迁移 27 个** | 现有组件全部进入模板；Card / Section / Table 页面原语一并纳入目录；单页参考退为“全部示例” | 已完成（30 个条目） |
 | **P2 类型 / API 全量** | 导出缺失 props 类型；JSDoc / 默认值 / 事件 / ref；单一来源生成 API 表与 `llms.txt`，行为归属随 P3 进入同一来源；`--check` 漂移门禁；类型测试与完整性检查 | 已完成（2026-11-21）：类型、JSDoc 说明、解构默认值与事件签名由源码生成；原生 / Radix 继承属性、union 类型与未解构默认值保留契约回退 |
-| **P3 用法深度** | 每组件 3+ 示例、变体 / 受控 / 表单 / 组合；代码高亮（新增依赖需确认）；每示例主题 / 密度；逐组件 a11y 与行为归属声明及对应断言（依赖待确认） | 进行中（行为归属与 a11y 声明已进入契约并生成；示例深度已覆盖六组，共 106 个示例；每示例主题 / 密度预览控制已实现；代码高亮已于 2026-11-22 构建期生成；余下交互断言待依赖确认） |
+| **P3 用法深度** | 每组件 3+ 示例、变体 / 受控 / 表单 / 组合；代码高亮（新增依赖需确认）；每示例主题 / 密度；逐组件 a11y 与行为归属声明及对应断言（依赖待确认） | 已完成（2026-11-22）：行为归属与 a11y 声明进入契约生成；示例深度覆盖六组共 106 个示例；每示例主题 / 密度；代码高亮构建期生成；交互断言以 `test:interaction` 入仓并进入 CI。断言覆盖代表性行为，不等于 138 条声明逐条可执行 |
 | **P4 目录扩展** | 按[家族需求盘点](family-component-demand.md)排序；Form、Upload、InputNumber / Slider 等逐项确认 | 待开始 |
 | **P5 站点能力** | 版本 / 变更记录、状态与弃用、双语文档、图标参考、站点搜索索引；公开安装 / CLI / registry 属 P4 发行 | 待开始 |
 
@@ -85,13 +85,14 @@ P0 垂直切片与 P1 首批共用以下文件：
 
 - `apps/docs/src/component-catalog.ts`：27 个组件的单一目录数据（id、名称、分组、摘要、状态、是否有独立页）；
 - `apps/docs/src/CatalogPage.tsx`：搜索、分组、计数、空结果与卡片深链；
-- `apps/docs/src/ComponentDetailPage.tsx`：导入、示例（含每示例主题 / 密度预览设置与代码高亮）、API、键盘 / a11y、相关组件；
+- `apps/docs/src/ComponentDetailPage.tsx`：导入、示例（含每示例主题 / 密度预览设置与代码高亮）、API、键盘 / a11y、相关组件；页面根与示例暴露 `data-component` / `data-example` 供交互断言稳定定位；
 - `apps/docs/src/component-api.ts`：组件导入代码、相关组件与 API 回退行（原生 / Radix 继承属性、union 类型、`其余属性` 与未解构默认值）；P2 起 props 类型、说明与可解构默认值由 `packages/react/src` 生成到 `component-api.generated.ts`；
 - `apps/docs/src/component-behavior.ts`：P3 起逐组件行为归属与 a11y 声明（键盘 / 焦点 / ARIA / 已知限制及来源），经同一生成器写入 `component-api.generated.ts`；
 - `apps/docs/src/component-pilot-examples.tsx`：已迁移组件的示例（30 个条目共 106 个示例），预览使用真实共享组件；代码片段同时是高亮生成器的输入；
 - `apps/docs/src/component-code.generated.ts`：P3 起由 `scripts/generate-code.mjs` 生成的逐条高亮 HTML（导入片段与示例），组件页消费；生成物入仓并由测试拦截漂移；
 - `scripts/generate-code.mjs`：构建期高亮入口（`npm run code:generate` / `--check`），用 TypeScript AST 读取示例并用开发依赖 `shiki` 生成，不进入浏览器包；
 - `apps/docs/src/CopyButton.tsx`：复制代码 / 导入片段；无第三方依赖；
+- `playwright.config.mjs` 与 `tests/interaction.spec.mjs`：P3 起浏览器交互断言入口，用已安装的 Google Chrome 覆盖组件页键盘 / 焦点 / ARIA、强制颜色与页面冒烟；
 - 路由：`#/catalog`、`#/components/<id>`；旧 `#/components` 保留；目录与详情页按路由懒加载，避免主包持续膨胀；
 - 测试：`scripts/component-catalog.test.mjs` 与 `parseRoute` 新用例（当前 11 项，含生成物 / `llms.txt` / 高亮产物漂移、API 回退、行为覆盖、示例完整性与高亮文本一致性断言）；`npm run test:catalog` 纳入 `check` 与 PR Checks 的 `web-build`。
 
@@ -175,6 +176,17 @@ P1 完成：30 个条目均有独立页；目录新增「页面原语」分组�
 - 体积：`ComponentDetailPage` 懒加载分块 141 KiB → 226 KiB（gzip 42.24 kB），只影响组件页；主入口分块未变。
 - 边界：旧单页参考未接入高亮；未重新做 Safari / Firefox、真实屏幕阅读器复验；配色待所有者视觉复审。实现 `3a6fd34` 与文档登记 `5e6321d` 已推送 `origin/dev`，手动 PR Checks run `44980341589` 通过；未部署。
 
+<a id="p3-interaction-2026-11-22"></a>
+
+## P3-E 交互断言（2026-11-22）
+
+- 范围：把组件页代表性键盘、焦点、ARIA 与强制颜色行为固化为入仓浏览器断言，补上 P3 最后一项；不改共享组件、token、路由与示例内容，只给组件页加稳定测试定位属性（`data-component` / `data-example`）。
+- 依赖：新增开发依赖 `@playwright/test@1.65.1`，经所有者确认；使用已安装的 Google Chrome（`channel: 'chrome'`），不下载或缓存浏览器二进制，仓库与 CI 缓存都不新增浏览器产物。
+- 入口：`npm run test:interaction` 先构建展示站，再由 Playwright 配置启动预览服务器并执行 `tests/interaction.spec.mjs`；CI 的 `Web Build` 在构建步骤后执行同一条命令（依赖 runner 预装 Chrome）。`check-repo` 的工作流合同已登记该步骤，移除会让仓库检查失败。
+- 用例（10 项）：Button loading 的 `aria-busy` / `aria-disabled`、焦点保留与 disabled；Tabs 方向键切换并跳过禁用项；Select 键盘选择、受控值同步与 Escape 回焦；ToggleGroup 单选方向键同步选中；Dialog 初始焦点与 Escape 回焦；Checkbox / Switch 空格切换；复制按钮取纯文本；强制颜色下分页当前页与标签选中保留系统色轮廓；30 个组件页 1440 冒烟（行为表 ≥3 行、代码块有高亮、无 pageerror / 页面级横向溢出）；390 窄屏无页面级横向溢出。
+- 验证：`npm run test:interaction` 10 项通过（Chrome 157，约 8 秒，分别验证预设服务器与 CI 模式自启服务器）；`npm run check`、`npm run build` 通过。实现 `62fd350` 与文档登记随后推送，远端 run 结果补记于[当前规划](../planning/current.md)停止线。
+- 边界：断言覆盖代表性行为，不等同 138 条行为声明逐条可执行；只跑 Chrome，`forced-colors` 为浏览器模拟而非 Windows 真实高对比；Safari / Firefox、真实屏幕阅读器与实体设备仍未覆盖。视觉配色仍待所有者复审。
+
 <a id="contract-and-behavior-2026-11-18"></a>
 
 ## 契约与行为（2026-11-18）
@@ -226,13 +238,13 @@ P1 完成：30 个条目均有独立页；目录新增「页面原语」分组�
 - 用法：P3 起每组件至少 3 个真实示例；示例代码与预览一致；每示例可在明暗与三档密度下预览；不能只靠静态截图。
 - 站点：搜索、深链、复制、键盘焦点可用；不因新增页面破坏 Workbench 与既有路由。
 - 契约：P2 起 API 表与 `llms.txt` 由单一来源生成并有 `--check` 漂移门禁；行为归属已于 2026-11-21 进入同一来源，代码高亮产物于 2026-11-22 同属生成链路。手写镜像只作为过渡并在同批标注到期阶段。
-- 行为：P3 组件页逐项注明浏览器原生、Radix 与 RadishUI 承担的行为（2026-11-21 起已进入契约生成）；键盘与焦点验收记录验证环境、证据来源及未覆盖项。
+- 行为：P3 组件页逐项注明浏览器原生、Radix 与 RadishUI 承担的行为（2026-11-21 起已进入契约生成）；2026-11-22 起 `npm run test:interaction` 在真实 Chrome 中断言代表性键盘 / 焦点 / ARIA 与强制颜色；未覆盖项按验证记录如实标注。
 - 不以组件数量或文档页数量替代验收；每项必须有可复验证据。
 
 ## 边界与依赖
 
 - 当前包仍是 private workspace；导入示例写工作区包名，不代表已发布。
-- 新增开发依赖需单独确认：2026-11-22 已确认构建期代码高亮使用 `shiki`（不进入浏览器包）；Playwright / jsdom 等交互断言测试工具仍待确认。
+- 新增开发依赖需单独确认：2026-11-22 已确认构建期代码高亮使用 `shiki`（不进入浏览器包）与交互断言使用 `@playwright/test`（`channel: chrome`，不下载浏览器）。未采用 jsdom，浏览器专属的焦点 / `forced-colors` 只能由真实浏览器断言。
 - 不引入 `@ui-sdk/*`、Agent Bridge 或 WebMCP 接入；外部行为层评估与重评触发点见[契约与行为](#contract-and-behavior-2026-11-18)。
 - 产品仓只读；家族需求盘点不构成接入授权。
 - 旧 `#/components` 与既有文档链接在 P1 前保持可用；迁移时再统一导航与重定向。该过渡页未接入 P3 高亮，保持纯文本。

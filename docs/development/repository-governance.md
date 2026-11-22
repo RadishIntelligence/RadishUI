@@ -67,17 +67,18 @@ git rev-list --left-right --count origin/master...origin/dev
 | `npm run check:repo` | 必需治理文件、协作同步、文本 / JSON / 文档链接、治理配置契约、工作区与暂存区 diff 空白 |
 | `npm run test:repo` | 治理检查器的正常与拒绝用例 |
 | `npm run test:workbench` | 本地数据校验、资源筛选、分页边界、文档标题解析与路由 |
-| `npm run test:catalog` | 组件目录 id / 分组 / 搜索、试点页与 API 数据完整性 |
+| `npm run test:catalog` | 组件目录 id / 分组 / 搜索、试点页与 API 数据完整性、生成物漂移、示例完整性与高亮文本一致性 |
 | `npm run check:repo -- --base-ref <base-sha> --head-ref <head-sha>` | 以上内容，加 PR 完整 diff 和真实 PR 提交信息；base 无效则失败 |
 | `npm run check:tokens` | JSON 与生成 CSS 一致性 |
 | `npm run check:notices` | lockfile、安装包许可文本与展示站第三方声明一致性 |
 | `npm run type-check` | React、展示站、Vite 配置类型 |
+| `npm run test:interaction` | 浏览器交互断言：组件页键盘 / 焦点 / ARIA 状态、强制颜色、复制与 30 页冒烟；需已安装 Google Chrome，CI 在 Web Build 执行 |
 | `npm run build` | 全部本地检查与展示站静态构建 |
 
 `PR Checks` 对 `dev` / `master` 的 PR 和手动调度生效，不监听普通 push / tag，不以 paths 过滤跳过文档 PR。PR 默认检出 GitHub 的合并候选，构建目标分支与本次改动的组合；提交信息检查单独使用真实 base / head SHA，排除 GitHub 临时合并提交。
 
 - `Repo Hygiene`：无需 npm 第三方依赖，运行仓库检查与检查器测试。
-- `Web Build`：Node 24，`npm ci` 后执行工作面模型测试、token / 第三方声明、类型检查与展示站构建。只支持当前 React 工程，不推断其他平台可用；工作流文件存在或已推送不代表本批已在远端执行，真实 run 证据另记。
+- `Web Build`：Node 24，`npm ci` 后执行工作面模型测试、token / 第三方声明、类型检查、展示站构建与浏览器交互断言。交互断言使用 runner 已安装的 Google Chrome（Playwright `channel: chrome`），不下载或缓存浏览器二进制；只支持当前 React 工程，不推断其他平台可用。工作流文件存在或已推送不代表本批已在远端执行，真实 run 证据另记。
 - `Candidate Quality`：以 `if: always()` 汇总，所有组件必须为 `success`。required context 只绑定它，新增真实组件时同步聚合依赖与检查器。
 
 2026-11-08 所有者核准三个设计历史提交的标题例外。检查器仅按 Git 提供的完整 SHA 识别下列记录，提交区间的空白检查及其他提交的标题检查照常执行。
@@ -88,7 +89,7 @@ git rev-list --left-right --count origin/master...origin/dev
 
 工作流使用 `contents: read`、不持久化 checkout 凭据、GitHub 官方 Actions 的完整 SHA，不使用 `pull_request_target` 执行 PR 代码，不读取发布凭据或执行部署。依赖安装仅发生在配置的临时 CI runner；本地安装仍遵循协作授权。Actions 来源见[Rulesets 说明](../../.github/rulesets/README.md#来源与官方参考)。
 
-CI 不进行人工视觉批准，也不验证 Flutter、React 18、真实产品接入或生产站点。视觉与交互验收遵循[设计系统契约](design-system.md)。
+CI 不进行人工视觉批准，也不验证 Flutter、React 18、真实产品接入或生产站点；交互断言只覆盖已登记的代表性行为，不替代人工视觉批准与真实产品采用。视觉与交互验收遵循[设计系统契约](design-system.md)。
 
 ## 远端目标
 
