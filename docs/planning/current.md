@@ -71,7 +71,7 @@
 - 当前工作范围是组件站 1.0 的 P3 收口与展示站完善；P0–P3 已完成，P4 目录扩展待所有者确认首项范围。暂缓新的兄弟项目试点、其他产品接入、Flutter、组件包发行或部署。需要发布或跨仓时另行确认。
 - Batch B–F、G9 已于 2026-11-16 推送 `origin/dev` `ff3c79e`；11-17 的强制颜色实现 `e8585a8`、登记 `d2e5be5`、跨环境缺陷修订 `6674bae` 已推送 `dev`（手动 PR Checks run `44092521435` 通过）。生产未更新；后续部署与发布仍需另行确认。
 - 2026-11-19 的 P0 / P1 / P2 提交与 2026-11-21 的 P2 / P3 提交（至 `4b020dc`）已随 2026-11-21 21:26 的推送进入 `origin/dev` `22d505b`；此前各批「未推送」是当时快照，已过期。远端 PR Checks 自 2026-11-17 手动运行后未再触发，11-18 以来的推送尚无远端检查结果。
-- 2026-11-22 的 P3-D 代码高亮实现 `3a6fd34`、P3-E 交互断言实现 `62fd350` 与文档登记已推送 `origin/dev`；手动 PR Checks 结果待补记。未部署，生产未更新。
+- 2026-11-22 的 P3-D 代码高亮实现 `3a6fd34`、P3-E 交互断言实现 `62fd350` 与文档登记 `95d9a03` 已推送 `origin/dev`；手动 PR Checks run `44991120585`（Repo Hygiene / Web Build / Candidate Quality）通过，其中 Web Build 执行了 `npm run test:interaction`（Chrome channel，未下载浏览器）。未部署，生产未更新。
 - 组件站 1.0 达标前不恢复兄弟项目试点；About 采用只作已闭环记录，不触发其他页面 / 产品接入。
 - 不引入跨框架行为层与 Agent 运行时桥接（`@ui-sdk/*`、Agent Bridge / WebMCP）。重评触发点见[组件站 1.0](../features/component-site-1.md#contract-and-behavior-2026-11-18)。Playwright 已于 2026-11-22 经所有者确认入仓（只用预装 Chrome）；新增其他测试依赖（jsdom / happy-dom 等）仍需单独确认。
 - React 18 / Flutter 支持、组件包发行、字体策略、全站 token 与 family-ui 资料迁移不随试点自动进入，也不作为本次有限采用的前置条件。未覆盖平台与辅助技术如实记录；影响所选关键路径的缺陷仍需处理。
