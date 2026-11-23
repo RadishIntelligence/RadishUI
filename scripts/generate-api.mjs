@@ -49,6 +49,7 @@ const typeMap = {
   'table-of-contents': ['TableOfContentsProps'],
   card: ['CardProps'],
   section: ['SectionProps'],
+  'description-list': ['DescriptionListProps'],
   table: ['TableProps'],
 };
 

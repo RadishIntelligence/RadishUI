@@ -18,6 +18,27 @@ export function Card({ tone = 'surface', padding = 'md', asChild = false, classN
   return <Component {...props} className={`rd-card rd-card--${tone} rd-card--pad-${padding} ${className}`.trim()} />;
 }
 
+export interface DescriptionListItem {
+  /** 条目标签：短名词，用来说明值的含义。 */
+  label: ReactNode;
+  /** 条目值：文本或组件（StatusBadge、Tag 等）。 */
+  value: ReactNode;
+}
+
+export interface DescriptionListProps extends Omit<ComponentPropsWithoutRef<'dl'>, 'children'> {
+  /** 标签 / 值条目；按数组顺序渲染为原生 dl 的分组。 */
+  items: readonly DescriptionListItem[];
+}
+
+export function DescriptionList({ items, className = '', ...props }: DescriptionListProps) {
+  return <dl {...props} className={`rd-description-list ${className}`.trim()}>
+    {items.map((item, index) => <div className="rd-description-list__row" key={index}>
+      <dt>{item.label}</dt>
+      <dd>{item.value}</dd>
+    </div>)}
+  </dl>;
+}
+
 export interface SectionProps extends Omit<ComponentPropsWithoutRef<'section'>, 'title'> {
   /** 区块标题；默认生成 id 并关联 aria-labelledby。 */
   title: ReactNode;

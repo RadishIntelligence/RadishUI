@@ -209,6 +209,13 @@ export const authoredBehavior: Record<string, readonly BehaviorEntry[]> = {
     { topic: 'limitation', source: 'radish', text: '标题层级固定为 h2，页面主标题仍由 PageHeader 提供。' },
     { topic: 'limitation', source: 'radish', text: '说明文字不作为必填项；需要时再传 description。' },
   ],
+  'description-list': [
+    { topic: 'keyboard', source: 'native', text: '描述列表是展示语义，不进入 Tab 顺序；值中的链接与按钮按 DOM 顺序聚焦。' },
+    { topic: 'aria', source: 'native', text: '渲染为原生 dl / dt / dd，辅助技术按描述列表成对朗读标签与值。' },
+    { topic: 'aria', source: 'radish', text: '组件不额外生成 role 或读屏文案；值的含义写在 value 中，标签只说明值的含义。' },
+    { topic: 'limitation', source: 'radish', text: '每条一行、标签在左值在右；宽度与分隔线由页面组合，组件不含多列或折叠变体。' },
+    { topic: 'limitation', source: 'radish', text: '值需要可操作时由调用方组合按钮或链接，组件本身不加点击行为。' },
+  ],
   table: [
     { topic: 'keyboard', source: 'native', text: '表格本身不进入 Tab 顺序；内部链接与按钮按 DOM 顺序聚焦。' },
     { topic: 'aria', source: 'radish', text: 'caption 对视觉隐藏但对辅助技术可见，始终提供 label。' },

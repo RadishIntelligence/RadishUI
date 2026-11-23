@@ -3,7 +3,7 @@
 > RadishUI 是 RadishIntelligence 的 React 设计系统与组件文档站。当前为 private workspace，尚未发布 npm；导入路径仅在本仓与内部接入中有效。
 
 - 版本：26.11.1
-- 条目：31 个（28 个组件 + 3 个页面原语）
+- 条目：32 个（28 个组件 + 4 个页面原语）
 - 文档：https://ui.radishx.com
 
 本文件由 `apps/docs/src/component-catalog.ts`、`packages/react/src` 的 props 类型 / JSDoc / 解构默认值、`component-api.ts` 的 API 回退与 `component-behavior.ts` 的行为声明生成；运行 `npm run llms:generate` 更新，`npm run test:catalog` 检查漂移。
@@ -978,6 +978,33 @@ import '@radish-ui/react/styles.css';
 - 已知限制 · RadishUI：说明文字不作为必填项；需要时再传 description。
 
 相关：Card、Table
+
+### DescriptionList
+
+- 页面：https://ui.radishx.com/#/components/description-list
+- 摘要：元数据描述列表：原生 dl 语义、标签 / 值成对；窄栏次要信息排版，值可为状态或标签。
+- 导入：
+
+```ts
+import { DescriptionList } from '@radish-ui/react';
+import '@radish-ui/react/styles.css';
+```
+
+属性：
+
+- `items` — 类型 `readonly DescriptionListItem[]`；必填 — 标签 / 值条目；按数组顺序渲染为原生 dl 的分组。
+- `className` — 类型 `string`；默认 '' — 附加类名；分组间距与分隔线由页面组合。
+- `其余属性` — 类型 `ComponentPropsWithoutRef<'dl'>` — 原生 dl 属性透传；可访问名称按页面上下文用 aria-label 提供。
+
+行为与可访问性：
+
+- 键盘 · 浏览器原生：描述列表是展示语义，不进入 Tab 顺序；值中的链接与按钮按 DOM 顺序聚焦。
+- ARIA · 浏览器原生：渲染为原生 dl / dt / dd，辅助技术按描述列表成对朗读标签与值。
+- ARIA · RadishUI：组件不额外生成 role 或读屏文案；值的含义写在 value 中，标签只说明值的含义。
+- 已知限制 · RadishUI：每条一行、标签在左值在右；宽度与分隔线由页面组合，组件不含多列或折叠变体。
+- 已知限制 · RadishUI：值需要可操作时由调用方组合按钮或链接，组件本身不加点击行为。
+
+相关：Card、Section、Table
 
 ### Table
 

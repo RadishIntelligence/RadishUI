@@ -55,6 +55,7 @@ export const componentCatalog: readonly ComponentEntry[] = [
   { id: 'table-of-contents', name: 'TableOfContents', group: 'navigation', status: 'stable', detail: true, summary: '文档目录，当前章节用 aria-current；hrefFor 与 onNavigate 交回页面处理。' },
   { id: 'card', name: 'Card', group: 'primitives', status: 'stable', detail: true, summary: '内容表面：默认、muted 与 app 三种角色；padding 与 asChild 链接卡片。' },
   { id: 'section', name: 'Section', group: 'primitives', status: 'stable', detail: true, summary: '页面分区：标题、eyebrow、说明与 sm / md 两档。' },
+  { id: 'description-list', name: 'DescriptionList', group: 'primitives', status: 'stable', detail: true, summary: '元数据描述列表：原生 dl 语义、标签 / 值成对；窄栏次要信息排版，值可为状态或标签。' },
   { id: 'table', name: 'Table', group: 'primitives', status: 'stable', detail: true, summary: '原生表格：可访问名称与可选吸顶表头。' },
 ] as const;
 

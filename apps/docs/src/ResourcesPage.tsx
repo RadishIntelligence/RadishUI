@@ -1,5 +1,5 @@
 import { useEffect, useLayoutEffect, useRef, useState, type FormEvent } from 'react';
-import { Button, Card, Checkbox, ConfirmDialog, Dialog, Drawer, Form, FormField, IconButton, InlineAlert, Input, Menu, Pagination, Select, Table, Textarea, Tag, TagInput, ToggleGroup, type FormErrors } from '@radish-ui/react';
+import { Button, Card, Checkbox, ConfirmDialog, DescriptionList, Dialog, Drawer, Form, FormField, IconButton, InlineAlert, Input, Menu, Pagination, Select, Table, Textarea, Tag, TagInput, ToggleGroup, type FormErrors } from '@radish-ui/react';
 import { ArrowUpRight, FileText, History, ListChecks, LockKeyhole, MoreHorizontal, Palette, PanelsTopLeft, Plus, RefreshCw, Search, Trash2 } from 'lucide-react';
 import { PageHeader } from './PageHeader';
 import { appendResourceTags, filterResources, formatDate, kindLabel, pageCount, resourceTagError, resourceTagLimits, statusLabel, type Preferences, type Resource, type ResourceKind, type Translate } from './model';
@@ -191,7 +191,10 @@ export function ResourcesPage({ resources, error, save, retry, t, locale, densit
       <p className="break-word">{deleteTarget?.name}</p>{mutationError && <InlineAlert tone="danger">{mutationError}</InlineAlert>}
     </ConfirmDialog>
     <Dialog open={Boolean(versionTarget)} onOpenChange={open => { if (!open) setVersionTarget(undefined); }} title={t('版本信息', 'Version information')} closeLabel={t('关闭', 'Close')}>
-      {versionTarget && <><dl className="property-list"><div><dt>{t('版本', 'Version')}</dt><dd>{versionTarget.version}</dd></div><div><dt>{t('最近更新', 'Updated')}</dt><dd>{formatDate(versionTarget.updatedAt, locale)}</dd></div></dl><p className="field-help">{t('此本地范例只提供当前版本，没有远端版本历史。', 'This local example provides only the current version, without remote history.')}</p></>}
+      {versionTarget && <><DescriptionList items={[
+        { label: t('版本', 'Version'), value: versionTarget.version },
+        { label: t('最近更新', 'Updated'), value: formatDate(versionTarget.updatedAt, locale) },
+      ]} /><p className="field-help">{t('此本地范例只提供当前版本，没有远端版本历史。', 'This local example provides only the current version, without remote history.')}</p></>}
     </Dialog>
     <ConfirmDialog open={restoreOpen} onOpenChange={setRestoreOpen} title={t('恢复演示数据？', 'Restore demo data?')} closeLabel={t('关闭', 'Close')}
       description={t('这会覆盖当前浏览器中的资源列表，不影响偏好或文档。', 'This replaces the local resource list. Preferences and documents are not affected.')}
@@ -217,7 +220,12 @@ function ResourceDetails({ resource, t, locale, onVersion, onDelete, variant = '
     {variant === 'aside' && <div className="detail-title"><Icon size={18} aria-hidden="true" /><h2>{resource.name}</h2></div>}
     {variant === 'aside' && <ResourceStatus resource={resource} t={t} />}
     <p className="resource-summary">{resource.summary || t('暂无摘要', 'No summary')}</p>
-    <dl className="property-list"><div><dt>{t('类型', 'Type')}</dt><dd>{kindLabel(resource.kind, t)}</dd></div><div><dt>{t('创建者', 'Created by')}</dt><dd>{resource.creator}</dd></div><div><dt>{t('最近更新', 'Updated')}</dt><dd>{formatDate(resource.updatedAt, locale)}</dd></div><div><dt>{t('版本', 'Version')}</dt><dd>{resource.version}</dd></div></dl>
+    <DescriptionList items={[
+      { label: t('类型', 'Type'), value: kindLabel(resource.kind, t) },
+      { label: t('创建者', 'Created by'), value: resource.creator },
+      { label: t('最近更新', 'Updated'), value: formatDate(resource.updatedAt, locale) },
+      { label: t('版本', 'Version'), value: resource.version },
+    ]} />
     {resource.tags.length > 0 && <div className="resource-tags"><span>{t('标签', 'Tags')}</span><div>{resource.tags.map(tag => <Tag key={tag}>{tag}</Tag>)}</div></div>}
   </div>;
 }

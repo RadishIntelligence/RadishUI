@@ -1,6 +1,6 @@
 import { useRef, useState, type ReactNode } from 'react';
 import { Copy, Pencil, Plus, Trash2 } from 'lucide-react';
-import { Accordion, Avatar, Button, Card, Checkbox, ConfirmDialog, Dialog, Drawer, Form, FormField, IconButton, InlineAlert, Input, InputOTP, Menu, Pagination, RadioGroup, Section, Select, Skeleton, StatusBadge, Switch, Table, TableOfContents, Tabs, TabsContent, TabsList, Tag, TagInput, Textarea, Toast, ToggleGroup, Tooltip } from '@radish-ui/react';
+import { Accordion, Avatar, Button, Card, Checkbox, ConfirmDialog, DescriptionList, Dialog, Drawer, Form, FormField, IconButton, InlineAlert, Input, InputOTP, Menu, Pagination, RadioGroup, Section, Select, Skeleton, StatusBadge, Switch, Table, TableOfContents, Tabs, TabsContent, TabsList, Tag, TagInput, Textarea, Toast, ToggleGroup, Tooltip } from '@radish-ui/react';
 
 export interface PilotExample {
   id: string;
@@ -970,6 +970,33 @@ function SectionSmall() {
   return <Section title="紧凑区块" size="sm">
     <p>sm 用于密集参考区，20px 内边距、16px 标题。</p>
   </Section>;
+}
+
+function DescriptionListBasic() {
+  return <DescriptionList items={[
+    { label: '类型', value: '文档' },
+    { label: '创建者', value: '林杏' },
+    { label: '最近更新', value: '2026-11-23' },
+    { label: '版本', value: 'v12' },
+  ]} />;
+}
+
+function DescriptionListValues() {
+  return <DescriptionList items={[
+    { label: '状态', value: <StatusBadge tone="success">已发布</StatusBadge> },
+    { label: '标签', value: <div className="doc-example-row"><Tag>排版</Tag><Tag>交互</Tag></div> },
+    { label: '创建者', value: '林杏' },
+  ]} />;
+}
+
+function DescriptionListLayout() {
+  return <div style={{ maxWidth: 260 }}>
+    <DescriptionList items={[
+      { label: '资源路径', value: '/docs/guides/component-site/description-list' },
+      { label: '版本', value: '26.11.1+build.20261123' },
+      { label: '说明', value: '值在窄栏中右对齐并按需换行，数字使用等宽数字。' },
+    ]} />
+  </div>;
 }
 
 function TableBasic() {
@@ -2628,6 +2655,46 @@ const items = [
   <p>sm 用于密集参考区，20px 内边距、16px 标题。</p>
 </Section>`,
       preview: <SectionSmall />,
+    },
+  ],
+  'description-list': [
+    {
+      id: 'basic',
+      title: '基础元数据',
+      description: '标签与值成对渲染为原生 dl；用于资源详情等窄栏次要信息。',
+      code: `const items = [
+  { label: '类型', value: '文档' },
+  { label: '创建者', value: '林杏' },
+  { label: '最近更新', value: '2026-11-23' },
+  { label: '版本', value: 'v12' },
+];
+
+<DescriptionList items={items} />`,
+      preview: <DescriptionListBasic />,
+    },
+    {
+      id: 'values',
+      title: '状态与标签值',
+      description: 'value 可放组件；状态与标签由调用方组合，列表只保持标签 / 值对齐。',
+      code: `<DescriptionList items={[
+  { label: '状态', value: <StatusBadge tone="success">已发布</StatusBadge> },
+  { label: '标签', value: <div><Tag>排版</Tag><Tag>交互</Tag></div> },
+  { label: '创建者', value: '林杏' },
+]} />`,
+      preview: <DescriptionListValues />,
+    },
+    {
+      id: 'layout',
+      title: '长值与窄栏',
+      description: '窄栏中值右对齐并按需换行，数字使用等宽数字；宽度由页面容器决定。',
+      code: `<div style={{ maxWidth: 260 }}>
+  <DescriptionList items={[
+    { label: '资源路径', value: '/docs/guides/component-site/description-list' },
+    { label: '版本', value: '26.11.1+build.20261123' },
+    { label: '说明', value: '值在窄栏中右对齐并按需换行，数字使用等宽数字。' },
+  ]} />
+</div>`,
+      preview: <DescriptionListLayout />,
     },
   ],
   table: [

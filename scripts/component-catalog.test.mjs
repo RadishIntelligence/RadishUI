@@ -10,7 +10,7 @@ import { auditApiContract, buildGeneratedApi } from './generate-api.mjs';
 import { buildGeneratedCode, buildHighlightedCode, readExampleSources } from './generate-code.mjs';
 
 test('component catalog has unique, routable ids and known groups', () => {
-  assert.equal(componentCatalog.length, 31);
+  assert.equal(componentCatalog.length, 32);
   assert.equal(new Set(componentCatalog.map(component => component.id)).size, componentCatalog.length);
   assert.equal(new Set(componentCatalog.map(component => component.name)).size, componentCatalog.length);
   for (const component of componentCatalog) {
@@ -23,7 +23,7 @@ test('component catalog has unique, routable ids and known groups', () => {
 
 test('pilot entries have API rows and a dedicated page', () => {
   const pilots = componentCatalog.filter(component => component.detail);
-  assert.deepEqual(pilots.map(component => component.id), ['button', 'icon-button', 'form-field', 'form', 'input', 'textarea', 'input-otp', 'select', 'tag-input', 'radio-group', 'avatar', 'tag', 'toggle-group', 'checkbox', 'switch', 'tabs', 'status-badge', 'dialog', 'confirm-dialog', 'accordion', 'drawer', 'menu', 'inline-alert', 'skeleton', 'toast', 'tooltip', 'pagination', 'table-of-contents', 'card', 'section', 'table']);
+  assert.deepEqual(pilots.map(component => component.id), ['button', 'icon-button', 'form-field', 'form', 'input', 'textarea', 'input-otp', 'select', 'tag-input', 'radio-group', 'avatar', 'tag', 'toggle-group', 'checkbox', 'switch', 'tabs', 'status-badge', 'dialog', 'confirm-dialog', 'accordion', 'drawer', 'menu', 'inline-alert', 'skeleton', 'toast', 'tooltip', 'pagination', 'table-of-contents', 'card', 'section', 'description-list', 'table']);
   for (const component of pilots) {
     const doc = pilotDocs[component.id];
     assert.ok(doc, component.id);
@@ -99,6 +99,9 @@ test('descriptions and default values come from component source', () => {
   assert.equal(row('card', 'tone').description, '表面角色：内容卡、弱化内嵌或预览画布。');
   assert.equal(row('section', 'size').description, 'md 阅读区块；sm 密集参考区。');
   assert.equal(row('table', 'label').description, '表格的可访问名称，渲染为视觉隐藏的 caption。');
+  assert.equal(row('description-list', 'items').description, '标签 / 值条目；按数组顺序渲染为原生 dl 的分组。');
+  assert.equal(row('description-list', 'items').type, 'readonly DescriptionListItem[]');
+  assert.equal(row('description-list', 'items').required, true);
   for (const doc of Object.values(pilotDocs)) {
     for (const entry of doc.api) {
       if (/^on[A-Z]/.test(entry.name) || entry.name === 'hrefFor' || entry.name === 'removeLabel') {

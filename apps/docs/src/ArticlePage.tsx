@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type RefObject } from 'react';
-import { Button, Card, ConfirmDialog, Dialog, Drawer, Form, FormField, IconButton, InlineAlert, Input, StatusBadge, TableOfContents, Textarea, Tag, type FormErrors } from '@radish-ui/react';
+import { Button, Card, ConfirmDialog, DescriptionList, Dialog, Drawer, Form, FormField, IconButton, InlineAlert, Input, StatusBadge, TableOfContents, Textarea, Tag, type FormErrors } from '@radish-ui/react';
 import { Check, ChevronLeft, Copy, Info, ListTree, LockKeyhole, Pencil, Share2 } from 'lucide-react';
 import { articleForResource, welcomeArticle } from './document-seed';
 import { formatDate, isArticles, parseArticle, type Article, type Preferences, type Resource, type Translate } from './model';
@@ -186,7 +186,11 @@ function DocumentReader({ resourceId = 'welcome', resource, preferences, section
       <aside className="document-aside">
         <Card tone="muted" padding="sm" className="document-aside-surface">
           {preferences.showToc && headings.length > 0 && <div className="document-outline"><span>{t('本文目录', 'On this page')}</span>{outlineFor(false)}</div>}
-          <div className="document-properties"><span>{t('文档属性', 'Document properties')}</span><dl className="property-list"><div><dt>{t('状态', 'Status')}</dt><dd>{readonly ? t('只读', 'Read only') : t('已保存', 'Saved')}</dd></div><div><dt>{t('创建者', 'Created by')}</dt><dd>{resource?.creator ?? t('林杏', 'Lin Xing')}</dd></div><div><dt>{t('最近更新', 'Updated')}</dt><dd>{formatDate(article.updatedAt, preferences.locale)}</dd></div></dl><div className="document-tags"><Tag className="document-tag">{t('排版', 'Typography')}</Tag><Tag className="document-tag">{t('交互', 'Interaction')}</Tag></div></div>
+          <div className="document-properties"><span>{t('文档属性', 'Document properties')}</span><DescriptionList items={[
+            { label: t('状态', 'Status'), value: readonly ? t('只读', 'Read only') : t('已保存', 'Saved') },
+            { label: t('创建者', 'Created by'), value: resource?.creator ?? t('林杏', 'Lin Xing') },
+            { label: t('最近更新', 'Updated'), value: formatDate(article.updatedAt, preferences.locale) },
+          ]} /><div className="document-tags"><Tag className="document-tag">{t('排版', 'Typography')}</Tag><Tag className="document-tag">{t('交互', 'Interaction')}</Tag></div></div>
         </Card>
       </aside>
     </div>}

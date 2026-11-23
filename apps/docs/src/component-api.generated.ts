@@ -631,6 +631,22 @@ export const pilotDocs: Record<string, PilotDoc> = {
     ],
     related: ["card", "table"],
   },
+  "description-list": {
+    importCode: "import { DescriptionList } from '@radish-ui/react';\nimport '@radish-ui/react/styles.css';",
+    api: [
+      { name: "items", type: "readonly DescriptionListItem[]", required: true, description: "标签 / 值条目；按数组顺序渲染为原生 dl 的分组。" },
+      { name: "className", type: "string", defaultValue: "''", required: false, description: "附加类名；分组间距与分隔线由页面组合。" },
+      { name: "其余属性", type: "ComponentPropsWithoutRef<'dl'>", required: false, description: "原生 dl 属性透传；可访问名称按页面上下文用 aria-label 提供。" },
+    ],
+    behavior: [
+      { topic: "keyboard", source: "native", text: "描述列表是展示语义，不进入 Tab 顺序；值中的链接与按钮按 DOM 顺序聚焦。" },
+      { topic: "aria", source: "native", text: "渲染为原生 dl / dt / dd，辅助技术按描述列表成对朗读标签与值。" },
+      { topic: "aria", source: "radish", text: "组件不额外生成 role 或读屏文案；值的含义写在 value 中，标签只说明值的含义。" },
+      { topic: "limitation", source: "radish", text: "每条一行、标签在左值在右；宽度与分隔线由页面组合，组件不含多列或折叠变体。" },
+      { topic: "limitation", source: "radish", text: "值需要可操作时由调用方组合按钮或链接，组件本身不加点击行为。" },
+    ],
+    related: ["card", "section", "table"],
+  },
   table: {
     importCode: "import { Table } from '@radish-ui/react';\nimport '@radish-ui/react/styles.css';",
     api: [

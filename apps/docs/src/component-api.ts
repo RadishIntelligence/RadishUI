@@ -440,6 +440,15 @@ export const authoredDocs: Record<string, AuthoredPilotDoc> = {
     ],
     related: ['card', 'table'],
   },
+  'description-list': {
+    importCode: "import { DescriptionList } from '@radish-ui/react';\nimport '@radish-ui/react/styles.css';",
+    api: [
+      { name: 'items' },
+      { name: 'className', type: 'string', required: false, description: '附加类名；分组间距与分隔线由页面组合。' },
+      { name: '其余属性', type: "ComponentPropsWithoutRef<'dl'>", required: false, description: '原生 dl 属性透传；可访问名称按页面上下文用 aria-label 提供。' },
+    ],
+    related: ['card', 'section', 'table'],
+  },
   table: {
     importCode: "import { Table } from '@radish-ui/react';\nimport '@radish-ui/react/styles.css';",
     api: [

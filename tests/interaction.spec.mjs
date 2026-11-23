@@ -142,10 +142,10 @@ test.describe('强制颜色', () => {
 test('全部组件页可加载，行为表与高亮齐全', async ({ page }) => {
   test.setTimeout(120_000);
   await page.goto('/#/catalog');
-  await page.waitForFunction(() => document.querySelectorAll('a.catalog-card[href^="#/components/"]').length === 31);
+  await page.waitForFunction(() => document.querySelectorAll('a.catalog-card[href^="#/components/"]').length === 32);
   const hrefs = await page.locator('a.catalog-card[href^="#/components/"]').evaluateAll(nodes => nodes.map(node => node.getAttribute('href')));
   const ids = [...new Set(hrefs.map(href => href.replace('#/components/', '')))];
-  expect(ids.length).toBe(31);
+  expect(ids.length).toBe(32);
   const failures = [];
   for (const id of ids) {
     const errors = [];
@@ -230,6 +230,21 @@ test('工作台文档编辑表单校验与保存', async ({ page }) => {
   await title.fill('Button 使用规范（回归）');
   await page.getByRole('button', { name: '保存文档' }).click();
   await expect(page.getByRole('heading', { level: 1, name: 'Button 使用规范（回归）' })).toBeVisible();
+});
+
+test('DescriptionList 使用原生 dl 语义并承接工作台详情', async ({ page }) => {
+  const root = await openComponent(page, 'description-list');
+  const list = example(root, 'basic').locator('dl.rd-description-list');
+  await expect(list).toBeVisible();
+  await expect(list.locator('dt')).toHaveCount(4);
+  await expect(list.locator('dd')).toHaveCount(4);
+  await expect(list.locator('dt').first()).toHaveText('类型');
+  await expect(list.locator('dd').first()).toHaveText('文档');
+  await expect(example(root, 'values').locator('.doc-preview').getByText('已发布')).toBeVisible();
+  await page.goto('/#/resources');
+  await page.locator('.resource-select').first().click();
+  const detail = page.locator('.resource-detail');
+  await expect(detail.locator('dl.rd-description-list dt')).toHaveCount(4);
 });
 
 test('Drawer 底部编排共用同一合同并保持焦点回焦', async ({ page }) => {

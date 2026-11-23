@@ -172,11 +172,7 @@ h1 { font-size: var(--rd-font-size-title); line-height: 1.2; font-weight: 680; l
 .resource-detail h2 { font-size: 1.125rem; line-height: 1.45; font-weight: 600; overflow-wrap: anywhere; }
 .resource-detail > .resource-status { align-self: flex-start; }
 .resource-summary { color: var(--rd-text-secondary); font-size: var(--rd-font-size-sm); line-height: 1.8; white-space: pre-wrap; overflow-wrap: anywhere; }
-.property-list { display: grid; gap: 12px; font-size: var(--rd-font-size-xs); }
-.property-list > div { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
-.property-list dt { color: var(--rd-text-secondary); flex-shrink: 0; }
-.property-list dd { text-align: right; overflow-wrap: anywhere; font-variant-numeric: tabular-nums; }
-.resource-detail > .property-list, .resource-tags { padding-top: 16px; border-top: 1px solid var(--rd-border-soft); }
+.resource-detail > .rd-description-list, .resource-tags { padding-top: 16px; border-top: 1px solid var(--rd-border-soft); }
 .resource-tags { display: grid; gap: 12px; color: var(--rd-text-secondary); font-size: var(--rd-font-size-xs); }
 .resource-tags > div, .document-tags { display: flex; gap: 8px; flex-wrap: wrap; }
 .resource-mobile-list { display: none; }

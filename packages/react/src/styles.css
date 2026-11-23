@@ -187,6 +187,10 @@ html[data-density="compact"] .rd-section--sm { padding-block: var(--rd-space-3);
 .rd-section h2 { font-weight: 600; }
 .rd-section--md h2 { font-size: 1.125rem; }
 .rd-section--sm h2 { font-size: var(--rd-font-size-body); }
+.rd-description-list { display: grid; gap: var(--rd-space-3); min-width: 0; margin: 0; font-size: var(--rd-font-size-xs); }
+.rd-description-list__row { display: flex; align-items: baseline; justify-content: space-between; gap: var(--rd-space-3); min-width: 0; }
+.rd-description-list dt { flex-shrink: 0; color: var(--rd-text-secondary); }
+.rd-description-list dd { min-width: 0; margin: 0; text-align: right; overflow-wrap: anywhere; font-variant-numeric: tabular-nums; }
 .rd-table { --rd-table-head-height: 42px; --rd-table-row-height: 64px; --rd-table-cell-padding-block: var(--rd-space-2); border-collapse: collapse; table-layout: fixed; width: 100%; text-align: left; }
 html[data-density="standard"] .rd-table { --rd-table-head-height: 36px; --rd-table-row-height: 52px; --rd-table-cell-padding-block: var(--rd-space-1); }
 html[data-density="compact"] .rd-table { --rd-table-head-height: 32px; --rd-table-row-height: 48px; --rd-table-cell-padding-block: var(--rd-space-1); }
