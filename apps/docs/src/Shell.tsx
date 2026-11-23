@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { Avatar, IconButton, Menu, Tooltip } from '@radish-ui/react';
-import { BookOpen, Boxes, Check, ChevronDown, Compass, FileText, FolderOpen, History, LifeBuoy, Package, Palette, PanelLeftClose, PanelLeftOpen, SlidersHorizontal, Star, SunMoon } from 'lucide-react';
+import { BookOpen, Boxes, Check, ChevronDown, Compass, FileText, FolderOpen, History, LifeBuoy, Package, Palette, PanelLeftClose, PanelLeftOpen, Shapes, SlidersHorizontal, Star, SunMoon } from 'lucide-react';
 import type { Page, Translate } from './model';
 
 interface ShellProps {
@@ -12,6 +12,7 @@ export function Shell({ page, collapsed, onCollapse, onHelp, onTheme, t, notice,
     { page: 'overview', href: '#/overview', label: t('概览', 'Overview'), Icon: Compass },
     { page: 'foundations', href: '#/foundations', label: t('视觉基础', 'Foundations'), Icon: Palette },
     { page: 'components', href: '#/catalog', label: t('组件目录', 'Component catalog'), Icon: Boxes },
+    { page: 'icons', href: '#/icons', label: t('图标参考', 'Icon reference'), Icon: Shapes },
     { page: 'changelog', href: '#/changelog', label: t('变更记录', 'Changelog'), Icon: History },
     { page: 'platforms', href: '#/platforms', label: t('平台与接入', 'Platforms'), Icon: Package },
   ] as const;

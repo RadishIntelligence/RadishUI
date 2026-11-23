@@ -1,4 +1,4 @@
-export type Page = 'overview' | 'resources' | 'settings' | 'document' | 'components' | 'foundations' | 'platforms' | 'changelog';
+export type Page = 'overview' | 'resources' | 'settings' | 'document' | 'components' | 'foundations' | 'platforms' | 'changelog' | 'icons';
 export type Translate = (chinese: string, english: string) => string;
 export interface Preferences {
   theme: 'light' | 'dark' | 'system';
@@ -107,7 +107,7 @@ export function parseArticle(body: string): ArticleBlock[] {
 }
 export function parseRoute(hash: string): { page: Page; resourceId?: string; section?: string; componentId?: string; componentSection?: string; catalog?: boolean } {
   const parts = hash.replace(/^#\/?/, '').split('/');
-  const page: Page = parts[0] === 'overview' || parts[0] === '' ? 'overview' : parts[0] === 'components' ? 'components' : parts[0] === 'foundations' ? 'foundations' : parts[0] === 'platforms' ? 'platforms' : parts[0] === 'changelog' ? 'changelog' : parts[0] === 'resources' ? 'resources' : parts[0] === 'settings' ? 'settings' : parts[0] === 'document' ? 'document' : 'overview';
+  const page: Page = parts[0] === 'overview' || parts[0] === '' ? 'overview' : parts[0] === 'components' ? 'components' : parts[0] === 'foundations' ? 'foundations' : parts[0] === 'platforms' ? 'platforms' : parts[0] === 'changelog' ? 'changelog' : parts[0] === 'icons' ? 'icons' : parts[0] === 'resources' ? 'resources' : parts[0] === 'settings' ? 'settings' : parts[0] === 'document' ? 'document' : 'overview';
   if (parts[0] === 'catalog') return { page: 'components', resourceId: undefined, section: undefined, catalog: true };
   const componentId = page === 'components' && parts[1] && /^[a-z0-9-]+$/.test(parts[1]) ? parts[1] : undefined;
   const route = { page, resourceId: page === 'document' && parts[1] && /^[a-zA-Z0-9-]+$/.test(parts[1]) ? parts[1] : undefined,

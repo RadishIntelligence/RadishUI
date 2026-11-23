@@ -223,6 +223,30 @@ test('变更记录页展示内部版本并链接到组件页', async ({ page }) 
   await expect(page.locator('.changelog-entry')).toHaveCount(5);
 });
 
+test('图标参考页可搜索、复制导入且窄屏无溢出', async ({ page }) => {
+  await page.goto('/#/icons');
+  await expect(page.getByRole('heading', { level: 1, name: '图标参考' })).toBeVisible();
+  const cards = page.locator('.icon-card');
+  await expect(cards).toHaveCount(38);
+  const search = page.getByLabel('搜索图标');
+  await search.fill('arrow');
+  await expect(cards).toHaveCount(3);
+  await expect(page.locator('.icons-count')).toHaveText('共 3 个图标');
+  await search.fill('没有这个图标');
+  await expect(page.locator('.icons-empty')).toHaveText('没有匹配的图标。');
+  await search.fill('');
+  await expect(cards).toHaveCount(38);
+  const first = cards.first();
+  await first.getByRole('button').click();
+  await expect(first.getByRole('button')).toContainText('已复制');
+  expect(await page.evaluate(() => navigator.clipboard.readText())).toMatch(/^import \{ [A-Za-z0-9]+ \} from 'lucide-react';$/);
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/#/icons');
+  await expect(page.locator('.icons-page')).toBeVisible();
+  const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1);
+  expect(overflow, '图标参考页在 390 下横向溢出').toBe(false);
+});
+
 test('窄屏组件页无页面级横向溢出', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   for (const id of ['button', 'select', 'form', 'table']) {

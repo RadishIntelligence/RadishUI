@@ -49,7 +49,7 @@ svg { flex-shrink: 0; }
 .header-actions { display: flex; align-items: center; gap: 8px; }
 .workspace-main { min-height: 0; flex: 1; overflow: auto; padding: 24px 16px 12px; scroll-padding-top: 16px; outline: none; }
 /* Content pages share one width; the resource workbench keeps the full surface. */
-.overview-page, .settings-page, .document-page, .components-page, .foundations-page, .platforms-page, .changelog-page { width: 100%; max-width: 1184px; margin-inline: auto; }
+.overview-page, .settings-page, .document-page, .components-page, .foundations-page, .platforms-page, .changelog-page, .icons-page { width: 100%; max-width: 1184px; margin-inline: auto; }
 .workspace-main > .rd-alert { margin-bottom: 16px; }
 .workspace-main.is-fixed-page { overflow: hidden; }
 /* Extreme text or very short viewports: let the page scroll instead of crushing the list. */

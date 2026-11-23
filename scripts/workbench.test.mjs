@@ -3,10 +3,23 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { changelog, siteVersion } from '../apps/docs/src/changelog.ts';
 import { componentCatalog } from '../apps/docs/src/component-catalog.ts';
+import { iconReference, iconReferenceGroups } from '../apps/docs/src/icon-reference.ts';
+import * as lucideIcons from 'lucide-react';
 import { appendResourceTags, defaultPreferences, filterResources, isArticle, isArticles, isLegacyPreferences, isPreferences, isResources, migratePreferences, pageCount, parseArticle, parseRoute, resourceTagLimits } from '../apps/docs/src/model.ts';
 import { paginationRange, validatePage } from '../packages/react/src/pagination.ts';
 
 const resource = { id: 'release-notes', name: '发布 Release Notes', kind: 'document', status: 'ready', summary: 'Upgrade guide', creator: '示例成员', updatedAt: '2026-11-04T10:00:00Z', version: 'v1', tags: ['发布'] };
+
+test('icon reference matches lucide-react exports and stays unique', () => {
+  assert.ok(iconReference.length >= 30, '图标参考至少覆盖 30 个已使用图标');
+  const names = iconReference.map(entry => entry.name);
+  assert.equal(new Set(names).size, names.length, '图标名不重复');
+  assert.deepEqual([...new Set(iconReference.map(entry => entry.group))].sort(), [...iconReferenceGroups].sort(), '每个分组都有图标');
+  for (const entry of iconReference) {
+    assert.ok(entry.zh.trim() && entry.en.trim(), entry.name);
+    assert.equal(entry.Icon, lucideIcons[entry.name], `${entry.name} 与 lucide-react 导出不一致`);
+  }
+});
 
 test('changelog records stay sorted and link to existing pages', () => {
   const version = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8')).version;
@@ -112,6 +125,7 @@ test('routes distinguish pages, resource ids and section anchors', () => {
   assert.equal(parseRoute('#/resources').page, 'resources');
   assert.deepEqual(parseRoute('#/document/theme-colors/section-2'), { page: 'document', resourceId: 'theme-colors', section: 'section-2' });
   assert.equal(parseRoute('#/settings').page, 'settings');
+  assert.equal(parseRoute('#/icons').page, 'icons');
   assert.deepEqual(parseRoute('#/components'), { page: 'components', resourceId: undefined, section: undefined });
   assert.deepEqual(parseRoute('#/catalog'), { page: 'components', resourceId: undefined, section: undefined, catalog: true });
   assert.deepEqual(parseRoute('#/components/button'), { page: 'components', resourceId: undefined, section: undefined, componentId: 'button' });

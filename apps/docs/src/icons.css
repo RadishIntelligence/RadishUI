@@ -1,0 +1,18 @@
+.icons-page { display: flex; flex-direction: column; min-width: 0; }
+.icons-intro { max-width: 760px; margin: 0 0 var(--rd-space-4); color: var(--rd-text-secondary); font-size: var(--rd-font-size-sm); line-height: 1.8; }
+.icons-toolbar { display: flex; align-items: center; flex-wrap: wrap; gap: var(--rd-space-2); margin-bottom: var(--rd-space-4); }
+.icons-search { position: relative; flex: 1 1 260px; max-width: 420px; min-width: 0; }
+.icons-search > svg { position: absolute; z-index: 1; top: 50%; left: 12px; color: var(--rd-text-secondary); pointer-events: none; transform: translateY(-50%); }
+.icons-search .rd-input { padding-left: 36px; }
+.icons-count { color: var(--rd-text-secondary); font-size: var(--rd-font-size-xs); }
+.icons-groups { display: grid; gap: var(--rd-space-5); }
+.icons-group h2 { margin-bottom: var(--rd-space-2); font-size: 1rem; font-weight: 600; }
+.icons-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 232px), 1fr)); gap: var(--rd-space-2); margin: 0; padding: 0; list-style: none; }
+.icon-card { position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: var(--rd-space-2); min-width: 0; padding: var(--rd-space-2) 48px var(--rd-space-2) var(--rd-space-3); border: 1px solid var(--rd-border-soft); border-radius: var(--rd-radius-control); background: var(--rd-bg-surface); }
+.icon-glyph { display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: var(--rd-radius-small); background: var(--rd-bg-muted); color: var(--rd-text-primary); }
+.icon-meta { display: grid; gap: 2px; min-width: 0; }
+.icon-meta code { overflow-wrap: anywhere; font-family: var(--rd-font-mono); font-size: var(--rd-font-size-xs); }
+.icon-meta .icon-zh { color: var(--rd-text-secondary); font-size: var(--rd-font-size-xs); line-height: 1.5; }
+.icon-card .doc-copy { top: 4px; right: 4px; }
+.icons-empty { padding: var(--rd-space-6) 0; color: var(--rd-text-secondary); font-size: var(--rd-font-size-sm); }
+.icons-note { margin-top: var(--rd-space-5); padding-top: var(--rd-space-3); border-top: 1px solid var(--rd-border-soft); color: var(--rd-text-secondary); font-size: var(--rd-font-size-xs); line-height: 1.7; }
