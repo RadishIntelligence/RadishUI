@@ -1,9 +1,38 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import { changelog, siteVersion } from '../apps/docs/src/changelog.ts';
+import { componentCatalog } from '../apps/docs/src/component-catalog.ts';
 import { appendResourceTags, defaultPreferences, filterResources, isArticle, isArticles, isLegacyPreferences, isPreferences, isResources, migratePreferences, pageCount, parseArticle, parseRoute, resourceTagLimits } from '../apps/docs/src/model.ts';
 import { paginationRange, validatePage } from '../packages/react/src/pagination.ts';
 
 const resource = { id: 'release-notes', name: '发布 Release Notes', kind: 'document', status: 'ready', summary: 'Upgrade guide', creator: '示例成员', updatedAt: '2026-11-04T10:00:00Z', version: 'v1', tags: ['发布'] };
+
+test('changelog records stay sorted and link to existing pages', () => {
+  const version = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8')).version;
+  assert.equal(siteVersion, version, '展示站版本需与 package.json 一致');
+  const dates = changelog.map(entry => entry.date);
+  assert.deepEqual(dates, [...dates].sort().reverse(), '变更记录按日期倒序');
+  assert.equal(new Set(dates).size, dates.length, '变更记录日期不重复');
+  const standaloneHrefs = new Set(['#/overview', '#/catalog', '#/components', '#/platforms', '#/changelog', '#/resources', '#/settings', '#/document', '#/foundations']);
+  for (const entry of changelog) {
+    assert.match(entry.date, /^\d{4}-\d{2}-\d{2}$/, entry.date);
+    assert.ok(entry.title.zh.trim() && entry.title.en.trim(), entry.date);
+    assert.ok(entry.items.length >= 1, entry.date);
+    for (const item of entry.items) {
+      assert.ok(item.zh.trim() && item.en.trim(), entry.date);
+      if (!item.href) continue;
+      const parts = item.href.replace(/^#\//, '').split('/');
+      if (parts[0] === 'components' && parts[1]) {
+        const component = componentCatalog.find(entry => entry.id === parts[1]);
+        assert.ok(component?.detail, `${entry.date} 链接到未迁移组件：${item.href}`);
+        if (parts[2] !== undefined) assert.match(parts[2], /^doc-[a-z-]+$/, item.href);
+      } else {
+        assert.ok(standaloneHrefs.has(item.href), `${entry.date} 链接目标不存在：${item.href}`);
+      }
+    }
+  }
+});
 
 test('stored preferences reject missing, coerced and unknown values', () => {
   assert(isPreferences(defaultPreferences));

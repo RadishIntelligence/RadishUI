@@ -1,0 +1,19 @@
+.changelog-page { display: flex; flex-direction: column; min-height: 100%; }
+.changelog-intro { max-width: 760px; margin: 0 0 var(--rd-space-4); color: var(--rd-text-secondary); font-size: var(--rd-font-size-sm); line-height: 1.8; }
+.changelog-version { display: grid; gap: var(--rd-space-2); margin-bottom: var(--rd-space-5); }
+.changelog-version-head { display: flex; align-items: baseline; flex-wrap: wrap; gap: var(--rd-space-3); }
+.changelog-version-head > span { color: var(--rd-text-secondary); font-size: var(--rd-font-size-xs); }
+.changelog-version-head strong { font-family: var(--rd-font-mono); font-size: var(--rd-font-size-base); font-weight: 600; }
+.changelog-version > p { color: var(--rd-text-secondary); font-size: var(--rd-font-size-xs); line-height: 1.7; }
+.changelog-list { display: grid; gap: var(--rd-space-3); margin: 0; padding: 0; list-style: none; }
+.changelog-entry { display: grid; gap: var(--rd-space-2); }
+.changelog-entry-head { display: flex; align-items: center; justify-content: space-between; gap: var(--rd-space-2); color: var(--rd-text-secondary); font-size: var(--rd-font-size-xs); }
+.changelog-entry-head time { font-family: var(--rd-font-mono); font-variant-numeric: tabular-nums; }
+.changelog-entry h2 { font-size: 1.0625rem; font-weight: 600; }
+.changelog-items { display: grid; gap: 6px; margin: 0; padding-left: 18px; color: var(--rd-text-secondary); font-size: var(--rd-font-size-sm); line-height: 1.7; }
+.changelog-items li::marker { color: var(--rd-border-control); }
+.changelog-items a { color: var(--rd-text-action); }
+.changelog-note { margin-top: var(--rd-space-5); padding-top: var(--rd-space-3); border-top: 1px solid var(--rd-border-soft); color: var(--rd-text-secondary); font-size: var(--rd-font-size-xs); line-height: 1.7; }
+.platform-footer-link { display: inline-flex; align-items: center; gap: 4px; color: inherit; font-size: inherit; text-decoration: none; }
+.platform-footer-link:hover { color: var(--rd-text-action); }
+.platform-footer-link:focus-visible { outline: 1px solid var(--rd-focus-ring); outline-offset: 2px; }

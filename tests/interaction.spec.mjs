@@ -203,6 +203,26 @@ test('组件页窄屏目录使用抽屉并跳转章节', async ({ page }) => {
   await expect.poll(() => page.locator('#doc-keyboard').evaluate(element => element.getBoundingClientRect().top)).toBeLessThan(400);
 });
 
+test('变更记录页展示内部版本并链接到组件页', async ({ page }) => {
+  await page.goto('/#/changelog');
+  await expect(page.getByRole('heading', { level: 1, name: '变更记录' })).toBeVisible();
+  await expect(page.locator('.changelog-version')).toContainText('v26.11.1');
+  const entries = page.locator('.changelog-entry');
+  await expect(entries).toHaveCount(5);
+  await expect(entries.first()).toContainText('2026-11-23');
+  const componentLink = page.locator('.changelog-entry a[href="#/components/description-list"]').first();
+  await expect(componentLink).toBeVisible();
+  await componentLink.click();
+  await expect(page).toHaveURL(/#\/components\/description-list$/);
+  await expect(page.locator('[data-component="description-list"]')).toBeVisible();
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/#/changelog');
+  await expect(page.locator('.changelog-page')).toBeVisible();
+  const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1);
+  expect(overflow, '变更记录页在 390 下横向溢出').toBe(false);
+  await expect(page.locator('.changelog-entry')).toHaveCount(5);
+});
+
 test('窄屏组件页无页面级横向溢出', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   for (const id of ['button', 'select', 'form', 'table']) {

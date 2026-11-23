@@ -10,6 +10,7 @@ const ComponentDetailPage = lazy(() => import('./ComponentDetailPage').then(modu
 import { FoundationsPage } from './FoundationsPage';
 import { OverviewPage } from './OverviewPage';
 import { PlatformsPage } from './PlatformsPage';
+import { ChangelogPage } from './ChangelogPage';
 import { defaultPreferences, isResources, parseRoute, type Preferences, type Resource } from './model';
 import { findComponent } from './component-catalog';
 import { readPreferences, readStored, storageKeys, writeStored } from './storage';
@@ -96,7 +97,7 @@ export function App() {
   useEffect(() => {
     const title = route.catalog ? t('组件目录', 'Component catalog')
       : route.componentId ? findComponent(route.componentId)?.name ?? t('组件用法', 'Components')
-        : { resources: t('资源库', 'Resources'), settings: t('外观与偏好', 'Preferences'), document: t('文档', 'Document'), overview: t('概览', 'Overview'), components: t('组件用法', 'Components'), foundations: t('视觉基础', 'Foundations'), platforms: t('平台与接入', 'Platforms') }[route.page];
+        : { resources: t('资源库', 'Resources'), settings: t('外观与偏好', 'Preferences'), document: t('文档', 'Document'), overview: t('概览', 'Overview'), components: t('组件用法', 'Components'), foundations: t('视觉基础', 'Foundations'), platforms: t('平台与接入', 'Platforms'), changelog: t('变更记录', 'Changelog') }[route.page];
     document.title = `${title} · RadishUI`;
   }, [route.page, route.catalog, route.componentId, t]);
 
@@ -137,6 +138,7 @@ export function App() {
       {route.page === 'components' && !route.componentId && !route.catalog && <ComponentsPage t={t} />}
       {route.page === 'foundations' && <FoundationsPage t={t} />}
       {route.page === 'platforms' && <PlatformsPage t={t} />}
+      {route.page === 'changelog' && <ChangelogPage t={t} />}
       {route.page === 'settings' && <SettingsPage preferences={preferences} save={savePreferences} t={t} onDirtyChange={updateDirty} />}
       {route.page === 'resources' && <ResourcesPage resources={resources} error={resourceError} save={saveResources} retry={() => setLoadAttempt(loadAttempt + 1)} t={t} locale={preferences.locale} density={preferences.density} notify={notify} />}
       {route.page === 'document' && <ArticlePage key={route.resourceId ?? 'welcome'} resourceId={route.resourceId} resources={resources} resourcesError={resourceError}
