@@ -385,5 +385,5 @@ Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前
 - API：`items: readonly { label, value }[]`（`value` 可为文本或组件），其余原生 `dl` 属性透传；渲染为原生 `<dl>` 的 `dt` / `dd` 行，标签在左、值在右，长值换行、数字等宽。不含多列 / bordered / 折叠变体，也不声明点击行为。
 - 采用：资源详情（侧栏与底部抽屉）、文档属性、版本弹窗改用共享组件；删除页面级 `.property-list` 规则与标记，资源详情的顶部分隔线与内边距保留在页面组合层。
 - 视觉：抽取前后对 4 个真实位置 × 1440 / 390 × 明暗共 8 张截图逐像素比较全部一致，几何与计算样式无差异；未新增视觉状态。
-- 验证：`npm run test:catalog`（11 项）、`npm run test:interaction`（21 项，新增原生 dl 语义与工作台资源详情采用、组件页目录两项与变更记录页一项）、`npm run check`、`npm run build` 通过；Chrome 157 探针覆盖 1440 明暗 / 390，3 个示例 dt / dd 齐全、行为表 5 行、API 3 行、代码块均有高亮，无 pageerror 与页面级横向溢出，证据在忽略目录 `output/p4-description-list-2026-11-23/`。
+- 验证：`npm run test:catalog`（11 项）、`npm run test:interaction`（22 项，新增原生 dl 语义与工作台资源详情采用、组件页目录两项、变更记录页与图标参考页各一项）、`npm run check`、`npm run build` 通过；Chrome 157 探针覆盖 1440 明暗 / 390，3 个示例 dt / dd 齐全、行为表 5 行、API 3 行、代码块均有高亮，无 pageerror 与页面级横向溢出，证据在忽略目录 `output/p4-description-list-2026-11-23/`。
 - 边界：只有行式窄栏排版；Safari / Firefox、真实屏幕阅读器与实体设备未复验。组件站页面契约见 [E-03 P4-③](component-site-1.md#p4-description-list-2026-11-23)；实现与文档本地提交，未推送、未部署。
