@@ -10,6 +10,7 @@ Logo、Mascot 与视觉素材不是通用组件的默认内容。RadishX 的萝�
 
 - RadishUI 与新增共享组件统一使用 `lucide-react` 1.68；16 / 18 / 20 三档尺寸，stroke 2，`currentColor`；不混用第二套图标库。
 - 可访问名称由按钮 / 链接提供；装饰性图标设置 `aria-hidden`；不用图标替代必要文字。
+- 展示站 `#/icons` 图标参考列出当前实际使用的 lucide-react 图标（分组、搜索与复制导入；数据源 `apps/docs/src/icon-reference.ts`）。新增或替换展示用图标时同步登记，保持尺寸、`currentColor` 与 `aria-hidden` 口径。
 - 品牌 Logo、Mascot、产品标识与插画不属于通用图标，保留独立资产与来源；不复制产品图标或素材。
 - Radish 的 Iconify / MDI、RadishInk 的旧 lucide 记为产品侧例外；本轮不在产品仓迁移，后续升级时再按映射表切换。
 

@@ -72,7 +72,16 @@
 
 8. **P4 后续排序（2026-11-23 审计后）**：家族真实用量审计已完成（见[复核记录](../features/family-component-demand.md#2026-11-23-复核p4-下一项的真实用量与承载)），Descriptions 已按承载条件落地为 DescriptionList。剩余候选的结论：① InputNumber 家族用量最强（console 18 处 / 11 个文件），但本站无真实页面承载，需所有者先确认一个最小真实场景（如设置页数值偏好）才能做；② Upload（console 9 处 + 批量上传、Ink 3 处）领域耦合重、范围大，且需要端点 / 进度 / 校验场景；③ Slider / ColorPicker 集中在 Ink 主题设计器，偏编辑器领域；④ Progress / Steps / DatePicker 低频且无承载；⑤ Empty 有资源空结果与目录空结果 2 处承载，但组合简单、可先由页面承担；⑥ Divider / Space / Grid 的结论是由 CSS gap 承担，不新增空转 wrapper，DataTable 先由 Table + Pagination 组合。下一轮建议先由所有者指定场景或确认 InputNumber 的最小承载页；P5 站点能力与跨端 / 辅助技术证据补齐继续后排。
 
-9. **P5 站点能力（2026-11-23 起步）**：已完成两项——① `#/changelog` 变更记录页：内部版本 `v26.11.1`、目录状态摘要、5 条日期倒序中英条目、站内链接与 `test:workbench` 校验（版本与 `package.json` 一致、日期倒序唯一、链接目标存在），入口在侧栏「设计系统」与平台页 footer；② `#/icons` 图标参考页：38 个实际使用的 lucide-react 图标、五组用途、搜索与复制导入、名称与导出一致性校验，入口在侧栏与平台页 footer。两页按路由懒加载（主入口 450.58 kB / gzip 140.39 kB，无 500kB 警告）；`test:interaction` 22 项。其余 P5 项（组件状态 / 弃用徽标、双语文档、站点搜索索引）待排；正式 tag / Release 仍属发行任务。
+9. **P5 站点能力（2026-11-23 起步）**：已完成两项——① `#/changelog` 变更记录页：内部版本 `v26.11.1`、目录状态摘要、5 条日期倒序中英条目、站内链接与 `test:workbench` 校验（版本与 `package.json` 一致、日期倒序唯一、链接目标存在），入口在侧栏「设计系统」与平台页 footer；② `#/icons` 图标参考页：38 个实际使用的 lucide-react 图标、五组用途、搜索与复制导入、名称与导出一致性校验，入口在侧栏与平台页 footer。两页按路由懒加载（主入口 450.58 kB / gzip 140.39 kB，无 500kB 警告）；`test:interaction` 22 项。其余 P5 项（组件状态 / 弃用徽标、双语文档、站点搜索索引）待排；正式 tag / Release 仍属发行任务。另登记未来规划：正式发行后站点需要按版本展示不同内容（API / 行为 / 示例 / 变更记录随版本变化），涉及版本选择器 / 版本化路由、默认版本与旧版本保留、跨版本对比、弃用提示与按版本生成文档产物；当前没有正式发行版本与 tag，本轮只登记、不做版本切换 UI，也不伪造历史版本内容，见[E-03 P5 后续项](../features/component-site-1.md#p5-followups-2026-11-23)。
+
+10. **下一步建议（2026-11-23 收尾）**：
+    1. 推送与远端验证：今日 11 个本地提交待推送 `dev` 并手动跑 PR Checks（dev 推送不自动触发工作流），拿到远端门禁结果后再继续下一批。
+    2. 所有者复审：P4-③ DescriptionList 采用位置、组件页布局与目录、P5 变更记录 / 图标参考三处视觉与内容。
+    3. 组件站 1.0 验收收口审计：按 E-03 验收口径逐项复核 32 个组件页与 P5 两个站点页，记录差距后再决定后续批次。
+    4. P5 剩余项：组件状态 / 弃用（等真实 preview / deprecated 数据）、双语文档、站点搜索索引；版本切换与多版本文档登记为发行后事项。
+    5. 跨端证据：Safari / Firefox 复验扩展到 P5 两页与组件页目录（可与其他批次合并一轮）；真实屏幕阅读器、Windows 高对比与实体设备仍待安排。
+    6. P4 目录扩展：InputNumber 需先确认最小真实场景（例如设置页数值偏好并让资源库分页消费）；Upload / Slider / Progress / Steps 缺真实承载或偏领域；Empty 可后置。
+    7. 暂缓项维持：新的兄弟项目试点、Flutter、组件包发行与部署均需另行授权。
 
 ## 当前停止线
 
@@ -83,7 +92,7 @@
 - 2026-11-22 的 P4-① Form 实现 `2a053c1` 与文档登记 `a4f1223` 已推送 `origin/dev`；手动 PR Checks run `45017363740` 通过，Web Build 在 Ubuntu runner 执行 `npm run test:interaction`（14 项，含 Form 与两个工作台表单回归）。未部署，生产未更新。
 - 2026-11-22 的 P4-② Drawer 底部编排实现 `2693e81` 与文档登记 `3087220` 已推送 `origin/dev`；手动 PR Checks run `45025132513` 通过，Web Build 在 Ubuntu runner 执行 `npm run test:interaction`（16 项，含底部抽屉与工作台窄屏回归）。未部署，生产未更新。
 - 2026-11-22 收尾：断点修复 `5be86c4`、交互断言 17 项与文档复核 `923f7a2` 已推送 `origin/dev`；手动 PR Checks run `45029495187` 通过，Web Build 执行 `npm run test:interaction`（含 800–1099 断点回归）。未部署，生产未更新。
-- 2026-11-23 的 P4-③ DescriptionList 实现 `887455f` 与文档登记 `15d5cc1`、组件页布局与目录修订 `c8c3d1e` 及文档登记、Safari / Firefox 定向复验登记 `c37a7f1`、P5 变更记录实现 `c2ee0d0` 及文档登记、P5 图标参考实现 `8b16462` 及文档登记仅在本地提交，未推送 `origin/dev`、未触发远端 PR Checks、未部署，生产未更新；本地 `dev` 领先 `origin/dev` 的 `a39f515`。
+- 2026-11-23 的 P4-③ DescriptionList 实现 `887455f` 与文档登记 `15d5cc1`、组件页布局与目录修订 `c8c3d1e` 及文档登记、Safari / Firefox 定向复验登记 `c37a7f1`、P5 变更记录实现 `c2ee0d0` 及文档登记、P5 图标参考实现 `8b16462` 及文档登记与边界修正 `4bcac56`、本次收尾文档提交，共 11 个本地提交，均未推送 `origin/dev`、未触发远端 PR Checks、未部署，生产未更新；本地 `dev` 领先 `origin/dev` 的 `a39f515`。
 - 组件站 1.0 达标前不恢复兄弟项目试点；About 采用只作已闭环记录，不触发其他页面 / 产品接入。
 - 不引入跨框架行为层与 Agent 运行时桥接（`@ui-sdk/*`、Agent Bridge / WebMCP）。重评触发点见[组件站 1.0](../features/component-site-1.md#contract-and-behavior-2026-11-18)。Playwright 已于 2026-11-22 经所有者确认入仓（只用预装 Chrome）；新增其他测试依赖（jsdom / happy-dom 等）仍需单独确认。
 - React 18 / Flutter 支持、组件包发行、字体策略、全站 token 与 family-ui 资料迁移不随试点自动进入，也不作为本次有限采用的前置条件。未覆盖平台与辅助技术如实记录；影响所选关键路径的缺陷仍需处理。

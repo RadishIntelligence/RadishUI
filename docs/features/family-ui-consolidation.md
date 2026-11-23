@@ -153,4 +153,4 @@
 
 - 受组件站 1.0 启动推动，对 Radish client / console、RadishX、RadishMind、RadishNexus、RadishInk 做了只读静态统计：组件导入 / JSX 标签次数、UI 库来源与自建原语；方法与限制见[家族组件需求盘点](family-component-demand.md)。
 - 结论：Radish 的 client / console 是最大需求源；共性缺口集中在 Form / 字段校验、Upload、InputNumber / Slider、Progress / Steps、Descriptions / Empty / 布局原语、BottomSheet 编排、DataTable 组合与 ColorPicker。Markdown、贴纸、表情、提及、图片裁切、图表等保留在产品侧，不进入通用核心。
-- 组件站 1.0 先做现有组件的文档 / API / 用法深度（2026-11-23 起 32 个条目：28 个组件与 4 个页面原语），再做目录扩展（P4 已落地 Form、Drawer 底部编排与 DescriptionList）；范围、阶段与验收见[组件站 1.0](component-site-1.md)。产品仓仍只读，本盘点不构成接入授权。
+- 组件站 1.0 先做现有组件的文档 / API / 用法深度（2026-11-23 起 32 个条目：28 个组件与 4 个页面原语），再做目录扩展（P4 已落地 Form、Drawer 底部编排与 DescriptionList）；站点能力（P5）已起步：变更记录与图标参考；范围、阶段与验收见[组件站 1.0](component-site-1.md)。产品仓仍只读，本盘点不构成接入授权。
