@@ -1,12 +1,12 @@
 # 组件站 1.0
 
-状态：2026-11-17 所有者确认作为下一阶段；2026-11-19 完成 P0 三页用法复审并进入 P1，P1 同日完成：30 个条目（27 个组件与 Card / Section / Table 页面原语）均有独立页；2026-11-21 完成 P2 的源码类型、JSDoc 与默认值生成，手写契约只保留回退字段；同日 P3 起步：逐组件行为归属与 a11y 声明进入同一契约来源，示例深度覆盖六组（106 个示例），每示例支持主题 / 密度预览；2026-11-22 代码高亮经构建期生成落地，交互断言以 Playwright 入仓并进入 CI（新增开发依赖经所有者确认），P3 收口；同日按所有者确认的「调用方校验 + 共享 Form 编排」完成 P4 首项 Form 与字段校验，并在资源新建与文档编辑表单采用；同日完成 Drawer 底部编排（同组件方位扩展，不新增浮层）。P2 外部采用与 P3 Flutter 暂缓。2026-11-18 按所有者确认增补机器可读契约、行为归属与交互行为测试评估，见[契约与行为](#contract-and-behavior-2026-11-18)。
+状态：2026-11-17 所有者确认作为下一阶段；2026-11-19 完成 P0 三页用法复审并进入 P1，P1 同日完成：30 个条目（27 个组件与 Card / Section / Table 页面原语）均有独立页；2026-11-21 完成 P2 的源码类型、JSDoc 与默认值生成，手写契约只保留回退字段；同日 P3 起步：逐组件行为归属与 a11y 声明进入同一契约来源，示例深度覆盖六组（106 个示例），每示例支持主题 / 密度预览；2026-11-22 代码高亮经构建期生成落地，交互断言以 Playwright 入仓并进入 CI（新增开发依赖经所有者确认），P3 收口；同日按所有者确认的「调用方校验 + 共享 Form 编排」完成 P4 首项 Form 与字段校验，并在资源新建与文档编辑表单采用；同日完成 Drawer 底部编排（同组件方位扩展，不新增浮层）。2026-11-23 先做家族真实用量审计，按证据把 P4 下一项定为 DescriptionList（描述列表）并落地共享原语，替换工作台 3 处页面级 property-list。P2 外部采用与 P3 Flutter 暂缓。2026-11-18 按所有者确认增补机器可读契约、行为归属与交互行为测试评估，见[契约与行为](#contract-and-behavior-2026-11-18)。
 主要归属：E：展示与页面范例（组件文档站）/ C：跨平台通用组件；协同 F：视觉基础、G：工程与交付。
 需求输入：[家族组件需求盘点](family-component-demand.md)；既有组件合同见 [C-02](react-workbench-components.md)，页面范例见 [E-02](workbench-preview.md)。
 
 ## 目标
 
-把当前的单页组件展示升级为可用的组件文档站，每个组件有独立页面、可查的 TypeScript API、可复制的用法示例、可搜索的目录，以及键盘 / 可访问性说明。先做深现有 27 个组件（P1 同时纳入 Card / Section / Table 页面原语），再按家族真实需求扩目录（2026-11-22 起 P4 首项 Form 已加入，当前 31 个条目 / 28 个组件），不以组件数量衡量完成度。P2 从同一来源生成组件页 API 表与 `llms.txt` 并检查漂移，P3 将逐组件行为归属与可访问性声明纳入该流程。
+把当前的单页组件展示升级为可用的组件文档站，每个组件有独立页面、可查的 TypeScript API、可复制的用法示例、可搜索的目录，以及键盘 / 可访问性说明。先做深现有 27 个组件（P1 同时纳入 Card / Section / Table 页面原语），再按家族真实需求扩目录（P4 已加入 Form 与 DescriptionList，当前 32 个条目：28 个组件与 4 个页面原语），不以组件数量衡量完成度。P2 从同一来源生成组件页 API 表与 `llms.txt` 并检查漂移，P3 将逐组件行为归属与可访问性声明纳入该流程。
 
 ## 非目标
 
@@ -42,8 +42,8 @@
 | **P0 垂直切片** | 目录页、搜索、Button / Select / Tabs 独立页、API 表、示例、复制、测试 | 已实现（`42019fe`），复审完成（2026-11-19） |
 | **P1 迁移 27 个** | 现有组件全部进入模板；Card / Section / Table 页面原语一并纳入目录；单页参考退为“全部示例” | 已完成（30 个条目） |
 | **P2 类型 / API 全量** | 导出缺失 props 类型；JSDoc / 默认值 / 事件 / ref；单一来源生成 API 表与 `llms.txt`，行为归属随 P3 进入同一来源；`--check` 漂移门禁；类型测试与完整性检查 | 已完成（2026-11-21）：类型、JSDoc 说明、解构默认值与事件签名由源码生成；原生 / Radix 继承属性、union 类型与未解构默认值保留契约回退 |
-| **P3 用法深度** | 每组件 3+ 示例、变体 / 受控 / 表单 / 组合；代码高亮（新增依赖需确认）；每示例主题 / 密度；逐组件 a11y 与行为归属声明及对应断言（依赖待确认） | 已完成（2026-11-22）：行为归属与 a11y 声明进入契约生成；示例深度覆盖六组共 106 个示例；每示例主题 / 密度；代码高亮构建期生成；交互断言以 `test:interaction` 入仓并进入 CI。断言覆盖代表性行为，不等于 138 条声明逐条可执行 |
-| **P4 目录扩展** | 按[家族需求盘点](family-component-demand.md)排序；Form、Upload、InputNumber / Slider 等逐项确认 | 进行中（2026-11-22 完成首项 Form 与字段校验，以及 Drawer 底部编排——后者是既有 Drawer 的方位扩展，不新增浮层；其余条目待逐项确认） |
+| **P3 用法深度** | 每组件 3+ 示例、变体 / 受控 / 表单 / 组合；代码高亮（新增依赖需确认）；每示例主题 / 密度；逐组件 a11y 与行为归属声明及对应断言（依赖待确认） | 已完成（2026-11-22）：行为归属与 a11y 声明进入契约生成；示例深度覆盖六组共 106 个示例；每示例主题 / 密度；代码高亮构建期生成；交互断言以 `test:interaction` 入仓并进入 CI。断言覆盖代表性行为，不等于逐条行为声明可执行（2026-11-23 共 148 条） |
+| **P4 目录扩展** | 按[家族需求盘点](family-component-demand.md)排序；Form、Upload、InputNumber / Slider 等逐项确认 | 进行中（2026-11-22 完成首项 Form 与字段校验、Drawer 底部编排；2026-11-23 经家族真实用量审计确认并完成 DescriptionList 描述列表；其余条目待逐项确认） |
 | **P5 站点能力** | 版本 / 变更记录、状态与弃用、双语文档、图标参考、站点搜索索引；公开安装 / CLI / registry 属 P4 发行 | 待开始 |
 
 P2 / P3 的生成与声明范围见[契约与行为](#contract-and-behavior-2026-11-18)；交互断言的执行环境与依赖确认见该节。
@@ -83,12 +83,12 @@ P2 / P3 的生成与声明范围见[契约与行为](#contract-and-behavior-2026
 
 P0 垂直切片与 P1 首批共用以下文件：
 
-- `apps/docs/src/component-catalog.ts`：31 个条目（28 个组件与 3 个页面原语）的单一目录数据（id、名称、分组、摘要、状态、是否有独立页）；
+- `apps/docs/src/component-catalog.ts`：32 个条目（28 个组件与 4 个页面原语）的单一目录数据（id、名称、分组、摘要、状态、是否有独立页）；
 - `apps/docs/src/CatalogPage.tsx`：搜索、分组、计数、空结果与卡片深链；
 - `apps/docs/src/ComponentDetailPage.tsx`：导入、示例（含每示例主题 / 密度预览设置与代码高亮）、API、键盘 / a11y、相关组件；页面根与示例暴露 `data-component` / `data-example` 供交互断言稳定定位；
 - `apps/docs/src/component-api.ts`：组件导入代码、相关组件与 API 回退行（原生 / Radix 继承属性、union 类型、`其余属性` 与未解构默认值）；P2 起 props 类型、说明与可解构默认值由 `packages/react/src` 生成到 `component-api.generated.ts`；
 - `apps/docs/src/component-behavior.ts`：P3 起逐组件行为归属与 a11y 声明（键盘 / 焦点 / ARIA / 已知限制及来源），经同一生成器写入 `component-api.generated.ts`；
-- `apps/docs/src/component-pilot-examples.tsx`：已迁移组件的示例（31 个条目共 110 个示例，含 P4 新增 Form 与 Drawer 底部编排），预览使用真实共享组件；代码片段同时是高亮生成器的输入；
+- `apps/docs/src/component-pilot-examples.tsx`：已迁移组件的示例（32 个条目共 113 个示例，含 P4 新增 Form、Drawer 底部编排与 DescriptionList），预览使用真实共享组件；代码片段同时是高亮生成器的输入；
 - `apps/docs/src/component-code.generated.ts`：P3 起由 `scripts/generate-code.mjs` 生成的逐条高亮 HTML（导入片段与示例），组件页消费；生成物入仓并由测试拦截漂移；
 - `scripts/generate-code.mjs`：构建期高亮入口（`npm run code:generate` / `--check`），用 TypeScript AST 读取示例并用开发依赖 `shiki` 生成，不进入浏览器包；
 - `apps/docs/src/CopyButton.tsx`：复制代码 / 导入片段；无第三方依赖；
@@ -183,9 +183,9 @@ P1 完成：30 个条目均有独立页；目录新增「页面原语」分组�
 - 范围：把组件页代表性键盘、焦点、ARIA 与强制颜色行为固化为入仓浏览器断言，补上 P3 最后一项；不改共享组件、token、路由与示例内容，只给组件页加稳定测试定位属性（`data-component` / `data-example`）。
 - 依赖：新增开发依赖 `@playwright/test@1.65.1`，经所有者确认；使用已安装的 Google Chrome（`channel: 'chrome'`），不下载或缓存浏览器二进制，仓库与 CI 缓存都不新增浏览器产物。
 - 入口：`npm run test:interaction` 先构建展示站，再由 Playwright 配置启动预览服务器并执行 `tests/interaction.spec.mjs`；CI 的 `Web Build` 在构建步骤后执行同一条命令（依赖 runner 预装 Chrome）。`check-repo` 的工作流合同已登记该步骤，移除会让仓库检查失败。
-- 用例（17 项）：Button loading 的 `aria-busy` / `aria-disabled`、焦点保留与 disabled；Tabs 方向键切换并跳过禁用项；Select 键盘选择、受控值同步与 Escape 回焦；ToggleGroup 单选方向键同步选中；Dialog 初始焦点与 Escape 回焦；Checkbox / Switch 空格切换；复制按钮取纯文本；强制颜色下分页当前页与标签选中保留系统色轮廓；31 个组件页 1440 冒烟（行为表 ≥3 行、代码块有高亮、无 pageerror / 页面级横向溢出）；390 窄屏无页面级横向溢出；2026-11-22 增补 Form 提交校验 / 焦点顺序、工作台资源新建 / 文档编辑两个真实表单，以及 Drawer 底部编排的回焦、工作台 390 资源详情与 900 侧向抽屉断点。
+- 用例（18 项）：Button loading 的 `aria-busy` / `aria-disabled`、焦点保留与 disabled；Tabs 方向键切换并跳过禁用项；Select 键盘选择、受控值同步与 Escape 回焦；ToggleGroup 单选方向键同步选中；Dialog 初始焦点与 Escape 回焦；Checkbox / Switch 空格切换；复制按钮取纯文本；强制颜色下分页当前页与标签选中保留系统色轮廓；32 个组件页 1440 冒烟（行为表 ≥3 行、代码块有高亮、无 pageerror / 页面级横向溢出）；390 窄屏无页面级横向溢出；2026-11-22 增补 Form 提交校验 / 焦点顺序、工作台资源新建 / 文档编辑两个真实表单，以及 Drawer 底部编排的回焦、工作台 390 资源详情与 900 侧向抽屉断点；2026-11-23 增补 DescriptionList 原生 dl 语义与工作台资源详情采用。
 - 验证：`npm run test:interaction` 17 项通过（Chrome 157，约 13 秒，分别验证预设服务器与 CI 模式自启服务器）；`npm run check`、`npm run build` 通过；实现 `62fd350` 与文档登记 `95d9a03` 已推送 `origin/dev`，手动 PR Checks run `44991120585` 的 Web Build 在 Ubuntu runner 上执行同一入口并通过（使用 runner 预装 Chrome）。未部署。
-- 边界：断言覆盖代表性行为，不等同 138 条行为声明逐条可执行；只跑 Chrome，`forced-colors` 为浏览器模拟而非 Windows 真实高对比；Safari / Firefox、真实屏幕阅读器与实体设备仍未覆盖。视觉配色仍待所有者复审。
+- 边界：断言覆盖代表性行为，不等同逐条行为声明可执行（2026-11-23 共 148 条）；只跑 Chrome，`forced-colors` 为浏览器模拟而非 Windows 真实高对比；Safari / Firefox、真实屏幕阅读器与实体设备仍未覆盖。视觉配色仍待所有者复审。
 
 <a id="p4-form-2026-11-22"></a>
 
@@ -208,6 +208,18 @@ P1 完成：30 个条目均有独立页；目录新增「页面原语」分组�
 - 组件站：Drawer 页新增「底部编排」示例（共 4 个示例）；API 表、行为声明、`llms.txt` 与代码高亮生成物同批更新。
 - 校验：`test:interaction` 17 项（新增组件页底部抽屉、工作台 390 资源详情与 800–1099 侧向抽屉断点）、`check`、`build` 通过；Chrome 157 探针 12 项检查 0 失败，覆盖 390 明暗、1440 居中底部面板与 1200 侧向抽屉不变，证据在忽略目录 `output/p4-drawer-2026-11-22/`。
 - 边界：不包含拖拽把手 / 下滑关闭 / 半展开状态；圆角由页面 20px 硬编码改为语义 token 16px，视觉变化待所有者复审；Safari / Firefox 未复验。实现 `2693e81` 与文档登记 `3087220` 已推送 `origin/dev`，手动 PR Checks run `45025132513` 的 Web Build 执行 `npm run test:interaction`（16 项）通过；收尾把 800–1099 断点纳入断言后为 17 项。未部署。
+
+<a id="p4-description-list-2026-11-23"></a>
+
+## P4-③ DescriptionList 描述列表（2026-11-23）
+
+- 起因：P4 剩余候选（Upload、InputNumber / Slider、Progress / Steps 等）都缺少真实页面承载。按[当前规划](../planning/current.md)第 8 项先做家族真实用量审计：只读扫描 7 个产品仓的 JSX 开标签，结论是 console 有 4 个详情页在用 AntD Descriptions，而本站资源详情、文档属性、版本弹窗已有 3 处页面级 `<dl class="property-list">`（共 9 个 label / value）——Descriptions 的「有真实流程或页面时再做」条件已满足。方法与数据见[家族组件需求盘点](family-component-demand.md#2026-11-23-复核p4-下一项的真实用量与承载)，证据在忽略目录 `output/family-usage-audit-2026-11-23/`。
+- 范围：新增共享 `DescriptionList`（页面原语），渲染原生 `<dl>`；API 为 `items: readonly { label, value }[]` 与原生 `dl` 属性透传。行式窄栏排版：标签在左、值在右、长值换行、数字等宽；不含多列 / bordered / 折叠等无承载变体，值需要可操作时由调用方组合按钮或链接。
+- 采用：资源详情（侧栏与底部抽屉）、文档属性、版本弹窗改用共享组件，删除页面级 `.property-list` 规则与标记；资源详情的顶部分隔线与内边距仍由页面组合层提供。
+- 组件站：DescriptionList 进入页面原语分组（32 个条目：28 个组件与 4 个页面原语），3 个示例覆盖基础元数据、状态 / 标签值、长值与窄栏；`scripts/generate-api.mjs` 的 `typeMap` 增加 `DescriptionListProps`，API 表、行为声明、`llms.txt` 与代码高亮生成物同批更新。
+- 视觉：抽取前后用同一 Chrome 对 4 个真实位置（资源详情侧栏 / 底部抽屉、文档属性、版本弹窗）× 1440 / 390 × 明暗截图逐像素比较，8 张全部一致；几何与计算样式（12px 字号、12px 行距、标签次级色、值右对齐与等宽数字）无差异。
+- 校验：`npm run test:catalog`（11 项，计数、pilot 顺序与源码类型 / 必填 / JSDoc 断言同步更新）、`npm run test:interaction`（18 项，新增 DescriptionList 原生 dl 语义与工作台资源详情采用）、`npm run check`、`npm run build` 通过；Chrome 157 探针覆盖组件页 1440 明暗 / 390，无 pageerror 与页面级横向溢出，3 个示例的 dt / dd 齐全、行为表 5 行、API 3 行、4 个代码块均有高亮，证据在忽略目录 `output/p4-description-list-2026-11-23/`。
+- 边界：只有行式窄栏一种排版；`label` 与 `value` 都必填；不做多列、bordered、可折叠或键盘交互（纯展示，值中的链接与按钮按 DOM 顺序聚焦）。Safari / Firefox、真实屏幕阅读器与实体设备未复验。实现与文档本地提交，未推送、未部署。
 
 <a id="contract-and-behavior-2026-11-18"></a>
 
@@ -233,9 +245,9 @@ P1 完成：30 个条目均有独立页；目录新增「页面原语」分组�
 | 单选 ToggleGroup 响应方向键 | Radix 移动焦点，RadishUI 在可用项获得焦点时同步选中值。 |
 | Button 进入 loading | RadishUI 保留焦点，设置 `aria-disabled` / `aria-busy` 并拦截重复激活。焦点环遵循 [DR-17](../design/design-rules.md#dr-17)。 |
 
-用途：a11y 声明的依据、回归检查清单、Flutter 端语义对应，以及未来更换行为层时的迁移清单。P3 覆盖 30 个条目，P4 起新增条目同批登记（2026-11-22 起 31 个条目）；未迁移或没有真实页面承载的组件不加壳。
+用途：a11y 声明的依据、回归检查清单、Flutter 端语义对应，以及未来更换行为层时的迁移清单。P3 覆盖 30 个条目，P4 起新增条目同批登记（2026-11-23 起 32 个条目）；未迁移或没有真实页面承载的组件不加壳。
 
-2026-11-21 起逐组件声明落在 `apps/docs/src/component-behavior.ts`：30 个条目共 138 条（键盘 53、焦点 15、ARIA 42、已知限制 28；浏览器原生 29、Radix 32、RadishUI 77），经 `scripts/generate-api.mjs` 校验后生成到组件页「键盘与可访问性」表与 `llms.txt`。上表保留为跨组件示例；逐组件完整清单以生成物为准。2026-11-22 新增 Form 与 Drawer 底部编排后共 31 个条目 143 条（键盘 54、焦点 16、ARIA 44、已知限制 29；浏览器原生 31、Radix 32、RadishUI 80）。
+2026-11-21 起逐组件声明落在 `apps/docs/src/component-behavior.ts`：30 个条目共 138 条（键盘 53、焦点 15、ARIA 42、已知限制 28；浏览器原生 29、Radix 32、RadishUI 77），经 `scripts/generate-api.mjs` 校验后生成到组件页「键盘与可访问性」表与 `llms.txt`。上表保留为跨组件示例；逐组件完整清单以生成物为准。2026-11-22 新增 Form 与 Drawer 底部编排后共 31 个条目 143 条；2026-11-23 新增 DescriptionList 后共 32 个条目 148 条（键盘 55、焦点 16、ARIA 46、已知限制 31；浏览器原生 33、Radix 32、RadishUI 83）。
 
 ### 交互行为测试
 
@@ -254,7 +266,7 @@ P1 完成：30 个条目均有独立页；目录新增「页面原语」分组�
 
 ## 验收口径
 
-- 目录：31 个条目全部可搜索 / 分组；每个 id 可深链；无重复、无死链（未迁移项明确指向单页参考）。
+- 目录：32 个条目全部可搜索 / 分组；每个 id 可深链；无重复、无死链（未迁移项明确指向单页参考）。
 - 已迁移页：导入、≥3 示例、API 表、键盘 / a11y、相关组件齐全；代码可复制并有构建期高亮（2026-11-22 起）；1440 / 390 与明暗无页面级横向溢出、无 pageerror。
 - 类型：P2 起每个公开 props 有类型、默认值、必填与说明；API 表由源码生成并在 CI 检查漂移。
 - 用法：P3 起每组件至少 3 个真实示例；示例代码与预览一致；每示例可在明暗与三档密度下预览；不能只靠静态截图。
@@ -267,7 +279,7 @@ P1 完成：30 个条目均有独立页；目录新增「页面原语」分组�
 
 - 当前包仍是 private workspace；导入示例写工作区包名，不代表已发布。
 - 新增开发依赖需单独确认：2026-11-22 已确认构建期代码高亮使用 `shiki`（不进入浏览器包）与交互断言使用 `@playwright/test`（`channel: chrome`，不下载浏览器）。未采用 jsdom，浏览器专属的焦点 / `forced-colors` 只能由真实浏览器断言。
-- P4 条目按家族需求盘点逐项确认；2026-11-22 已确认首项 Form 采用调用方校验路线，不引入规则 DSL 或第二个表单框架。
+- P4 条目按家族需求盘点逐项确认；2026-11-22 已确认首项 Form 采用调用方校验路线，不引入规则 DSL 或第二个表单框架；2026-11-23 经真实用量审计确认 DescriptionList 为窄栏行式展示原语，多列 / bordered 变体等有宽页承载再加。
 - 不引入 `@ui-sdk/*`、Agent Bridge 或 WebMCP 接入；外部行为层评估与重评触发点见[契约与行为](#contract-and-behavior-2026-11-18)。
 - 产品仓只读；家族需求盘点不构成接入授权。
 - 旧 `#/components` 与既有文档链接在 P1 前保持可用；迁移时再统一导航与重定向。该过渡页未接入 P3 高亮，保持纯文本。

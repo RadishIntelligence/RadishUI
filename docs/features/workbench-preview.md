@@ -290,3 +290,10 @@
 - 抽屉：资源详情窄屏底部编排由共享 `Drawer side="bottom"` 提供，≤480 全宽、481–799 居中 560px、800–1099 仍为右侧抽屉（页面按 799px 断点选择 side）；删除 `.rd-drawer.resource-sheet` 页面覆盖、类名与页面动画，顶部圆角改为 `--rd-radius-panel` 16px。
 - 验证：`npm run test:interaction` 17 项（含工作台资源新建 / 文档编辑表单、390 底部抽屉与 900 侧向抽屉断点）；Chrome 157 探针覆盖 390 / 799 / 900 / 1024 四档抽屉方位与几何、工作台表单错误态与焦点，证据在忽略目录 `output/p4-form-2026-11-22/`、`output/p4-drawer-2026-11-22/`；`npm run check`、`npm run build` 通过。
 - 边界：抽屉圆角由 20px 改为 16px 语义 token，视觉变化待所有者复审；800–1099 保持原侧向抽屉；Safari / Firefox、真实屏幕阅读器未复验；拖拽把手 / 下滑关闭 / 半展开未做。实现 `2a053c1` / `2693e81` / `5be86c4`。
+
+### 2026-11-23 资源详情与文档属性改用共享 DescriptionList
+
+- 资源详情（桌面侧栏与移动底部抽屉）、文档属性、版本弹窗三处元数据由页面级 `<dl class="property-list">` 改为共享 `DescriptionList`；页面只保留分隔线与内边距等组合层样式。对应审计与组件边界见 [E-03 P4-③](component-site-1.md#p4-description-list-2026-11-23) 与[家族组件需求盘点](family-component-demand.md#2026-11-23-复核p4-下一项的真实用量与承载)。
+- 视觉：抽取前后对 4 个真实位置 × 1440 / 390 × 明暗共 8 张截图逐像素比较全部一致，计算样式（12px 字号、12px 行距、标签次级色、值右对齐与等宽数字）无差异；页面结构、数据与交互不变。
+- 验证：`npm run test:interaction` 18 项（新增工作台资源详情使用原生 dl 的断言）、`npm run check`、`npm run build` 通过；Chrome 157 探针无 pageerror 与页面级横向溢出，证据在忽略目录 `output/p4-description-list-2026-11-23/`。
+- 边界：Safari / Firefox、真实屏幕阅读器与实体设备未复验；实现与文档本地提交，未推送、未部署。
