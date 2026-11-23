@@ -1,6 +1,6 @@
 # 组件站 1.0
 
-状态：2026-11-17 所有者确认作为下一阶段；2026-11-19 完成 P0 三页用法复审并进入 P1，P1 同日完成：30 个条目（27 个组件与 Card / Section / Table 页面原语）均有独立页；2026-11-21 完成 P2 的源码类型、JSDoc 与默认值生成，手写契约只保留回退字段；同日 P3 起步：逐组件行为归属与 a11y 声明进入同一契约来源，示例深度覆盖六组（106 个示例），每示例支持主题 / 密度预览；2026-11-22 代码高亮经构建期生成落地，交互断言以 Playwright 入仓并进入 CI（新增开发依赖经所有者确认），P3 收口；同日按所有者确认的「调用方校验 + 共享 Form 编排」完成 P4 首项 Form 与字段校验，并在资源新建与文档编辑表单采用；同日完成 Drawer 底部编排（同组件方位扩展，不新增浮层）。2026-11-23 先做家族真实用量审计，按证据把 P4 下一项定为 DescriptionList（描述列表）并落地共享原语，替换工作台 3 处页面级 property-list。P2 外部采用与 P3 Flutter 暂缓。2026-11-18 按所有者确认增补机器可读契约、行为归属与交互行为测试评估，见[契约与行为](#contract-and-behavior-2026-11-18)。
+状态：2026-11-17 所有者确认作为下一阶段；2026-11-19 完成 P0 三页用法复审并进入 P1，P1 同日完成：30 个条目（27 个组件与 Card / Section / Table 页面原语）均有独立页；2026-11-21 完成 P2 的源码类型、JSDoc 与默认值生成，手写契约只保留回退字段；同日 P3 起步：逐组件行为归属与 a11y 声明进入同一契约来源，示例深度覆盖六组（106 个示例），每示例支持主题 / 密度预览；2026-11-22 代码高亮经构建期生成落地，交互断言以 Playwright 入仓并进入 CI（新增开发依赖经所有者确认），P3 收口；同日按所有者确认的「调用方校验 + 共享 Form 编排」完成 P4 首项 Form 与字段校验，并在资源新建与文档编辑表单采用；同日完成 Drawer 底部编排（同组件方位扩展，不新增浮层）。2026-11-23 先做家族真实用量审计，按证据把 P4 下一项定为 DescriptionList（描述列表）并落地共享原语，替换工作台 3 处页面级 property-list；同日按所有者复审意见修订组件页布局（1184 内容宽、≥1100px 右侧目录、窄屏抽屉、章节深链）。P2 外部采用与 P3 Flutter 暂缓。2026-11-18 按所有者确认增补机器可读契约、行为归属与交互行为测试评估，见[契约与行为](#contract-and-behavior-2026-11-18)。
 主要归属：E：展示与页面范例（组件文档站）/ C：跨平台通用组件；协同 F：视觉基础、G：工程与交付。
 需求输入：[家族组件需求盘点](family-component-demand.md)；既有组件合同见 [C-02](react-workbench-components.md)，页面范例见 [E-02](workbench-preview.md)。
 
@@ -21,19 +21,22 @@
 ```text
 #/catalog                 组件目录：搜索、分组、状态、深链
 #/components              现有 27 个组件的单页参考（过渡期保留）
-#/components/<id>         独立组件页：导入、示例、API、键盘 / a11y、相关组件
+#/components/<id>         独立组件页：导入、示例、API、键盘 / a11y、相关组件、本页目录
+#/components/<id>/doc-api 章节深链（doc-import / doc-examples / doc-api / doc-keyboard / doc-related）
 ```
 
 过渡期导航的“组件目录”指向 `#/catalog`；目录卡片中已迁移的组件进入独立页，其余先回到 `#/components`。P1 迁移完 27 个组件后，单页参考可退为历史入口或“全部示例”。
 
 ### 组件页模板
 
-1. 标题、状态、摘要、返回目录；
+1. 标题、状态、摘要、返回目录；页面目录列出导入 / 示例 / API / 键盘与可访问性 / 相关组件，≥1100px 在右侧栏，窄屏为页头入口与半屏抽屉；
 2. 导入：包路径与样式导入，可复制；明确当前为 private workspace；
 3. 示例：至少 3 个，覆盖基础、变体 / 状态、组合 / 表单；每个示例有预览、代码、复制与主题 / 密度预览设置；
 4. API：属性 / 类型 / 默认值 / 必填 / 说明；多部件组件带“组件”列；
 5. 键盘与可访问性：主题（键盘 / 焦点 / ARIA / 已知限制）、来源（浏览器原生 / Radix / RadishUI）与说明；P3 起由 `component-behavior.ts` 生成。
 6. 相关组件：只链接真实存在的目录项。
+
+章节 id 固定为 `doc-import` / `doc-examples` / `doc-api` / `doc-keyboard` / `doc-related`，目录点击滚动到章节并写入地址（`#/components/<id>/doc-api`），刷新与前进后退据此恢复；滚动时高亮当前章节，读到页尾指向最后一节。布局与目录的实施记录见[组件页布局与目录](#component-page-layout-2026-11-23)。
 
 ## 阶段
 
@@ -85,7 +88,7 @@ P0 垂直切片与 P1 首批共用以下文件：
 
 - `apps/docs/src/component-catalog.ts`：32 个条目（28 个组件与 4 个页面原语）的单一目录数据（id、名称、分组、摘要、状态、是否有独立页）；
 - `apps/docs/src/CatalogPage.tsx`：搜索、分组、计数、空结果与卡片深链；
-- `apps/docs/src/ComponentDetailPage.tsx`：导入、示例（含每示例主题 / 密度预览设置与代码高亮）、API、键盘 / a11y、相关组件；页面根与示例暴露 `data-component` / `data-example` 供交互断言稳定定位；
+- `apps/docs/src/ComponentDetailPage.tsx`：导入、示例（含每示例主题 / 密度预览设置与代码高亮）、API、键盘 / a11y、相关组件、本页目录与章节深链；页面根与示例暴露 `data-component` / `data-example` 供交互断言稳定定位；
 - `apps/docs/src/component-api.ts`：组件导入代码、相关组件与 API 回退行（原生 / Radix 继承属性、union 类型、`其余属性` 与未解构默认值）；P2 起 props 类型、说明与可解构默认值由 `packages/react/src` 生成到 `component-api.generated.ts`；
 - `apps/docs/src/component-behavior.ts`：P3 起逐组件行为归属与 a11y 声明（键盘 / 焦点 / ARIA / 已知限制及来源），经同一生成器写入 `component-api.generated.ts`；
 - `apps/docs/src/component-pilot-examples.tsx`：已迁移组件的示例（32 个条目共 113 个示例，含 P4 新增 Form、Drawer 底部编排与 DescriptionList），预览使用真实共享组件；代码片段同时是高亮生成器的输入；
@@ -183,8 +186,8 @@ P1 完成：30 个条目均有独立页；目录新增「页面原语」分组�
 - 范围：把组件页代表性键盘、焦点、ARIA 与强制颜色行为固化为入仓浏览器断言，补上 P3 最后一项；不改共享组件、token、路由与示例内容，只给组件页加稳定测试定位属性（`data-component` / `data-example`）。
 - 依赖：新增开发依赖 `@playwright/test@1.65.1`，经所有者确认；使用已安装的 Google Chrome（`channel: 'chrome'`），不下载或缓存浏览器二进制，仓库与 CI 缓存都不新增浏览器产物。
 - 入口：`npm run test:interaction` 先构建展示站，再由 Playwright 配置启动预览服务器并执行 `tests/interaction.spec.mjs`；CI 的 `Web Build` 在构建步骤后执行同一条命令（依赖 runner 预装 Chrome）。`check-repo` 的工作流合同已登记该步骤，移除会让仓库检查失败。
-- 用例（18 项）：Button loading 的 `aria-busy` / `aria-disabled`、焦点保留与 disabled；Tabs 方向键切换并跳过禁用项；Select 键盘选择、受控值同步与 Escape 回焦；ToggleGroup 单选方向键同步选中；Dialog 初始焦点与 Escape 回焦；Checkbox / Switch 空格切换；复制按钮取纯文本；强制颜色下分页当前页与标签选中保留系统色轮廓；32 个组件页 1440 冒烟（行为表 ≥3 行、代码块有高亮、无 pageerror / 页面级横向溢出）；390 窄屏无页面级横向溢出；2026-11-22 增补 Form 提交校验 / 焦点顺序、工作台资源新建 / 文档编辑两个真实表单，以及 Drawer 底部编排的回焦、工作台 390 资源详情与 900 侧向抽屉断点；2026-11-23 增补 DescriptionList 原生 dl 语义与工作台资源详情采用。
-- 验证：`npm run test:interaction` 17 项通过（Chrome 157，约 13 秒，分别验证预设服务器与 CI 模式自启服务器）；`npm run check`、`npm run build` 通过；实现 `62fd350` 与文档登记 `95d9a03` 已推送 `origin/dev`，手动 PR Checks run `44991120585` 的 Web Build 在 Ubuntu runner 上执行同一入口并通过（使用 runner 预装 Chrome）。未部署。
+- 用例（20 项）：Button loading 的 `aria-busy` / `aria-disabled`、焦点保留与 disabled；Tabs 方向键切换并跳过禁用项；Select 键盘选择、受控值同步与 Escape 回焦；ToggleGroup 单选方向键同步选中；Dialog 初始焦点与 Escape 回焦；Checkbox / Switch 空格切换；复制按钮取纯文本；强制颜色下分页当前页与标签选中保留系统色轮廓；32 个组件页 1440 冒烟（行为表 ≥3 行、代码块有高亮、无 pageerror / 页面级横向溢出）；390 窄屏无页面级横向溢出；2026-11-22 增补 Form 提交校验 / 焦点顺序、工作台资源新建 / 文档编辑两个真实表单，以及 Drawer 底部编排的回焦、工作台 390 资源详情与 900 侧向抽屉断点；2026-11-23 增补 DescriptionList 原生 dl 语义与工作台资源详情采用，以及组件页目录跳转 / 章节深链与窄屏目录抽屉两项。
+- 验证：`npm run test:interaction` 20 项通过（Chrome 157，含预设服务器与 CI 模式自启服务器两处入口验证）；`npm run check`、`npm run build` 通过；实现 `62fd350` 与文档登记 `95d9a03` 已推送 `origin/dev`，手动 PR Checks run `44991120585` 的 Web Build 在 Ubuntu runner 上执行同一入口并通过（使用 runner 预装 Chrome）。未部署。
 - 边界：断言覆盖代表性行为，不等同逐条行为声明可执行（2026-11-23 共 148 条）；只跑 Chrome，`forced-colors` 为浏览器模拟而非 Windows 真实高对比；Safari / Firefox、真实屏幕阅读器与实体设备仍未覆盖。视觉配色仍待所有者复审。
 
 <a id="p4-form-2026-11-22"></a>
@@ -218,8 +221,18 @@ P1 完成：30 个条目均有独立页；目录新增「页面原语」分组�
 - 采用：资源详情（侧栏与底部抽屉）、文档属性、版本弹窗改用共享组件，删除页面级 `.property-list` 规则与标记；资源详情的顶部分隔线与内边距仍由页面组合层提供。
 - 组件站：DescriptionList 进入页面原语分组（32 个条目：28 个组件与 4 个页面原语），3 个示例覆盖基础元数据、状态 / 标签值、长值与窄栏；`scripts/generate-api.mjs` 的 `typeMap` 增加 `DescriptionListProps`，API 表、行为声明、`llms.txt` 与代码高亮生成物同批更新。
 - 视觉：抽取前后用同一 Chrome 对 4 个真实位置（资源详情侧栏 / 底部抽屉、文档属性、版本弹窗）× 1440 / 390 × 明暗截图逐像素比较，8 张全部一致；几何与计算样式（12px 字号、12px 行距、标签次级色、值右对齐与等宽数字）无差异。
-- 校验：`npm run test:catalog`（11 项，计数、pilot 顺序与源码类型 / 必填 / JSDoc 断言同步更新）、`npm run test:interaction`（18 项，新增 DescriptionList 原生 dl 语义与工作台资源详情采用）、`npm run check`、`npm run build` 通过；Chrome 157 探针覆盖组件页 1440 明暗 / 390，无 pageerror 与页面级横向溢出，3 个示例的 dt / dd 齐全、行为表 5 行、API 3 行、4 个代码块均有高亮，证据在忽略目录 `output/p4-description-list-2026-11-23/`。
+- 校验：`npm run test:catalog`（11 项，计数、pilot 顺序与源码类型 / 必填 / JSDoc 断言同步更新）、`npm run test:interaction`（20 项，新增 DescriptionList 原生 dl 语义与工作台资源详情采用，以及组件页目录两项）、`npm run check`、`npm run build` 通过；Chrome 157 探针覆盖组件页 1440 明暗 / 390，无 pageerror 与页面级横向溢出，3 个示例的 dt / dd 齐全、行为表 5 行、API 3 行、4 个代码块均有高亮，证据在忽略目录 `output/p4-description-list-2026-11-23/`。
 - 边界：只有行式窄栏一种排版；`label` 与 `value` 都必填；不做多列、bordered、可折叠或键盘交互（纯展示，值中的链接与按钮按 DOM 顺序聚焦）。Safari / Firefox、真实屏幕阅读器与实体设备未复验。实现与文档本地提交，未推送、未部署。
+
+<a id="component-page-layout-2026-11-23"></a>
+
+## 组件页布局与目录（2026-11-23）
+
+- 起因：所有者复审 DescriptionList 页时指出组件独立页「文章两侧间距太大、没有目录」。原 `.component-doc` 以 960px 居中，1440 下正文两侧各留约 128px，且页面没有目录，与文档页（1184 内容宽 + 右侧目录）不一致。
+- 布局：内容页统一 1184px；≥1100px 两列（正文 + 右侧目录 Card，`clamp(220px, 26%, 360px)`、24px 间距），1440 下正文 852 / 目录 308、内容区距页边 16px；<1100px 单列，正文占满内容宽，目录收进页头图标入口与右侧半屏抽屉（与文档页同一交互）。断点取 1100 是因为再窄的正文放不下示例代码与 API 表。
+- 目录：使用共享 `TableOfContents`，条目为导入 / 示例 / API / 键盘与可访问性 / 相关组件；滚动高亮当前章节，读到页尾时指向最后一节；点击滚动到章节并把章节 id 写入地址（如 `#/components/description-list/doc-api`），刷新、前进后退与分享可恢复；窄屏抽屉点击后关闭并把焦点移到章节标题。路由只接受 `doc-*` 片段，其他片段按普通组件页处理。
+- 校验：`npm run check`、`npm run build`、`npm run test:interaction`（20 项，新增桌面目录跳转 + 深链恢复、窄屏目录抽屉两项）通过；Chrome 157 探针覆盖 32 个组件页 × 1440 明暗 / 1024 / 390：1440 容器 1184、正文 852、目录 5 项，1024 单列正文 768，390 单列 366 且页头目录入口可见，均无页面级横向溢出与 pageerror；点击与深链停靠目标章节，页尾当前项为最后一节；证据在忽略目录 `output/component-page-outline-2026-11-23/`。
+- 边界：目录只列页面级章节，不展开每个示例；<1100px 不显示常驻目录；Safari / Firefox、真实屏幕阅读器与实体设备未复验；未改共享组件、token、数据与文档页。实现与文档本地提交，未推送、未部署。
 
 <a id="contract-and-behavior-2026-11-18"></a>
 
@@ -267,10 +280,10 @@ P1 完成：30 个条目均有独立页；目录新增「页面原语」分组�
 ## 验收口径
 
 - 目录：32 个条目全部可搜索 / 分组；每个 id 可深链；无重复、无死链（未迁移项明确指向单页参考）。
-- 已迁移页：导入、≥3 示例、API 表、键盘 / a11y、相关组件齐全；代码可复制并有构建期高亮（2026-11-22 起）；1440 / 390 与明暗无页面级横向溢出、无 pageerror。
+- 已迁移页：导入、≥3 示例、API 表、键盘 / a11y、相关组件与页面目录齐全；代码可复制并有构建期高亮（2026-11-22 起）；1440 / 390 与明暗无页面级横向溢出、无 pageerror。
 - 类型：P2 起每个公开 props 有类型、默认值、必填与说明；API 表由源码生成并在 CI 检查漂移。
 - 用法：P3 起每组件至少 3 个真实示例；示例代码与预览一致；每示例可在明暗与三档密度下预览；不能只靠静态截图。
-- 站点：搜索、深链、复制、键盘焦点可用；不因新增页面破坏 Workbench 与既有路由。
+- 站点：搜索、深链、复制、键盘焦点可用；组件页章节可深链（`#/components/<id>/doc-api`）并可恢复；不因新增页面破坏 Workbench 与既有路由。
 - 契约：P2 起 API 表与 `llms.txt` 由单一来源生成并有 `--check` 漂移门禁；行为归属已于 2026-11-21 进入同一来源，代码高亮产物于 2026-11-22 同属生成链路。手写镜像只作为过渡并在同批标注到期阶段。
 - 行为：P3 组件页逐项注明浏览器原生、Radix 与 RadishUI 承担的行为（2026-11-21 起已进入契约生成）；2026-11-22 起 `npm run test:interaction` 在真实 Chrome 中断言代表性键盘 / 焦点 / ARIA 与强制颜色；未覆盖项按验证记录如实标注。
 - 不以组件数量或文档页数量替代验收；每项必须有可复验证据。
