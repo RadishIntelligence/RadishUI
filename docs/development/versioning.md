@@ -30,5 +30,6 @@ npm 不接受带 `v` 的 `v26.11.1`，也不接受四段的 `26.11.1.0813`；后
 
 - 修改版本时同步根 `package.json`、各包 `package.json` 与 `package-lock.json`。
 - `npm run check:repo` 校验版本符合日历格式、各包一致、lockfile 同步；任一不一致即失败。
+- 展示站 `#/changelog` 与 `apps/docs/src/changelog.ts` 维护内部版本与变更记录；`siteVersion` 与根 `package.json` 的一致性由 `test:workbench` 校验。该页只作内部预览展示，不代表已发布；条目与版本仍在发行任务中另行确认。
 - 不为普通开发提交创建 tag；tag / Release 只在发行任务中创建，并另行授权。
 - 首个正式发行须按[根 LICENSE](../../LICENSE)取得相应授权，并完成 P4 的公共包名、构建 / 类型导出、支持矩阵、回滚和发布门禁。

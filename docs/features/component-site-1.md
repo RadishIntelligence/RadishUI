@@ -1,6 +1,6 @@
 # 组件站 1.0
 
-状态：2026-11-17 所有者确认作为下一阶段；2026-11-19 完成 P0 三页用法复审并进入 P1，P1 同日完成：30 个条目（27 个组件与 Card / Section / Table 页面原语）均有独立页；2026-11-21 完成 P2 的源码类型、JSDoc 与默认值生成，手写契约只保留回退字段；同日 P3 起步：逐组件行为归属与 a11y 声明进入同一契约来源，示例深度覆盖六组（106 个示例），每示例支持主题 / 密度预览；2026-11-22 代码高亮经构建期生成落地，交互断言以 Playwright 入仓并进入 CI（新增开发依赖经所有者确认），P3 收口；同日按所有者确认的「调用方校验 + 共享 Form 编排」完成 P4 首项 Form 与字段校验，并在资源新建与文档编辑表单采用；同日完成 Drawer 底部编排（同组件方位扩展，不新增浮层）。2026-11-23 先做家族真实用量审计，按证据把 P4 下一项定为 DescriptionList（描述列表）并落地共享原语，替换工作台 3 处页面级 property-list；同日按所有者复审意见修订组件页布局（1184 内容宽、≥1100px 右侧目录、窄屏抽屉、章节深链）。P2 外部采用与 P3 Flutter 暂缓。2026-11-18 按所有者确认增补机器可读契约、行为归属与交互行为测试评估，见[契约与行为](#contract-and-behavior-2026-11-18)。
+状态：2026-11-17 所有者确认作为下一阶段；2026-11-19 完成 P0 三页用法复审并进入 P1，P1 同日完成：30 个条目（27 个组件与 Card / Section / Table 页面原语）均有独立页；2026-11-21 完成 P2 的源码类型、JSDoc 与默认值生成，手写契约只保留回退字段；同日 P3 起步：逐组件行为归属与 a11y 声明进入同一契约来源，示例深度覆盖六组（106 个示例），每示例支持主题 / 密度预览；2026-11-22 代码高亮经构建期生成落地，交互断言以 Playwright 入仓并进入 CI（新增开发依赖经所有者确认），P3 收口；同日按所有者确认的「调用方校验 + 共享 Form 编排」完成 P4 首项 Form 与字段校验，并在资源新建与文档编辑表单采用；同日完成 Drawer 底部编排（同组件方位扩展，不新增浮层）。2026-11-23 先做家族真实用量审计，按证据把 P4 下一项定为 DescriptionList（描述列表）并落地共享原语，替换工作台 3 处页面级 property-list；同日按所有者复审意见修订组件页布局（1184 内容宽、≥1100px 右侧目录、窄屏抽屉、章节深链），并完成 Safari / Firefox 定向复验；随后进入 P5，完成 `#/changelog` 变更记录页。P2 外部采用与 P3 Flutter 暂缓。2026-11-18 按所有者确认增补机器可读契约、行为归属与交互行为测试评估，见[契约与行为](#contract-and-behavior-2026-11-18)。
 主要归属：E：展示与页面范例（组件文档站）/ C：跨平台通用组件；协同 F：视觉基础、G：工程与交付。
 需求输入：[家族组件需求盘点](family-component-demand.md)；既有组件合同见 [C-02](react-workbench-components.md)，页面范例见 [E-02](workbench-preview.md)。
 
@@ -23,6 +23,7 @@
 #/components              现有 27 个组件的单页参考（过渡期保留）
 #/components/<id>         独立组件页：导入、示例、API、键盘 / a11y、相关组件、本页目录
 #/components/<id>/doc-api 章节深链（doc-import / doc-examples / doc-api / doc-keyboard / doc-related）
+#/changelog             变更记录：内部版本、目录状态摘要与按日期倒序的变更条目
 ```
 
 过渡期导航的“组件目录”指向 `#/catalog`；目录卡片中已迁移的组件进入独立页，其余先回到 `#/components`。P1 迁移完 27 个组件后，单页参考可退为历史入口或“全部示例”。
@@ -47,7 +48,7 @@
 | **P2 类型 / API 全量** | 导出缺失 props 类型；JSDoc / 默认值 / 事件 / ref；单一来源生成 API 表与 `llms.txt`，行为归属随 P3 进入同一来源；`--check` 漂移门禁；类型测试与完整性检查 | 已完成（2026-11-21）：类型、JSDoc 说明、解构默认值与事件签名由源码生成；原生 / Radix 继承属性、union 类型与未解构默认值保留契约回退 |
 | **P3 用法深度** | 每组件 3+ 示例、变体 / 受控 / 表单 / 组合；代码高亮（新增依赖需确认）；每示例主题 / 密度；逐组件 a11y 与行为归属声明及对应断言（依赖待确认） | 已完成（2026-11-22）：行为归属与 a11y 声明进入契约生成；示例深度覆盖六组共 106 个示例；每示例主题 / 密度；代码高亮构建期生成；交互断言以 `test:interaction` 入仓并进入 CI。断言覆盖代表性行为，不等于逐条行为声明可执行（2026-11-23 共 148 条） |
 | **P4 目录扩展** | 按[家族需求盘点](family-component-demand.md)排序；Form、Upload、InputNumber / Slider 等逐项确认 | 进行中（2026-11-22 完成首项 Form 与字段校验、Drawer 底部编排；2026-11-23 经家族真实用量审计确认并完成 DescriptionList 描述列表；其余条目待逐项确认） |
-| **P5 站点能力** | 版本 / 变更记录、状态与弃用、双语文档、图标参考、站点搜索索引；公开安装 / CLI / registry 属 P4 发行 | 待开始 |
+| **P5 站点能力** | 版本 / 变更记录、状态与弃用、双语文档、图标参考、站点搜索索引；公开安装 / CLI / registry 属 P4 发行 | 进行中（2026-11-23 完成版本与变更记录；其余项待排） |
 
 P2 / P3 的生成与声明范围见[契约与行为](#contract-and-behavior-2026-11-18)；交互断言的执行环境与依赖确认见该节。
 
@@ -93,6 +94,8 @@ P0 垂直切片与 P1 首批共用以下文件：
 - `apps/docs/src/component-behavior.ts`：P3 起逐组件行为归属与 a11y 声明（键盘 / 焦点 / ARIA / 已知限制及来源），经同一生成器写入 `component-api.generated.ts`；
 - `apps/docs/src/component-pilot-examples.tsx`：已迁移组件的示例（32 个条目共 113 个示例，含 P4 新增 Form、Drawer 底部编排与 DescriptionList），预览使用真实共享组件；代码片段同时是高亮生成器的输入；
 - `apps/docs/src/component-code.generated.ts`：P3 起由 `scripts/generate-code.mjs` 生成的逐条高亮 HTML（导入片段与示例），组件页消费；生成物入仓并由测试拦截漂移；
+- `apps/docs/src/changelog.ts`：P5 起站点版本与变更记录的单一来源（中英条目、站内链接），由 `test:workbench` 校验版本一致、日期倒序与链接目标；
+- `apps/docs/src/ChangelogPage.tsx`：`#/changelog` 变更记录页（版本卡、目录状态摘要、日期倒序条目），入口在侧栏「设计系统」与平台页 footer；
 - `scripts/generate-code.mjs`：构建期高亮入口（`npm run code:generate` / `--check`），用 TypeScript AST 读取示例并用开发依赖 `shiki` 生成，不进入浏览器包；
 - `apps/docs/src/CopyButton.tsx`：复制代码 / 导入片段；无第三方依赖；
 - `playwright.config.mjs` 与 `tests/interaction.spec.mjs`：P3 起浏览器交互断言入口，用已安装的 Google Chrome 覆盖组件页键盘 / 焦点 / ARIA、强制颜色与页面冒烟；
@@ -186,8 +189,8 @@ P1 完成：30 个条目均有独立页；目录新增「页面原语」分组�
 - 范围：把组件页代表性键盘、焦点、ARIA 与强制颜色行为固化为入仓浏览器断言，补上 P3 最后一项；不改共享组件、token、路由与示例内容，只给组件页加稳定测试定位属性（`data-component` / `data-example`）。
 - 依赖：新增开发依赖 `@playwright/test@1.65.1`，经所有者确认；使用已安装的 Google Chrome（`channel: 'chrome'`），不下载或缓存浏览器二进制，仓库与 CI 缓存都不新增浏览器产物。
 - 入口：`npm run test:interaction` 先构建展示站，再由 Playwright 配置启动预览服务器并执行 `tests/interaction.spec.mjs`；CI 的 `Web Build` 在构建步骤后执行同一条命令（依赖 runner 预装 Chrome）。`check-repo` 的工作流合同已登记该步骤，移除会让仓库检查失败。
-- 用例（20 项）：Button loading 的 `aria-busy` / `aria-disabled`、焦点保留与 disabled；Tabs 方向键切换并跳过禁用项；Select 键盘选择、受控值同步与 Escape 回焦；ToggleGroup 单选方向键同步选中；Dialog 初始焦点与 Escape 回焦；Checkbox / Switch 空格切换；复制按钮取纯文本；强制颜色下分页当前页与标签选中保留系统色轮廓；32 个组件页 1440 冒烟（行为表 ≥3 行、代码块有高亮、无 pageerror / 页面级横向溢出）；390 窄屏无页面级横向溢出；2026-11-22 增补 Form 提交校验 / 焦点顺序、工作台资源新建 / 文档编辑两个真实表单，以及 Drawer 底部编排的回焦、工作台 390 资源详情与 900 侧向抽屉断点；2026-11-23 增补 DescriptionList 原生 dl 语义与工作台资源详情采用，以及组件页目录跳转 / 章节深链与窄屏目录抽屉两项。
-- 验证：`npm run test:interaction` 20 项通过（Chrome 157，含预设服务器与 CI 模式自启服务器两处入口验证）；`npm run check`、`npm run build` 通过；实现 `62fd350` 与文档登记 `95d9a03` 已推送 `origin/dev`，手动 PR Checks run `44991120585` 的 Web Build 在 Ubuntu runner 上执行同一入口并通过（使用 runner 预装 Chrome）。未部署。
+- 用例（21 项）：Button loading 的 `aria-busy` / `aria-disabled`、焦点保留与 disabled；Tabs 方向键切换并跳过禁用项；Select 键盘选择、受控值同步与 Escape 回焦；ToggleGroup 单选方向键同步选中；Dialog 初始焦点与 Escape 回焦；Checkbox / Switch 空格切换；复制按钮取纯文本；强制颜色下分页当前页与标签选中保留系统色轮廓；32 个组件页 1440 冒烟（行为表 ≥3 行、代码块有高亮、无 pageerror / 页面级横向溢出）；390 窄屏无页面级横向溢出；2026-11-22 增补 Form 提交校验 / 焦点顺序、工作台资源新建 / 文档编辑两个真实表单，以及 Drawer 底部编排的回焦、工作台 390 资源详情与 900 侧向抽屉断点；2026-11-23 增补 DescriptionList 原生 dl 语义与工作台资源详情采用、组件页目录跳转 / 章节深链与窄屏目录抽屉、变更记录页版本与条目三项。
+- 验证：`npm run test:interaction` 21 项通过（Chrome 157，含预设服务器与 CI 模式自启服务器两处入口验证）；`npm run check`、`npm run build` 通过；实现 `62fd350` 与文档登记 `95d9a03` 已推送 `origin/dev`，手动 PR Checks run `44991120585` 的 Web Build 在 Ubuntu runner 上执行同一入口并通过（使用 runner 预装 Chrome）。未部署。
 - 边界：断言覆盖代表性行为，不等同逐条行为声明可执行（2026-11-23 共 148 条）；只跑 Chrome，`forced-colors` 为浏览器模拟而非 Windows 真实高对比；Safari / Firefox、真实屏幕阅读器与实体设备仍未覆盖。视觉配色仍待所有者复审。
 
 <a id="p4-form-2026-11-22"></a>
@@ -221,7 +224,7 @@ P1 完成：30 个条目均有独立页；目录新增「页面原语」分组�
 - 采用：资源详情（侧栏与底部抽屉）、文档属性、版本弹窗改用共享组件，删除页面级 `.property-list` 规则与标记；资源详情的顶部分隔线与内边距仍由页面组合层提供。
 - 组件站：DescriptionList 进入页面原语分组（32 个条目：28 个组件与 4 个页面原语），3 个示例覆盖基础元数据、状态 / 标签值、长值与窄栏；`scripts/generate-api.mjs` 的 `typeMap` 增加 `DescriptionListProps`，API 表、行为声明、`llms.txt` 与代码高亮生成物同批更新。
 - 视觉：抽取前后用同一 Chrome 对 4 个真实位置（资源详情侧栏 / 底部抽屉、文档属性、版本弹窗）× 1440 / 390 × 明暗截图逐像素比较，8 张全部一致；几何与计算样式（12px 字号、12px 行距、标签次级色、值右对齐与等宽数字）无差异。
-- 校验：`npm run test:catalog`（11 项，计数、pilot 顺序与源码类型 / 必填 / JSDoc 断言同步更新）、`npm run test:interaction`（20 项，新增 DescriptionList 原生 dl 语义与工作台资源详情采用，以及组件页目录两项）、`npm run check`、`npm run build` 通过；Chrome 157 探针覆盖组件页 1440 明暗 / 390，无 pageerror 与页面级横向溢出，3 个示例的 dt / dd 齐全、行为表 5 行、API 3 行、4 个代码块均有高亮，证据在忽略目录 `output/p4-description-list-2026-11-23/`。
+- 校验：`npm run test:catalog`（11 项，计数、pilot 顺序与源码类型 / 必填 / JSDoc 断言同步更新）、`npm run test:interaction`（21 项，新增 DescriptionList 原生 dl 语义与工作台资源详情采用、组件页目录两项与变更记录页一项）、`npm run check`、`npm run build` 通过；Chrome 157 探针覆盖组件页 1440 明暗 / 390，无 pageerror 与页面级横向溢出，3 个示例的 dt / dd 齐全、行为表 5 行、API 3 行、4 个代码块均有高亮，证据在忽略目录 `output/p4-description-list-2026-11-23/`。
 - 边界：只有行式窄栏一种排版；`label` 与 `value` 都必填；不做多列、bordered、可折叠或键盘交互（纯展示，值中的链接与按钮按 DOM 顺序聚焦）。Safari / Firefox、真实屏幕阅读器与实体设备未复验。实现与文档本地提交，未推送、未部署。
 
 <a id="component-page-layout-2026-11-23"></a>
@@ -231,7 +234,7 @@ P1 完成：30 个条目均有独立页；目录新增「页面原语」分组�
 - 起因：所有者复审 DescriptionList 页时指出组件独立页「文章两侧间距太大、没有目录」。原 `.component-doc` 以 960px 居中，1440 下正文两侧各留约 128px，且页面没有目录，与文档页（1184 内容宽 + 右侧目录）不一致。
 - 布局：内容页统一 1184px；≥1100px 两列（正文 + 右侧目录 Card，`clamp(220px, 26%, 360px)`、24px 间距），1440 下正文 852 / 目录 308、内容区距页边 16px；<1100px 单列，正文占满内容宽，目录收进页头图标入口与右侧半屏抽屉（与文档页同一交互）。断点取 1100 是因为再窄的正文放不下示例代码与 API 表。
 - 目录：使用共享 `TableOfContents`，条目为导入 / 示例 / API / 键盘与可访问性 / 相关组件；滚动高亮当前章节，读到页尾时指向最后一节；点击滚动到章节并把章节 id 写入地址（如 `#/components/description-list/doc-api`），刷新、前进后退与分享可恢复；窄屏抽屉点击后关闭并把焦点移到章节标题。路由只接受 `doc-*` 片段，其他片段按普通组件页处理。
-- 校验：`npm run check`、`npm run build`、`npm run test:interaction`（20 项，新增桌面目录跳转 + 深链恢复、窄屏目录抽屉两项）通过；Chrome 157 探针覆盖 32 个组件页 × 1440 明暗 / 1024 / 390：1440 容器 1184、正文 852、目录 5 项，1024 单列正文 768，390 单列 366 且页头目录入口可见，均无页面级横向溢出与 pageerror；点击与深链停靠目标章节，页尾当前项为最后一节；证据在忽略目录 `output/component-page-outline-2026-11-23/`。
+- 校验：`npm run check`、`npm run build`、`npm run test:interaction`（21 项，新增桌面目录跳转 + 深链恢复、窄屏目录抽屉与变更记录页三项）通过；Chrome 157 探针覆盖 32 个组件页 × 1440 明暗 / 1024 / 390：1440 容器 1184、正文 852、目录 5 项，1024 单列正文 768，390 单列 366 且页头目录入口可见，均无页面级横向溢出与 pageerror；点击与深链停靠目标章节，页尾当前项为最后一节；证据在忽略目录 `output/component-page-outline-2026-11-23/`。
 - 边界：目录只列页面级章节，不展开每个示例；<1100px 不显示常驻目录；Safari / Firefox、真实屏幕阅读器与实体设备未复验；未改共享组件、token、数据与文档页。实现与文档本地提交，未推送、未部署。
 
 <a id="component-page-cross-browser-2026-11-23"></a>
@@ -242,6 +245,16 @@ P1 完成：30 个条目均有独立页；目录新增「页面原语」分组�
 - 环境：macOS 27.0.1；Safari 27.0.1（safaridriver，WebDriver BiDi + W3C HTTP）；Firefox 159.0.1（headless，BiDi）。站点为本地构建产物 + preview，经 fixture 代理暴露 QA 页；Safari 窄视口用 390×844 iframe 固定（沿用既往方法）；Firefox 因工作区沙箱阻止内容进程嵌套 sandbox，QA 实例以 `MOZ_DISABLE_CONTENT_SANDBOX=1 MOZ_DISABLE_GMP_SANDBOX=1 MOZ_REMOTE_ALLOW_SYSTEM_ACCESS=1` 启动（仅 127.0.0.1 QA，无仓库 / 系统配置改动）。
 - 组合：1440×900 明暗、1024×800 明、390×844 明暗，两个浏览器执行同一套断言。结果：各 5 组全部通过（0 失败）——1440 内容 1184 / 正文 852 / 目录 308 且 5 项；1024 单列 768、目录收进页头入口；390 单列 366、抽屉打开 / 跳转 / 关闭；目录点击与深链恢复章节；页尾当前项为「相关组件」；资源详情 / 底部抽屉 / 文档属性使用 DescriptionList（4 / 4 / 3 组）；新建资源空提交提示与首错聚焦；无页面级横向溢出、交互期 window error 0。
 - 边界：Safari 驱动不提供加载期页面异常事件，加载期日志仍未覆盖；未测真实屏幕阅读器（VoiceOver / NVDA）、Windows 真实高对比、实体设备与真实 200% 整页缩放；headless Firefox 与 iframe 窄视口不替代实体设备。证据在忽略目录 `output/component-page-cross-browser-2026-11-23/`（`audit.mjs`、两份 report JSON 与截图）。
+
+<a id="p5-changelog-2026-11-23"></a>
+
+## P5 版本与变更记录（2026-11-23）
+
+- 范围：P5 站点能力第一项。新增 `#/changelog` 变更记录页与侧栏入口，展示当前内部版本、目录状态摘要与按日期倒序的变更条目；不发布 npm、不创建 tag / Release，组件状态与弃用机制、双语文档、图标参考与站点搜索索引仍归 P5 其余项。
+- 数据：`apps/docs/src/changelog.ts` 为唯一来源，含 `siteVersion` 与 5 条日期条目（2026-11-17 至 11-23，来源 `docs/devlogs/`）；条目中英双语，组件相关条目直接链到组件页或章节深链。展示站版本与根 `package.json` 一致、日期倒序且唯一、站内链接目标存在，均由 `test:workbench` 校验。
+- 页面：`ChangelogPage` 复用 PageHeader / Card / Tag / StatusBadge，内容页保持 1184 宽；版本卡展示 `v26.11.1`、内部预览未发布与目录状态摘要（32 个条目：28 个组件与 4 个页面原语，全部内部稳定）；页面底部写明版本格式与发行任务边界。侧栏「设计系统」新增入口，平台页 footer 的版本号链接到本页，窄屏也保留这条入口。
+- 校验：`npm run check`、`npm run build`、`npm run test:interaction`（21 项，新增变更记录页版本 / 条目 / 组件链接与 390 无溢出）通过；Chrome 157 探针覆盖 1440 / 390 × 明暗：页面 1184 / 366、5 条条目、8 个站内链接、版本 `v26.11.1`、无横向溢出与 pageerror；从条目点击进入 DescriptionList 的 API 深链正常。证据在忽略目录 `output/p5-changelog-2026-11-23/`。
+- 边界：只展示内部预览变更，不构成发布记录；未做组件状态 / 弃用徽标、双语文档、图标参考与站点搜索索引；未推送、未部署。实现与文档本地提交。
 
 <a id="contract-and-behavior-2026-11-18"></a>
 
@@ -293,6 +306,7 @@ P1 完成：30 个条目均有独立页；目录新增「页面原语」分组�
 - 类型：P2 起每个公开 props 有类型、默认值、必填与说明；API 表由源码生成并在 CI 检查漂移。
 - 用法：P3 起每组件至少 3 个真实示例；示例代码与预览一致；每示例可在明暗与三档密度下预览；不能只靠静态截图。
 - 站点：搜索、深链、复制、键盘焦点可用；组件页章节可深链（`#/components/<id>/doc-api`）并可恢复；不因新增页面破坏 Workbench 与既有路由。
+- 版本：`#/changelog` 展示当前内部版本与日期倒序条目，版本与 `package.json` 一致、条目链接无死链；页面不承诺公开发布或 tag。
 - 跨环境：2026-11-23 起组件页模板与 DescriptionList 采用位置经 Safari 27 / Firefox 159 定向复验（见上节）；加载期异常与真实辅助技术仍未覆盖，不能据此推断其他平台通过。
 - 契约：P2 起 API 表与 `llms.txt` 由单一来源生成并有 `--check` 漂移门禁；行为归属已于 2026-11-21 进入同一来源，代码高亮产物于 2026-11-22 同属生成链路。手写镜像只作为过渡并在同批标注到期阶段。
 - 行为：P3 组件页逐项注明浏览器原生、Radix 与 RadishUI 承担的行为（2026-11-21 起已进入契约生成）；2026-11-22 起 `npm run test:interaction` 在真实 Chrome 中断言代表性键盘 / 焦点 / ARIA 与强制颜色；未覆盖项按验证记录如实标注。
