@@ -132,7 +132,7 @@ export function App() {
       {route.page === 'overview' && <OverviewPage t={t} />}
       <Suspense fallback={<p className="page-loading">{t('正在加载组件文档…', 'Loading component docs…')}</p>}>
         {route.catalog && <CatalogPage t={t} />}
-        {route.page === 'components' && route.componentId && <ComponentDetailPage id={route.componentId} t={t} />}
+        {route.page === 'components' && route.componentId && <ComponentDetailPage id={route.componentId} section={route.componentSection} scrollRoot={main} t={t} />}
       </Suspense>
       {route.page === 'components' && !route.componentId && !route.catalog && <ComponentsPage t={t} />}
       {route.page === 'foundations' && <FoundationsPage t={t} />}

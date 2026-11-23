@@ -171,6 +171,38 @@ test('全部组件页可加载，行为表与高亮齐全', async ({ page }) => 
   expect(failures).toEqual([]);
 });
 
+test('组件页目录跳转章节并保持当前项', async ({ page }) => {
+  const root = await openComponent(page, 'description-list');
+  const outline = root.locator('.component-doc__aside .rd-toc');
+  await expect(outline).toBeVisible();
+  await expect(outline.getByRole('link')).toHaveCount(5);
+  await expect(outline.getByRole('link', { name: '导入' })).toHaveAttribute('aria-current', 'location');
+  await outline.getByRole('link', { name: 'API' }).click();
+  await expect(page).toHaveURL(/#\/components\/description-list\/doc-api$/);
+  await expect(outline.getByRole('link', { name: 'API' })).toHaveAttribute('aria-current', 'location');
+  await expect.poll(() => page.locator('#doc-api').evaluate(element => element.getBoundingClientRect().top)).toBeLessThan(400);
+  await page.reload();
+  await expect(page.locator('[data-component="description-list"]')).toBeVisible();
+  await expect(page.locator('#doc-api')).toBeVisible();
+  await expect(page.locator('.component-doc__aside .rd-toc a[aria-current="location"]')).toHaveText('API');
+});
+
+test('组件页窄屏目录使用抽屉并跳转章节', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await openComponent(page, 'description-list');
+  await expect(page.locator('.component-doc__aside')).toBeHidden();
+  const trigger = page.locator('.component-doc__outline-trigger');
+  await expect(trigger).toBeVisible();
+  await trigger.click();
+  const drawer = page.locator('.component-doc__outline-drawer');
+  await expect(drawer).toBeVisible();
+  await expect(drawer.getByRole('link')).toHaveCount(5);
+  await drawer.getByRole('link', { name: '键盘与可访问性' }).click();
+  await expect(drawer).toBeHidden();
+  await expect(page).toHaveURL(/#\/components\/description-list\/doc-keyboard$/);
+  await expect.poll(() => page.locator('#doc-keyboard').evaluate(element => element.getBoundingClientRect().top)).toBeLessThan(400);
+});
+
 test('窄屏组件页无页面级横向溢出', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   for (const id of ['button', 'select', 'form', 'table']) {

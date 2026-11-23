@@ -86,6 +86,8 @@ test('routes distinguish pages, resource ids and section anchors', () => {
   assert.deepEqual(parseRoute('#/components'), { page: 'components', resourceId: undefined, section: undefined });
   assert.deepEqual(parseRoute('#/catalog'), { page: 'components', resourceId: undefined, section: undefined, catalog: true });
   assert.deepEqual(parseRoute('#/components/button'), { page: 'components', resourceId: undefined, section: undefined, componentId: 'button' });
+  assert.deepEqual(parseRoute('#/components/button/doc-api'), { page: 'components', resourceId: undefined, section: undefined, componentId: 'button', componentSection: 'doc-api' });
+  assert.deepEqual(parseRoute('#/components/button/unknown'), { page: 'components', resourceId: undefined, section: undefined, componentId: 'button' });
   assert.deepEqual(parseRoute('#/foundations'), { page: 'foundations', resourceId: undefined, section: undefined });
   assert.equal(parseRoute('#/unknown').page, 'overview');
   assert.equal(parseRoute('#/document/%2Fetc/section-x').resourceId, undefined);
