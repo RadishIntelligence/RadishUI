@@ -387,3 +387,13 @@ Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前
 - 视觉：抽取前后对 4 个真实位置 × 1440 / 390 × 明暗共 8 张截图逐像素比较全部一致，几何与计算样式无差异；未新增视觉状态。
 - 验证：`npm run test:catalog`（11 项）、`npm run test:interaction`（22 项，新增原生 dl 语义与工作台资源详情采用、组件页目录两项、变更记录页与图标参考页各一项）、`npm run check`、`npm run build` 通过；Chrome 157 探针覆盖 1440 明暗 / 390，3 个示例 dt / dd 齐全、行为表 5 行、API 3 行、代码块均有高亮，无 pageerror 与页面级横向溢出，证据在忽略目录 `output/p4-description-list-2026-11-23/`。
 - 边界：只有行式窄栏排版；Safari / Firefox、真实屏幕阅读器与实体设备未复验。组件站页面契约见 [E-03 P4-③](component-site-1.md#p4-description-list-2026-11-23)；实现与文档本地提交，未推送、未部署。
+
+## InputNumber 数字输入（2026-11-24）
+
+- 范围：P4-④。家族用量最强（console 18 / 11 个文件），本站此前无承载；所有者确认以设置页「资源库每页条数」为首个真实页面，并让资源库分页消费。不新增 Slider / Upload，不改 token 与其他组件 API。
+- API：受控 `value: number | null` + `onValueChange`；`min` / `max` / `step`、`surface`、`controls` 与 `increaseLabel` / `decreaseLabel`；原生 input 属性透传，`type` / `value` / `onChange` / `min` / `max` / `step` 由组件接管。输入框为 `role="spinbutton"`，带 `aria-valuenow` / `aria-valuemin` / `aria-valuemax`。
+- 行为：方向键上 / 下按 step 调整并阻止光标移动，点击上下按钮同样钳制到 min / max；失焦时空值回到最近有效值、越界值钳制；上下按钮不进入 Tab 顺序；`FormField` 内自动关联标签、说明、错误与 required。粗指针 / 触屏隐藏步进按钮，改用数字键盘输入，避免叠放小按钮不满足触控命中。
+- 采用：设置页「外观」页签新增 5–50、步进 5 的每页条数，默认 20；资源库初始 `pageSize` 读取偏好，页内仍可临时调整，页大小选项包含当前自定义值。偏好存储从 v2 升到 v3，旧 v2 / v1 数据补默认每页条数，保留主题、语言、密度、字号与行高。
+- 组件站：InputNumber 进入 fields 分组（33 个条目 / 29 个组件），3 个示例覆盖基础步进、精度与边界、表单字段 / 只读；API 16 行、行为 6 条；API / `llms.txt` / 代码高亮 / 站点搜索索引同批生成。
+- 验证：`npm run test:catalog`（11 项）、`npm run test:workbench`（17 项，新增 v2→v3 迁移）、`npm run test:interaction`（28 项，新增方向键 / 失焦 / Tab、设置页保存与资源库分页、v2 迁移）、`npm run check`、`npm run build` 通过；Chrome 1440 / 390 × 明暗探针覆盖组件页与设置页，1440 两种主题保存后资源库 5 行，无横向溢出与 pageerror，证据在忽略目录 `output/p4-input-number-2026-11-24/`。
+- 边界：不做千分位、货币前缀、任意精度格式化、异步校验或空值提交；Slider 与 Upload 仍无承载；真实触屏、Safari / Firefox 与真实屏幕阅读器未复验。组件站页面契约见 [E-03 P4-④](component-site-1.md#p4-input-number-2026-11-24)；实现与文档本地提交，未推送、未部署。

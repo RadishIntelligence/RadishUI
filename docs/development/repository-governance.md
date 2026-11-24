@@ -73,7 +73,7 @@ git rev-list --left-right --count origin/master...origin/dev
 | `npm run check:search` | 站点搜索生成物与组件目录、图标参考、变更记录及页面清单一致 |
 | `npm run check:notices` | lockfile、安装包许可文本与展示站第三方声明一致性 |
 | `npm run type-check` | React、展示站、Vite 配置类型 |
-| `npm run test:interaction` | 浏览器交互断言：组件页键盘 / 焦点 / ARIA 状态、目录跳转、强制颜色、复制、32 页结构与 390 溢出、暗色代表页，以及站点搜索 / 变更记录 / 图标参考页；需已安装 Google Chrome，CI 在 Web Build 执行 |
+| `npm run test:interaction` | 浏览器交互断言：组件页键盘 / 焦点 / ARIA 状态、目录跳转、强制颜色、复制、33 页结构与 390 溢出、暗色代表页，以及站点搜索 / 变更记录 / 图标参考页；需已安装 Google Chrome，CI 在 Web Build 执行 |
 | `npm run build` | 全部本地检查与展示站静态构建 |
 
 `PR Checks` 对 `dev` / `master` 的 PR 和手动调度生效，不监听普通 push / tag，不以 paths 过滤跳过文档 PR。PR 默认检出 GitHub 的合并候选，构建目标分支与本次改动的组合；提交信息检查单独使用真实 base / head SHA，排除 GitHub 临时合并提交。

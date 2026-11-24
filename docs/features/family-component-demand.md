@@ -86,11 +86,11 @@ Catalyst / Flow / Chat / Forge / Axiom / AxiomChecker 等不是统一 React Web 
 
 ## 目录扩展优先级
 
-先完成现有组件的文档 / API / 用法深度（2026-11-23 起为 28 个组件 / 32 个条目），再按以下顺序确认目录扩展；每一件必须有真实页面、示例、API 与测试。
+先完成现有组件的文档 / API / 用法深度（2026-11-24 起为 29 个组件 / 33 个条目），再按以下顺序确认目录扩展；每一件必须有真实页面、示例、API 与测试。
 
 1. **Form 与字段校验**：与 FormField、Input、Select 的现有上下文衔接；先定校验责任在库内还是调用方，避免引入第二个表单框架。**2026-11-22 已完成首项**：所有者确认走调用方校验 + 共享提交编排，Form 已加入组件目录并用于资源新建 / 文档编辑。
 2. **Upload**：通用选择 / 拖拽 / 进度 / 错误；分片、图片裁切、灯箱等留在产品侧或后续专项。
-3. **InputNumber / Slider**：数字与范围输入；先定步进、精度、键盘与触控规则。
+3. **InputNumber / Slider**：数字与范围输入；先定步进、精度、键盘与触控规则。**2026-11-24 已完成 InputNumber**：设置页每页条数为首个真实承载，资源库分页消费；Slider 仍无承载。
 4. **BottomSheet 编排**：优先扩展现有 Drawer 的侧向 / 底部变体，不新增第二套浮层。**2026-11-22 已完成**：`DrawerProps.side` 支持 bottom，工作台窄屏资源详情已采用；拖拽 / 半展开未做。
 5. **布局原语**：Divider / Stack / Grid 是否由 CSS 与现有 Card / Section 承担，先做一次真实页面审计，避免为了 API 而 API。
 6. **Progress / Steps / Descriptions / Empty**：Descriptions 已于 2026-11-23 以 `DescriptionList` 落地（本站 3 处真实承载）；Progress / Steps 仍无真实流程，Empty 有 2 处承载但可先由页面组合承担，均等条件满足再确认。
@@ -111,13 +111,13 @@ Catalyst / Flow / Chat / Forge / Axiom / AxiomChecker 等不是统一 React Web 
 
 - 范围：Radish client（180 tsx）、console（66）、RadishX（18）、RadishMind（94）、RadishNexus（75）、RadishInk（94）、RadishChat（3），共 530 个 tsx / 475 个含 JSX 的文件；脚本与原始数据在忽略目录 `output/family-usage-audit-2026-11-23/`。
 - 与 2026-11-17 首轮差异：首轮 console「直接 AntD」列混用导入与标签计数（Descriptions 1、InputNumber 11、Upload 7、Progress 1、Empty 1）；本次统一按 JSX 开标签复核为 Descriptions 4 块 / 4 个详情页、InputNumber 18 / 11 个文件、Upload 9、Progress 5、Empty 4。方向不变，候选排序依据更完整。
-- 承载条件（本仓真实页面）：资源详情、文档属性、版本弹窗共 3 处页面级 `<dl class="property-list">`（9 个 label / value）→ Descriptions 可用；资源空结果与目录空结果 2 处 → Empty 可用；InputNumber / Upload / Slider / Progress / Steps / DatePicker / ColorPicker 无承载。
+- 承载条件（本仓真实页面）：资源详情、文档属性、版本弹窗共 3 处页面级 `<dl class="property-list">`（9 个 label / value）→ Descriptions 可用；资源空结果与目录空结果 2 处 → Empty 可用；设置页每页条数 + 资源库分页 → InputNumber 可用（2026-11-24 落地）；Upload / Slider / Progress / Steps / DatePicker / ColorPicker 仍无承载。
 
 | 候选 | 2026-11-23 家族真实用量 | 本站承载 | 结论 |
 | --- | --- | --- | --- |
 | Descriptions | console 4 个详情页（用户、商品、角色权限、系统配置；column 1/2、bordered、size=small、title，items 与 children 两种写法） | 有（3 处，9 组） | **P4-③ 已确认并完成**：`DescriptionList` 行式窄栏版本 |
 | Empty | console 4（用户详情页签）、Nexus 2 | 有（资源空结果、目录空结果） | 次选；组合简单，暂由页面承担 |
-| InputNumber | console 18 / 11 文件（价格、库存、限额、时长、排序、金币调整等） | 无 | 家族需求最强但无承载；需先确认最小真实场景 |
+| InputNumber | console 18 / 11 文件（价格、库存、限额、时长、排序、金币调整等） | 有（设置页每页条数 + 资源库分页） | **P4-④ 已完成（2026-11-24）** |
 | Upload | console 9 / 7 文件 + 批量上传、Ink 3 | 无 | 领域耦合重、范围大，暂不做 |
 | Slider | Ink 19（主题设计器字号 / 数值） | 无 | 编辑器向、无承载 |
 | Progress | console 5（均在上传弹窗内） | 无 | 随 Upload，不单独做 |
