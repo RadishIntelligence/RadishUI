@@ -40,7 +40,8 @@ export const changelog: readonly ChangelogEntry[] = [
       { zh: '组件站 1.0 验收收口审计通过：32 个组件页 × 1440 / 390 × 明暗共 128 次加载，未发现产品级差距。', en: 'Completed the component site 1.0 acceptance audit: 32 component pages at 1440 / 390 in light and dark, 128 page loads, with no product-level gaps.' },
       { zh: '新增共享 InputNumber：受控数值、min / max / step、方向键与失焦钳制；设置页每页条数成为首个真实承载。', en: 'Added shared InputNumber with controlled values, min / max / step, arrow-key stepping, and blur clamping; resource page size is its first real use.', href: '#/components/input-number' },
       { zh: '设置页新增资源库每页条数（5–50），偏好存储升级到 v3 并迁移旧数据；资源库分页消费该值。', en: 'Settings gained a resource page size (5–50); preference storage moved to v3 with migration, and resource pagination consumes the value.', href: '#/settings' },
-      { zh: '交互断言扩至 28 项，固化全量组件页结构、390 溢出、暗色代表页、站点搜索与数字输入检查。', en: 'Interaction assertions grew to 28, covering the full component page structure, 390 overflow, representative dark pages, site search, and numeric input.' },
+      { zh: '新增共享 Empty：图标 / 标题 / 说明 / 操作与 start / center、fill 两种空态编排；目录与资源空态已采用。', en: 'Added shared Empty with icon, title, description, action, start / center alignment, and fill; the catalog and resource empty states now use it.', href: '#/components/empty' },
+      { zh: '交互断言扩至 29 项，固化全量组件页结构、390 溢出、暗色代表页、站点搜索、数字输入与空态采用检查。', en: 'Interaction assertions grew to 29, covering the full component page structure, 390 overflow, representative dark pages, site search, numeric input, and empty-state adoption.' },
     ],
   },
   {

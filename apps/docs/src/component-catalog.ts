@@ -49,6 +49,7 @@ export const componentCatalog: readonly ComponentEntry[] = [
   { id: 'drawer', name: 'Drawer', group: 'feedback', status: 'stable', detail: true, summary: '与 Dialog 同一合同的侧向浮层；适合辅助内容与移动编排。' },
   { id: 'menu', name: 'Menu', group: 'feedback', status: 'stable', detail: true, summary: '触发器具名菜单，支持禁用、危险项、链接与分隔；焦点由行为基础维护。' },
   { id: 'inline-alert', name: 'InlineAlert', group: 'feedback', status: 'stable', detail: true, summary: '持久的上下文提示；danger 用 alert，其余状态用 status 播报。' },
+  { id: 'empty', name: 'Empty', group: 'feedback', status: 'stable', detail: true, summary: '空结果 / 首次使用提示：图标、标题、说明与操作；行内与居中两种对齐，可填满列表区域。' },
   { id: 'skeleton', name: 'Skeleton', group: 'feedback', status: 'stable', detail: true, summary: '静态占位，aria-hidden；由外层 aria-busy / status 说明加载中。' },
   { id: 'toast', name: 'Toast', group: 'feedback', status: 'stable', detail: true, summary: '顶部胶囊短时反馈，关闭按钮显示剩余时间；F8 进入、关闭回焦并自动消失。' },
   { id: 'tooltip', name: 'Tooltip', group: 'feedback', status: 'stable', detail: true, summary: '短文字提示，补充可访问名称；不替代 label、字段帮助或必要操作入口。' },

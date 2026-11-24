@@ -21,7 +21,7 @@ const pageEntries = [
   {
     id: 'page:catalog', kind: 'page', group: { zh: '文档', en: 'Docs' },
     title: { zh: '组件目录', en: 'Component catalog' },
-    description: { zh: '33 个组件与页面原语的文档目录，支持名称、说明与分组搜索。', en: 'Documentation catalog for 33 components and page primitives, searchable by name, summary, or group.' },
+    description: { zh: '34 个组件与页面原语的文档目录，支持名称、说明与分组搜索。', en: 'Documentation catalog for 34 components and page primitives, searchable by name, summary, or group.' },
     href: '#/catalog', keywords: ['组件', '目录', 'components', 'catalog', '文档'],
   },
   {

@@ -3,7 +3,7 @@
 > RadishUI 是 RadishIntelligence 的 React 设计系统与组件文档站。当前为 private workspace，尚未发布 npm；导入路径仅在本仓与内部接入中有效。
 
 - 版本：26.11.1
-- 条目：33 个（29 个组件 + 4 个页面原语）
+- 条目：34 个（30 个组件 + 4 个页面原语）
 - 文档：https://ui.radishx.com
 
 本文件由 `apps/docs/src/component-catalog.ts`、`packages/react/src` 的 props 类型 / JSDoc / 解构默认值、`component-api.ts` 的 API 回退与 `component-behavior.ts` 的行为声明生成；运行 `npm run llms:generate` 更新，`npm run test:catalog` 检查漂移。
@@ -810,6 +810,37 @@ import '@radish-ui/react/styles.css';
 - 已知限制 · RadishUI：错误不应只放在 Tooltip 或瞬时 Toast 中，需保留为页面内容。
 
 相关：Toast、Tooltip、Input
+
+### Empty
+
+- 页面：https://ui.radishx.com/#/components/empty
+- 摘要：空结果 / 首次使用提示：图标、标题、说明与操作；行内与居中两种对齐，可填满列表区域。
+- 导入：
+
+```ts
+import { Button, Empty } from '@radish-ui/react';
+import '@radish-ui/react/styles.css';
+```
+
+属性：
+
+- `title` — 类型 `ReactNode`；必填 — 主文案；通常是空结果或首次使用的说明。
+- `description` — 类型 `ReactNode` — 补充说明；不替代 title。
+- `icon` — 类型 `ReactNode` — 装饰图标；组件统一对辅助技术隐藏。
+- `action` — 类型 `ReactNode` — 操作入口，通常是 Button 或链接。
+- `align` — 类型 `'start' | 'center'`；默认 'center' — start 用于工具栏下方的行内空态；center 用于占满列表区域。
+- `fill` — 类型 `boolean`；默认 false — 占满父容器高度；用于表格 / 列表滚动区。
+- `className` — 类型 `string`；默认 '' — 附加类名，不替代 align / fill。
+- `其余属性` — 类型 `Omit<ComponentPropsWithoutRef<'div'>, 'title'>` — 原生 div 属性透传；title 由组件主文案占用。
+
+行为与可访问性：
+
+- 键盘 · 浏览器原生：空态本身不进入 Tab 顺序；action 中的按钮 / 链接按 DOM 顺序聚焦。
+- ARIA · RadishUI：主文案渲染为 h2，装饰图标统一 aria-hidden；组件不默认添加 status / alert role。
+- ARIA · RadishUI：空态文案与操作由调用方提供，不替代字段错误、保存结果或列表计数播报。
+- 已知限制 · RadishUI：只有 start / center 两种对齐与 fill 选项，不含插画、缩略图或自动播报。
+
+相关：InlineAlert、Skeleton
 
 ### Skeleton
 

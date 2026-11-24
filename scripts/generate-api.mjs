@@ -43,6 +43,7 @@ const typeMap = {
     { component: 'MenuItem', type: 'MenuItem' },
   ],
   'inline-alert': ['InlineAlertProps'],
+  empty: ['EmptyProps'],
   skeleton: ['SkeletonProps'],
   toast: ['ToastProps'],
   tooltip: ['TooltipProps'],

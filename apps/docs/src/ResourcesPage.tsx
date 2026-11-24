@@ -1,5 +1,5 @@
 import { useEffect, useLayoutEffect, useRef, useState, type FormEvent } from 'react';
-import { Button, Card, Checkbox, ConfirmDialog, DescriptionList, Dialog, Drawer, Form, FormField, IconButton, InlineAlert, Input, Menu, Pagination, Select, Table, Textarea, Tag, TagInput, ToggleGroup, type FormErrors } from '@radish-ui/react';
+import { Button, Card, Checkbox, ConfirmDialog, DescriptionList, Dialog, Drawer, Empty, Form, FormField, IconButton, InlineAlert, Input, Menu, Pagination, Select, Table, Textarea, Tag, TagInput, ToggleGroup, type FormErrors } from '@radish-ui/react';
 import { ArrowUpRight, FileText, History, ListChecks, LockKeyhole, MoreHorizontal, Palette, PanelsTopLeft, Plus, RefreshCw, Search, Trash2 } from 'lucide-react';
 import { PageHeader } from './PageHeader';
 import { appendResourceTags, filterResources, formatDate, kindLabel, pageCount, resourceTagError, resourceTagLimits, statusLabel, type Preferences, type Resource, type ResourceKind, type Translate } from './model';
@@ -138,9 +138,8 @@ export function ResourcesPage({ resources, error, save, retry, t, locale, densit
               </li>;
             })}
           </ul>
-        </> : <div className="empty-state"><Search aria-hidden="true" /><h2>{resources.length ? t('没有匹配的资源', 'No matching resources') : t('还没有资源', 'No resources yet')}</h2>
-          <Button variant="secondary" onClick={() => { if (resources.length) { setQuery(''); setStatus('all'); setKind('all'); resetPage(); } else setCreateOpen(true); }}>{resources.length ? t('清除筛选', 'Clear filters') : t('新建资源', 'New resource')}</Button>
-        </div>}
+        </> : <Empty fill icon={<Search aria-hidden="true" />} title={resources.length ? t('没有匹配的资源', 'No matching resources') : t('还没有资源', 'No resources yet')}
+          action={<Button variant="secondary" onClick={() => { if (resources.length) { setQuery(''); setStatus('all'); setKind('all'); resetPage(); } else setCreateOpen(true); }}>{resources.length ? t('清除筛选', 'Clear filters') : t('新建资源', 'New resource')}</Button>} />}
         </div>
         {visible.length > 0 && <Pagination page={currentPage} pageCount={totalPages} pageSize={size} totalItems={filtered.length}
           pageSizeOptions={[...new Set([5, 10, 20, 50, size])].sort((first, second) => first - second)}

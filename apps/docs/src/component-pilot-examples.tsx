@@ -1,6 +1,6 @@
 import { useRef, useState, type ReactNode } from 'react';
-import { Copy, Pencil, Plus, Trash2 } from 'lucide-react';
-import { Accordion, Avatar, Button, Card, Checkbox, ConfirmDialog, DescriptionList, Dialog, Drawer, Form, FormField, IconButton, InlineAlert, Input, InputNumber, InputOTP, Menu, Pagination, RadioGroup, Section, Select, Skeleton, StatusBadge, Switch, Table, TableOfContents, Tabs, TabsContent, TabsList, Tag, TagInput, Textarea, Toast, ToggleGroup, Tooltip } from '@radish-ui/react';
+import { Copy, Pencil, Plus, Search, Trash2 } from 'lucide-react';
+import { Accordion, Avatar, Button, Card, Checkbox, ConfirmDialog, DescriptionList, Dialog, Drawer, Empty, Form, FormField, IconButton, InlineAlert, Input, InputNumber, InputOTP, Menu, Pagination, RadioGroup, Section, Select, Skeleton, StatusBadge, Switch, Table, TableOfContents, Tabs, TabsContent, TabsList, Tag, TagInput, Textarea, Toast, ToggleGroup, Tooltip } from '@radish-ui/react';
 
 export interface PilotExample {
   id: string;
@@ -1174,6 +1174,23 @@ function InputNumberField() {
   </div>;
 }
 
+function EmptyBasic() {
+  return <Empty icon={<Search aria-hidden="true" />} title="没有匹配的资源" description="调整筛选条件后重试。"
+    action={<Button variant="secondary">清除筛选</Button>} />;
+}
+
+function EmptyInline() {
+  return <Empty align="start" title="没有匹配的组件。"
+    action={<Button variant="secondary" size="sm">清除搜索</Button>} />;
+}
+
+function EmptyFill() {
+  return <div className="doc-empty-frame">
+    <Empty fill title="还没有资源" description="新建第一份资源后会显示在这里。"
+      action={<Button>新建资源</Button>} />
+  </div>;
+}
+
 export const pilotExamples: Record<string, readonly PilotExample[]> = {
   button: [
     {
@@ -2242,6 +2259,34 @@ const [message, setMessage] = useState('');
   <p>{message || '提示内可放操作入口，但错误文案本身仍需保留在页面。'}</p>
 </div>`,
       preview: <InlineAlertAction />,
+    },
+  ],
+  empty: [
+    {
+      id: 'basic',
+      title: '基础空态',
+      description: '图标、主文案、说明与操作；默认居中并保留最小高度。',
+      code: `<Empty icon={<Search aria-hidden="true" />} title="没有匹配的资源" description="调整筛选条件后重试。"
+  action={<Button variant="secondary">清除筛选</Button>} />`,
+      preview: <EmptyBasic />,
+    },
+    {
+      id: 'inline',
+      title: '行内空态',
+      description: 'start 对齐用于工具栏下方；不占满列表区域。',
+      code: `<Empty align="start" title="没有匹配的组件。"
+  action={<Button variant="secondary" size="sm">清除搜索</Button>} />`,
+      preview: <EmptyInline />,
+    },
+    {
+      id: 'fill',
+      title: '填满容器',
+      description: 'fill 让空态占满父容器，适合表格 / 列表滚动区。',
+      code: `<div className="doc-empty-frame">
+  <Empty fill title="还没有资源" description="新建第一份资源后会显示在这里。"
+    action={<Button>新建资源</Button>} />
+</div>`,
+      preview: <EmptyFill />,
     },
   ],
   skeleton: [

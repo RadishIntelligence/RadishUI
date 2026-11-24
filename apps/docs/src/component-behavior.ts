@@ -172,6 +172,12 @@ export const authoredBehavior: Record<string, readonly BehaviorEntry[]> = {
     { topic: 'aria', source: 'radish', text: 'danger 使用 role=alert 立即播报，其余状态使用 role=status。' },
     { topic: 'limitation', source: 'radish', text: '错误不应只放在 Tooltip 或瞬时 Toast 中，需保留为页面内容。' },
   ],
+  empty: [
+    { topic: 'keyboard', source: 'native', text: '空态本身不进入 Tab 顺序；action 中的按钮 / 链接按 DOM 顺序聚焦。' },
+    { topic: 'aria', source: 'radish', text: '主文案渲染为 h2，装饰图标统一 aria-hidden；组件不默认添加 status / alert role。' },
+    { topic: 'aria', source: 'radish', text: '空态文案与操作由调用方提供，不替代字段错误、保存结果或列表计数播报。' },
+    { topic: 'limitation', source: 'radish', text: '只有 start / center 两种对齐与 fill 选项，不含插画、缩略图或自动播报。' },
+  ],
   skeleton: [
     { topic: 'keyboard', source: 'native', text: '纯展示占位，不进入 Tab 顺序。' },
     { topic: 'aria', source: 'radish', text: '占位整体 aria-hidden，不参与可访问名称与播报。' },

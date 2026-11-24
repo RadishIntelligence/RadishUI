@@ -438,6 +438,26 @@ export const pilotDocs: Record<string, PilotDoc> = {
     ],
     related: ["toast", "tooltip", "input"],
   },
+  empty: {
+    importCode: "import { Button, Empty } from '@radish-ui/react';\nimport '@radish-ui/react/styles.css';",
+    api: [
+      { name: "title", type: "ReactNode", required: true, description: "主文案；通常是空结果或首次使用的说明。" },
+      { name: "description", type: "ReactNode", required: false, description: "补充说明；不替代 title。" },
+      { name: "icon", type: "ReactNode", required: false, description: "装饰图标；组件统一对辅助技术隐藏。" },
+      { name: "action", type: "ReactNode", required: false, description: "操作入口，通常是 Button 或链接。" },
+      { name: "align", type: "'start' | 'center'", defaultValue: "'center'", required: false, description: "start 用于工具栏下方的行内空态；center 用于占满列表区域。" },
+      { name: "fill", type: "boolean", defaultValue: "false", required: false, description: "占满父容器高度；用于表格 / 列表滚动区。" },
+      { name: "className", type: "string", defaultValue: "''", required: false, description: "附加类名，不替代 align / fill。" },
+      { name: "其余属性", type: "Omit<ComponentPropsWithoutRef<'div'>, 'title'>", required: false, description: "原生 div 属性透传；title 由组件主文案占用。" },
+    ],
+    behavior: [
+      { topic: "keyboard", source: "native", text: "空态本身不进入 Tab 顺序；action 中的按钮 / 链接按 DOM 顺序聚焦。" },
+      { topic: "aria", source: "radish", text: "主文案渲染为 h2，装饰图标统一 aria-hidden；组件不默认添加 status / alert role。" },
+      { topic: "aria", source: "radish", text: "空态文案与操作由调用方提供，不替代字段错误、保存结果或列表计数播报。" },
+      { topic: "limitation", source: "radish", text: "只有 start / center 两种对齐与 fill 选项，不含插画、缩略图或自动播报。" },
+    ],
+    related: ["inline-alert", "skeleton"],
+  },
   skeleton: {
     importCode: "import { Skeleton } from '@radish-ui/react';\nimport '@radish-ui/react/styles.css';",
     api: [

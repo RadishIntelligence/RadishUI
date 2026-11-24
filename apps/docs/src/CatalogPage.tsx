@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { Search } from 'lucide-react';
-import { Button, Input } from '@radish-ui/react';
+import { Button, Empty, Input } from '@radish-ui/react';
 import type { Translate } from './model';
 import { PageHeader } from './PageHeader';
 import { componentCatalog, componentGroups, filterComponents, groupLabel, type ComponentEntry } from './component-catalog';
@@ -48,10 +48,8 @@ export function CatalogPage({ t }: { t: Translate }) {
       <span className="catalog-count" role="status">{t(`${entries.length} 个组件`, `${entries.length} components`)}</span>
       {query && <Button variant="ghost" size="sm" onClick={() => setQuery('')}>{t('清除', 'Clear')}</Button>}
     </div>
-    {groups.length === 0 && <div className="catalog-empty">
-      <p>{t('没有匹配的组件。', 'No components match.')}</p>
-      <Button variant="secondary" size="sm" onClick={() => setQuery('')}>{t('清除搜索', 'Clear search')}</Button>
-    </div>}
+    {groups.length === 0 && <Empty align="start" title={t('没有匹配的组件。', 'No components match.')}
+      action={<Button variant="secondary" size="sm" onClick={() => setQuery('')}>{t('清除搜索', 'Clear search')}</Button>} />}
     {groups.map(group => <section className="catalog-group" key={group.id}>
       <div className="catalog-group__head">
         <h2>{group.label}</h2>

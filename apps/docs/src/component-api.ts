@@ -317,6 +317,20 @@ export const authoredDocs: Record<string, AuthoredPilotDoc> = {
     ],
     related: ['toast', 'tooltip', 'input'],
   },
+  empty: {
+    importCode: "import { Button, Empty } from '@radish-ui/react';\nimport '@radish-ui/react/styles.css';",
+    api: [
+      { name: 'title' },
+      { name: 'description' },
+      { name: 'icon' },
+      { name: 'action' },
+      { name: 'align' },
+      { name: 'fill' },
+      { name: 'className', type: 'string', required: false, description: '附加类名，不替代 align / fill。' },
+      { name: '其余属性', type: "Omit<ComponentPropsWithoutRef<'div'>, 'title'>", required: false, description: '原生 div 属性透传；title 由组件主文案占用。' },
+    ],
+    related: ['inline-alert', 'skeleton'],
+  },
   skeleton: {
     importCode: "import { Skeleton } from '@radish-ui/react';\nimport '@radish-ui/react/styles.css';",
     api: [

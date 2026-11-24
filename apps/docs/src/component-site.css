@@ -17,7 +17,6 @@
 .catalog-card__name { font-size: var(--rd-font-size-base); }
 .catalog-card__summary { color: var(--rd-text-secondary); font-size: var(--rd-font-size-xs); line-height: 1.7; }
 .catalog-card__meta { display: flex; justify-content: space-between; gap: var(--rd-space-2); margin-top: auto; padding-top: var(--rd-space-2); color: var(--rd-text-action); font-size: var(--rd-font-size-xs); }
-.catalog-empty { display: grid; justify-items: start; gap: var(--rd-space-2); padding: var(--rd-space-6) 0; color: var(--rd-text-secondary); }
 .catalog-footnote { margin-top: var(--rd-space-6); color: var(--rd-text-secondary); font-size: var(--rd-font-size-xs); line-height: 1.7; }
 
 .component-doc { max-width: 1184px; margin: 0 auto; min-width: 0; }
@@ -68,6 +67,7 @@
 .doc-example-row { display: flex; align-items: center; flex-wrap: wrap; gap: var(--rd-space-2); }
 .doc-example-stack { display: grid; gap: var(--rd-space-2); }
 .doc-example-note { color: var(--rd-text-secondary); font-size: var(--rd-font-size-xs); line-height: 1.7; }
+.doc-empty-frame { display: flex; min-height: 220px; border: 1px dashed var(--rd-border-soft); border-radius: var(--rd-radius-control); }
 .doc-api-scroll { max-width: 100%; overflow-x: auto; border: 1px solid var(--rd-border-soft); border-radius: var(--rd-radius-control); }
 .doc-api-scroll:focus-visible { outline: 1px solid var(--rd-focus-ring); outline-offset: 2px; }
 .doc-api { width: 100%; min-width: 720px; border-collapse: collapse; font-size: var(--rd-font-size-xs); }
