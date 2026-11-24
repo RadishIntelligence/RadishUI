@@ -109,7 +109,7 @@ export function App() {
   }
   function savePreferences(next: Preferences) {
     if (externalChange) return t('其他标签页已更新，请重新载入后再保存。', 'Another tab made changes. Reload before saving.');
-    const error = writeStored(storageKeys.preferences, next, 2);
+    const error = writeStored(storageKeys.preferences, next, 3);
     if (!error) { setPreferences(next); setPreferenceError(undefined); notify(next.locale === 'en' ? 'Preferences saved in this browser' : '偏好已保存到当前浏览器', next.notifications); }
     return error;
   }
@@ -146,7 +146,7 @@ export function App() {
         {route.page === 'search' && <SearchPage t={t} />}
       </Suspense>
       {route.page === 'settings' && <SettingsPage preferences={preferences} save={savePreferences} t={t} onDirtyChange={updateDirty} />}
-      {route.page === 'resources' && <ResourcesPage resources={resources} error={resourceError} save={saveResources} retry={() => setLoadAttempt(loadAttempt + 1)} t={t} locale={preferences.locale} density={preferences.density} notify={notify} />}
+      {route.page === 'resources' && <ResourcesPage resources={resources} error={resourceError} save={saveResources} retry={() => setLoadAttempt(loadAttempt + 1)} t={t} locale={preferences.locale} density={preferences.density} pageSize={preferences.pageSize} notify={notify} />}
       {route.page === 'document' && <ArticlePage key={route.resourceId ?? 'welcome'} resourceId={route.resourceId} resources={resources} resourcesError={resourceError}
         preferences={preferences} section={route.section} scrollRoot={main} t={t} notify={notify} onDirtyChange={updateDirty} externalChange={externalChange} />}
     </main>

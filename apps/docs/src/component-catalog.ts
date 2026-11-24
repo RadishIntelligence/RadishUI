@@ -30,6 +30,7 @@ export const componentCatalog: readonly ComponentEntry[] = [
   { id: 'form-field', name: 'FormField', group: 'fields', status: 'stable', detail: true, summary: '字段标签、说明与错误关联；Input / Textarea / Select 自动读取字段上下文。' },
   { id: 'form', name: 'Form', group: 'fields', status: 'stable', detail: true, summary: '原生 form 语义与提交门禁：noValidate、调用方校验、首个错误字段聚焦；不渲染错误文案。' },
   { id: 'input', name: 'Input', group: 'fields', status: 'stable', detail: true, summary: '单行文本输入，outline / filled 表面；原生 input 属性与 ref 透传。' },
+  { id: 'input-number', name: 'InputNumber', group: 'fields', status: 'stable', detail: true, summary: '受控数字输入与步进：min / max / step、方向键与失焦钳制；上下按钮不占 Tab。' },
   { id: 'textarea', name: 'Textarea', group: 'fields', status: 'stable', detail: true, summary: '多行文本输入，支持只读、禁用与字段错误；保留垂直 resize。' },
   { id: 'input-otp', name: 'InputOTP', group: 'fields', status: 'stable', detail: true, summary: '六位验证码输入，自动前进、粘贴与逐格错误关联；Enter 回调可接管提交。' },
   { id: 'select', name: 'Select', group: 'fields', status: 'stable', detail: true, summary: '受控选择器，键盘高亮、碰撞避让与字段关联；chrome 用 sm，表单用 md。' },

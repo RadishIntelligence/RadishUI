@@ -17,6 +17,7 @@ const typeMap = {
   'form-field': ['FormFieldProps'],
   form: ['FormProps'],
   input: ['InputProps'],
+  'input-number': ['InputNumberProps'],
   textarea: ['TextareaProps'],
   'input-otp': ['InputOTPProps'],
   select: ['SelectProps'],

@@ -41,6 +41,14 @@ export const authoredBehavior: Record<string, readonly BehaviorEntry[]> = {
     { topic: 'aria', source: 'native', text: 'required 使用原生属性，由表单校验与辅助技术识别。' },
     { topic: 'aria', source: 'radish', text: '在 FormField 内自动继承 id、required、aria-describedby 与 aria-invalid。' },
   ],
+  'input-number': [
+    { topic: 'keyboard', source: 'native', text: '输入框沿用原生文本编辑：Tab 聚焦，Home / End 与编辑快捷键按浏览器处理。' },
+    { topic: 'keyboard', source: 'radish', text: '方向键上 / 下按 step 调整并阻止光标移动；上下按钮不进入 Tab 顺序，点击同样按 min / max 钳制。' },
+    { topic: 'focus', source: 'radish', text: '失焦时把空值还原为最近一次有效值，越界值钳制到 min / max。' },
+    { topic: 'aria', source: 'radish', text: '输入框使用 role=spinbutton 与 aria-valuenow / min / max；FormField 的标签、说明与错误自动关联。' },
+    { topic: 'limitation', source: 'radish', text: '受控值由调用方持有；不做千分位、货币前缀、精度格式化、异步校验或空值提交。' },
+    { topic: 'limitation', source: 'radish', text: '粗指针 / 触屏隐藏上下步进按钮，改用数字键盘输入；控件本身不扩大触控命中。' },
+  ],
   textarea: [
     { topic: 'keyboard', source: 'native', text: 'Tab 聚焦，Enter 换行；编辑快捷键沿用原生 textarea。' },
     { topic: 'limitation', source: 'radish', text: '保留垂直 resize，页面布局需允许高度变化；拖拽尺寸不改变键盘行为。' },

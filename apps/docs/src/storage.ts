@@ -1,4 +1,4 @@
-import { isLegacyPreferences, isPreferences, migratePreferences, type Preferences } from './model';
+import { isLegacyPreferences, isPreferences, isPreferencesV2, migratePreferences, migratePreferencesV2, type Preferences } from './model';
 
 export type Stored<T> = { value: T | undefined; error?: string };
 
@@ -28,8 +28,9 @@ export const storageKeys = {
   preferences: 'radishui.preferences.v1', resources: 'radishui.resources.v1', articles: 'radishui.articles.v1',
 } as const;
 
-// Preferences use envelope version 2 after the density scale was renamed. Version 1
-// values are migrated once, so an existing browser keeps its previous appearance.
+// Preferences use envelope version 3 after pageSize was added. Version 2 (density scale
+// rename) and version 1 values are migrated once, so an existing browser keeps its
+// appearance and gains the default page size.
 export function readPreferences(): Stored<Preferences> {
   try {
     const raw = window.localStorage.getItem(storageKeys.preferences);
@@ -38,10 +39,14 @@ export function readPreferences(): Stored<Preferences> {
     if (!envelope || typeof envelope !== 'object' || !('version' in envelope) || !('data' in envelope)) {
       return { value: undefined, error: '本地数据格式不受支持 / Unsupported local data format' };
     }
-    if (envelope.version === 2 && isPreferences(envelope.data)) return { value: envelope.data };
+    if (envelope.version === 3 && isPreferences(envelope.data)) return { value: envelope.data };
+    if (envelope.version === 2) {
+      if (isPreferences(envelope.data)) return { value: envelope.data };
+      if (isPreferencesV2(envelope.data)) return { value: migratePreferencesV2(envelope.data) };
+    }
     if (envelope.version === 1) {
       if (isLegacyPreferences(envelope.data)) return { value: migratePreferences(envelope.data) };
-      if (isPreferences(envelope.data)) return { value: envelope.data };
+      if (isPreferencesV2(envelope.data)) return { value: migratePreferencesV2(envelope.data) };
     }
     return { value: undefined, error: '本地数据格式不受支持 / Unsupported local data format' };
   } catch (error) {

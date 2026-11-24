@@ -1,6 +1,6 @@
 import { useRef, useState, type ReactNode } from 'react';
 import { Copy, Pencil, Plus, Trash2 } from 'lucide-react';
-import { Accordion, Avatar, Button, Card, Checkbox, ConfirmDialog, DescriptionList, Dialog, Drawer, Form, FormField, IconButton, InlineAlert, Input, InputOTP, Menu, Pagination, RadioGroup, Section, Select, Skeleton, StatusBadge, Switch, Table, TableOfContents, Tabs, TabsContent, TabsList, Tag, TagInput, Textarea, Toast, ToggleGroup, Tooltip } from '@radish-ui/react';
+import { Accordion, Avatar, Button, Card, Checkbox, ConfirmDialog, DescriptionList, Dialog, Drawer, Form, FormField, IconButton, InlineAlert, Input, InputNumber, InputOTP, Menu, Pagination, RadioGroup, Section, Select, Skeleton, StatusBadge, Switch, Table, TableOfContents, Tabs, TabsContent, TabsList, Tag, TagInput, Textarea, Toast, ToggleGroup, Tooltip } from '@radish-ui/react';
 
 export interface PilotExample {
   id: string;
@@ -1146,6 +1146,34 @@ function TabsSizes() {
   </div>;
 }
 
+function InputNumberBasic() {
+  const [value, setValue] = useState(3);
+  return <div className="doc-example-stack">
+    <InputNumber value={value} onValueChange={next => setValue(next ?? 1)} min={1} max={10}
+      increaseLabel="增加数量" decreaseLabel="减少数量" />
+    <p className="doc-example-note">当前数量：{value}</p>
+  </div>;
+}
+
+function InputNumberStep() {
+  const [value, setValue] = useState(12.5);
+  return <div className="doc-example-stack">
+    <InputNumber value={value} onValueChange={next => setValue(next ?? 0)} min={0} max={100} step={0.5} />
+    <p className="doc-example-note">当前价格：{value.toFixed(1)}</p>
+  </div>;
+}
+
+function InputNumberField() {
+  return <div className="doc-example-stack">
+    <FormField label="每页条数" hint="5–50 条；失焦时越界值钳制到范围内。" error="每页条数需在 5–50 之间。">
+      <InputNumber value={60} min={5} max={50} step={5} onValueChange={() => {}} />
+    </FormField>
+    <FormField label="只读数值">
+      <InputNumber value={20} readOnly onValueChange={() => {}} />
+    </FormField>
+  </div>;
+}
+
 export const pilotExamples: Record<string, readonly PilotExample[]> = {
   button: [
     {
@@ -1342,6 +1370,49 @@ const limit = 20;
   <p>当前长度：{name.length} / {limit}</p>
 </div>`,
       preview: <InputControlled />,
+    },
+  ],
+  'input-number': [
+    {
+      id: 'basic',
+      title: '基础步进',
+      description: '受控值由调用方持有；min / max / step 约束步进与失焦钳制。',
+      code: `import { useState } from 'react';
+
+const [value, setValue] = useState(3);
+
+<div>
+  <InputNumber value={value} onValueChange={next => setValue(next ?? 1)} min={1} max={10} />
+  <p>当前数量：{value}</p>
+</div>`,
+      preview: <InputNumberBasic />,
+    },
+    {
+      id: 'step',
+      title: '精度与边界',
+      description: '小数步进按步长精度显示；方向键与按钮都不会越过 min / max。',
+      code: `import { useState } from 'react';
+
+const [value, setValue] = useState(12.5);
+
+<div>
+  <InputNumber value={value} onValueChange={next => setValue(next ?? 0)} min={0} max={100} step={0.5} />
+  <p>当前价格：{value.toFixed(1)}</p>
+</div>`,
+      preview: <InputNumberStep />,
+    },
+    {
+      id: 'field',
+      title: '表单字段',
+      description: 'FormField 关联标签、说明与错误；只读数值保留显示不响应步进。',
+      code: `<FormField label="每页条数" hint="5–50 条；失焦时越界值钳制到范围内。"
+  error="每页条数需在 5–50 之间。">
+  <InputNumber value={60} min={5} max={50} step={5} onValueChange={() => {}} />
+</FormField>
+<FormField label="只读数值">
+  <InputNumber value={20} readOnly onValueChange={() => {}} />
+</FormField>`,
+      preview: <InputNumberField />,
     },
   ],
   textarea: [

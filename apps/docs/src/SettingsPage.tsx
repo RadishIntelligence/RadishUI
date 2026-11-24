@@ -1,5 +1,5 @@
 import { useEffect, useLayoutEffect, useRef, useState, type FormEvent } from 'react';
-import { Button, Checkbox, FormField, InlineAlert, RadioGroup, Switch, Tabs, TabsContent, TabsList } from '@radish-ui/react';
+import { Button, Checkbox, FormField, InlineAlert, InputNumber, RadioGroup, Switch, Tabs, TabsContent, TabsList } from '@radish-ui/react';
 import { Check } from 'lucide-react';
 import { defaultPreferences, type Preferences, type Translate } from './model';
 import { PageHeader } from './PageHeader';
@@ -28,7 +28,8 @@ export function SettingsPage({ preferences, save, t, onDirtyChange }: SettingsPa
   }
   function submit(event: FormEvent) {
     event.preventDefault();
-    const failure = save(draft);
+    const pageSize = Number.isFinite(draft.pageSize) ? Math.min(50, Math.max(5, Math.round(draft.pageSize))) : defaultPreferences.pageSize;
+    const failure = save({ ...draft, pageSize });
     setError(failure);
     if (!failure) {
       focusSaveStatus.current = document.activeElement === saveButton.current;
@@ -64,6 +65,12 @@ export function SettingsPage({ preferences, save, t, onDirtyChange }: SettingsPa
               <RadioGroup orientation="horizontal" value={draft.density} onValueChange={value => change('density', value as Preferences['density'])} options={[
                 { value: 'compact', label: t('紧凑', 'Compact') }, { value: 'standard', label: t('标准', 'Standard') }, { value: 'spacious', label: t('宽松', 'Spacious') },
               ]} />
+            </FormField>
+            <FormField className="preference-field" id="resource-page-size" label={t('资源库每页条数', 'Resource page size')}
+              hint={t('5–50 条；资源库分页使用该值。', '5–50 items; the resource library uses this page size.')}>
+              <InputNumber id="resource-page-size" value={draft.pageSize} min={5} max={50} step={5}
+                onValueChange={value => { if (value !== null) change('pageSize', value); }}
+                increaseLabel={t('增加每页条数', 'Increase page size')} decreaseLabel={t('减少每页条数', 'Decrease page size')} />
             </FormField>
             <FormField className="preference-field" id="reading-font-size" label={t('正文字号', 'Reading font size')} hint={t('仅调整文档正文，界面控件不变。', 'Changes document text only; interface controls stay the same.')}>
               <RadioGroup orientation="horizontal" value={draft.fontSize} onValueChange={value => change('fontSize', value as Preferences['fontSize'])} options={[

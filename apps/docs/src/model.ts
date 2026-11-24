@@ -8,10 +8,13 @@ export interface Preferences {
   showToc: boolean;
   lineHeight: 'standard' | 'relaxed';
   notifications: boolean;
+  /** 资源库每页条数；5–50 的整数，默认 20。 */
+  pageSize: number;
 }
+export type PreferencesV2 = Omit<Preferences, 'pageSize'>;
 export const defaultPreferences: Preferences = {
   theme: 'system', locale: 'zh-CN', density: 'standard', fontSize: 'standard',
-  showToc: true, lineHeight: 'standard', notifications: true,
+  showToc: true, lineHeight: 'standard', notifications: true, pageSize: 20,
 };
 export type ResourceKind = 'document' | 'spec' | 'checklist' | 'example';
 export type ResourceStatus = 'ready' | 'draft' | 'readonly';
@@ -32,15 +35,23 @@ function hasPreferenceFields(value: Record<string, unknown>) {
     && oneOf(value.fontSize, ['small', 'standard', 'large']) && oneOf(value.lineHeight, ['standard', 'relaxed'])
     && ['showToc', 'notifications'].every(key => typeof value[key] === 'boolean');
 }
-export function isPreferences(value: unknown): value is Preferences {
+export function isPreferencesV2(value: unknown): value is PreferencesV2 {
   return isRecord(value) && hasPreferenceFields(value) && oneOf(value.density, ['compact', 'standard', 'spacious']);
 }
-export interface LegacyPreferences extends Omit<Preferences, 'density'> { density: 'compact' | 'comfortable' | 'spacious' }
+export function isPreferences(value: unknown): value is Preferences {
+  if (!isPreferencesV2(value)) return false;
+  const pageSize = (value as { pageSize?: unknown }).pageSize;
+  return Number.isInteger(pageSize) && (pageSize as number) >= 5 && (pageSize as number) <= 50;
+}
+export interface LegacyPreferences extends Omit<PreferencesV2, 'density'> { density: 'compact' | 'comfortable' | 'spacious' }
 export function isLegacyPreferences(value: unknown): value is LegacyPreferences {
   return isRecord(value) && hasPreferenceFields(value) && oneOf(value.density, ['compact', 'comfortable', 'spacious']);
 }
+export function migratePreferencesV2(value: PreferencesV2): Preferences {
+  return { ...value, pageSize: defaultPreferences.pageSize };
+}
 export function migratePreferences(value: LegacyPreferences): Preferences {
-  return { ...value, density: value.density === 'compact' ? 'standard' : 'spacious' };
+  return { ...value, density: value.density === 'compact' ? 'standard' : 'spacious', pageSize: defaultPreferences.pageSize };
 }
 export function isResource(value: unknown): value is Resource {
   return isRecord(value) && typeof value.id === 'string' && /^[a-zA-Z0-9-]{1,80}$/.test(value.id)

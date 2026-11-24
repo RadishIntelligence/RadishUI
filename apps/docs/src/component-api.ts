@@ -66,6 +66,28 @@ export const authoredDocs: Record<string, AuthoredPilotDoc> = {
     ],
     related: ['form-field', 'textarea', 'input-otp'],
   },
+  'input-number': {
+    importCode: "import { FormField, InputNumber } from '@radish-ui/react';\nimport '@radish-ui/react/styles.css';",
+    api: [
+      { name: 'value' },
+      { name: 'onValueChange' },
+      { name: 'min' },
+      { name: 'max' },
+      { name: 'step' },
+      { name: 'surface' },
+      { name: 'controls' },
+      { name: 'increaseLabel' },
+      { name: 'decreaseLabel' },
+      { name: 'id', type: 'string', required: false, description: '控件 id；在 FormField 内自动继承。' },
+      { name: 'required', type: 'boolean', required: false, description: '未传时继承 FormField 的 required。' },
+      { name: 'aria-describedby', type: 'string', required: false, description: '与字段说明 / 错误合并，不覆盖字段上下文。' },
+      { name: 'aria-invalid', type: 'boolean', required: false, description: '显式传入时优先；FormField 有 error 时自动为 true。' },
+      { name: 'className', type: 'string', required: false, description: '附加类名，不替代 surface。' },
+      { name: 'ref', type: 'Ref<HTMLInputElement>', required: false, description: '转发到原生 input；其余原生属性一并透传。' },
+      { name: '其余属性', type: "Omit<ComponentPropsWithRef<'input'>, 'type' | 'value' | 'defaultValue' | 'onChange' | 'min' | 'max' | 'step'>", required: false, description: '原生 input 属性透传；type / value / onChange / min / max / step 由组件接管。' },
+    ],
+    related: ['form-field', 'input', 'pagination'],
+  },
   textarea: {
     importCode: "import { FormField, Textarea } from '@radish-ui/react';\nimport '@radish-ui/react/styles.css';",
     api: [

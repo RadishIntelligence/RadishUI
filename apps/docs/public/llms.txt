@@ -3,7 +3,7 @@
 > RadishUI 是 RadishIntelligence 的 React 设计系统与组件文档站。当前为 private workspace，尚未发布 npm；导入路径仅在本仓与内部接入中有效。
 
 - 版本：26.11.1
-- 条目：32 个（28 个组件 + 4 个页面原语）
+- 条目：33 个（29 个组件 + 4 个页面原语）
 - 文档：https://ui.radishx.com
 
 本文件由 `apps/docs/src/component-catalog.ts`、`packages/react/src` 的 props 类型 / JSDoc / 解构默认值、`component-api.ts` 的 API 回退与 `component-behavior.ts` 的行为声明生成；运行 `npm run llms:generate` 更新，`npm run test:catalog` 检查漂移。
@@ -169,6 +169,47 @@ import '@radish-ui/react/styles.css';
 - ARIA · RadishUI：在 FormField 内自动继承 id、required、aria-describedby 与 aria-invalid。
 
 相关：FormField、Textarea、InputOTP
+
+### InputNumber
+
+- 页面：https://ui.radishx.com/#/components/input-number
+- 摘要：受控数字输入与步进：min / max / step、方向键与失焦钳制；上下按钮不占 Tab。
+- 导入：
+
+```ts
+import { FormField, InputNumber } from '@radish-ui/react';
+import '@radish-ui/react/styles.css';
+```
+
+属性：
+
+- `value` — 类型 `number | null`；必填 — 受控数值；null 显示为空，失焦时回到最近一次有效值。
+- `onValueChange` — 类型 `(value: number | null) => void`；必填 — 数值变化回调；输入非法文本时不调用，失焦 / 步进时钳制到 min / max 内。
+- `min` — 类型 `number` — 允许的最小值；未传时不限制。
+- `max` — 类型 `number` — 允许的最大值；未传时不限制。
+- `step` — 类型 `number`；默认 1 — 方向键与步进按钮的增量，默认 1；小数步进按步长精度显示。
+- `surface` — 类型 `FieldSurface`；默认 'outline' — 输入表面；filled 用于强调或分组背景。
+- `controls` — 类型 `boolean`；默认 true — 是否显示上下步进按钮，默认显示；按钮不进入 Tab 顺序，粗指针 / 触屏隐藏，用数字键盘与方向键输入。
+- `increaseLabel` — 类型 `string`；默认 '增加' — 增加按钮的可访问名称。
+- `decreaseLabel` — 类型 `string`；默认 '减少' — 减少按钮的可访问名称。
+- `id` — 类型 `string` — 控件 id；在 FormField 内自动继承。
+- `required` — 类型 `boolean` — 未传时继承 FormField 的 required。
+- `aria-describedby` — 类型 `string` — 与字段说明 / 错误合并，不覆盖字段上下文。
+- `aria-invalid` — 类型 `boolean` — 显式传入时优先；FormField 有 error 时自动为 true。
+- `className` — 类型 `string`；默认 '' — 附加类名，不替代 surface。
+- `ref` — 类型 `Ref<HTMLInputElement>` — 转发到原生 input；其余原生属性一并透传。
+- `其余属性` — 类型 `Omit<ComponentPropsWithRef<'input'>, 'type' | 'value' | 'defaultValue' | 'onChange' | 'min' | 'max' | 'step'>` — 原生 input 属性透传；type / value / onChange / min / max / step 由组件接管。
+
+行为与可访问性：
+
+- 键盘 · 浏览器原生：输入框沿用原生文本编辑：Tab 聚焦，Home / End 与编辑快捷键按浏览器处理。
+- 键盘 · RadishUI：方向键上 / 下按 step 调整并阻止光标移动；上下按钮不进入 Tab 顺序，点击同样按 min / max 钳制。
+- 焦点 · RadishUI：失焦时把空值还原为最近一次有效值，越界值钳制到 min / max。
+- ARIA · RadishUI：输入框使用 role=spinbutton 与 aria-valuenow / min / max；FormField 的标签、说明与错误自动关联。
+- 已知限制 · RadishUI：受控值由调用方持有；不做千分位、货币前缀、精度格式化、异步校验或空值提交。
+- 已知限制 · RadishUI：粗指针 / 触屏隐藏上下步进按钮，改用数字键盘输入；控件本身不扩大触控命中。
+
+相关：FormField、Input、Pagination
 
 ### Textarea
 

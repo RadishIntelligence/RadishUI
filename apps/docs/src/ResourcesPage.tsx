@@ -15,14 +15,14 @@ function ResourceStatus({ resource, t }: { resource: Resource; t: Translate }) {
 
 interface ResourcesPageProps {
   resources?: Resource[]; error?: string; save(next: Resource[]): string | undefined; retry(): void;
-  t: Translate; locale: Preferences['locale']; density: Preferences['density']; notify(message: string): void;
+  t: Translate; locale: Preferences['locale']; density: Preferences['density']; pageSize: number; notify(message: string): void;
 }
-export function ResourcesPage({ resources, error, save, retry, t, locale, density, notify }: ResourcesPageProps) {
+export function ResourcesPage({ resources, error, save, retry, t, locale, density, pageSize, notify }: ResourcesPageProps) {
   const [kind, setKind] = useState('all');
   const [status, setStatus] = useState('all');
   const [query, setQuery] = useState('');
   const [page, setPage] = useState(1);
-  const [size, setSize] = useState(20);
+  const [size, setSize] = useState(pageSize);
   const [selectedId, setSelectedId] = useState('');
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [narrowDrawer, setNarrowDrawer] = useState(() => window.matchMedia('(max-width: 799px)').matches);
@@ -61,6 +61,11 @@ export function ResourcesPage({ resources, error, save, retry, t, locale, densit
     window.addEventListener('resize', measure);
     return () => { observer.disconnect(); window.removeEventListener('resize', measure); };
   }, [resources, error]);
+
+  useEffect(() => {
+    setSize(pageSize);
+    setPage(1);
+  }, [pageSize]);
 
   useEffect(() => {
     const media = window.matchMedia('(max-width: 799px)');
@@ -138,6 +143,7 @@ export function ResourcesPage({ resources, error, save, retry, t, locale, densit
         </div>}
         </div>
         {visible.length > 0 && <Pagination page={currentPage} pageCount={totalPages} pageSize={size} totalItems={filtered.length}
+          pageSizeOptions={[...new Set([5, 10, 20, 50, size])].sort((first, second) => first - second)}
           onPageChange={setPage} onPageSizeChange={next => { setSize(next); resetPage(); }}
           labels={{
             nav: t('资源分页', 'Resource pagination'),
