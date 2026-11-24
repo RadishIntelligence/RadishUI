@@ -1,4 +1,6 @@
 import { readFileSync, writeFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
 import { changelog, changelogKindLabels } from '../apps/docs/src/changelog.ts';
 import { componentCatalog, componentGroups } from '../apps/docs/src/component-catalog.ts';
 import { iconReference, iconReferenceGroupLabels } from '../apps/docs/src/icon-reference.ts';
@@ -142,15 +144,20 @@ ${rows}
 `;
 }
 
-const generated = buildGeneratedSearch();
-if (process.argv.includes('--check')) {
-  const current = readFileSync(output, 'utf8');
-  if (current !== generated) {
-    console.error('site-search.generated.ts is out of date. Run npm run search:generate.');
-    process.exit(1);
+function main() {
+  const generated = buildGeneratedSearch();
+  if (process.argv.includes('--check')) {
+    let current;
+    try { current = readFileSync(output, 'utf8'); }
+    catch { throw new Error('site-search.generated.ts 缺失，请执行 npm run search:generate。'); }
+    if (current !== generated) throw new Error('站点搜索索引与来源不一致，请执行 npm run search:generate。');
+    console.log(`Site search index matches sources (${buildSearchEntries().length} entries).`);
+  } else {
+    writeFileSync(output, generated);
+    console.log(`Generated site search index (${buildSearchEntries().length} entries).`);
   }
-  console.log(`Site search index matches sources (${buildSearchEntries().length} entries).`);
-} else {
-  writeFileSync(output, generated);
-  console.log(`Generated site search index (${buildSearchEntries().length} entries).`);
+}
+
+if (process.argv[1] && pathToFileURL(resolve(process.argv[1])).href === import.meta.url) {
+  try { main(); } catch (error) { console.error(error.message); process.exitCode = 1; }
 }
