@@ -16,7 +16,7 @@ const example = (root, id) => root.locator(`[data-example="${id}"]`);
 
 async function componentIds(page) {
   await page.goto('/#/catalog');
-  await page.waitForFunction(() => document.querySelectorAll('a.catalog-card[href^="#/components/"]').length === 33);
+  await page.waitForFunction(() => document.querySelectorAll('a.catalog-card[href^="#/components/"]').length === 34);
   const hrefs = await page.locator('a.catalog-card[href^="#/components/"]').evaluateAll(nodes => nodes.map(node => node.getAttribute('href')));
   return [...new Set(hrefs.map(href => href.replace('#/components/', '')))];
 }
@@ -149,7 +149,7 @@ test.describe('强制颜色', () => {
 test('全部组件页可加载，结构、行为表与高亮齐全', async ({ page }) => {
   test.setTimeout(120_000);
   const ids = await componentIds(page);
-  expect(ids.length).toBe(33);
+  expect(ids.length).toBe(34);
   const failures = [];
   for (const id of ids) {
     const errors = [];
@@ -294,7 +294,7 @@ test('站点搜索按类型分组、可跳转并在窄屏保持无溢出', async
   await page.goto('/#/search');
   await expect(page.getByRole('heading', { level: 1, name: '搜索' })).toBeVisible();
   await expect(page.locator('.search-summary-card')).toHaveCount(4);
-  await expect(page.locator('.search-count')).toHaveText('共 87 个条目');
+  await expect(page.locator('.search-count')).toHaveText('共 88 个条目');
   const input = page.getByLabel('搜索站点');
   await input.fill('button');
   await expect(page.locator('.search-count')).toHaveText('3 个结果');
@@ -404,6 +404,25 @@ test('Form 多个错误时聚焦 DOM 顺序中的第一个字段', async ({ page
   await expect(focusOrder.getByRole('alert')).toHaveCount(2);
 });
 
+
+
+test('Empty 组件页与目录 / 资源空态采用', async ({ page }) => {
+  const root = await openComponent(page, 'empty');
+  await expect(example(root, 'basic').locator('.rd-empty__title')).toHaveText('没有匹配的资源');
+  await expect(example(root, 'basic').locator('.rd-empty__icon')).toHaveAttribute('aria-hidden', 'true');
+  await expect(example(root, 'inline').locator('.rd-empty')).toHaveAttribute('data-align', 'start');
+  await expect(example(root, 'fill').locator('.rd-empty')).toHaveAttribute('data-fill', 'true');
+  await page.goto('/#/catalog');
+  await page.getByLabel('搜索组件').fill('没有这个组件');
+  await expect(page.locator('.rd-empty__title')).toHaveText('没有匹配的组件。');
+  await page.getByRole('button', { name: '清除搜索' }).click();
+  await expect(page.locator('a.catalog-card')).toHaveCount(34);
+  await page.goto('/#/resources');
+  await page.getByLabel('搜索资源').fill('没有这个资源');
+  await expect(page.locator('.rd-empty__title')).toHaveText('没有匹配的资源');
+  await page.getByRole('button', { name: '清除筛选' }).click();
+  await expect(page.locator('.resource-table tbody tr').first()).toBeVisible();
+});
 
 test('InputNumber 方向键、失焦钳制与 Tab 顺序', async ({ page }) => {
   const root = await openComponent(page, 'input-number');
