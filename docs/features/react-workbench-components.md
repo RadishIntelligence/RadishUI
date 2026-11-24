@@ -396,4 +396,4 @@ Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前
 - 采用：设置页「外观」页签新增 5–50、步进 5 的每页条数，默认 20；资源库初始 `pageSize` 读取偏好，页内仍可临时调整，页大小选项包含当前自定义值。偏好存储从 v2 升到 v3，旧 v2 / v1 数据补默认每页条数，保留主题、语言、密度、字号与行高。
 - 组件站：InputNumber 进入 fields 分组（33 个条目 / 29 个组件），3 个示例覆盖基础步进、精度与边界、表单字段 / 只读；API 16 行、行为 6 条；API / `llms.txt` / 代码高亮 / 站点搜索索引同批生成。
 - 验证：`npm run test:catalog`（11 项）、`npm run test:workbench`（17 项，新增 v2→v3 迁移）、`npm run test:interaction`（28 项，新增方向键 / 失焦 / Tab、设置页保存与资源库分页、v2 迁移）、`npm run check`、`npm run build` 通过；Chrome 1440 / 390 × 明暗探针覆盖组件页与设置页，1440 两种主题保存后资源库 5 行，无横向溢出与 pageerror，证据在忽略目录 `output/p4-input-number-2026-11-24/`。
-- 边界：不做千分位、货币前缀、任意精度格式化、异步校验或空值提交；Slider 与 Upload 仍无承载；真实触屏、Safari / Firefox 与真实屏幕阅读器未复验。组件站页面契约见 [E-03 P4-④](component-site-1.md#p4-input-number-2026-11-24)；实现与文档本地提交，未推送、未部署。
+- 边界：不做千分位、货币前缀、任意精度格式化、异步校验或空值提交；Slider 与 Upload 仍无承载；Safari / Firefox 已于 2026-11-24 定向复验通过（4 组组合，含方向键与设置页 / 资源库采用），真实触屏与真实屏幕阅读器未复验。组件站页面契约见 [E-03 P4-④](component-site-1.md#p4-input-number-2026-11-24)；实现与文档本地提交，未推送、未部署。
