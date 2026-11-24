@@ -74,6 +74,20 @@
 .rd-input::placeholder { color: var(--rd-text-secondary); opacity: 1; }
 .rd-input[readonly] { background: var(--rd-bg-muted); }
 .rd-input[aria-invalid="true"], .rd-select[aria-invalid="true"] { border-color: var(--rd-state-danger); }
+.rd-input-number { position: relative; display: flex; width: 100%; min-width: 0; }
+.rd-input-number[data-controls] .rd-input-number__input { padding-right: 38px; font-variant-numeric: tabular-nums; }
+.rd-input-number__controls { position: absolute; top: 1px; right: 1px; bottom: 1px; display: grid; grid-template-rows: 1fr 1fr; width: 32px; overflow: hidden; border-left: 1px solid var(--rd-border-soft); border-radius: 0 var(--rd-radius-control) var(--rd-radius-control) 0; }
+.rd-input-number__controls button { display: grid; place-items: center; min-width: 0; min-height: 0; padding: 0; border: 0; background: transparent; color: var(--rd-text-secondary); cursor: pointer; }
+.rd-input-number__controls button:hover:not(:disabled) { background: var(--rd-bg-selected); color: var(--rd-text-primary); }
+.rd-input-number__controls button:focus-visible { outline: 1px solid var(--rd-focus-ring); outline-offset: -2px; }
+.rd-input-number__controls button:disabled { opacity: .45; cursor: not-allowed; }
+.rd-input-number[data-disabled] .rd-input-number__input { opacity: .5; cursor: not-allowed; }
+@media (pointer: coarse), (pointer: none) {
+  /* Stacks of small steppers cannot meet the touch target; mobile uses the numeric keyboard. */
+  .rd-input-number__controls { display: none; }
+  .rd-input-number[data-controls] .rd-input-number__input { padding-right: var(--rd-space-3); }
+}
+
 .rd-textarea { min-height: 100px; resize: vertical; }
 .rd-select { display: inline-flex; justify-content: space-between; align-items: center; gap: var(--rd-space-2); padding-inline: var(--rd-space-2); text-align: left; }
 .rd-select[data-surface="outline"]:hover:not(:disabled):not([aria-invalid="true"]) { border-color: var(--rd-text-secondary); }

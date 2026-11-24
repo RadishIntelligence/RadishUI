@@ -1,4 +1,4 @@
-import { createContext, useContext, useId, useRef, useState, type ComponentPropsWithoutRef, type ComponentPropsWithRef, type FormEvent, type ReactNode } from 'react';
+import { createContext, useContext, useEffect, useId, useRef, useState, type ComponentPropsWithoutRef, type ComponentPropsWithRef, type FormEvent, type ReactNode } from 'react';
 import { RadioGroup as RadioGroupPrimitive, Select as SelectPrimitive } from 'radix-ui';
 import { Check, ChevronDown, ChevronUp } from 'lucide-react';
 
@@ -136,6 +136,125 @@ export function Input({ className = '', surface = 'outline', id, required, 'aria
   return <input {...props} id={id ?? field?.id} required={required ?? field?.required}
     aria-describedby={[description, field?.describedBy].filter(Boolean).join(' ') || undefined}
     aria-invalid={invalid ?? (field?.invalid || undefined)} data-surface={surface} className={`rd-input ${className}`} />;
+}
+
+export interface InputNumberProps extends Omit<ComponentPropsWithRef<'input'>, 'type' | 'value' | 'defaultValue' | 'onChange' | 'min' | 'max' | 'step'> {
+  /** 受控数值；null 显示为空，失焦时回到最近一次有效值。 */
+  value: number | null;
+  /** 数值变化回调；输入非法文本时不调用，失焦 / 步进时钳制到 min / max 内。 */
+  onValueChange(value: number | null): void;
+  /** 允许的最小值；未传时不限制。 */
+  min?: number;
+  /** 允许的最大值；未传时不限制。 */
+  max?: number;
+  /** 方向键与步进按钮的增量，默认 1；小数步进按步长精度显示。 */
+  step?: number;
+  /** 输入表面；filled 用于强调或分组背景。 */
+  surface?: FieldSurface;
+  /** 是否显示上下步进按钮，默认显示；按钮不进入 Tab 顺序，粗指针 / 触屏隐藏，用数字键盘与方向键输入。 */
+  controls?: boolean;
+  /** 增加按钮的可访问名称。 */
+  increaseLabel?: string;
+  /** 减少按钮的可访问名称。 */
+  decreaseLabel?: string;
+}
+
+function numberPrecision(step: number) {
+  const text = String(step);
+  const dot = text.indexOf('.');
+  return dot === -1 ? 0 : text.length - dot - 1;
+}
+
+function roundToStep(value: number, step: number) {
+  return Number(value.toFixed(Math.min(12, numberPrecision(step))));
+}
+
+function clampNumber(value: number, min?: number, max?: number) {
+  return Math.min(max ?? Number.POSITIVE_INFINITY, Math.max(min ?? Number.NEGATIVE_INFINITY, value));
+}
+
+function formatNumber(value: number | null, step: number) {
+  if (value === null) return '';
+  const precision = Math.min(12, numberPrecision(step));
+  return precision ? value.toFixed(precision).replace(/\.?0+$/, '') : String(value);
+}
+
+function parseNumber(text: string): number | null | undefined {
+  const trimmed = text.trim();
+  if (!trimmed) return null;
+  const parsed = Number(trimmed);
+  return Number.isFinite(parsed) ? parsed : undefined;
+}
+
+export function InputNumber({
+  value, onValueChange, min, max, step = 1, surface = 'outline', controls = true,
+  increaseLabel = '增加', decreaseLabel = '减少', className = '', id, required, disabled, readOnly,
+  ref, onBlur, onKeyDown, 'aria-describedby': description, 'aria-invalid': invalid, ...props
+}: InputNumberProps) {
+  const field = useContext(FieldContext);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const increment = step > 0 ? step : 1;
+  const [draft, setDraft] = useState(() => formatNumber(value, increment));
+  const lastValue = useRef(value);
+  const assignRef = (node: HTMLInputElement | null) => {
+    inputRef.current = node;
+    if (typeof ref === 'function') ref(node);
+    else if (ref) (ref as { current: HTMLInputElement | null }).current = node;
+  };
+  useEffect(() => {
+    lastValue.current = value;
+    if (document.activeElement === inputRef.current) return;
+    setDraft(formatNumber(value, increment));
+  }, [value, increment]);
+  const commit = (next: number | null) => {
+    lastValue.current = next;
+    setDraft(formatNumber(next, increment));
+    onValueChange(next);
+  };
+  const normalize = (raw: number) => clampNumber(roundToStep(raw, increment), min, max);
+  const stepBy = (direction: 1 | -1) => {
+    if (disabled || readOnly) return;
+    const base = lastValue.current ?? min ?? 0;
+    commit(normalize(base + direction * increment));
+  };
+  const commitDraft = () => {
+    const parsed = parseNumber(draft);
+    if (parsed === null || parsed === undefined) { setDraft(formatNumber(value, increment)); return; }
+    commit(normalize(parsed));
+  };
+  const atMin = value !== null && min !== undefined && value <= min;
+  const atMax = value !== null && max !== undefined && value >= max;
+  return <div className={`rd-input-number ${className}`.trim()} data-surface={surface} data-controls={controls || undefined} data-disabled={disabled || undefined} data-readonly={readOnly || undefined}>
+    <input {...props} ref={assignRef} id={id ?? field?.id} required={required ?? field?.required}
+      type="text" inputMode="decimal" autoComplete="off" role="spinbutton"
+      aria-valuenow={value ?? undefined} aria-valuemin={min} aria-valuemax={max}
+      aria-describedby={[description, field?.describedBy].filter(Boolean).join(' ') || undefined}
+      aria-invalid={invalid ?? (field?.invalid || undefined)}
+      disabled={disabled} readOnly={readOnly} value={draft}
+      onChange={event => {
+        const text = event.target.value;
+        setDraft(text);
+        const parsed = parseNumber(text);
+        if (parsed === null) { lastValue.current = null; onValueChange(null); }
+        else if (parsed !== undefined) { const rounded = roundToStep(parsed, increment); lastValue.current = rounded; onValueChange(rounded); }
+      }}
+      onBlur={event => { onBlur?.(event); if (!event.defaultPrevented) commitDraft(); }}
+      onKeyDown={event => {
+        onKeyDown?.(event);
+        if (event.defaultPrevented || event.nativeEvent.isComposing) return;
+        if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
+          event.preventDefault();
+          stepBy(event.key === 'ArrowUp' ? 1 : -1);
+        }
+      }}
+      data-surface={surface} className="rd-input rd-input-number__input" />
+    {controls && <span className="rd-input-number__controls">
+      <button type="button" tabIndex={-1} aria-label={increaseLabel} disabled={disabled || readOnly || atMax}
+        onClick={() => stepBy(1)}><ChevronUp size={14} aria-hidden="true" /></button>
+      <button type="button" tabIndex={-1} aria-label={decreaseLabel} disabled={disabled || readOnly || atMin}
+        onClick={() => stepBy(-1)}><ChevronDown size={14} aria-hidden="true" /></button>
+    </span>}
+  </div>;
 }
 
 export interface TextareaProps extends ComponentPropsWithRef<'textarea'> {
