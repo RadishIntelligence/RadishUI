@@ -60,7 +60,7 @@
 
 2026-11-24 先对齐远端事实：11-23 收尾记录的 11 个本地提交实际已于 22:21 推送 `origin/dev` `395d0c7`，此前「未推送」是收尾快照；同日手动 PR Checks run `45381557300` 三项通过（Repo Hygiene / Web Build / Candidate Quality），Web Build 执行 `npm run test:interaction`。随后完成[组件站 1.0 验收收口审计](../features/component-site-1.md#acceptance-audit-2026-11-24)：32 个组件页 × 1440 / 390 × 明暗共 128 次页面加载，逐页核对导入 / ≥3 示例 / API / 行为 / 章节 / 目录 / 相关组件 / 高亮 / 复制，128 个 `doc-api` 深链、目录与图标搜索、示例主题 / 密度、390 抽屉与 10 条站点路由均通过；113 个示例、258 行 API、148 条行为声明、71 个相关组件链接，207 个唯一站内链接无失效，无页面级横向溢出与 pageerror，未发现产品级差距。审计中的 3 次截图与 1 次抽屉断言为浏览器进程回收（环境层），已用独立进程与 `test:interaction` 复验；`test:interaction` 增至 24 项，全量页面补结构检查并新增 390 溢出与暗色代表页检查。证据在忽略目录 `output/component-site-audit-2026-11-24/`。未改共享组件、token、路由与依赖；本轮实现与文档为本地提交，未推送、未部署。
 
-2026-11-24 同日推进 P5-③ 站点搜索：新增 `#/search` 与生成索引（10 个页面、34 个组件、38 个图标、6 条变更记录，共 88 个条目），侧栏「设计系统」与 <800px 窄屏页头提供入口；目录搜索保留为组件筛选。索引由 `scripts/generate-search.mjs` 从组件目录、图标参考、变更记录与页面清单生成，`check:search` 与 `test:workbench` 拦漂移；匹配支持空格 AND、标题优先、拉丁词边界（避免 `arrow` 命中 `narrow`）与组件中文别名。`test:workbench` 17 项、`test:interaction` 29 项、`npm run check`、`npm run build` 通过；`SearchPage` 懒加载 45.02 kB / gzip 11.52 kB，主入口 455.37 kB，构建无警告；Chrome 1440 / 390 × 明暗探针无横向溢出与 pageerror，证据在忽略目录 `output/p5-search-2026-11-24/`。未改共享组件、token 与依赖；本轮实现与文档为本地提交，未推送、未部署。
+2026-11-24 同日推进 P5-③ 站点搜索：新增 `#/search` 与生成索引（10 个页面、34 个组件、38 个图标、6 条变更记录，共 88 个条目），侧栏「设计系统」与 <800px 窄屏页头提供入口；目录搜索保留为组件筛选。索引由 `scripts/generate-search.mjs` 从组件目录、图标参考、变更记录与页面清单生成，`check:search` 与 `test:workbench` 拦漂移；匹配支持空格 AND、标题优先、拉丁词边界（避免 `arrow` 命中 `narrow`）与组件中文别名。`test:workbench` 17 项、`test:interaction` 29 项、`npm run check`、`npm run build` 通过；`SearchPage` 懒加载 45.03 kB / gzip 11.53 kB，主入口 455.37 kB，构建无警告；Chrome 1440 / 390 × 明暗探针无横向溢出与 pageerror，证据在忽略目录 `output/p5-search-2026-11-24/`。未改共享组件、token 与依赖；本轮实现与文档为本地提交，未推送、未部署。
 
 2026-11-24 同日推进 P4-④ InputNumber：按所有者确认以设置页「资源库每页条数」为首个真实承载，并让资源库分页消费；新增受控 InputNumber（方向键 / 上下按钮按 step 步进、失焦钳制到 min / max、空值回到最近有效值、`role="spinbutton"`、FormField 自动关联），粗指针 / 触屏隐藏步进按钮改用数字键盘。设置页新增 5–50、步进 5 的每页条数（默认 20）；偏好存储从 v2 升到 v3，旧 v2 / v1 数据补默认值。组件站当时 33 个条目 / 29 个组件（Empty 后当前 34/30），3 个示例、16 行 API、6 条行为声明；API / `llms.txt` / 代码高亮 / 搜索索引同批生成。`test:catalog` 11 项、`test:workbench` 17 项、`test:interaction` 28 项（Empty 后 29）、`npm run check`、`npm run build` 通过；Chrome 1440 / 390 × 明暗探针覆盖组件页与设置页，1440 保存后资源库 5 行，无横向溢出与 pageerror，证据在忽略目录 `output/p4-input-number-2026-11-24/`。未改 token 与其他组件；本轮实现与文档为本地提交，未推送、未部署。
 
@@ -84,13 +84,12 @@
 
 9. **P5 站点能力（2026-11-23 起步）**：已完成三项——① `#/changelog` 变更记录页：内部版本 `v26.11.1`、目录状态摘要、6 条日期倒序中英条目、站内链接与 `test:workbench` 校验（版本与 `package.json` 一致、日期倒序唯一、链接目标存在），入口在侧栏「设计系统」与平台页 footer；② `#/icons` 图标参考页：38 个实际使用的 lucide-react 图标、五组用途、搜索与复制导入、名称与导出一致性校验，入口在侧栏与平台页 footer；③ 2026-11-24 `#/search` 站点搜索：生成索引覆盖 10 个页面、34 个组件、38 个图标与 6 条变更记录（88 个条目），侧栏与窄屏页头入口，`check:search` 拦漂移。三页按路由懒加载（主入口 455.37 kB / gzip 141.91 kB，无 500kB 警告）；`test:interaction` 29 项。其余 P5 项（组件状态 / 弃用徽标、双语文档）待排；正式 tag / Release 仍属发行任务。另登记未来规划：正式发行后站点需要按版本展示不同内容（API / 行为 / 示例 / 变更记录随版本变化），涉及版本选择器 / 版本化路由、默认版本与旧版本保留、跨版本对比、弃用提示与按版本生成文档产物；当前没有正式发行版本与 tag，本轮只登记、不做版本切换 UI，也不伪造历史版本内容，见[E-03 P5 后续项](../features/component-site-1.md#p5-followups-2026-11-23)。
 
-10. **下一步建议（2026-11-24 更新）**：
+10. **下一步建议（2026-11-24 收尾）**：
     1. 所有者复审：P4-③ DescriptionList 采用位置、P4-④ InputNumber / 设置页每页条数 / 资源库分页、P4-⑤ Empty / 目录与资源空态、组件页布局与目录、P5 变更记录 / 图标参考 / 站点搜索的视觉与内容；部署另定。
-    2. ~~组件站 1.0 验收收口审计~~ 已完成（[记录](../features/component-site-1.md#acceptance-audit-2026-11-24)）：未发现产品级差距；所有者视觉复审与真实辅助技术 / 跨端剩余项仍按第 1、4 条安排。
-    3. P5 剩余项：组件状态 / 弃用（等真实 preview / deprecated 数据）、双语文档；站点搜索已于 2026-11-24 完成。版本切换与多版本文档登记为发行后事项。
-    4. 跨端证据：P5 三页、InputNumber、Empty 与设置页 / 资源库的 Safari / Firefox 定向复验已于 2026-11-24 完成（296 项 0 失败）；剩余真实屏幕阅读器、Windows 高对比、实体设备、Safari 加载期日志与 Firefox 完整键盘遍历仍待安排。
-    5. P4 目录扩展：InputNumber 与 Empty 已完成；Upload / Slider / Progress / Steps 缺真实承载或偏领域，Upload 需所有者指定端点 / 进度 / 校验场景。P4 已没有低风险且无需场景的候选，下一批建议转 P5 剩余项（组件状态 / 弃用需真实数据、双语文档需范围）或补辅助技术证据。
-    6. 暂缓项维持：新的兄弟项目试点、Flutter、组件包发行与部署均需另行授权；推送与 PR Checks 不属默认动作。
+    2. P4 扩展：InputNumber 与 Empty 已完成；Upload 需所有者指定最小真实场景（端点 / 进度 / 校验），Slider / Progress / Steps 仍缺真实承载。没有场景时不再新增 P4 组件。
+    3. P5 剩余：组件状态 / 弃用等待真实 preview / deprecated 数据；双语文档先定翻译范围（页面 / API / 示例 / 变更记录）与维护方式；站点搜索的 URL 持久化、结果高亮与拼音匹配不作为当前默认范围。
+    4. 辅助技术：真实屏幕阅读器（VoiceOver / NVDA）、Windows 高对比、实体设备、真实 200%、Safari 加载期日志与 Firefox 完整键盘遍历仍待补齐；Safari / Firefox 已覆盖 P5 三页、InputNumber、Empty 与设置页 / 资源库的交互期。
+    5. 暂缓项维持：新的兄弟项目试点、Flutter、组件包发行与部署均需另行授权；推送与 PR Checks 不属默认动作。
 
 ## 当前停止线
 
@@ -103,7 +102,7 @@
 - 2026-11-22 的 P4-② Drawer 底部编排实现 `2693e81` 与文档登记 `3087220` 已推送 `origin/dev`；手动 PR Checks run `45025132513` 通过，Web Build 在 Ubuntu runner 执行 `npm run test:interaction`（16 项，含底部抽屉与工作台窄屏回归）。未部署，生产未更新。
 - 2026-11-22 收尾：断点修复 `5be86c4`、交互断言 17 项与文档复核 `923f7a2` 已推送 `origin/dev`；手动 PR Checks run `45029495187` 通过，Web Build 执行 `npm run test:interaction`（含 800–1099 断点回归）。未部署，生产未更新。
 - 2026-11-23 的 P4-③ DescriptionList 实现 `887455f` 与文档登记 `15d5cc1`、组件页布局与目录修订 `c8c3d1e` 及文档登记、Safari / Firefox 定向复验登记 `c37a7f1`、P5 变更记录实现 `c2ee0d0` 及文档登记、P5 图标参考实现 `8b16462` 及文档登记与边界修正 `4bcac56`、收尾文档提交 `395d0c7`，共 11 个提交，已于 11-23 22:21 推送 `origin/dev` `395d0c7`（此前「未推送」为收尾快照）；11-24 手动 PR Checks run `45381557300` 通过。未部署，生产未更新。
-- 2026-11-24 的交互断言扩展、验收收口文档、P5-③ 站点搜索、P4-④ InputNumber、P4-⑤ Empty、跨浏览器复验与文档为本地提交；按 2026-11-24 口径不推送、不运行 PR Checks、不部署，本地 `dev` 领先 `origin/dev` `395d0c7`。审计证据在忽略目录 `output/component-site-audit-2026-11-24/`，搜索证据在 `output/p5-search-2026-11-24/`，InputNumber 证据在 `output/p4-input-number-2026-11-24/`，Empty 证据在 `output/p4-empty-2026-11-24/`，跨浏览器证据在 `output/p5-cross-browser-2026-11-24/`。
+- 2026-11-24 共 19 个本地提交（交互断言扩展、验收收口、P5-③ 站点搜索、P4-④ InputNumber、P4-⑤ Empty、跨浏览器复验与收尾文档）；按 2026-11-24 口径不推送、不运行 PR Checks、不部署，本地 `dev` 领先 `origin/dev` `395d0c7`。审计证据在忽略目录 `output/component-site-audit-2026-11-24/`，搜索证据在 `output/p5-search-2026-11-24/`，InputNumber 证据在 `output/p4-input-number-2026-11-24/`，Empty 证据在 `output/p4-empty-2026-11-24/`，跨浏览器证据在 `output/p5-cross-browser-2026-11-24/`。
 - 组件站 1.0 达标前不恢复兄弟项目试点；About 采用只作已闭环记录，不触发其他页面 / 产品接入。
 - 不引入跨框架行为层与 Agent 运行时桥接（`@ui-sdk/*`、Agent Bridge / WebMCP）。重评触发点见[组件站 1.0](../features/component-site-1.md#contract-and-behavior-2026-11-18)。Playwright 已于 2026-11-22 经所有者确认入仓（只用预装 Chrome）；新增其他测试依赖（jsdom / happy-dom 等）仍需单独确认。
 - React 18 / Flutter 支持、组件包发行、字体策略、全站 token 与 family-ui 资料迁移不随试点自动进入，也不作为本次有限采用的前置条件。未覆盖平台与辅助技术如实记录；影响所选关键路径的缺陷仍需处理。

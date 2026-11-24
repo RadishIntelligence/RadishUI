@@ -288,7 +288,7 @@ P1 完成：30 个条目均有独立页；目录新增「页面原语」分组�
 - 索引：`scripts/generate-search.mjs` 从 `component-catalog.ts`、`icon-reference.ts`、`changelog.ts` 与生成器内的页面清单构建 `apps/docs/src/site-search.generated.ts`；`check:search` 与 `test:workbench` 拦生成物漂移。匹配逻辑在 `site-search.ts`：空格分词后全部命中，标题优先；拉丁词按词边界匹配（避免「arrow」命中「narrow」），中文按子串，组件补「按钮 / 表单 / 校验」等显式别名。
 - 页面：`SearchPage` 复用 PageHeader / Input；空查询显示四类计数与入口，查询按类型分组结果（标题、摘要、作用域），变更记录命中时优先展示命中的正文条目；结果计数 `role="status"`，空态、390 与明暗可用。
 - 采用与边界：只索引静态站点内容，不索引本地资源、文档正文或示例代码；结果链到所属页面 / 组件页 / 图标页 / 变更记录页，不做结果级深链，也不把搜索词写入地址。
-- 校验：`npm run check:search`、`npm run test:workbench`（17 项，新增索引覆盖、生成漂移与匹配断言）、`npm run test:interaction`（29 项，新增搜索分组、跳转、键盘与 390 溢出）、`npm run check`、`npm run build` 通过；`SearchPage` 懒加载分块 45.02 kB / gzip 11.52 kB，主入口 455.37 kB，无构建警告。Chrome 1440 / 390 × 明暗探针：`button` 3 个结果 / 2 组、`arrow` 命中 3 个图标与 1 条变更记录、空态与表单结果正常、变更记录 6 条、无横向溢出与 pageerror，证据在忽略目录 `output/p5-search-2026-11-24/`。
+- 校验：`npm run check:search`、`npm run test:workbench`（17 项，新增索引覆盖、生成漂移与匹配断言）、`npm run test:interaction`（29 项，新增搜索分组、跳转、键盘与 390 溢出）、`npm run check`、`npm run build` 通过；`SearchPage` 懒加载分块 45.03 kB / gzip 11.53 kB，主入口 455.37 kB，无构建警告。Chrome 1440 / 390 × 明暗探针：`button` 3 个结果 / 2 组、`arrow` 命中 3 个图标与 1 条变更记录、空态与表单结果正常、变更记录 6 条、无横向溢出与 pageerror，证据在忽略目录 `output/p5-search-2026-11-24/`。
 - 边界：未做 URL 查询持久化、结果高亮、拼音 / 模糊匹配与跨本地数据索引；窄屏底栏未加入口（页头图标可用）；真实屏幕阅读器未复验。
 
 <a id="p4-input-number-2026-11-24"></a>
@@ -298,8 +298,8 @@ P1 完成：30 个条目均有独立页；目录新增「页面原语」分组�
 - 范围：按所有者确认新增共享 InputNumber，以设置页「资源库每页条数」为首个真实承载，并让资源库分页消费；不新增 Slider / Upload、其他设置项或依赖，不改 token。
 - API：受控 `value: number | null` + `onValueChange`；`min` / `max` / `step`、`surface`、`controls` 与上下按钮可访问名称；输入框使用 `role="spinbutton"`，方向键按 step 调整，失焦时把空值还原为最近有效值、越界值钳制；FormField 自动关联标签 / 说明 / 错误。
 - 采用：设置页「外观」页签新增 5–50、步进 5 的每页条数；资源库初始 pageSize 读取偏好，分页仍可临时调整；偏好存储从 v2 升到 v3，旧 v2 数据补默认 20，不丢原外观。
-- 组件站：InputNumber 进入 fields 分组（33 个条目 / 29 个组件），3 个示例覆盖基础步进、精度与边界、表单字段 / 只读；API 16 行、行为 6 条；API / `llms.txt` / 代码高亮 / 站点搜索索引同批生成。
-- 校验：`npm run test:catalog`（11 项）、`npm run test:workbench`（17 项，新增 v2→v3 迁移）、`npm run test:interaction`（28 项，新增方向键 / 失焦 / Tab、设置页保存与资源库分页、迁移）、`npm run check`、`npm run build` 通过；Chrome 1440 / 390 × 明暗探针覆盖组件页与设置页，1440 两种主题保存后资源库 5 行，无横向溢出与 pageerror，证据在忽略目录 `output/p4-input-number-2026-11-24/`。主入口 454.72 kB / gzip 141.69 kB，无构建警告。
+- 组件站：InputNumber 加入时 33 个条目 / 29 个组件（Empty 后当前 34/30），3 个示例覆盖基础步进、精度与边界、表单字段 / 只读；API 16 行、行为 6 条；API / `llms.txt` / 代码高亮 / 站点搜索索引同批生成。
+- 校验：`npm run test:catalog`（11 项）、`npm run test:workbench`（17 项，新增 v2→v3 迁移）、`npm run test:interaction`（当时 28 项，新增方向键 / 失焦 / Tab、设置页保存与资源库分页、迁移；Empty 后 29）、`npm run check`、`npm run build` 通过；Chrome 1440 / 390 × 明暗探针覆盖组件页与设置页，1440 两种主题保存后资源库 5 行，无横向溢出与 pageerror，证据在忽略目录 `output/p4-input-number-2026-11-24/`。主入口 454.72 kB / gzip 141.69 kB，无构建警告。
 - 边界：不做千分位、货币前缀、任意精度格式化、异步校验或空值提交；粗指针 / 触屏隐藏步进按钮，改用数字键盘；Slider 与 Upload 仍无承载；preferences v3 迁移只补 pageSize，不改其他字段；Safari / Firefox 定向复验见下节。
 
 <a id="p4-empty-2026-11-24"></a>
@@ -370,6 +370,7 @@ P1 完成：30 个条目均有独立页；目录新增「页面原语」分组�
 
 ## 组件站 1.0 验收收口审计（2026-11-24）
 
+- 口径：本审计记录当时的 32 个组件页 / 113 个示例 / 258 行 API / 148 条行为声明；随后同日新增 InputNumber 与 Empty，当前为 34 个组件页 / 119 个示例 / 282 行 API / 158 条行为声明，增量由 `test:interaction` 与后续 Safari / Firefox 复验覆盖。
 - 范围：按[验收口径](#验收口径)逐项复核 32 个组件页与 P5 / 工作台站点页；不改共享组件、token、路由与依赖。起点 `dev` / `395d0c7`，与 `origin/dev` 同步；11-23 的 11 个提交实际已于 22:21 推送，11-24 手动 PR Checks run `45381557300` 三项通过（Web Build / Repo Hygiene / Candidate Quality），此前「未推送」为收尾快照。
 - 方法：构建产物 + 本地 preview，Chrome 157，1440×900 / 390×844 × 明暗四组。32 个条目每页读取 20 项结构（标题、导入、示例数 / 标题 / 预览 / 预览设置 / 代码、高亮、复制按钮、API 行与列、API 区域、行为行与区域、四个章节、相关组件、目录或窄屏入口、横向溢出、pageerror），并执行 32 页 × 4 组的 `doc-api` 深链。每模式验证目录 / 图标搜索、复制纯文本、示例主题 / 密度与 390 目录抽屉；另加载 overview / catalog / components / resources / document / settings / foundations / platforms / changelog / icons 十条路由。证据在忽略目录 `output/component-site-audit-2026-11-24/`（`audit.mjs`、`audit.json`、16 张截图与 `report.md`）。
 - 结果：32 个条目全部有独立页，113 个示例（每页 3–4 个）、258 行 API、148 条行为声明、71 个相关组件链接；128 次页面加载无页面级横向溢出与 pageerror，导入 / 示例 / API / 行为 / 章节 / 目录齐全，示例与导入代码全部有高亮和复制按钮；128 个深链均恢复并停靠；复制内容与源码一致，示例主题 / 密度切换生效，390 目录抽屉 5 项并跳转；目录搜索 `button` 命中 2、空态与清除恢复、图标搜索 `arrow` 命中 3；207 个唯一站内链接（2088 次出现）无未知路由或失效目标。未发现产品级差距。
