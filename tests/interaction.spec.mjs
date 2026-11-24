@@ -14,6 +14,13 @@ async function openComponent(page, id) {
 
 const example = (root, id) => root.locator(`[data-example="${id}"]`);
 
+async function componentIds(page) {
+  await page.goto('/#/catalog');
+  await page.waitForFunction(() => document.querySelectorAll('a.catalog-card[href^="#/components/"]').length === 32);
+  const hrefs = await page.locator('a.catalog-card[href^="#/components/"]').evaluateAll(nodes => nodes.map(node => node.getAttribute('href')));
+  return [...new Set(hrefs.map(href => href.replace('#/components/', '')))];
+}
+
 test('Button 的 loading 保留焦点，disabled 不可交互', async ({ page }) => {
   const root = await openComponent(page, 'button');
   const states = example(root, 'states');
@@ -139,12 +146,9 @@ test.describe('强制颜色', () => {
   });
 });
 
-test('全部组件页可加载，行为表与高亮齐全', async ({ page }) => {
+test('全部组件页可加载，结构、行为表与高亮齐全', async ({ page }) => {
   test.setTimeout(120_000);
-  await page.goto('/#/catalog');
-  await page.waitForFunction(() => document.querySelectorAll('a.catalog-card[href^="#/components/"]').length === 32);
-  const hrefs = await page.locator('a.catalog-card[href^="#/components/"]').evaluateAll(nodes => nodes.map(node => node.getAttribute('href')));
-  const ids = [...new Set(hrefs.map(href => href.replace('#/components/', '')))];
+  const ids = await componentIds(page);
   expect(ids.length).toBe(32);
   const failures = [];
   for (const id of ids) {
@@ -159,14 +163,95 @@ test('全部组件页可加载，行为表与高亮齐全', async ({ page }) => 
       failures.push(`${id}: 页面未渲染`);
     }
     if (await root.count() === 0) { page.off('pageerror', onError); continue; }
-    const behaviorRows = await page.locator('.doc-behavior tbody tr').count();
-    if (behaviorRows < 3) failures.push(`${id}: 行为表 ${behaviorRows} 行`);
+    const structure = await root.evaluate(node => {
+      const examples = node.querySelectorAll('[data-example]').length;
+      return {
+        examples,
+        apiRows: node.querySelectorAll('.doc-api tbody tr').length,
+        behaviorRows: node.querySelectorAll('.doc-behavior tbody tr').length,
+        copyButtons: node.querySelectorAll('.doc-code button').length,
+        outlineLinks: node.querySelectorAll('.component-doc__aside .rd-toc a').length,
+        sections: ['doc-import', 'doc-examples', 'doc-api', 'doc-keyboard'].filter(section => node.querySelector(`#${section}`)).length,
+        importCode: node.querySelector('.doc-section[aria-labelledby="doc-import"] .doc-code pre code')?.textContent?.trim() ?? '',
+        related: node.querySelectorAll('.doc-related__link').length,
+      };
+    });
+    if (!structure.importCode.startsWith('import')) failures.push(`${id}: 导入代码缺失`);
+    if (structure.examples < 3) failures.push(`${id}: 示例 ${structure.examples} 个`);
+    if (structure.apiRows < 2) failures.push(`${id}: API ${structure.apiRows} 行`);
+    if (structure.behaviorRows < 3) failures.push(`${id}: 行为表 ${structure.behaviorRows} 行`);
+    if (structure.sections !== 4) failures.push(`${id}: 章节 ${structure.sections}/4`);
+    if (structure.copyButtons !== structure.examples + 1) failures.push(`${id}: 复制按钮 ${structure.copyButtons} 个`);
+    const expectedOutline = structure.related > 0 ? 5 : 4;
+    if (structure.outlineLinks !== expectedOutline) failures.push(`${id}: 目录 ${structure.outlineLinks} 项`);
     const unhighlighted = await page.locator('.doc-code pre code').evaluateAll(nodes => nodes.filter(node => !node.querySelector('span[class^="tok-"]')).length);
     if (unhighlighted) failures.push(`${id}: ${unhighlighted} 个代码块无高亮`);
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1);
     if (overflow) failures.push(`${id}: 1440 页面横向溢出`);
     if (errors.length) failures.push(`${id}: ${errors.join(' | ')}`);
     page.off('pageerror', onError);
+  }
+  expect(failures).toEqual([]);
+});
+
+test('全部组件页在 390 无页面级横向溢出', async ({ page }) => {
+  test.setTimeout(120_000);
+  await page.setViewportSize({ width: 390, height: 844 });
+  const ids = await componentIds(page);
+  const failures = [];
+  for (const id of ids) {
+    const errors = [];
+    const onError = error => errors.push(String(error));
+    page.on('pageerror', onError);
+    await page.goto(`/#/components/${id}`);
+    try {
+      await expect(page.locator(`[data-component="${id}"]`)).toBeVisible({ timeout: 15_000 });
+    } catch {
+      failures.push(`${id}: 页面未渲染`);
+    }
+    const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1);
+    if (overflow) failures.push(`${id}: 390 页面横向溢出`);
+    if (errors.length) failures.push(`${id}: ${errors.join(' | ')}`);
+    page.off('pageerror', onError);
+  }
+  expect(failures).toEqual([]);
+});
+
+test('暗色代表页无横向溢出并应用暗色主题', async ({ page }) => {
+  test.setTimeout(120_000);
+  await page.emulateMedia({ colorScheme: 'dark' });
+  const targets = [
+    ['#/components/button', '[data-component="button"]'],
+    ['#/components/table', '[data-component="table"]'],
+    ['#/components/description-list', '[data-component="description-list"]'],
+    ['#/resources', '.resources-page'],
+    ['#/changelog', '.changelog-page'],
+    ['#/icons', '.icons-page'],
+  ];
+  const failures = [];
+  for (const [width, height] of [[1440, 900], [390, 844]]) {
+    await page.setViewportSize({ width, height });
+    for (const [hash, selector] of targets) {
+      const errors = [];
+      const onError = error => errors.push(String(error));
+      page.on('pageerror', onError);
+      await page.goto(`/${hash}`);
+      try {
+        await expect(page.locator(selector)).toBeVisible({ timeout: 15_000 });
+      } catch {
+        failures.push(`${width} ${hash}: 页面未渲染`);
+        page.off('pageerror', onError);
+        continue;
+      }
+      const state = await page.evaluate(() => ({
+        theme: document.documentElement.dataset.rdTheme,
+        overflow: document.documentElement.scrollWidth > document.documentElement.clientWidth + 1,
+      }));
+      if (state.theme !== 'dark') failures.push(`${width} ${hash}: 主题 ${state.theme}`);
+      if (state.overflow) failures.push(`${width} ${hash}: 横向溢出`);
+      if (errors.length) failures.push(`${width} ${hash}: ${errors.join(' | ')}`);
+      page.off('pageerror', onError);
+    }
   }
   expect(failures).toEqual([]);
 });
