@@ -15,7 +15,7 @@
     "dev": "npm run dev --workspace @radish-ui/docs",
     "build": "npm run check && npm run build --workspace @radish-ui/docs",
     "preview": "npm run preview --workspace @radish-ui/docs",
-    "check": "npm run check:repo && npm run test:repo && npm run test:workbench && npm run test:catalog && npm run check:tokens && npm run check:notices && npm run type-check",
+    "check": "npm run check:repo && npm run test:repo && npm run test:workbench && npm run test:catalog && npm run check:tokens && npm run check:search && npm run check:notices && npm run type-check",
     "check:repo": "node scripts/check-repo.mjs",
     "test:repo": "node --test scripts/check-repo.test.mjs",
     "test:workbench": "node --test scripts/workbench.test.mjs",
@@ -23,11 +23,13 @@
     "notices:generate": "node scripts/generate-notices.mjs",
     "check:notices": "node scripts/generate-notices.mjs --check",
     "check:tokens": "node scripts/generate-tokens.mjs --check",
+    "check:search": "node scripts/generate-search.mjs --check",
     "tokens:generate": "node scripts/generate-tokens.mjs",
     "llms:generate": "node scripts/generate-llms.mjs",
     "api:generate": "node scripts/generate-api.mjs",
     "type-check": "tsc --noEmit",
     "code:generate": "node scripts/generate-code.mjs",
+    "search:generate": "node scripts/generate-search.mjs",
     "test:interaction": "npm run build --workspace @radish-ui/docs && playwright test --config playwright.config.mjs"
   },
   "devDependencies": {

@@ -47,9 +47,12 @@ svg { flex-shrink: 0; }
 .workspace-panel { min-width: 0; min-height: 0; display: flex; flex-direction: column; overflow: hidden; background: var(--rd-bg-surface); }
 .workspace-header { display: flex; flex-shrink: 0; align-items: center; justify-content: space-between; gap: 12px; min-height: 64px; padding: 12px 16px; border-bottom: 1px solid var(--rd-border-soft); }
 .header-actions { display: flex; align-items: center; gap: 8px; }
+.header-search { display: inline-flex; flex-shrink: 0; align-items: center; justify-content: center; width: var(--rd-control-height); min-height: var(--rd-control-height); border: 1px solid var(--rd-border-soft); border-radius: var(--rd-radius-control); background: var(--rd-bg-muted); color: var(--rd-text-secondary); }
+.header-search:hover { background: var(--rd-bg-selected); color: var(--rd-text-primary); }
+.header-search:focus-visible { outline: 1px solid var(--rd-focus-ring); outline-offset: 3px; }
 .workspace-main { min-height: 0; flex: 1; overflow: auto; padding: 24px 16px 12px; scroll-padding-top: 16px; outline: none; }
 /* Content pages share one width; the resource workbench keeps the full surface. */
-.overview-page, .settings-page, .document-page, .components-page, .foundations-page, .platforms-page, .changelog-page, .icons-page { width: 100%; max-width: 1184px; margin-inline: auto; }
+.overview-page, .settings-page, .document-page, .components-page, .foundations-page, .platforms-page, .changelog-page, .icons-page, .search-page { width: 100%; max-width: 1184px; margin-inline: auto; }
 .workspace-main > .rd-alert { margin-bottom: 16px; }
 .workspace-main.is-fixed-page { overflow: hidden; }
 /* Extreme text or very short viewports: let the page scroll instead of crushing the list. */

@@ -221,7 +221,7 @@ function main() {
   assert.equal(pkg.scripts['test:repo'], 'node --test scripts/check-repo.test.mjs');
   assert.equal(pkg.scripts['test:workbench'], 'node --test scripts/workbench.test.mjs');
   assert.equal(pkg.scripts['check:notices'], 'node scripts/generate-notices.mjs --check');
-  assert.equal(pkg.scripts.check, 'npm run check:repo && npm run test:repo && npm run test:workbench && npm run test:catalog && npm run check:tokens && npm run check:notices && npm run type-check');
+  assert.equal(pkg.scripts.check, 'npm run check:repo && npm run test:repo && npm run test:workbench && npm run test:catalog && npm run check:tokens && npm run check:search && npm run check:notices && npm run type-check');
   assert.equal(pkg.scripts.build, 'npm run check && npm run build --workspace @radish-ui/docs');
   const pr = read('.github/PULL_REQUEST_TEMPLATE.md');
   for (const text of ['token / API / 默认视觉 / 平台支持', '未验证范围', '回流负责人和时机', 'origin/master origin/dev', 'Vercel 生产部署']) assert(pr.includes(text), `PR 模板缺少 ${text}`);

@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { Avatar, IconButton, Menu, Tooltip } from '@radish-ui/react';
-import { BookOpen, Boxes, Check, ChevronDown, Compass, FileText, FolderOpen, History, LifeBuoy, Package, Palette, PanelLeftClose, PanelLeftOpen, Shapes, SlidersHorizontal, Star, SunMoon } from 'lucide-react';
+import { BookOpen, Boxes, Check, ChevronDown, Compass, FileText, FolderOpen, History, LifeBuoy, Package, Palette, PanelLeftClose, PanelLeftOpen, Search, Shapes, SlidersHorizontal, Star, SunMoon } from 'lucide-react';
 import type { Page, Translate } from './model';
 
 interface ShellProps {
@@ -10,6 +10,7 @@ interface ShellProps {
 export function Shell({ page, collapsed, onCollapse, onHelp, onTheme, t, notice, children }: ShellProps) {
   const designLinks = [
     { page: 'overview', href: '#/overview', label: t('概览', 'Overview'), Icon: Compass },
+    { page: 'search', href: '#/search', label: t('搜索', 'Search'), Icon: Search },
     { page: 'foundations', href: '#/foundations', label: t('视觉基础', 'Foundations'), Icon: Palette },
     { page: 'components', href: '#/catalog', label: t('组件目录', 'Component catalog'), Icon: Boxes },
     { page: 'icons', href: '#/icons', label: t('图标参考', 'Icon reference'), Icon: Shapes },
@@ -88,6 +89,7 @@ export function Shell({ page, collapsed, onCollapse, onHelp, onTheme, t, notice,
       <header className="workspace-header">
         <div className="mobile-workspace">{workspace}</div>
         <div className="header-actions">
+          <a className="header-search" href="#/search" aria-label={t('打开站点搜索', 'Open site search')}><Search size={18} aria-hidden="true" /></a>
           <Tooltip content={t('切换明暗外观', 'Toggle appearance')}><IconButton label={t('切换明暗外观', 'Toggle appearance')} onClick={onTheme}><SunMoon /></IconButton></Tooltip>
           <div className="mobile-account">{account}</div>
         </div>

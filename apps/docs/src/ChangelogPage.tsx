@@ -1,19 +1,13 @@
 import { Card, StatusBadge, Tag } from '@radish-ui/react';
 import type { Translate } from './model';
 import { PageHeader } from './PageHeader';
-import { changelog, siteVersion, type ChangelogKind } from './changelog';
+import { changelog, changelogKindLabels, siteVersion } from './changelog';
 import { componentCatalog } from './component-catalog';
 import './changelog.css';
 
 export function ChangelogPage({ t }: { t: Translate }) {
   const primitiveCount = componentCatalog.filter(entry => entry.group === 'primitives').length;
   const componentCount = componentCatalog.length - primitiveCount;
-  const kindLabels: Record<ChangelogKind, string> = {
-    components: t('共享组件', 'Shared components'),
-    site: t('展示站', 'Showcase'),
-    engineering: t('工程与发布', 'Engineering'),
-    verification: t('验证', 'Verification'),
-  };
   return <section className="changelog-page">
     <PageHeader title={t('变更记录', 'Changelog')} back={{ href: '#/overview', label: t('概览', 'Overview') }} />
     <p className="changelog-intro">{t('共享组件与展示站的可追溯变更。条目来自开发记录；正式版本、Git tag 与 Release 在发行任务中另行创建。',
@@ -32,7 +26,7 @@ export function ChangelogPage({ t }: { t: Translate }) {
         <Card padding="md" className="changelog-entry">
           <div className="changelog-entry-head">
             <time dateTime={entry.date}>{entry.date}</time>
-            <Tag>{kindLabels[entry.kind]}</Tag>
+            <Tag>{t(changelogKindLabels[entry.kind].zh, changelogKindLabels[entry.kind].en)}</Tag>
           </div>
           <h2>{t(entry.title.zh, entry.title.en)}</h2>
           <ul className="changelog-items">

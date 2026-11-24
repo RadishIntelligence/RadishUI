@@ -8,6 +8,7 @@ import { ComponentsPage } from './ComponentsPage';
 const CatalogPage = lazy(() => import('./CatalogPage').then(module => ({ default: module.CatalogPage })));
 const ComponentDetailPage = lazy(() => import('./ComponentDetailPage').then(module => ({ default: module.ComponentDetailPage })));
 const ChangelogPage = lazy(() => import('./ChangelogPage').then(module => ({ default: module.ChangelogPage })));
+const SearchPage = lazy(() => import('./SearchPage').then(module => ({ default: module.SearchPage })));
 const IconsPage = lazy(() => import('./IconsPage').then(module => ({ default: module.IconsPage })));
 import { FoundationsPage } from './FoundationsPage';
 import { OverviewPage } from './OverviewPage';
@@ -98,7 +99,7 @@ export function App() {
   useEffect(() => {
     const title = route.catalog ? t('组件目录', 'Component catalog')
       : route.componentId ? findComponent(route.componentId)?.name ?? t('组件用法', 'Components')
-        : { resources: t('资源库', 'Resources'), settings: t('外观与偏好', 'Preferences'), document: t('文档', 'Document'), overview: t('概览', 'Overview'), components: t('组件用法', 'Components'), foundations: t('视觉基础', 'Foundations'), platforms: t('平台与接入', 'Platforms'), changelog: t('变更记录', 'Changelog'), icons: t('图标参考', 'Icon reference') }[route.page];
+        : { resources: t('资源库', 'Resources'), settings: t('外观与偏好', 'Preferences'), document: t('文档', 'Document'), overview: t('概览', 'Overview'), components: t('组件用法', 'Components'), foundations: t('视觉基础', 'Foundations'), platforms: t('平台与接入', 'Platforms'), changelog: t('变更记录', 'Changelog'), icons: t('图标参考', 'Icon reference'), search: t('搜索', 'Search') }[route.page];
     document.title = `${title} · RadishUI`;
   }, [route.page, route.catalog, route.componentId, t]);
 
@@ -142,6 +143,7 @@ export function App() {
       <Suspense fallback={<p className="page-loading">{t('正在加载页面…', 'Loading page…')}</p>}>
         {route.page === 'changelog' && <ChangelogPage t={t} />}
         {route.page === 'icons' && <IconsPage t={t} />}
+        {route.page === 'search' && <SearchPage t={t} />}
       </Suspense>
       {route.page === 'settings' && <SettingsPage preferences={preferences} save={savePreferences} t={t} onDirtyChange={updateDirty} />}
       {route.page === 'resources' && <ResourcesPage resources={resources} error={resourceError} save={saveResources} retry={() => setLoadAttempt(loadAttempt + 1)} t={t} locale={preferences.locale} density={preferences.density} notify={notify} />}

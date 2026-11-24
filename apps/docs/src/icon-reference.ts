@@ -14,6 +14,15 @@ export interface IconReferenceEntry {
 
 export const iconReferenceGroups: readonly IconReferenceGroup[] = ['navigation', 'action', 'status', 'content', 'decoration'];
 
+/** 图标用途分组的显示文案；图标页与站点搜索共用同一来源。 */
+export const iconReferenceGroupLabels: Record<IconReferenceGroup, { zh: string; en: string }> = {
+  navigation: { zh: '导航', en: 'Navigation' },
+  action: { zh: '操作', en: 'Actions' },
+  status: { zh: '状态', en: 'Status' },
+  content: { zh: '内容与入口', en: 'Content & entries' },
+  decoration: { zh: '装饰与提示', en: 'Decor & hints' },
+};
+
 /**
  * 展示站与组件示例实际使用的图标。图标沿用 lucide-react，不引入第二套图标依赖；
  * 尺寸沿用 16 / 18 / 20，颜色消费当前文字色，纯装饰图标对辅助技术隐藏。

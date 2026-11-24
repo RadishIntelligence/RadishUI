@@ -4,7 +4,7 @@ import { Input } from '@radish-ui/react';
 import type { Translate } from './model';
 import { PageHeader } from './PageHeader';
 import { CopyButton } from './CopyButton';
-import { iconReference, iconReferenceGroups, type IconReferenceGroup } from './icon-reference';
+import { iconReference, iconReferenceGroupLabels, iconReferenceGroups } from './icon-reference';
 import './component-site.css';
 import './icons.css';
 
@@ -13,14 +13,7 @@ export function IconsPage({ t }: { t: Translate }) {
   const search = query.trim().toLocaleLowerCase();
   const filtered = iconReference.filter(icon => !search
     || [icon.name, icon.zh, icon.en].some(value => value.toLocaleLowerCase().includes(search)));
-  const groupLabels: Record<IconReferenceGroup, string> = {
-    navigation: t('导航', 'Navigation'),
-    action: t('操作', 'Actions'),
-    status: t('状态', 'Status'),
-    content: t('内容与入口', 'Content & entries'),
-    decoration: t('装饰与提示', 'Decor & hints'),
-  };
-  const groups = iconReferenceGroups.map(group => ({ group, label: groupLabels[group], icons: filtered.filter(icon => icon.group === group) }))
+  const groups = iconReferenceGroups.map(group => ({ group, label: t(iconReferenceGroupLabels[group].zh, iconReferenceGroupLabels[group].en), icons: filtered.filter(icon => icon.group === group) }))
     .filter(entry => entry.icons.length > 0);
   return <section className="icons-page">
     <PageHeader title={t('图标参考', 'Icon reference')} back={{ href: '#/overview', label: t('概览', 'Overview') }} />
