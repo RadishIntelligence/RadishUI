@@ -38,7 +38,7 @@ export const changelog: readonly ChangelogEntry[] = [
     items: [
       { zh: '新增 #/search 站点搜索：索引页面、组件、图标与变更记录，侧栏与窄屏页头提供入口。', en: 'Added #/search site search, indexing pages, components, icons, and changelog entries, with entries in the sidebar and the narrow-screen header.', href: '#/search' },
       { zh: '组件站 1.0 验收收口审计通过：32 个组件页 × 1440 / 390 × 明暗共 128 次加载，未发现产品级差距。', en: 'Completed the component site 1.0 acceptance audit: 32 component pages at 1440 / 390 in light and dark, 128 page loads, with no product-level gaps.' },
-      { zh: '交互断言扩至 24 项，固化全量组件页结构、390 溢出与暗色代表页检查。', en: 'Interaction assertions grew to 24, covering the full component page structure, 390 overflow, and representative dark pages.' },
+      { zh: '交互断言扩至 25 项，固化全量组件页结构、390 溢出、暗色代表页与站点搜索检查。', en: 'Interaction assertions grew to 25, covering the full component page structure, 390 overflow, representative dark pages, and site search.' },
     ],
   },
   {
