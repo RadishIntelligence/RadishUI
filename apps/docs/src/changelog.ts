@@ -34,7 +34,7 @@ export const changelog: readonly ChangelogEntry[] = [
   {
     date: '2026-11-24',
     kind: 'site',
-    title: { zh: '站点搜索、InputNumber 与验收收口', en: 'Site search, InputNumber, and acceptance audit' },
+    title: { zh: '站点搜索、InputNumber、Empty 与验收收口', en: 'Site search, InputNumber, Empty, and acceptance audit' },
     items: [
       { zh: '新增 #/search 站点搜索：索引页面、组件、图标与变更记录，侧栏与窄屏页头提供入口。', en: 'Added #/search site search, indexing pages, components, icons, and changelog entries, with entries in the sidebar and the narrow-screen header.', href: '#/search' },
       { zh: '组件站 1.0 验收收口审计通过：32 个组件页 × 1440 / 390 × 明暗共 128 次加载，未发现产品级差距。', en: 'Completed the component site 1.0 acceptance audit: 32 component pages at 1440 / 390 in light and dark, 128 page loads, with no product-level gaps.' },
