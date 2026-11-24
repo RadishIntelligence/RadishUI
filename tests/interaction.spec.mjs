@@ -227,6 +227,7 @@ test('暗色代表页无横向溢出并应用暗色主题', async ({ page }) => 
     ['#/resources', '.resources-page'],
     ['#/changelog', '.changelog-page'],
     ['#/icons', '.icons-page'],
+    ['#/search', '.search-page'],
   ];
   const failures = [];
   for (const [width, height] of [[1440, 900], [390, 844]]) {
@@ -288,13 +289,52 @@ test('组件页窄屏目录使用抽屉并跳转章节', async ({ page }) => {
   await expect.poll(() => page.locator('#doc-keyboard').evaluate(element => element.getBoundingClientRect().top)).toBeLessThan(400);
 });
 
+
+test('站点搜索按类型分组、可跳转并在窄屏保持无溢出', async ({ page }) => {
+  await page.goto('/#/search');
+  await expect(page.getByRole('heading', { level: 1, name: '搜索' })).toBeVisible();
+  await expect(page.locator('.search-summary-card')).toHaveCount(4);
+  await expect(page.locator('.search-count')).toHaveText('共 86 个条目');
+  const input = page.getByLabel('搜索站点');
+  await input.fill('button');
+  await expect(page.locator('.search-count')).toHaveText('3 个结果');
+  await expect(page.locator('.search-group')).toHaveCount(2);
+  await expect(page.locator('.search-result')).toHaveCount(3);
+  await page.keyboard.press('Tab');
+  await expect(page.locator('.search-result').first()).toBeFocused();
+  await page.locator('.search-result', { hasText: 'Button' }).first().click();
+  await expect(page).toHaveURL(/#\/components\/button$/);
+  await expect(page.locator('[data-component="button"]')).toBeVisible();
+
+  await page.goto('/#/search');
+  await page.getByLabel('搜索站点').fill('arrow');
+  await expect(page.locator('.search-count')).toHaveText('3 个结果');
+  await expect(page.locator('.search-result')).toHaveCount(3);
+  await page.locator('.search-result', { hasText: 'ArrowLeft' }).click();
+  await expect(page).toHaveURL(/#\/icons$/);
+  await expect(page.getByRole('heading', { level: 1, name: '图标参考' })).toBeVisible();
+
+  await page.goto('/#/search');
+  const search = page.getByLabel('搜索站点');
+  await search.fill('没有这个条目');
+  await expect(page.locator('.search-empty')).toHaveText('没有匹配的条目。');
+  await search.fill('');
+  await expect(page.locator('.search-summary-card')).toHaveCount(4);
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/#/search');
+  await search.fill('表单');
+  const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1);
+  expect(overflow, '搜索页在 390 下横向溢出').toBe(false);
+});
+
 test('变更记录页展示内部版本并链接到组件页', async ({ page }) => {
   await page.goto('/#/changelog');
   await expect(page.getByRole('heading', { level: 1, name: '变更记录' })).toBeVisible();
   await expect(page.locator('.changelog-version')).toContainText('v26.11.1');
   const entries = page.locator('.changelog-entry');
-  await expect(entries).toHaveCount(5);
-  await expect(entries.first()).toContainText('2026-11-23');
+  await expect(entries).toHaveCount(6);
+  await expect(entries.first()).toContainText('2026-11-24');
   const componentLink = page.locator('.changelog-entry a[href="#/components/description-list"]').first();
   await expect(componentLink).toBeVisible();
   await componentLink.click();
@@ -305,7 +345,7 @@ test('变更记录页展示内部版本并链接到组件页', async ({ page }) 
   await expect(page.locator('.changelog-page')).toBeVisible();
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1);
   expect(overflow, '变更记录页在 390 下横向溢出').toBe(false);
-  await expect(page.locator('.changelog-entry')).toHaveCount(5);
+  await expect(page.locator('.changelog-entry')).toHaveCount(6);
 });
 
 test('图标参考页可搜索、复制导入且窄屏无溢出', async ({ page }) => {

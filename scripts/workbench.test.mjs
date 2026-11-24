@@ -4,6 +4,9 @@ import { readFileSync } from 'node:fs';
 import { changelog, siteVersion } from '../apps/docs/src/changelog.ts';
 import { componentCatalog } from '../apps/docs/src/component-catalog.ts';
 import { iconReference, iconReferenceGroups } from '../apps/docs/src/icon-reference.ts';
+import { siteSearchEntries } from '../apps/docs/src/site-search.generated.ts';
+import { searchMatchDetail, searchSite, siteSearchKindOrder } from '../apps/docs/src/site-search.ts';
+import { buildGeneratedSearch } from './generate-search.mjs';
 import * as lucideIcons from 'lucide-react';
 import { appendResourceTags, defaultPreferences, filterResources, isArticle, isArticles, isLegacyPreferences, isPreferences, isResources, migratePreferences, pageCount, parseArticle, parseRoute, resourceTagLimits } from '../apps/docs/src/model.ts';
 import { paginationRange, validatePage } from '../packages/react/src/pagination.ts';
@@ -21,13 +24,61 @@ test('icon reference matches lucide-react exports and stays unique', () => {
   }
 });
 
+
+test('site search index covers static content and points at existing pages', () => {
+  const ids = siteSearchEntries.map(entry => entry.id);
+  assert.equal(new Set(ids).size, ids.length, '站点搜索 id 不重复');
+  assert.deepEqual([...new Set(siteSearchEntries.map(entry => entry.kind))].sort(), [...siteSearchKindOrder].sort());
+  assert.equal(siteSearchEntries.filter(entry => entry.kind === 'page').length, 10);
+  assert.equal(siteSearchEntries.filter(entry => entry.kind === 'component').length, componentCatalog.length);
+  assert.equal(siteSearchEntries.filter(entry => entry.kind === 'icon').length, iconReference.length);
+  assert.equal(siteSearchEntries.filter(entry => entry.kind === 'changelog').length, changelog.length);
+  const standalone = new Set(['#/overview', '#/catalog', '#/components', '#/foundations', '#/icons', '#/changelog', '#/platforms', '#/resources', '#/settings', '#/document']);
+  for (const entry of siteSearchEntries) {
+    assert.ok(entry.title.zh.trim() && entry.title.en.trim(), entry.id);
+    assert.ok(entry.description.zh.trim() && entry.description.en.trim(), entry.id);
+    assert.ok(entry.group.zh.trim() && entry.group.en.trim(), entry.id);
+    const parts = entry.href.replace(/^#\//, '').split('/');
+    if (parts[0] === 'components' && parts[1]) {
+      assert.ok(componentCatalog.some(component => component.id === parts[1] && component.detail), entry.id);
+    } else {
+      assert.ok(standalone.has(entry.href), `${entry.id} 链接目标不存在：${entry.href}`);
+    }
+  }
+  for (const component of componentCatalog) assert.ok(ids.includes(`component:${component.id}`), component.id);
+  for (const icon of iconReference) assert.ok(ids.includes(`icon:${icon.name}`), icon.name);
+  for (const entry of changelog) assert.ok(ids.includes(`changelog:${entry.date}`), entry.date);
+});
+
+test('site search generated file matches its sources', () => {
+  const file = new URL('../apps/docs/src/site-search.generated.ts', import.meta.url);
+  assert.equal(readFileSync(file, 'utf8'), buildGeneratedSearch());
+});
+
+test('site search matches names, roles, aliases and changelog details', () => {
+  assert.equal(searchSite(siteSearchEntries, '').length, siteSearchEntries.length);
+  const buttons = searchSite(siteSearchEntries, 'button').map(entry => entry.id);
+  assert.ok(buttons.includes('component:button'));
+  assert.ok(buttons.includes('component:icon-button'));
+  assert.deepEqual(searchSite(siteSearchEntries, 'BUTTON').map(entry => entry.id), buttons);
+  assert.deepEqual(searchSite(siteSearchEntries, 'arrow').map(entry => entry.id).sort(), ['icon:ArrowLeft', 'icon:ArrowRight', 'icon:ArrowUpRight']);
+  assert.ok(searchSite(siteSearchEntries, '表单').some(entry => entry.id === 'component:form'));
+  assert.ok(searchSite(siteSearchEntries, '按钮').some(entry => entry.id === 'component:button'));
+  assert.ok(searchSite(siteSearchEntries, '表单 校验').some(entry => entry.id === 'component:form'));
+  const shiki = searchSite(siteSearchEntries, 'shiki').find(entry => entry.id === 'changelog:2026-11-22');
+  assert.ok(shiki);
+  assert.match(searchMatchDetail(shiki, 'shiki').zh, /Shiki/);
+  assert.deepEqual(searchSite(siteSearchEntries, '没有这个条目'), []);
+  assert.equal(searchSite(siteSearchEntries, '   ').length, siteSearchEntries.length);
+});
+
 test('changelog records stay sorted and link to existing pages', () => {
   const version = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8')).version;
   assert.equal(siteVersion, version, '展示站版本需与 package.json 一致');
   const dates = changelog.map(entry => entry.date);
   assert.deepEqual(dates, [...dates].sort().reverse(), '变更记录按日期倒序');
   assert.equal(new Set(dates).size, dates.length, '变更记录日期不重复');
-  const standaloneHrefs = new Set(['#/overview', '#/catalog', '#/components', '#/platforms', '#/changelog', '#/resources', '#/settings', '#/document', '#/foundations']);
+  const standaloneHrefs = new Set(['#/overview', '#/catalog', '#/components', '#/platforms', '#/changelog', '#/resources', '#/settings', '#/document', '#/foundations', '#/search']);
   for (const entry of changelog) {
     assert.match(entry.date, /^\d{4}-\d{2}-\d{2}$/, entry.date);
     assert.ok(entry.title.zh.trim() && entry.title.en.trim(), entry.date);
@@ -126,6 +177,7 @@ test('routes distinguish pages, resource ids and section anchors', () => {
   assert.deepEqual(parseRoute('#/document/theme-colors/section-2'), { page: 'document', resourceId: 'theme-colors', section: 'section-2' });
   assert.equal(parseRoute('#/settings').page, 'settings');
   assert.equal(parseRoute('#/icons').page, 'icons');
+  assert.equal(parseRoute('#/search').page, 'search');
   assert.deepEqual(parseRoute('#/components'), { page: 'components', resourceId: undefined, section: undefined });
   assert.deepEqual(parseRoute('#/catalog'), { page: 'components', resourceId: undefined, section: undefined, catalog: true });
   assert.deepEqual(parseRoute('#/components/button'), { page: 'components', resourceId: undefined, section: undefined, componentId: 'button' });
