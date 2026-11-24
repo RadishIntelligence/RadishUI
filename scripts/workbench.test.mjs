@@ -8,7 +8,7 @@ import { siteSearchEntries } from '../apps/docs/src/site-search.generated.ts';
 import { searchMatchDetail, searchSite, siteSearchKindOrder } from '../apps/docs/src/site-search.ts';
 import { buildGeneratedSearch } from './generate-search.mjs';
 import * as lucideIcons from 'lucide-react';
-import { appendResourceTags, defaultPreferences, filterResources, isArticle, isArticles, isLegacyPreferences, isPreferences, isResources, migratePreferences, pageCount, parseArticle, parseRoute, resourceTagLimits } from '../apps/docs/src/model.ts';
+import { appendResourceTags, defaultPreferences, filterResources, isArticle, isArticles, isLegacyPreferences, isPreferences, isPreferencesV2, isResources, migratePreferences, migratePreferencesV2, pageCount, parseArticle, parseRoute, resourceTagLimits } from '../apps/docs/src/model.ts';
 import { paginationRange, validatePage } from '../packages/react/src/pagination.ts';
 
 const resource = { id: 'release-notes', name: '发布 Release Notes', kind: 'document', status: 'ready', summary: 'Upgrade guide', creator: '示例成员', updatedAt: '2026-11-04T10:00:00Z', version: 'v1', tags: ['发布'] };
@@ -61,7 +61,7 @@ test('site search matches names, roles, aliases and changelog details', () => {
   assert.ok(buttons.includes('component:button'));
   assert.ok(buttons.includes('component:icon-button'));
   assert.deepEqual(searchSite(siteSearchEntries, 'BUTTON').map(entry => entry.id), buttons);
-  assert.deepEqual(searchSite(siteSearchEntries, 'arrow').map(entry => entry.id).sort(), ['icon:ArrowLeft', 'icon:ArrowRight', 'icon:ArrowUpRight']);
+  assert.deepEqual(searchSite(siteSearchEntries, 'arrow').filter(entry => entry.kind === 'icon').map(entry => entry.id).sort(), ['icon:ArrowLeft', 'icon:ArrowRight', 'icon:ArrowUpRight']);
   assert.ok(searchSite(siteSearchEntries, '表单').some(entry => entry.id === 'component:form'));
   assert.ok(searchSite(siteSearchEntries, '按钮').some(entry => entry.id === 'component:button'));
   assert.ok(searchSite(siteSearchEntries, '表单 校验').some(entry => entry.id === 'component:form'));
@@ -101,9 +101,21 @@ test('changelog records stay sorted and link to existing pages', () => {
 test('stored preferences reject missing, coerced and unknown values', () => {
   assert(isPreferences(defaultPreferences));
   assert.equal(defaultPreferences.density, 'standard');
+  assert.equal(defaultPreferences.pageSize, 20);
   assert(isPreferences({ ...defaultPreferences, density: 'compact' }));
   assert(isPreferences({ ...defaultPreferences, density: 'spacious' }));
-  for (const value of [null, {}, { ...defaultPreferences, theme: ['dark'] }, { ...defaultPreferences, locale: 'fr' }, { ...defaultPreferences, showToc: 'true' }, { ...defaultPreferences, density: 'ultra' }, { ...defaultPreferences, density: 'comfortable' }]) assert.equal(isPreferences(value), false);
+  assert(isPreferences({ ...defaultPreferences, pageSize: 5 }));
+  assert(isPreferences({ ...defaultPreferences, pageSize: 50 }));
+  for (const value of [null, {}, { ...defaultPreferences, theme: ['dark'] }, { ...defaultPreferences, locale: 'fr' }, { ...defaultPreferences, showToc: 'true' }, { ...defaultPreferences, density: 'ultra' }, { ...defaultPreferences, density: 'comfortable' }, { ...defaultPreferences, pageSize: 4 }, { ...defaultPreferences, pageSize: 51 }, { ...defaultPreferences, pageSize: 1.5 }, { ...defaultPreferences, pageSize: '20' }]) assert.equal(isPreferences(value), false);
+});
+
+test('version 2 preferences gain the default page size without losing their appearance', () => {
+  const { pageSize, ...version2 } = defaultPreferences;
+  assert.equal(pageSize, 20);
+  assert(isPreferencesV2(version2));
+  assert.equal(isPreferences(version2), false);
+  assert.deepEqual(migratePreferencesV2(version2), defaultPreferences);
+  assert.deepEqual(migratePreferencesV2({ ...version2, density: 'compact', theme: 'dark' }), { ...defaultPreferences, density: 'compact', theme: 'dark' });
 });
 test('legacy density values migrate without changing the standard appearance', () => {
   assert(isLegacyPreferences({ ...defaultPreferences, density: 'compact' }));
@@ -112,6 +124,7 @@ test('legacy density values migrate without changing the standard appearance', (
   assert.equal(migratePreferences({ ...defaultPreferences, density: 'compact' }).density, 'standard');
   assert.equal(migratePreferences({ ...defaultPreferences, density: 'comfortable' }).density, 'spacious');
   assert.equal(migratePreferences({ ...defaultPreferences, density: 'spacious' }).density, 'spacious');
+  assert.equal(migratePreferences({ ...defaultPreferences, density: 'comfortable' }).pageSize, 20);
 });
 test('resources accept empty collections and reject corrupted or duplicate records', () => {
   assert(isResources([])); assert(isResources([resource]));

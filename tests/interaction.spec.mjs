@@ -16,7 +16,7 @@ const example = (root, id) => root.locator(`[data-example="${id}"]`);
 
 async function componentIds(page) {
   await page.goto('/#/catalog');
-  await page.waitForFunction(() => document.querySelectorAll('a.catalog-card[href^="#/components/"]').length === 32);
+  await page.waitForFunction(() => document.querySelectorAll('a.catalog-card[href^="#/components/"]').length === 33);
   const hrefs = await page.locator('a.catalog-card[href^="#/components/"]').evaluateAll(nodes => nodes.map(node => node.getAttribute('href')));
   return [...new Set(hrefs.map(href => href.replace('#/components/', '')))];
 }
@@ -149,7 +149,7 @@ test.describe('强制颜色', () => {
 test('全部组件页可加载，结构、行为表与高亮齐全', async ({ page }) => {
   test.setTimeout(120_000);
   const ids = await componentIds(page);
-  expect(ids.length).toBe(32);
+  expect(ids.length).toBe(33);
   const failures = [];
   for (const id of ids) {
     const errors = [];
@@ -294,7 +294,7 @@ test('站点搜索按类型分组、可跳转并在窄屏保持无溢出', async
   await page.goto('/#/search');
   await expect(page.getByRole('heading', { level: 1, name: '搜索' })).toBeVisible();
   await expect(page.locator('.search-summary-card')).toHaveCount(4);
-  await expect(page.locator('.search-count')).toHaveText('共 86 个条目');
+  await expect(page.locator('.search-count')).toHaveText('共 87 个条目');
   const input = page.getByLabel('搜索站点');
   await input.fill('button');
   await expect(page.locator('.search-count')).toHaveText('3 个结果');
@@ -307,9 +307,9 @@ test('站点搜索按类型分组、可跳转并在窄屏保持无溢出', async
   await expect(page.locator('[data-component="button"]')).toBeVisible();
 
   await page.goto('/#/search');
-  await page.getByLabel('搜索站点').fill('arrow');
-  await expect(page.locator('.search-count')).toHaveText('3 个结果');
-  await expect(page.locator('.search-result')).toHaveCount(3);
+  await page.getByLabel('搜索站点').fill('ArrowLeft');
+  await expect(page.locator('.search-count')).toHaveText('1 个结果');
+  await expect(page.locator('.search-result')).toHaveCount(1);
   await page.locator('.search-result', { hasText: 'ArrowLeft' }).click();
   await expect(page).toHaveURL(/#\/icons$/);
   await expect(page.getByRole('heading', { level: 1, name: '图标参考' })).toBeVisible();
@@ -402,6 +402,64 @@ test('Form 多个错误时聚焦 DOM 顺序中的第一个字段', async ({ page
   await focusOrder.getByRole('button', { name: '保存' }).click();
   await expect(name).toBeFocused();
   await expect(focusOrder.getByRole('alert')).toHaveCount(2);
+});
+
+
+test('InputNumber 方向键、失焦钳制与 Tab 顺序', async ({ page }) => {
+  const root = await openComponent(page, 'input-number');
+  const basic = example(root, 'basic');
+  const number = basic.getByRole('spinbutton');
+  await expect(number).toHaveAttribute('aria-valuenow', '3');
+  await number.focus();
+  await page.keyboard.press('ArrowUp');
+  await expect(number).toHaveValue('4');
+  await expect(basic).toContainText('当前数量：4');
+  await number.fill('99');
+  await page.keyboard.press('Tab');
+  await expect(number).toHaveValue('10');
+  await expect(number).toHaveAttribute('aria-valuenow', '10');
+  await expect(basic.getByRole('button', { name: '增加数量' })).toBeDisabled();
+  await expect(basic.getByRole('button', { name: '减少数量' })).toBeEnabled();
+  await number.focus();
+  await page.keyboard.press('Tab');
+  expect(await page.evaluate(() => document.activeElement?.className ?? '')).not.toContain('rd-input-number__controls');
+
+  const step = example(root, 'step').getByRole('spinbutton');
+  await expect(step).toHaveValue('12.5');
+  await step.focus();
+  await page.keyboard.press('ArrowUp');
+  await expect(step).toHaveValue('13');
+  await expect(example(root, 'step')).toContainText('当前价格：13.0');
+  await expect(example(root, 'field').getByRole('alert')).toHaveText('每页条数需在 5–50 之间。');
+});
+
+test('设置页每页条数保存后由资源库分页消费', async ({ page }) => {
+  await page.goto('/#/settings');
+  const input = page.getByLabel('资源库每页条数');
+  await expect(input).toHaveValue('20');
+  await input.fill('5');
+  await page.keyboard.press('Tab');
+  await page.getByRole('button', { name: '保存更改' }).click();
+  await expect(page.getByText('所有更改已保存')).toBeVisible();
+  await page.goto('/#/resources');
+  await expect(page.locator('.resource-table tbody tr')).toHaveCount(5);
+});
+
+test('version 2 偏好迁移到 v3 并补默认每页条数', async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem('radishui.preferences.v1', JSON.stringify({
+    version: 2,
+    data: { theme: 'dark', locale: 'zh-CN', density: 'compact', fontSize: 'standard', showToc: true, lineHeight: 'standard', notifications: true },
+  })));
+  await page.goto('/#/settings');
+  await expect(page.locator('html')).toHaveAttribute('data-rd-theme', 'dark');
+  const input = page.getByLabel('资源库每页条数');
+  await expect(input).toHaveValue('20');
+  await input.fill('5');
+  await page.keyboard.press('Tab');
+  await page.getByRole('button', { name: '保存更改' }).click();
+  const stored = await page.evaluate(() => JSON.parse(localStorage.getItem('radishui.preferences.v1')));
+  expect(stored.version).toBe(3);
+  expect(stored.data.pageSize).toBe(5);
 });
 
 test('工作台资源新建表单校验与提交', async ({ page }) => {
