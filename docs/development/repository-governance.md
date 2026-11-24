@@ -66,13 +66,14 @@ git rev-list --left-right --count origin/master...origin/dev
 | --- | --- |
 | `npm run check:repo` | 必需治理文件、协作同步、文本 / JSON / 文档链接、治理配置契约、工作区与暂存区 diff 空白 |
 | `npm run test:repo` | 治理检查器的正常与拒绝用例 |
-| `npm run test:workbench` | 本地数据校验、资源筛选、分页边界、文档标题解析与路由 |
+| `npm run test:workbench` | 本地数据校验、资源筛选、分页边界、文档标题解析、路由与站点搜索索引覆盖 / 匹配 |
 | `npm run test:catalog` | 组件目录 id / 分组 / 搜索、试点页与 API 数据完整性、生成物漂移、示例完整性与高亮文本一致性 |
 | `npm run check:repo -- --base-ref <base-sha> --head-ref <head-sha>` | 以上内容，加 PR 完整 diff 和真实 PR 提交信息；base 无效则失败 |
 | `npm run check:tokens` | JSON 与生成 CSS 一致性 |
+| `npm run check:search` | 站点搜索生成物与组件目录、图标参考、变更记录及页面清单一致 |
 | `npm run check:notices` | lockfile、安装包许可文本与展示站第三方声明一致性 |
 | `npm run type-check` | React、展示站、Vite 配置类型 |
-| `npm run test:interaction` | 浏览器交互断言：组件页键盘 / 焦点 / ARIA 状态、目录跳转、强制颜色、复制、32 页结构与 390 溢出、暗色代表页，以及变更记录 / 图标参考页；需已安装 Google Chrome，CI 在 Web Build 执行 |
+| `npm run test:interaction` | 浏览器交互断言：组件页键盘 / 焦点 / ARIA 状态、目录跳转、强制颜色、复制、32 页结构与 390 溢出、暗色代表页，以及站点搜索 / 变更记录 / 图标参考页；需已安装 Google Chrome，CI 在 Web Build 执行 |
 | `npm run build` | 全部本地检查与展示站静态构建 |
 
 `PR Checks` 对 `dev` / `master` 的 PR 和手动调度生效，不监听普通 push / tag，不以 paths 过滤跳过文档 PR。PR 默认检出 GitHub 的合并候选，构建目标分支与本次改动的组合；提交信息检查单独使用真实 base / head SHA，排除 GitHub 临时合并提交。
