@@ -397,3 +397,12 @@ Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前
 - 组件站：InputNumber 进入 fields 分组（33 个条目 / 29 个组件），3 个示例覆盖基础步进、精度与边界、表单字段 / 只读；API 16 行、行为 6 条；API / `llms.txt` / 代码高亮 / 站点搜索索引同批生成。
 - 验证：`npm run test:catalog`（11 项）、`npm run test:workbench`（17 项，新增 v2→v3 迁移）、`npm run test:interaction`（28 项，新增方向键 / 失焦 / Tab、设置页保存与资源库分页、v2 迁移）、`npm run check`、`npm run build` 通过；Chrome 1440 / 390 × 明暗探针覆盖组件页与设置页，1440 两种主题保存后资源库 5 行，无横向溢出与 pageerror，证据在忽略目录 `output/p4-input-number-2026-11-24/`。
 - 边界：不做千分位、货币前缀、任意精度格式化、异步校验或空值提交；Slider 与 Upload 仍无承载；Safari / Firefox 已于 2026-11-24 定向复验通过（4 组组合，含方向键与设置页 / 资源库采用），真实触屏与真实屏幕阅读器未复验。组件站页面契约见 [E-03 P4-④](component-site-1.md#p4-input-number-2026-11-24)；实现与文档本地提交，未推送、未部署。
+
+## Empty 空态（2026-11-24）
+
+- 范围：P4-⑤。承载评审确认目录搜索无结果与资源库筛选 / 首次使用两处空态结构可共享；新增 Empty 并删除页面级 `.catalog-empty` / `.empty-state`。不新增插画、缩略图、空数据列表或新依赖。
+- API：`title` 必填；可选 `description`、`icon`、`action`、`align: 'start' | 'center'` 与 `fill`；主文案渲染为 h2，图标统一对辅助技术隐藏；组件不默认加 `role="status"`，播报仍由页面决定；其余原生 div 属性透传，`title` 保留给主文案。
+- 采用：目录搜索无结果使用 start + 「清除搜索」；资源库无结果使用 fill 居中 + 「清除筛选 / 新建资源」；空态所在表格滚动区仍由页面布局负责高度。
+- 组件站：Empty 进入 feedback 分组（34 个条目 / 30 个组件），3 个示例覆盖基础居中、行内与 fill；API 8 行、行为 4 条；API / `llms.txt` / 代码高亮 / 站点搜索索引同批生成。
+- 验证：`npm run test:catalog`（11 项）、`npm run test:workbench`（17 项）、`npm run test:interaction`（29 项，新增 Empty 组件页与目录 / 资源空态采用）、`npm run check`、`npm run build` 通过；Chrome 1440 / 390 × 明暗探针覆盖组件页、目录与资源空态，无横向溢出与 pageerror，证据在忽略目录 `output/p4-empty-2026-11-24/`；Safari / Firefox 定向复验见 [E-03](component-site-1.md#p5-cross-browser-2026-11-24)。
+- 边界：只有 start / center 两种对齐与 fill，不含插画、自动播报、倒计时或空数据列表；不替代字段错误、保存结果或列表计数。实现与文档本地提交，未推送、未部署。
