@@ -3,6 +3,7 @@ export { Input, InputNumber, Textarea, Form, FormField, Select, RadioGroup, type
 export { Accordion, Checkbox, Switch, Tabs, TabsList, TabsContent, ToggleGroup, StatusBadge, type AccordionProps, type AccordionItem, type CheckboxProps, type TabOption, type TabsListProps, type TabsProps, type TabsContentProps, type SwitchProps, type ToggleGroupProps, type ToggleGroupItem, type StatusTone, type StatusBadgeProps } from './Controls';
 export { Dialog, Drawer, Menu, Tooltip, type DialogProps, type DrawerProps, type MenuProps, type MenuItem, type TooltipProps } from './Overlays';
 export { InlineAlert, Toast, type InlineAlertProps, type ToastProps } from './Feedback';
+export { Empty, type EmptyProps } from './Empty';
 export { Avatar, Skeleton, Tag, type AvatarProps, type SkeletonProps, type TagProps } from './Display';
 export { InputOTP, type InputOTPProps } from './InputOTP';
 export { TagInput, type TagInputProps } from './TagInput';
