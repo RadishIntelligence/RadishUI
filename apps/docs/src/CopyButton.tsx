@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import type { Translate } from './model';
 
 async function copyText(text: string) {
   if (navigator.clipboard?.writeText) {
@@ -16,7 +17,7 @@ async function copyText(text: string) {
   textarea.remove();
 }
 
-export function CopyButton({ text, label }: { text: string; label: string }) {
+export function CopyButton({ text, label, t }: { text: string; label: string; t: Translate }) {
   const [copied, setCopied] = useState(false);
   const timer = useRef<number | undefined>(undefined);
 
@@ -33,8 +34,8 @@ export function CopyButton({ text, label }: { text: string; label: string }) {
     }
   }
 
-  return <button type="button" className="doc-copy" onClick={onCopy} aria-label={copied ? '已复制' : label}>
-    {copied ? '已复制' : '复制'}
-    <span className="sr-only" aria-live="polite">{copied ? '代码已复制到剪贴板' : ''}</span>
+  return <button type="button" className="doc-copy" onClick={onCopy} aria-label={copied ? t('已复制', 'Copied') : label}>
+    {copied ? t('已复制', 'Copied') : t('复制', 'Copy')}
+    <span className="sr-only" aria-live="polite">{copied ? t('代码已复制到剪贴板', 'Code copied to the clipboard') : ''}</span>
   </button>;
 }

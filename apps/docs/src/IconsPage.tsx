@@ -35,7 +35,7 @@ export function IconsPage({ t }: { t: Translate }) {
           {icons.map(icon => <li className="icon-card" key={icon.name}>
             <span className="icon-glyph"><icon.Icon size={20} aria-hidden="true" /></span>
             <div className="icon-meta"><code>{icon.name}</code><span className="icon-zh">{t(icon.zh, icon.en)}</span></div>
-            <CopyButton text={`import { ${icon.name} } from 'lucide-react';`} label={t(`复制 ${icon.name} 导入`, `Copy ${icon.name} import`)} />
+            <CopyButton text={`import { ${icon.name} } from 'lucide-react';`} label={t(`复制 ${icon.name} 导入`, `Copy ${icon.name} import`)} t={t} />
           </li>)}
         </ul>
       </section>)}

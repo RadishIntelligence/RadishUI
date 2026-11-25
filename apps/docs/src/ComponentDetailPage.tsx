@@ -64,9 +64,9 @@ function ExamplePreview({ title, preview, t }: { title: string; preview: ReactNo
   </div>;
 }
 
-function DocCode({ code, html, label }: { code: string; html: string; label: string }) {
+function DocCode({ code, html, label, t }: { code: string; html: string; label: string; t: Translate }) {
   return <div className="doc-code">
-    <CopyButton text={code} label={label} />
+    <CopyButton text={code} label={label} t={t} />
     <pre tabIndex={0}><code dangerouslySetInnerHTML={{ __html: html }} /></pre>
   </div>;
 }
@@ -192,7 +192,7 @@ export function ComponentDetailPage({ id, section, scrollRoot, t, locale }: { id
 
         <section className="doc-section" aria-labelledby="doc-import">
           <h2 id="doc-import">{t('导入', 'Import')}</h2>
-          <DocCode code={doc.importCode} html={highlightedCode[`${entry.id}/import`]} label={t('复制导入代码', 'Copy import code')} />
+          <DocCode code={doc.importCode} html={highlightedCode[`${entry.id}/import`]} label={t('复制导入代码', 'Copy import code')} t={t} />
           <p className="component-doc__note">{t('当前包为 private workspace 预览，尚未发布 npm；正式发行后改用包名与版本。',
             'The package is a private workspace preview, not yet published to npm. Use the package name and version once it is released.')}</p>
         </section>
@@ -207,7 +207,7 @@ export function ComponentDetailPage({ id, section, scrollRoot, t, locale }: { id
                 <p>{locale === 'en' ? example.descriptionEn : example.description}</p>
               </div>
               <ExamplePreview title={title} preview={example.preview} t={t} />
-              <DocCode code={example.code} html={highlightedCode[`${entry.id}/${example.id}`]} label={t(`复制 ${example.title} 代码`, `Copy ${title} code`)} />
+              <DocCode code={example.code} html={highlightedCode[`${entry.id}/${example.id}`]} label={t(`复制 ${example.title} 代码`, `Copy ${title} code`)} t={t} />
             </article>;
           })}
         </section>
