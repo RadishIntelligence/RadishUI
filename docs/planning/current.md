@@ -72,7 +72,7 @@
 
 2026-11-25 同日按所有者选择补跨端与辅助技术证据：Safari 27.0.1 加载期日志（fixture 代理注入最前置错误捕获，13 条路由 × 中英两种语言共 26 次加载，0 错误 / 0 未处理拒绝 / 0 console.error / 0 资源错误）、Firefox 159.0.1 完整键盘遍历（9 页，从跳转链接开始、26–60 个焦点、进入主内容区并循环，无陷阱与交互期错误；headless Firefox 无法观测 `:focus-visible`，焦点环由 Safari 覆盖）、Safari 8 页 Option+Tab 焦点环遍历（25–59 个焦点全部 `:focus-visible` 且 1px 实线环）与英文模式 Safari / Firefox 各 3 组共 92 项复验（目录 / 组件页 API 与行为 / 搜索 / 中文回归，0 失败）。未改代码、共享组件、token 与依赖；仍待真实屏幕阅读器（VoiceOver / NVDA）、Windows 真实高对比、实体设备与真实 200%。证据在忽略目录 `output/cross-browser-2026-11-25/`，登记见 [E-03 跨端证据](../features/component-site-1.md#cross-browser-2026-11-25)。
 
-2026-11-25 所有者明确合并节奏与远端动作约束：`dev` → `master` 只在发版或所有者主动要求时合并，不做日常或频繁晋级；推送、PR Checks、合并与部署默认不执行，不作为下一步建议、不反复征询，一次授权不自动延伸到下一次。约束已同步到 `AGENTS.md` / `CLAUDE.md`、[协作规范](../development/collaboration.md)、[仓库治理](../development/repository-governance.md)、[ADR 0001](../adr/0001-branch-and-pr-governance.md) 与[版本策略](../development/versioning.md)；本轮 14 个本地提交继续保留在本地，不推送、不运行 PR Checks、不部署。
+2026-11-25 所有者明确合并节奏与远端动作约束：`dev` → `master` 只在发版或所有者主动要求时合并，不做日常或频繁晋级；推送、PR Checks、合并与部署默认不执行，不作为下一步建议、不反复征询，一次授权不自动延伸到下一次。约束已同步到 `AGENTS.md` / `CLAUDE.md`、[协作规范](../development/collaboration.md)、[仓库治理](../development/repository-governance.md)、[ADR 0001](../adr/0001-branch-and-pr-governance.md) 与[版本策略](../development/versioning.md)；本地开发提交继续保留在本地，不推送、不运行 PR Checks、不部署。
 
 长期阶段和专题归属见[整体规划](roadmap.md)与[专题地图](topics.md)。本轮证据见[本周开发记录](../devlogs/2026-W48.md)，晋级历史见[上周收尾记录](../devlogs/2026-W45.md#2026-11-08-收尾提交回顾与文档复核)。
 
