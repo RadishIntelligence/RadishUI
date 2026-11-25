@@ -232,7 +232,7 @@ export function ComponentDetailPage({ id, section, scrollRoot, t, locale }: { id
                   <td><code>{row.type}</code></td>
                   <td>{row.defaultValue ? <code>{row.defaultValue}</code> : '—'}</td>
                   <td>{row.required ? t('是', 'Yes') : t('否', 'No')}</td>
-                  <td>{row.description}</td>
+                  <td>{locale === 'en' ? row.descriptionEn : row.description}</td>
                 </tr>)}
               </tbody>
             </table>
@@ -252,9 +252,9 @@ export function ComponentDetailPage({ id, section, scrollRoot, t, locale }: { id
               </tr></thead>
               <tbody>
                 {doc.behavior.map((item, index) => <tr key={`${item.topic}-${item.source}-${index}`}>
-                  <th scope="row">{behaviorTopicLabels[item.topic]}</th>
-                  <td>{behaviorSourceLabels[item.source]}</td>
-                  <td>{item.text}</td>
+                  <th scope="row">{t(behaviorTopicLabels[item.topic].zh, behaviorTopicLabels[item.topic].en)}</th>
+                  <td>{t(behaviorSourceLabels[item.source].zh, behaviorSourceLabels[item.source].en)}</td>
+                  <td>{locale === 'en' ? item.textEn : item.text}</td>
                 </tr>)}
               </tbody>
             </table>

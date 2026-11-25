@@ -38,8 +38,9 @@ export const changelog: readonly ChangelogEntry[] = [
     items: [
       { zh: '组件目录摘要与 119 个示例的标题 / 说明新增英文文案，英文切换下目录与组件页同步显示；组件页与图标页的复制按钮文案同时跟随语言，中文源仍为唯一来源。', en: 'Added English copy for catalog summaries and the titles / descriptions of 119 examples; the catalog and component pages follow the language switch, as do the copy buttons on component and icon pages, while the Chinese source stays single-sourced.', href: '#/catalog' },
       { zh: '站点搜索索引的组件说明改用英文摘要，英文查询结果与目录一致。', en: 'Site search now uses the English catalog summaries for component entries, matching the catalog in English.' },
-      { zh: 'API 与行为声明的英文属于第二批；示例代码、工作台合成数据与旧单页参考不在首批范围。', en: 'English API and behavior declarations are the second batch; example code, workbench synthetic data, and the legacy single-page reference stay out of this batch.' },
-      { zh: '交互断言增至 30 项，新增英文语言下的目录、组件页与搜索检查。', en: 'Interaction assertions grew to 30 with an English-language check for the catalog, component pages, and search.' },
+      { zh: 'API 说明（282 行）与行为声明（158 条）补齐英文，组件页 API 表与键盘 / 可访问性表按语言切换；行为主题与来源标签同步双语。', en: 'API descriptions (282 rows) and behavior declarations (158 entries) gained English copy; the component page API and keyboard / accessibility tables follow the language switch, including topic and source labels.', href: '#/components/button' },
+      { zh: '示例代码、工作台合成数据、llms.txt 与旧单页参考不在本批范围。', en: 'Example code, workbench synthetic data, llms.txt, and the legacy single-page reference stay out of this batch.' },
+      { zh: '交互断言增至 30 项，新增英文语言下的目录、组件页、搜索与复制按钮检查。', en: 'Interaction assertions grew to 30 with English-language checks for the catalog, component pages, search, and copy buttons.' },
     ],
   },
   {

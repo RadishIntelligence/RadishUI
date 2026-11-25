@@ -44,7 +44,7 @@ export function buildLlmsText() {
         lines.push(`- \`${name}\` — ${meta.join('；')} — ${row.description}`);
       }
       lines.push('', '行为与可访问性：', '');
-      for (const item of doc.behavior) lines.push(`- ${behaviorTopicLabels[item.topic]} · ${behaviorSourceLabels[item.source]}：${item.text}`);
+      for (const item of doc.behavior) lines.push(`- ${behaviorTopicLabels[item.topic].zh} · ${behaviorSourceLabels[item.source].zh}：${item.text}`);
       const related = doc.related.map(id => componentCatalog.find(entry => entry.id === id)?.name).filter(Boolean);
       lines.push('', `相关：${related.length ? related.join('、') : '无'}`, '');
     }

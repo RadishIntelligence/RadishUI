@@ -5,7 +5,10 @@ export interface ComponentApiRow {
   type: string;
   defaultValue?: string;
   required: boolean;
+  /** 中文说明；组件页中文模式与 llms.txt 消费。 */
   description: string;
+  /** 英文说明，与 `description` 同源维护；组件页英文模式消费。 */
+  descriptionEn: string;
 }
 
 export const behaviorTopics = ['keyboard', 'focus', 'aria', 'limitation'] as const;
@@ -14,24 +17,29 @@ export type BehaviorTopic = (typeof behaviorTopics)[number];
 export const behaviorSources = ['native', 'radix', 'radish'] as const;
 export type BehaviorSource = (typeof behaviorSources)[number];
 
-export const behaviorTopicLabels: Record<BehaviorTopic, string> = {
-  keyboard: '键盘',
-  focus: '焦点',
-  aria: 'ARIA',
-  limitation: '已知限制',
+/** 行为主题的显示文案；组件页按语言取值，llms.txt 只消费中文。 */
+export const behaviorTopicLabels: Record<BehaviorTopic, { zh: string; en: string }> = {
+  keyboard: { zh: '键盘', en: 'Keyboard' },
+  focus: { zh: '焦点', en: 'Focus' },
+  aria: { zh: 'ARIA', en: 'ARIA' },
+  limitation: { zh: '已知限制', en: 'Known limitations' },
 };
 
-export const behaviorSourceLabels: Record<BehaviorSource, string> = {
-  native: '浏览器原生',
-  radix: 'Radix',
-  radish: 'RadishUI',
+/** 行为来源的显示文案；组件页按语言取值，llms.txt 只消费中文。 */
+export const behaviorSourceLabels: Record<BehaviorSource, { zh: string; en: string }> = {
+  native: { zh: '浏览器原生', en: 'Browser-native' },
+  radix: { zh: 'Radix', en: 'Radix' },
+  radish: { zh: 'RadishUI', en: 'RadishUI' },
 };
 
 /** One behavior / focus / ARIA / limitation fact and the layer that provides it. */
 export interface BehaviorEntry {
   topic: BehaviorTopic;
   source: BehaviorSource;
+  /** 中文声明；组件页中文模式与 llms.txt 消费。 */
   text: string;
+  /** 英文声明，与 `text` 同源维护；组件页英文模式消费。 */
+  textEn: string;
 }
 
 export interface PilotDoc {
@@ -46,6 +54,9 @@ export interface PilotDoc {
  * `packages/react/src` stay here: inherited native / Radix props (type, required,
  * description), union props (ToggleGroup / Accordion), `其余属性` rows, and default
  * values the component does not destructure.
+ *
+ * English descriptions live in `component-api-en.ts` keyed by component id and row, so
+ * the generated API table can localize without duplicating prose in this contract.
  */
 export interface AuthoredApiRow {
   component?: string;
