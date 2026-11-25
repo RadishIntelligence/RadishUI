@@ -177,6 +177,9 @@ h1 { font-size: var(--rd-font-size-title); line-height: 1.2; font-weight: 680; l
 .resource-detail > .rd-description-list, .resource-tags { padding-top: 16px; border-top: 1px solid var(--rd-border-soft); }
 .resource-tags { display: grid; gap: 12px; color: var(--rd-text-secondary); font-size: var(--rd-font-size-xs); }
 .resource-tags > div, .document-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+.resource-attachment-list { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; font-size: var(--rd-font-size-xs); color: var(--rd-text-secondary); }
+.resource-attachment-list li { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.resource-attachment-size { margin-left: auto; flex: 0 0 auto; font-variant-numeric: tabular-nums; }
 .resource-mobile-list { display: none; }
 .resource-state { display: grid; gap: 16px; padding-block: 16px; }
 .state-actions { display: flex; gap: 8px; flex-wrap: wrap; }

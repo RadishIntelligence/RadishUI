@@ -1,6 +1,6 @@
 import { useRef, useState, type ReactNode } from 'react';
 import { Copy, Pencil, Plus, Search, Trash2 } from 'lucide-react';
-import { Accordion, Avatar, Button, Card, Checkbox, ConfirmDialog, DescriptionList, Dialog, Drawer, Empty, Form, FormField, IconButton, InlineAlert, Input, InputNumber, InputOTP, Menu, Pagination, RadioGroup, Section, Select, Skeleton, StatusBadge, Switch, Table, TableOfContents, Tabs, TabsContent, TabsList, Tag, TagInput, Textarea, Toast, ToggleGroup, Tooltip } from '@radish-ui/react';
+import { Accordion, Avatar, Button, Card, Checkbox, ConfirmDialog, DescriptionList, Dialog, Drawer, Empty, Form, FormField, IconButton, InlineAlert, Input, InputNumber, InputOTP, Menu, Pagination, RadioGroup, Section, Select, Skeleton, StatusBadge, Switch, Table, TableOfContents, Tabs, TabsContent, TabsList, Tag, TagInput, Textarea, Toast, ToggleGroup, Tooltip, Upload, type UploadFile } from '@radish-ui/react';
 
 export interface PilotExample {
   id: string;
@@ -1195,6 +1195,52 @@ function EmptyFill() {
   </div>;
 }
 
+function UploadBasic() {
+  const [files, setFiles] = useState<UploadFile[]>([]);
+  function add(selected: readonly File[]) {
+    setFiles(current => [...current, ...selected.map(file => ({ id: crypto.randomUUID(), name: file.name, size: file.size, type: file.type }))]);
+  }
+  return <Upload files={files} onFilesSelected={add}
+    onRemove={file => setFiles(current => current.filter(item => item.id !== file.id))}
+    removeLabel={file => `移除附件 ${file.name}`} prompt="拖入文件，或点击选择" />;
+}
+
+function UploadValidation() {
+  const [files, setFiles] = useState<UploadFile[]>([]);
+  const [error, setError] = useState('');
+  function add(selected: readonly File[]) {
+    let message = '';
+    const next = [...files];
+    for (const file of selected) {
+      if (next.length >= 2) { message = '最多 2 个附件。'; break; }
+      if (!/\.(md|txt|pdf)$/i.test(file.name)) { message = '只支持 .md / .txt / .pdf 文件。'; continue; }
+      if (file.size > 1024 * 1024) { message = '单个附件不能超过 1 MB。'; continue; }
+      next.push({ id: crypto.randomUUID(), name: file.name, size: file.size, type: file.type });
+    }
+    setFiles(next);
+    setError(message);
+  }
+  return <FormField label="附件" hint="最多 2 个 .md / .txt / .pdf 文件，每个不超过 1 MB。" error={error || undefined}>
+    <Upload files={files} onFilesSelected={add}
+      onRemove={file => { setFiles(current => current.filter(item => item.id !== file.id)); setError(''); }}
+      removeLabel={file => `移除附件 ${file.name}`} prompt="拖入文件，或点击选择" accept=".md,.txt,.pdf" />
+  </FormField>;
+}
+
+function UploadProgress() {
+  const reading: UploadFile[] = [
+    { id: 'spec', name: 'spec.md', size: 24 * 1024, type: 'text/markdown', progress: 64 },
+    { id: 'notes', name: 'notes.txt', size: 8 * 1024, type: 'text/plain' },
+  ];
+  const disabled: UploadFile[] = [{ id: 'readme', name: 'readme.md', size: 4 * 1024, type: 'text/markdown' }];
+  return <div className="doc-example-stack">
+    <Upload files={reading} onFilesSelected={() => {}} onRemove={() => {}}
+      removeLabel={file => `移除附件 ${file.name}`} prompt="拖入文件，或点击选择" />
+    <Upload disabled files={disabled} onFilesSelected={() => {}} onRemove={() => {}}
+      removeLabel={file => `移除附件 ${file.name}`} prompt="拖入文件，或点击选择" />
+  </div>;
+}
+
 export const pilotExamples: Record<string, readonly PilotExample[]> = {
   button: [
     {
@@ -1840,6 +1886,76 @@ function add() {
     onAdd={add} addLabel="添加" removeLabel={tag => '移除标签 ' + tag} />
 </FormField>`,
       preview: <TagInputLimit />,
+    },
+  ],
+  upload: [
+    {
+      id: 'basic',
+      title: '选择与移除',
+      titleEn: 'Selecting and removing files',
+      description: '点击或拖入文件后显示名称与大小；删除后焦点回到下一个删除按钮，没有剩余文件时回到选择器。',
+      descriptionEn: 'Choosing or dropping files lists names and sizes; after removal focus moves to the next remove button, or back to the picker when none remain.',
+      code: `import { useState } from 'react';
+import { Upload, type UploadFile } from '@radish-ui/react';
+
+const [files, setFiles] = useState<UploadFile[]>([]);
+function add(selected: readonly File[]) {
+  setFiles(current => [...current, ...selected.map(file => ({
+    id: crypto.randomUUID(), name: file.name, size: file.size, type: file.type,
+  }))]);
+}
+
+<Upload files={files} onFilesSelected={add}
+  onRemove={file => setFiles(current => current.filter(item => item.id !== file.id))}
+  removeLabel={file => '移除附件 ' + file.name} prompt="拖入文件，或点击选择" />`,
+      preview: <UploadBasic />,
+    },
+    {
+      id: 'validation',
+      title: '类型、大小与数量校验',
+      titleEn: 'Type, size, and count validation',
+      description: 'Upload 只负责选择与展示；文件类型、大小、数量与去重由调用方校验，错误通过 FormField 播报。',
+      descriptionEn: 'Upload only selects and lists files; the caller validates type, size, count, and duplicates, and reports errors through FormField.',
+      code: `const [files, setFiles] = useState<UploadFile[]>([]);
+const [error, setError] = useState('');
+
+function add(selected: readonly File[]) {
+  let message = '';
+  const next = [...files];
+  for (const file of selected) {
+    if (next.length >= 2) { message = '最多 2 个附件。'; break; }
+    if (!/\\.(md|txt|pdf)$/i.test(file.name)) { message = '只支持 .md / .txt / .pdf 文件。'; continue; }
+    if (file.size > 1024 * 1024) { message = '单个附件不能超过 1 MB。'; continue; }
+    next.push({ id: crypto.randomUUID(), name: file.name, size: file.size, type: file.type });
+  }
+  setFiles(next);
+  setError(message);
+}
+
+<FormField label="附件" hint="最多 2 个 .md / .txt / .pdf 文件，每个不超过 1 MB。" error={error || undefined}>
+  <Upload files={files} onFilesSelected={add}
+    onRemove={file => setFiles(current => current.filter(item => item.id !== file.id))}
+    removeLabel={file => '移除附件 ' + file.name} prompt="拖入文件，或点击选择" accept=".md,.txt,.pdf" />
+</FormField>`,
+      preview: <UploadValidation />,
+    },
+    {
+      id: 'progress',
+      title: '进度与禁用',
+      titleEn: 'Progress and disabled states',
+      description: 'files 中的 progress 由调用方维护（本地读取或上传进度），提供时显示进度条；disabled 同时禁用选择、拖入与删除。',
+      descriptionEn: 'The caller maintains progress in files (local read or upload progress) and the bar appears when provided; disabled turns off selection, dropping, and removal.',
+      code: `const files: UploadFile[] = [
+  { id: 'spec', name: 'spec.md', size: 24576, type: 'text/markdown', progress: 64 },
+  { id: 'notes', name: 'notes.txt', size: 8192, type: 'text/plain' },
+];
+
+<Upload files={files} onFilesSelected={() => {}} onRemove={() => {}}
+  removeLabel={file => '移除附件 ' + file.name} prompt="拖入文件，或点击选择" />
+
+<Upload disabled files={files.slice(1)} onFilesSelected={() => {}} onRemove={() => {}}
+  removeLabel={file => '移除附件 ' + file.name} prompt="拖入文件，或点击选择" />`,
+      preview: <UploadProgress />,
     },
   ],
   'radio-group': [

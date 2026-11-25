@@ -175,6 +175,23 @@ export const authoredDocs: Record<string, AuthoredPilotDoc> = {
     ],
     related: ['tag', 'form-field', 'input'],
   },
+  upload: {
+    importCode: "import { Upload } from '@radish-ui/react';\nimport '@radish-ui/react/styles.css';",
+    api: [
+      { name: 'files' },
+      { name: 'onFilesSelected' },
+      { name: 'onRemove' },
+      { name: 'removeLabel' },
+      { name: 'prompt' },
+      { name: 'label' },
+      { name: 'accept' },
+      { name: 'multiple' },
+      { name: 'disabled' },
+      { name: 'required' },
+      { name: 'className' },
+    ],
+    related: ['form-field', 'button'],
+  },
   'radio-group': {
     importCode: "import { FormField, RadioGroup } from '@radish-ui/react';\nimport '@radish-ui/react/styles.css';",
     api: [

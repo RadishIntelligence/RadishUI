@@ -79,6 +79,11 @@ export const componentCatalog: readonly ComponentEntry[] = [
     summaryEn: 'Tag drafts with deduplication and removal; Enter or the add button commits a draft, and Backspace on an empty input removes the last tag.',
   },
   {
+    id: 'upload', name: 'Upload', group: 'fields', status: 'stable', detail: true,
+    summary: '文件附件字段：选择或拖入文件，展示名称 / 大小并可移除；类型、大小、数量校验与进度由调用方维护。',
+    summaryEn: 'File attachment field: select or drop files, list names / sizes with removal; the caller owns type, size, count validation and progress.',
+  },
+  {
     id: 'radio-group', name: 'RadioGroup', group: 'selection', status: 'stable', detail: true,
     summary: '少量选项的单选；方向键移动即选中，FormField 内自动关联标签与错误。',
     summaryEn: 'Single choice among a few options; arrow keys move and select, and FormField associates the label and error automatically.',

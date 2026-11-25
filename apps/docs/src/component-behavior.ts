@@ -77,6 +77,12 @@ export const authoredBehavior: Record<string, readonly BehaviorEntry[]> = {
     { topic: 'aria', source: 'radish', text: '每个删除按钮通过 removeLabel 获得独立可访问名称。', textEn: 'Each remove button gets an independent accessible name through removeLabel.' },
     { topic: 'limitation', source: 'radish', text: '是否去重、限长与表单提交由调用方负责。', textEn: 'Deduplication, length limits, and form submission are the caller\'s responsibility.' },
   ],
+  upload: [
+    { topic: 'keyboard', source: 'native', text: '文件选择器是原生 input[type=file]；Tab 聚焦后 Enter / Space 打开系统选择器，选择方式沿用浏览器。', textEn: 'The file picker is a native input[type=file]; after Tab focus, Enter / Space opens the system picker and selection follows the browser.' },
+    { topic: 'focus', source: 'radish', text: '移除文件后焦点移到下一个删除按钮；移除最后一个文件后回到文件选择器。', textEn: 'After removal, focus moves to the next remove button; removing the last file returns focus to the file picker.' },
+    { topic: 'aria', source: 'radish', text: 'FormField 自动关联标签、说明与错误；文件列表使用列表语义，删除按钮有可访问名称，进度条以 progressbar 数值表达。', textEn: 'FormField associates the label, hint, and error automatically; the file list keeps list semantics, remove buttons have accessible names, and progress is exposed as a progressbar value.' },
+    { topic: 'limitation', source: 'radish', text: '不内置上传、网络请求、分片或图片处理；类型、大小、数量、去重与进度状态由调用方维护。', textEn: 'It does not include upload transport, network requests, chunking, or image processing; the caller owns type, size, count, deduplication, and progress state.' },
+  ],
   'radio-group': [
     { topic: 'keyboard', source: 'radix', text: '方向键在选项间移动，禁用项被跳过。', textEn: 'Arrow keys move between options, and disabled options are skipped.' },
     { topic: 'focus', source: 'radish', text: '程序化聚焦到选项时同步选中值；方向键选中由 Radix 完成。', textEn: 'Programmatic focus on an option also selects it; arrow-key selection is handled by Radix.' },

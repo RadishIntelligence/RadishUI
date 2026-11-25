@@ -3,7 +3,7 @@
 > RadishUI 是 RadishIntelligence 的 React 设计系统与组件文档站。当前为 private workspace，尚未发布 npm；导入路径仅在本仓与内部接入中有效。
 
 - 版本：26.11.1
-- 条目：34 个（30 个组件 + 4 个页面原语）
+- 条目：35 个（31 个组件 + 4 个页面原语）
 - 文档：https://ui.radishx.com
 
 本文件由 `apps/docs/src/component-catalog.ts`、`packages/react/src` 的 props 类型 / JSDoc / 解构默认值、`component-api.ts` 的 API 回退与 `component-behavior.ts` 的行为声明生成；运行 `npm run llms:generate` 更新，`npm run test:catalog` 检查漂移。
@@ -350,6 +350,40 @@ import '@radish-ui/react/styles.css';
 - 已知限制 · RadishUI：是否去重、限长与表单提交由调用方负责。
 
 相关：Tag、FormField、Input
+
+### Upload
+
+- 页面：https://ui.radishx.com/#/components/upload
+- 摘要：文件附件字段：选择或拖入文件，展示名称 / 大小并可移除；类型、大小、数量校验与进度由调用方维护。
+- 导入：
+
+```ts
+import { Upload } from '@radish-ui/react';
+import '@radish-ui/react/styles.css';
+```
+
+属性：
+
+- `files` — 类型 `readonly UploadFile[]`；必填 — 已选文件；渲染、进度与删除都以此为准。
+- `onFilesSelected` — 类型 `(files: readonly File[]) => void`；必填 — 选择或拖入文件后回传浏览器 File；校验、去重与数量限制由调用方决定。
+- `onRemove` — 类型 `(file: UploadFile) => void`；必填 — 删除文件回调。
+- `removeLabel` — 类型 `(file: UploadFile) => string`；必填 — 每个删除按钮的可访问名称。
+- `prompt` — 类型 `string`；必填 — 拖放区的可见提示文案，例如「拖入文件，或点击选择」。
+- `label` — 类型 `string` — 独立使用时的可访问名称；在 FormField 内由字段标签关联。
+- `accept` — 类型 `string` — 系统文件选择器的 accept 提示；类型校验仍由调用方负责。
+- `multiple` — 类型 `boolean`；默认 true — 一次是否可以选择多个文件。
+- `disabled` — 类型 `boolean`；默认 false — 禁用选择、拖入与删除。
+- `required` — 类型 `boolean` — 未传时继承 FormField 的 required。
+- `className` — 类型 `string`；默认 '' — 附加类名，不改变字段结构。
+
+行为与可访问性：
+
+- 键盘 · 浏览器原生：文件选择器是原生 input[type=file]；Tab 聚焦后 Enter / Space 打开系统选择器，选择方式沿用浏览器。
+- 焦点 · RadishUI：移除文件后焦点移到下一个删除按钮；移除最后一个文件后回到文件选择器。
+- ARIA · RadishUI：FormField 自动关联标签、说明与错误；文件列表使用列表语义，删除按钮有可访问名称，进度条以 progressbar 数值表达。
+- 已知限制 · RadishUI：不内置上传、网络请求、分片或图片处理；类型、大小、数量、去重与进度状态由调用方维护。
+
+相关：FormField、Button
 
 ## 选择（Choice）
 

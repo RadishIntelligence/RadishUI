@@ -1,11 +1,16 @@
 import { useEffect, useLayoutEffect, useRef, useState, type FormEvent } from 'react';
-import { Button, Card, Checkbox, ConfirmDialog, DescriptionList, Dialog, Drawer, Empty, Form, FormField, IconButton, InlineAlert, Input, Menu, Pagination, Select, Table, Textarea, Tag, TagInput, ToggleGroup, type FormErrors } from '@radish-ui/react';
+import { Button, Card, Checkbox, ConfirmDialog, DescriptionList, Dialog, Drawer, Empty, Form, FormField, IconButton, InlineAlert, Input, Menu, Pagination, Select, Table, Textarea, Tag, TagInput, ToggleGroup, Upload, type FormErrors, type UploadFile } from '@radish-ui/react';
 import { ArrowUpRight, FileText, History, ListChecks, LockKeyhole, MoreHorizontal, Palette, PanelsTopLeft, Plus, RefreshCw, Search, Trash2 } from 'lucide-react';
 import { PageHeader } from './PageHeader';
-import { appendResourceTags, filterResources, formatDate, kindLabel, pageCount, resourceTagError, resourceTagLimits, statusLabel, type Preferences, type Resource, type ResourceKind, type Translate } from './model';
+import { appendResourceTags, attachmentError, filterResources, formatDate, kindLabel, pageCount, resourceAttachmentExtensions, resourceAttachmentLimits, resourceTagError, resourceTagLimits, statusLabel, type Preferences, type Resource, type ResourceAttachment, type ResourceKind, type Translate } from './model';
 
 const kindIcons = { document: FileText, spec: Palette, checklist: ListChecks, example: PanelsTopLeft };
 function openResource(resource: Resource) { window.location.hash = resource.id === 'settings-example' ? '/settings' : `/document/${resource.id}`; }
+function formatAttachmentSize(bytes: number) {
+  if (bytes < 1024) return `${Math.round(bytes)} B`;
+  const value = bytes / 1024;
+  return `${value >= 10 ? Math.round(value) : Number(value.toFixed(1))} KB`;
+}
 function ResourceStatus({ resource, t }: { resource: Resource; t: Translate }) {
   return <span className={`resource-status is-${resource.status}`}>
     {resource.status === 'readonly' ? <LockKeyhole size={16} aria-hidden="true" /> : <span className="resource-status-dot" aria-hidden="true" />}
@@ -230,6 +235,11 @@ function ResourceDetails({ resource, t, locale, onVersion, onDelete, variant = '
       { label: t('创建者', 'Created by'), value: resource.creator },
       { label: t('最近更新', 'Updated'), value: formatDate(resource.updatedAt, locale) },
       { label: t('版本', 'Version'), value: resource.version },
+      { label: t('附件', 'Attachments'), value: resource.attachments?.length
+        ? <ul className="resource-attachment-list">{resource.attachments.map(item => <li key={item.id}>
+          <FileText size={14} aria-hidden="true" /><span className="break-word">{item.name}</span><span className="resource-attachment-size">{formatAttachmentSize(item.size)}</span>
+        </li>)}</ul>
+        : t('无', 'None') },
     ]} />
     {resource.tags.length > 0 && <div className="resource-tags"><span>{t('标签', 'Tags')}</span><div>{resource.tags.map(tag => <Tag key={tag}>{tag}</Tag>)}</div></div>}
   </div>;
@@ -245,12 +255,56 @@ function CreateResource({ open, onOpenChange, t, resources, save }: { open: bool
   const [ready, setReady] = useState(false);
   const [nameError, setNameError] = useState('');
   const [saveError, setSaveError] = useState('');
+  const [attachments, setAttachments] = useState<UploadFile[]>([]);
+  const [attachmentErrorText, setAttachmentErrorText] = useState('');
   const nameInput = useRef<HTMLInputElement>(null);
+  const fileReaders = useRef<FileReader[]>([]);
+  useEffect(() => () => { fileReaders.current.forEach(reader => reader.abort()); }, []);
   useEffect(() => {
     if (!open) return;
     setName(''); setSummary(''); setKind('document'); setReady(false); setNameError(''); setSaveError('');
-    setTags([]); setTagDraft(''); setTagError('');
+    setTags([]); setTagDraft(''); setTagError(''); setAttachments([]); setAttachmentErrorText('');
   }, [open]);
+
+  function attachmentErrorMessage(problem: ReturnType<typeof attachmentError>): string {
+    if (problem === 'count') return t(`最多添加 ${resourceAttachmentLimits.count} 个附件。`, `Up to ${resourceAttachmentLimits.count} attachments.`);
+    if (problem === 'type') return t(`只支持 ${resourceAttachmentExtensions.join(' / ')} 文件。`, `Only ${resourceAttachmentExtensions.join(' / ')} files are supported.`);
+    if (problem === 'size') return t(`单个附件不能超过 ${resourceAttachmentLimits.size / 1024 / 1024} MB。`, `Each attachment must be ${resourceAttachmentLimits.size / 1024 / 1024} MB or smaller.`);
+    return t('同名附件已经存在。', 'An attachment with that name already exists.');
+  }
+  function addAttachments(selected: readonly File[]) {
+    let message = '';
+    const next = [...attachments];
+    const added: UploadFile[] = [];
+    for (const file of selected) {
+      const problem = attachmentError({ name: file.name, size: file.size }, next);
+      if (problem) { message ||= attachmentErrorMessage(problem); continue; }
+      const entry: UploadFile = { id: crypto.randomUUID(), name: file.name, size: file.size, type: file.type, progress: 0 };
+      next.push(entry);
+      added.push(entry);
+    }
+    setAttachments(next);
+    setAttachmentErrorText(message);
+    // The demo reads attachments into memory only to show real local progress; nothing
+    // is sent to a server and only the metadata is persisted.
+    for (const entry of added) {
+      const file = selected.find(item => item.name === entry.name);
+      if (!file) continue;
+      const reader = new FileReader();
+      fileReaders.current.push(reader);
+      reader.onprogress = event => {
+        if (!event.lengthComputable) return;
+        const progress = Math.round((event.loaded / event.total) * 100);
+        setAttachments(current => current.map(item => item.id === entry.id ? { ...item, progress } : item));
+      };
+      reader.onload = () => setAttachments(current => current.map(item => item.id === entry.id ? { ...item, progress: undefined } : item));
+      reader.onerror = () => {
+        setAttachments(current => current.filter(item => item.id !== entry.id));
+        setAttachmentErrorText(t('无法读取附件，请重试或换一个文件。', 'The attachment could not be read. Try again or choose another file.'));
+      };
+      reader.readAsArrayBuffer(file);
+    }
+  }
   function nameErrorMessage(): string | undefined {
     const trimmed = name.trim();
     if (!trimmed) return t('请输入资源名称。', 'Enter a resource name.');
@@ -288,7 +342,8 @@ function CreateResource({ open, onOpenChange, t, resources, save }: { open: bool
     const nextTags = appendResourceTags(tags, tagDraft).tags ?? tags;
     if (resources.length >= 500) { setSaveError(t('本地演示最多保存 500 项资源。', 'The local demo supports up to 500 resources.')); return; }
     const trimmed = name.trim();
-    const resource: Resource = { id: crypto.randomUUID(), name: trimmed, kind, status: ready ? 'ready' : 'draft', summary: summary.trim(), creator: '林杏', updatedAt: new Date().toISOString(), version: 'v0.1', tags: nextTags };
+    const savedAttachments: ResourceAttachment[] = attachments.map(({ id, name: fileName, size, type }) => ({ id, name: fileName, size, type }));
+    const resource: Resource = { id: crypto.randomUUID(), name: trimmed, kind, status: ready ? 'ready' : 'draft', summary: summary.trim(), creator: '林杏', updatedAt: new Date().toISOString(), version: 'v0.1', tags: nextTags, ...(savedAttachments.length ? { attachments: savedAttachments } : {}) };
     const failure = save([resource, ...resources]);
     if (failure) setSaveError(failure); else onOpenChange(false);
   }
@@ -304,6 +359,15 @@ function CreateResource({ open, onOpenChange, t, resources, save }: { open: bool
         <TagInput value={tags} onValueChange={value => { setTags(value); setTagError(''); }}
           draft={tagDraft} onDraftChange={value => { setTagDraft(value); setTagError(''); }} onAdd={addTags}
           addLabel={t('添加', 'Add')} removeLabel={tag => t(`移除标签 ${tag}`, `Remove tag ${tag}`)} />
+      </FormField>
+      <FormField id="resource-attachments" label={t('附件', 'Attachments')} error={attachmentErrorText || undefined}
+        hint={t(`可选。最多 ${resourceAttachmentLimits.count} 个 ${resourceAttachmentExtensions.join(' / ')} 文件，每个不超过 ${resourceAttachmentLimits.size / 1024 / 1024} MB；只读取到当前浏览器，不发送到服务器。`,
+          `Optional. Up to ${resourceAttachmentLimits.count} ${resourceAttachmentExtensions.join(' / ')} files, ${resourceAttachmentLimits.size / 1024 / 1024} MB each; read only in this browser and never uploaded.`)}>
+        <Upload files={attachments} onFilesSelected={addAttachments}
+          onRemove={file => setAttachments(current => current.filter(item => item.id !== file.id))}
+          removeLabel={file => t(`移除附件 ${file.name}`, `Remove attachment ${file.name}`)}
+          prompt={t('拖入文件，或点击选择', 'Drop files here, or click to choose')}
+          accept={resourceAttachmentExtensions.join(',')} />
       </FormField>
       <Checkbox checked={ready} onChange={event => setReady(event.target.checked)}>{t('标记为已就绪', 'Mark as ready')}</Checkbox>
       {saveError && <InlineAlert tone="danger">{saveError}</InlineAlert>}

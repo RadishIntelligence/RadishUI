@@ -233,6 +233,29 @@ export const pilotDocs: Record<string, PilotDoc> = {
     ],
     related: ["tag", "form-field", "input"],
   },
+  upload: {
+    importCode: "import { Upload } from '@radish-ui/react';\nimport '@radish-ui/react/styles.css';",
+    api: [
+      { name: "files", type: "readonly UploadFile[]", required: true, description: "已选文件；渲染、进度与删除都以此为准。", descriptionEn: "Sets the selected files; rendering, progress, and removal are all driven by this list." },
+      { name: "onFilesSelected", type: "(files: readonly File[]) => void", required: true, description: "选择或拖入文件后回传浏览器 File；校验、去重与数量限制由调用方决定。", descriptionEn: "Receives the browser File objects after selection or drop; validation, deduplication, and limits stay with the caller." },
+      { name: "onRemove", type: "(file: UploadFile) => void", required: true, description: "删除文件回调。", descriptionEn: "Removes one file when the caller accepts the removal action." },
+      { name: "removeLabel", type: "(file: UploadFile) => string", required: true, description: "每个删除按钮的可访问名称。", descriptionEn: "Provides the accessible name for each remove button." },
+      { name: "prompt", type: "string", required: true, description: "拖放区的可见提示文案，例如「拖入文件，或点击选择」。", descriptionEn: "Sets the visible drop-zone prompt, for example “Drop files here, or click to choose”." },
+      { name: "label", type: "string", required: false, description: "独立使用时的可访问名称；在 FormField 内由字段标签关联。", descriptionEn: "Sets the accessible name when used standalone; inside FormField the field label is associated automatically." },
+      { name: "accept", type: "string", required: false, description: "系统文件选择器的 accept 提示；类型校验仍由调用方负责。", descriptionEn: "Sets the native accept hint for the system picker; the caller still owns type validation." },
+      { name: "multiple", type: "boolean", defaultValue: "true", required: false, description: "一次是否可以选择多个文件。", descriptionEn: "Allows selecting more than one file at a time; defaults to true." },
+      { name: "disabled", type: "boolean", defaultValue: "false", required: false, description: "禁用选择、拖入与删除。", descriptionEn: "Disables selection, dropping, and removal." },
+      { name: "required", type: "boolean", required: false, description: "未传时继承 FormField 的 required。", descriptionEn: "Marks the native picker as required; inherits FormField’s required value when omitted." },
+      { name: "className", type: "string", defaultValue: "''", required: false, description: "附加类名，不改变字段结构。", descriptionEn: "Adds a class name without changing the field structure." },
+    ],
+    behavior: [
+      { topic: "keyboard", source: "native", text: "文件选择器是原生 input[type=file]；Tab 聚焦后 Enter / Space 打开系统选择器，选择方式沿用浏览器。", textEn: "The file picker is a native input[type=file]; after Tab focus, Enter / Space opens the system picker and selection follows the browser." },
+      { topic: "focus", source: "radish", text: "移除文件后焦点移到下一个删除按钮；移除最后一个文件后回到文件选择器。", textEn: "After removal, focus moves to the next remove button; removing the last file returns focus to the file picker." },
+      { topic: "aria", source: "radish", text: "FormField 自动关联标签、说明与错误；文件列表使用列表语义，删除按钮有可访问名称，进度条以 progressbar 数值表达。", textEn: "FormField associates the label, hint, and error automatically; the file list keeps list semantics, remove buttons have accessible names, and progress is exposed as a progressbar value." },
+      { topic: "limitation", source: "radish", text: "不内置上传、网络请求、分片或图片处理；类型、大小、数量、去重与进度状态由调用方维护。", textEn: "It does not include upload transport, network requests, chunking, or image processing; the caller owns type, size, count, deduplication, and progress state." },
+    ],
+    related: ["form-field", "button"],
+  },
   "radio-group": {
     importCode: "import { FormField, RadioGroup } from '@radish-ui/react';\nimport '@radish-ui/react/styles.css';",
     api: [

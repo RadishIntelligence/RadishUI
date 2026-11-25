@@ -20,11 +20,29 @@ export const defaultPreferences: Preferences = {
 };
 export type ResourceKind = 'document' | 'spec' | 'checklist' | 'example';
 export type ResourceStatus = 'ready' | 'draft' | 'readonly';
+export interface ResourceAttachment {
+  id: string; name: string; size: number; type: string;
+}
 export interface Resource {
   id: string; name: string; kind: ResourceKind; status: ResourceStatus;
   summary: string; creator: string; updatedAt: string; version: string; tags: string[];
+  /** 本地读取的附件元数据；未选择附件时省略，旧数据保持兼容。 */
+  attachments?: ResourceAttachment[];
 }
 export const resourceTagLimits = { count: 8, length: 40 } as const;
+export const resourceAttachmentLimits = { count: 3, size: 2 * 1024 * 1024, nameLength: 200 } as const;
+export const resourceAttachmentExtensions = ['.md', '.txt', '.pdf'] as const;
+
+/** 附件选择规则；只接收名称与大小，返回稳定错误键，由页面负责文案。 */
+export function attachmentError(file: { name: string; size: number }, current: readonly { name: string }[]): 'count' | 'type' | 'size' | 'duplicate' | undefined {
+  if (current.length >= resourceAttachmentLimits.count) return 'count';
+  if (current.some(item => item.name === file.name)) return 'duplicate';
+  const dot = file.name.lastIndexOf('.');
+  const extension = dot === -1 ? '' : file.name.slice(dot).toLowerCase();
+  if (!(resourceAttachmentExtensions as readonly string[]).includes(extension)) return 'type';
+  if (!Number.isFinite(file.size) || file.size < 0 || file.size > resourceAttachmentLimits.size) return 'size';
+  return undefined;
+}
 export interface Article { title: string; body: string; updatedAt: string }
 export type ArticleBlock = { type: 'heading'; level: 2 | 3; text: string; id: string }
   | { type: 'paragraph' | 'callout'; text: string };
@@ -62,7 +80,20 @@ export function isResource(value: unknown): value is Resource {
     && oneOf(value.status, ['ready', 'draft', 'readonly']) && isDate(value.updatedAt)
     && typeof value.summary === 'string' && value.summary.length <= 1000 && typeof value.creator === 'string' && value.creator.length <= 120
     && typeof value.version === 'string' && value.version.length <= 40 && Array.isArray(value.tags) && value.tags.length <= resourceTagLimits.count
-    && value.tags.every(tag => typeof tag === 'string' && tag.length <= resourceTagLimits.length);
+    && value.tags.every(tag => typeof tag === 'string' && tag.length <= resourceTagLimits.length)
+    && hasValidAttachments(value as unknown as Resource);
+}
+function isAttachment(value: unknown): value is ResourceAttachment {
+  return isRecord(value) && typeof value.id === 'string' && /^[a-zA-Z0-9-]{1,80}$/.test(value.id)
+    && typeof value.name === 'string' && value.name.trim().length > 0 && value.name.length <= resourceAttachmentLimits.nameLength
+    && typeof value.size === 'number' && Number.isFinite(value.size) && value.size >= 0 && value.size <= resourceAttachmentLimits.size
+    && typeof value.type === 'string' && value.type.length <= 120;
+}
+function hasValidAttachments(value: Resource) {
+  if (value.attachments === undefined) return true;
+  return Array.isArray(value.attachments) && value.attachments.length <= resourceAttachmentLimits.count
+    && value.attachments.every(isAttachment)
+    && new Set(value.attachments.map(item => item.name)).size === value.attachments.length;
 }
 export function isResources(value: unknown): value is Resource[] {
   return Array.isArray(value) && value.length <= 500 && value.every(isResource)

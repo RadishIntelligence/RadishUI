@@ -23,6 +23,7 @@ const typeMap = {
   'input-otp': ['InputOTPProps'],
   select: ['SelectProps'],
   'tag-input': ['TagInputProps'],
+  upload: ['UploadProps'],
   'radio-group': ['RadioGroupProps'],
   avatar: ['AvatarProps'],
   tag: ['TagProps'],
