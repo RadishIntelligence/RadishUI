@@ -597,6 +597,12 @@ test('英文语言下目录、组件页与搜索使用英文文案', async ({ pa
   await expect(copyButton).toHaveAttribute('aria-label', 'Copied');
   await expect(copyButton).toContainText('Copied');
 
+  const apiDescriptions = await root.locator('.doc-api tbody td:last-child').allInnerTexts();
+  expect(apiDescriptions.every(text => !chinese.test(text)), '英文 API 说明仍是中文').toBe(true);
+  await expect(root.locator('.doc-behavior tbody th[scope="row"]').first()).toHaveText('Keyboard');
+  const behaviorRows = await root.locator('.doc-behavior tbody tr').allInnerTexts();
+  expect(behaviorRows.some(text => chinese.test(text)), '英文行为声明仍是中文').toBe(false);
+
   await page.goto('/#/icons');
   await expect(page.locator('.icon-card').first()).toBeVisible();
   await expect(page.locator('.doc-copy').first()).toHaveText('Copy');

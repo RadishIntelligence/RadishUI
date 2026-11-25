@@ -58,6 +58,29 @@ test('pilot entries have API rows and a dedicated page', () => {
   for (const id of Object.keys(pilotDocs)) assert.equal(findComponent(id)?.detail, true, id);
 });
 
+test('API rows and behavior declarations carry English copy', () => {
+  let apiRows = 0;
+  let behaviorEntries = 0;
+  for (const component of componentCatalog) {
+    const doc = pilotDocs[component.id];
+    for (const row of doc.api) {
+      apiRows += 1;
+      const label = `${component.id}${row.component ? `.${row.component}` : ''}.${row.name}`;
+      assert.ok(row.descriptionEn?.trim(), `${label} 缺少英文说明`);
+      assert.equal(/[\u4e00-\u9fff]/.test(row.descriptionEn), false, `${label} 的英文说明含中文`);
+      assert.notEqual(row.descriptionEn, row.description, `${label} 的英文说明与中文相同`);
+    }
+    for (const item of doc.behavior) {
+      behaviorEntries += 1;
+      assert.ok(item.textEn?.trim(), `${component.id} 缺少英文行为声明`);
+      assert.equal(/[\u4e00-\u9fff]/.test(item.textEn), false, `${component.id} 的英文行为声明含中文`);
+      assert.notEqual(item.textEn, item.text, `${component.id} 的英文行为声明与中文相同`);
+    }
+  }
+  assert.equal(apiRows, 282);
+  assert.equal(behaviorEntries, 158);
+});
+
 test('component-api.generated.ts matches component source types', () => {
   const file = new URL('../apps/docs/src/component-api.generated.ts', import.meta.url);
   assert.equal(readFileSync(file, 'utf8'), buildGeneratedApi());
