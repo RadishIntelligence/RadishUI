@@ -45,7 +45,11 @@ test('site search index covers static content and points at existing pages', () 
       assert.ok(standalone.has(entry.href), `${entry.id} 链接目标不存在：${entry.href}`);
     }
   }
-  for (const component of componentCatalog) assert.ok(ids.includes(`component:${component.id}`), component.id);
+  for (const component of componentCatalog) {
+    assert.ok(ids.includes(`component:${component.id}`), component.id);
+    const entry = siteSearchEntries.find(candidate => candidate.id === `component:${component.id}`);
+    assert.equal(/[\u4e00-\u9fff]/.test(entry.description.en), false, `${component.id} 的英文搜索说明仍含中文`);
+  }
   for (const icon of iconReference) assert.ok(ids.includes(`icon:${icon.name}`), icon.name);
   for (const entry of changelog) assert.ok(ids.includes(`changelog:${entry.date}`), entry.date);
 });
@@ -65,6 +69,11 @@ test('site search matches names, roles, aliases and changelog details', () => {
   assert.ok(searchSite(siteSearchEntries, '表单').some(entry => entry.id === 'component:form'));
   assert.ok(searchSite(siteSearchEntries, '按钮').some(entry => entry.id === 'component:button'));
   assert.ok(searchSite(siteSearchEntries, '表单 校验').some(entry => entry.id === 'component:form'));
+  // The active language drives matching; keywords keep bilingual aliases for recall.
+  assert.ok(searchSite(siteSearchEntries, 'sticky header', 'en').some(entry => entry.id === 'component:table'));
+  assert.deepEqual(searchSite(siteSearchEntries, 'sticky header', 'zh-CN'), []);
+  assert.ok(searchSite(siteSearchEntries, '按钮', 'en').some(entry => entry.id === 'component:button'));
+  assert.ok(searchSite(siteSearchEntries, 'button', 'en').some(entry => entry.id === 'component:tag-input'));
   const shiki = searchSite(siteSearchEntries, 'shiki').find(entry => entry.id === 'changelog:2026-11-22');
   assert.ok(shiki);
   assert.match(searchMatchDetail(shiki, 'shiki').zh, /Shiki/);

@@ -7,7 +7,7 @@ import { pilotDocs } from '../apps/docs/src/component-api.generated.ts';
 import { behaviorSources, behaviorTopics } from '../apps/docs/src/component-api-types.ts';
 import { buildLlmsText } from './generate-llms.mjs';
 import { auditApiContract, buildGeneratedApi } from './generate-api.mjs';
-import { buildGeneratedCode, buildHighlightedCode, readExampleSources } from './generate-code.mjs';
+import { buildGeneratedCode, buildHighlightedCode, readExampleMetadata, readExampleSources } from './generate-code.mjs';
 
 test('component catalog has unique, routable ids and known groups', () => {
   assert.equal(componentCatalog.length, 34);
@@ -17,7 +17,30 @@ test('component catalog has unique, routable ids and known groups', () => {
     assert.match(component.id, /^[a-z0-9]+(-[a-z0-9]+)*$/);
     assert.ok(componentGroups.some(group => group.id === component.group), component.id);
     assert.ok(component.summary.trim().length > 0, component.id);
+    assert.ok(component.summaryEn.trim().length > 0, `${component.id} 缺少英文摘要`);
     assert.equal(findComponent(component.id), component);
+  }
+});
+
+test('catalog summaries and examples keep English copy in sync', () => {
+  for (const component of componentCatalog) {
+    assert.equal(/[\u4e00-\u9fff]/.test(component.summaryEn), false, `${component.id} 的英文摘要仍含中文`);
+  }
+  const examples = readExampleMetadata();
+  assert.equal(examples.size, componentCatalog.length);
+  assert.equal([...examples.values()].reduce((total, entries) => total + entries.size, 0), 119);
+  for (const component of componentCatalog) {
+    const entries = examples.get(component.id);
+    assert.ok(entries && entries.size >= 3, `${component.id} 的示例少于 3 个`);
+    for (const [exampleId, entry] of entries) {
+      for (const field of ['title', 'titleEn', 'description', 'descriptionEn']) {
+        assert.ok(entry[field].trim().length > 0, `${component.id}.${exampleId} 缺少 ${field}`);
+      }
+      for (const field of ['titleEn', 'descriptionEn']) {
+        assert.equal(/[\u4e00-\u9fff]/.test(entry[field]), false, `${component.id}.${exampleId}.${field} 仍含中文`);
+      }
+      assert.notEqual(entry.titleEn, entry.title, `${component.id}.${exampleId} 的英文标题与中文相同`);
+    }
   }
 });
 
@@ -184,10 +207,15 @@ test('llms.txt matches generated component contracts', () => {
   assert.equal(readFileSync(file, 'utf8'), buildLlmsText());
 });
 
-test('catalog search filters names, summaries and group labels', () => {
+test('catalog search filters names, summaries and group labels in both locales', () => {
   assert.equal(filterComponents('').length, componentCatalog.length);
-  assert.deepEqual(filterComponents('button').map(component => component.id), ['button', 'icon-button']);
+  const buttonResults = filterComponents('button').map(component => component.id);
+  assert.ok(buttonResults.includes('button'), '英文名匹配 Button');
+  assert.ok(buttonResults.includes('icon-button'), '英文名匹配 IconButton');
+  // English summaries also match: InputNumber / TagInput / Accordion / Toast mention buttons.
+  for (const id of buttonResults) assert.ok(findComponent(id), id);
   assert.deepEqual(filterComponents('表单').map(component => component.id), ['select']);
+  assert.deepEqual(filterComponents('sticky header').map(component => component.id), ['table']);
   assert.deepEqual(filterComponents('没有这个组件'), []);
   assert.equal(groupLabel('fields'), '字段');
   assert.equal(groupLabel('fields', 'en'), 'Fields');

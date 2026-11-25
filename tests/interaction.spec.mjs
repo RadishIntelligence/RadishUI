@@ -294,7 +294,7 @@ test('站点搜索按类型分组、可跳转并在窄屏保持无溢出', async
   await page.goto('/#/search');
   await expect(page.getByRole('heading', { level: 1, name: '搜索' })).toBeVisible();
   await expect(page.locator('.search-summary-card')).toHaveCount(4);
-  await expect(page.locator('.search-count')).toHaveText('共 88 个条目');
+  await expect(page.locator('.search-count')).toHaveText('共 89 个条目');
   const input = page.getByLabel('搜索站点');
   await input.fill('button');
   await expect(page.locator('.search-count')).toHaveText('3 个结果');
@@ -333,8 +333,8 @@ test('变更记录页展示内部版本并链接到组件页', async ({ page }) 
   await expect(page.getByRole('heading', { level: 1, name: '变更记录' })).toBeVisible();
   await expect(page.locator('.changelog-version')).toContainText('v26.11.1');
   const entries = page.locator('.changelog-entry');
-  await expect(entries).toHaveCount(6);
-  await expect(entries.first()).toContainText('2026-11-24');
+  await expect(entries).toHaveCount(7);
+  await expect(entries.first()).toContainText('2026-11-25');
   const componentLink = page.locator('.changelog-entry a[href="#/components/description-list"]').first();
   await expect(componentLink).toBeVisible();
   await componentLink.click();
@@ -345,7 +345,7 @@ test('变更记录页展示内部版本并链接到组件页', async ({ page }) 
   await expect(page.locator('.changelog-page')).toBeVisible();
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1);
   expect(overflow, '变更记录页在 390 下横向溢出').toBe(false);
-  await expect(page.locator('.changelog-entry')).toHaveCount(6);
+  await expect(page.locator('.changelog-entry')).toHaveCount(7);
 });
 
 test('图标参考页可搜索、复制导入且窄屏无溢出', async ({ page }) => {
@@ -570,4 +570,38 @@ test('工作台 800–1099 资源详情保持侧向抽屉', async ({ page }) => 
   expect(page.viewportSize().width - (box.x + box.width)).toBeCloseTo(8, 0);
   await page.keyboard.press('Escape');
   await expect(side).toBeHidden();
+});
+
+test('英文语言下目录、组件页与搜索使用英文文案', async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem('radishui.preferences.v1', JSON.stringify({
+    version: 3,
+    data: { theme: 'light', locale: 'en', density: 'standard', fontSize: 'standard', showToc: true, lineHeight: 'standard', notifications: true, pageSize: 20 },
+  })));
+  const chinese = /[\u4e00-\u9fff]/;
+  await page.goto('/#/catalog');
+  await expect(page.getByRole('heading', { level: 1, name: 'Component catalog' })).toBeVisible();
+  await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+  const buttonCard = page.locator('a.catalog-card[href="#/components/button"]');
+  await expect(buttonCard.locator('.catalog-card__group')).toHaveText('Actions');
+  expect(await buttonCard.locator('.catalog-card__summary').innerText(), 'Button 摘要仍是中文').not.toMatch(chinese);
+  await expect(page.locator('.catalog-group__head h2').first()).toHaveText('Actions');
+
+  await page.goto('/#/components/button');
+  const root = page.locator('[data-component="button"]');
+  await expect(root).toBeVisible();
+  expect(await root.locator('.component-doc__summary').innerText(), '组件页摘要仍是中文').not.toMatch(chinese);
+  expect(await root.locator('.doc-example').first().locator('.doc-example__head').innerText(), '示例标题 / 说明仍是中文').not.toMatch(chinese);
+
+  await page.goto('/#/search');
+  await expect(page.locator('.search-count')).toHaveText('89 entries');
+  await page.getByLabel('Search the site').fill('button');
+  await expect(page.locator('.search-result')).toHaveCount(5);
+  const descriptions = await page.locator('.search-result-desc').allInnerTexts();
+  expect(descriptions.every(text => !chinese.test(text)), '英文搜索结果说明仍是中文').toBe(true);
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/#/catalog');
+  expect(await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1), '英文目录在 390 下横向溢出').toBe(false);
+  await page.goto('/#/components/button');
+  expect(await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1), '英文组件页在 390 下横向溢出').toBe(false);
 });
