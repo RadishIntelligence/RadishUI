@@ -121,7 +121,9 @@ export function parseArticle(body: string): ArticleBlock[] {
 export function parseRoute(hash: string): { page: Page; resourceId?: string; section?: string; componentId?: string; componentSection?: string; catalog?: boolean } {
   const parts = hash.replace(/^#\/?/, '').split('/');
   const page: Page = parts[0] === 'overview' || parts[0] === '' ? 'overview' : parts[0] === 'components' ? 'components' : parts[0] === 'foundations' ? 'foundations' : parts[0] === 'platforms' ? 'platforms' : parts[0] === 'changelog' ? 'changelog' : parts[0] === 'icons' ? 'icons' : parts[0] === 'search' ? 'search' : parts[0] === 'resources' ? 'resources' : parts[0] === 'settings' ? 'settings' : parts[0] === 'document' ? 'document' : 'overview';
-  if (parts[0] === 'catalog') return { page: 'components', resourceId: undefined, section: undefined, catalog: true };
+  // `#/components` used to be the single-page reference; it now resolves to the catalog
+  // route and App rewrites the hash so old links keep working without a second page.
+  if (parts[0] === 'catalog' || (parts[0] === 'components' && !parts[1])) return { page: 'components', resourceId: undefined, section: undefined, catalog: true };
   const componentId = page === 'components' && parts[1] && /^[a-z0-9-]+$/.test(parts[1]) ? parts[1] : undefined;
   const route = { page, resourceId: page === 'document' && parts[1] && /^[a-zA-Z0-9-]+$/.test(parts[1]) ? parts[1] : undefined,
     section: page === 'document' && /^section-\d+$/.test(parts[2] ?? '') ? parts[2] : undefined };

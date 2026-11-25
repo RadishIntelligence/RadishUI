@@ -30,8 +30,7 @@ export function CatalogPage({ t, locale }: { t: Translate; locale: Locale }) {
     .filter(group => group.entries.length > 0), [entries]);
 
   return <section className="catalog-page">
-    <PageHeader title={t('组件目录', 'Component catalog')} back={{ href: '#/overview', label: t('概览', 'Overview') }}
-      actions={<a className="rd-button rd-button--secondary rd-button--sm" href="#/components">{t('全部示例', 'All examples')}</a>} />
+    <PageHeader title={t('组件目录', 'Component catalog')} back={{ href: '#/overview', label: t('概览', 'Overview') }} />
     <p className="catalog-intro">
       {detailCount === componentCatalog.length
         ? t('按能力浏览共享组件与页面原语；全部条目已提供独立文档页。',

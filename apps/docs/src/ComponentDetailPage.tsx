@@ -184,7 +184,6 @@ export function ComponentDetailPage({ id, section, scrollRoot, t, locale }: { id
         <IconButton className="component-doc__outline-trigger" label={t('本页内容', 'On this page')} title={t('本页内容', 'On this page')}
           aria-haspopup="dialog" aria-expanded={outlineOpen} onClick={() => setOutlineOpen(true)}><ListTree /></IconButton>
         <StatusBadge tone="info">{t('内部稳定', 'Internal stable')}</StatusBadge>
-        <a className="rd-button rd-button--secondary rd-button--sm" href="#/components">{t('全部示例', 'All examples')}</a>
       </div>} />
     <div className="component-doc__layout">
       <div className="component-doc__main">

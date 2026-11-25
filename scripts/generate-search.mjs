@@ -25,12 +25,6 @@ const pageEntries = [
     href: '#/catalog', keywords: ['组件', '目录', 'components', 'catalog', '文档'],
   },
   {
-    id: 'page:components', kind: 'page', group: { zh: '参考', en: 'Reference' },
-    title: { zh: '组件用法（单页参考）', en: 'Component reference (single page)' },
-    description: { zh: '旧版单页组件参考，保留为过渡入口。', en: 'Legacy single-page component reference kept as a transition entry.' },
-    href: '#/components', keywords: ['旧版', '示例', 'legacy', 'examples'],
-  },
-  {
     id: 'page:foundations', kind: 'page', group: { zh: '设计', en: 'Design' },
     title: { zh: '视觉基础', en: 'Foundations' },
     description: { zh: '语义 token、颜色、排版、间距与动效基础。', en: 'Semantic tokens, color, typography, spacing, and motion.' },

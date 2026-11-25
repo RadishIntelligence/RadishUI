@@ -4,7 +4,6 @@ import { Shell } from './Shell';
 import { SettingsPage } from './SettingsPage';
 import { ResourcesPage } from './ResourcesPage';
 import { ArticlePage } from './ArticlePage';
-import { ComponentsPage } from './ComponentsPage';
 const CatalogPage = lazy(() => import('./CatalogPage').then(module => ({ default: module.CatalogPage })));
 const ComponentDetailPage = lazy(() => import('./ComponentDetailPage').then(module => ({ default: module.ComponentDetailPage })));
 const ChangelogPage = lazy(() => import('./ChangelogPage').then(module => ({ default: module.ChangelogPage })));
@@ -96,6 +95,12 @@ export function App() {
   }, []);
 
   useEffect(() => { main.current?.scrollTo({ top: 0 }); main.current?.focus({ preventScroll: true }); }, [route.page, route.resourceId ?? 'welcome', route.componentId, route.catalog]);
+  // The legacy single-page reference was retired after every entry gained a dedicated
+  // page; keep its old links working and canonicalise the hash to the catalog route.
+  useEffect(() => {
+    if (!route.catalog || !/^#\/components\/?$/.test(window.location.hash)) return;
+    window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}#/catalog`);
+  }, [route.catalog]);
   useEffect(() => {
     const title = route.catalog ? t('组件目录', 'Component catalog')
       : route.componentId ? findComponent(route.componentId)?.name ?? t('组件用法', 'Components')
@@ -137,7 +142,6 @@ export function App() {
         {route.catalog && <CatalogPage t={t} locale={preferences.locale} />}
         {route.page === 'components' && route.componentId && <ComponentDetailPage id={route.componentId} section={route.componentSection} scrollRoot={main} t={t} locale={preferences.locale} />}
       </Suspense>
-      {route.page === 'components' && !route.componentId && !route.catalog && <ComponentsPage t={t} />}
       {route.page === 'foundations' && <FoundationsPage t={t} />}
       {route.page === 'platforms' && <PlatformsPage t={t} />}
       <Suspense fallback={<p className="page-loading">{t('正在加载页面…', 'Loading page…')}</p>}>
