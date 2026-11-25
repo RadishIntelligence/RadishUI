@@ -7,6 +7,7 @@ export { Empty, type EmptyProps } from './Empty';
 export { Avatar, Skeleton, Tag, type AvatarProps, type SkeletonProps, type TagProps } from './Display';
 export { InputOTP, type InputOTPProps } from './InputOTP';
 export { TagInput, type TagInputProps } from './TagInput';
+export { Upload, type UploadFile, type UploadProps } from './Upload';
 export { ConfirmDialog, type ConfirmDialogProps } from './ConfirmDialog';
 export { Pagination, TableOfContents, defaultPaginationLabels, type PaginationProps, type PaginationLabels, type TableOfContentsProps, type TableOfContentsItem } from './Navigation';
 export { Card, DescriptionList, Section, type CardProps, type CardTone, type CardPadding, type DescriptionListItem, type DescriptionListProps, type SectionProps } from './Layout';

@@ -6,6 +6,11 @@ interface FieldState { id: string; labelId: string; describedBy?: string; invali
 export type FieldSurface = 'outline' | 'filled';
 const FieldContext = createContext<FieldState | undefined>(undefined);
 
+/** 供字段内复合控件读取 FormField 的 id、说明、错误与必填关联；不对外导出。 */
+export function useFieldContext() {
+  return useContext(FieldContext);
+}
+
 export interface FormFieldProps {
   /** 控件 id；未传时生成稳定 id。 */
   id?: string;
