@@ -29,11 +29,11 @@ test('site search index covers static content and points at existing pages', () 
   const ids = siteSearchEntries.map(entry => entry.id);
   assert.equal(new Set(ids).size, ids.length, '站点搜索 id 不重复');
   assert.deepEqual([...new Set(siteSearchEntries.map(entry => entry.kind))].sort(), [...siteSearchKindOrder].sort());
-  assert.equal(siteSearchEntries.filter(entry => entry.kind === 'page').length, 10);
+  assert.equal(siteSearchEntries.filter(entry => entry.kind === 'page').length, 9);
   assert.equal(siteSearchEntries.filter(entry => entry.kind === 'component').length, componentCatalog.length);
   assert.equal(siteSearchEntries.filter(entry => entry.kind === 'icon').length, iconReference.length);
   assert.equal(siteSearchEntries.filter(entry => entry.kind === 'changelog').length, changelog.length);
-  const standalone = new Set(['#/overview', '#/catalog', '#/components', '#/foundations', '#/icons', '#/changelog', '#/platforms', '#/resources', '#/settings', '#/document']);
+  const standalone = new Set(['#/overview', '#/catalog', '#/foundations', '#/icons', '#/changelog', '#/platforms', '#/resources', '#/settings', '#/document']);
   for (const entry of siteSearchEntries) {
     assert.ok(entry.title.zh.trim() && entry.title.en.trim(), entry.id);
     assert.ok(entry.description.zh.trim() && entry.description.en.trim(), entry.id);
@@ -87,7 +87,7 @@ test('changelog records stay sorted and link to existing pages', () => {
   const dates = changelog.map(entry => entry.date);
   assert.deepEqual(dates, [...dates].sort().reverse(), '变更记录按日期倒序');
   assert.equal(new Set(dates).size, dates.length, '变更记录日期不重复');
-  const standaloneHrefs = new Set(['#/overview', '#/catalog', '#/components', '#/platforms', '#/changelog', '#/resources', '#/settings', '#/document', '#/foundations', '#/search']);
+  const standaloneHrefs = new Set(['#/overview', '#/catalog', '#/platforms', '#/changelog', '#/resources', '#/settings', '#/document', '#/foundations', '#/search']);
   for (const entry of changelog) {
     assert.match(entry.date, /^\d{4}-\d{2}-\d{2}$/, entry.date);
     assert.ok(entry.title.zh.trim() && entry.title.en.trim(), entry.date);
@@ -200,7 +200,9 @@ test('routes distinguish pages, resource ids and section anchors', () => {
   assert.equal(parseRoute('#/settings').page, 'settings');
   assert.equal(parseRoute('#/icons').page, 'icons');
   assert.equal(parseRoute('#/search').page, 'search');
-  assert.deepEqual(parseRoute('#/components'), { page: 'components', resourceId: undefined, section: undefined });
+  // The retired single-page reference resolves to the catalog route; App rewrites the hash.
+  assert.deepEqual(parseRoute('#/components'), { page: 'components', resourceId: undefined, section: undefined, catalog: true });
+  assert.deepEqual(parseRoute('#/components/'), { page: 'components', resourceId: undefined, section: undefined, catalog: true });
   assert.deepEqual(parseRoute('#/catalog'), { page: 'components', resourceId: undefined, section: undefined, catalog: true });
   assert.deepEqual(parseRoute('#/components/button'), { page: 'components', resourceId: undefined, section: undefined, componentId: 'button' });
   assert.deepEqual(parseRoute('#/components/button/doc-api'), { page: 'components', resourceId: undefined, section: undefined, componentId: 'button', componentSection: 'doc-api' });

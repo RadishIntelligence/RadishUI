@@ -294,7 +294,7 @@ test('站点搜索按类型分组、可跳转并在窄屏保持无溢出', async
   await page.goto('/#/search');
   await expect(page.getByRole('heading', { level: 1, name: '搜索' })).toBeVisible();
   await expect(page.locator('.search-summary-card')).toHaveCount(4);
-  await expect(page.locator('.search-count')).toHaveText('共 89 个条目');
+  await expect(page.locator('.search-count')).toHaveText('共 88 个条目');
   const input = page.getByLabel('搜索站点');
   await input.fill('button');
   await expect(page.locator('.search-count')).toHaveText('3 个结果');
@@ -320,6 +320,11 @@ test('站点搜索按类型分组、可跳转并在窄屏保持无溢出', async
   await expect(page.locator('.search-empty')).toHaveText('没有匹配的条目。');
   await search.fill('');
   await expect(page.locator('.search-summary-card')).toHaveCount(4);
+
+  // The retired single-page reference redirects to the catalog.
+  await page.goto('/#/components');
+  await expect(page.getByRole('heading', { level: 1, name: '组件目录' })).toBeVisible();
+  await expect(page).toHaveURL(/#\/catalog$/);
 
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/#/search');
@@ -608,7 +613,7 @@ test('英文语言下目录、组件页与搜索使用英文文案', async ({ pa
   await expect(page.locator('.doc-copy').first()).toHaveText('Copy');
 
   await page.goto('/#/search');
-  await expect(page.locator('.search-count')).toHaveText('89 entries');
+  await expect(page.locator('.search-count')).toHaveText('88 entries');
   await page.getByLabel('Search the site').fill('button');
   await expect(page.locator('.search-result')).toHaveCount(5);
   const descriptions = await page.locator('.search-result-desc').allInnerTexts();
