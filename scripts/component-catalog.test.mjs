@@ -10,7 +10,7 @@ import { auditApiContract, buildGeneratedApi } from './generate-api.mjs';
 import { buildGeneratedCode, buildHighlightedCode, readExampleMetadata, readExampleSources } from './generate-code.mjs';
 
 test('component catalog has unique, routable ids and known groups', () => {
-  assert.equal(componentCatalog.length, 34);
+  assert.equal(componentCatalog.length, 35);
   assert.equal(new Set(componentCatalog.map(component => component.id)).size, componentCatalog.length);
   assert.equal(new Set(componentCatalog.map(component => component.name)).size, componentCatalog.length);
   for (const component of componentCatalog) {
@@ -28,7 +28,7 @@ test('catalog summaries and examples keep English copy in sync', () => {
   }
   const examples = readExampleMetadata();
   assert.equal(examples.size, componentCatalog.length);
-  assert.equal([...examples.values()].reduce((total, entries) => total + entries.size, 0), 119);
+  assert.equal([...examples.values()].reduce((total, entries) => total + entries.size, 0), 122);
   for (const component of componentCatalog) {
     const entries = examples.get(component.id);
     assert.ok(entries && entries.size >= 3, `${component.id} 的示例少于 3 个`);
@@ -46,7 +46,7 @@ test('catalog summaries and examples keep English copy in sync', () => {
 
 test('pilot entries have API rows and a dedicated page', () => {
   const pilots = componentCatalog.filter(component => component.detail);
-  assert.deepEqual(pilots.map(component => component.id), ['button', 'icon-button', 'form-field', 'form', 'input', 'input-number', 'textarea', 'input-otp', 'select', 'tag-input', 'radio-group', 'avatar', 'tag', 'toggle-group', 'checkbox', 'switch', 'tabs', 'status-badge', 'dialog', 'confirm-dialog', 'accordion', 'drawer', 'menu', 'inline-alert', 'empty', 'skeleton', 'toast', 'tooltip', 'pagination', 'table-of-contents', 'card', 'section', 'description-list', 'table']);
+  assert.deepEqual(pilots.map(component => component.id), ['button', 'icon-button', 'form-field', 'form', 'input', 'input-number', 'textarea', 'input-otp', 'select', 'tag-input', 'upload', 'radio-group', 'avatar', 'tag', 'toggle-group', 'checkbox', 'switch', 'tabs', 'status-badge', 'dialog', 'confirm-dialog', 'accordion', 'drawer', 'menu', 'inline-alert', 'empty', 'skeleton', 'toast', 'tooltip', 'pagination', 'table-of-contents', 'card', 'section', 'description-list', 'table']);
   for (const component of pilots) {
     const doc = pilotDocs[component.id];
     assert.ok(doc, component.id);
@@ -77,8 +77,8 @@ test('API rows and behavior declarations carry English copy', () => {
       assert.notEqual(item.textEn, item.text, `${component.id} 的英文行为声明与中文相同`);
     }
   }
-  assert.equal(apiRows, 282);
-  assert.equal(behaviorEntries, 158);
+  assert.equal(apiRows, 293);
+  assert.equal(behaviorEntries, 162);
 });
 
 test('component-api.generated.ts matches component source types', () => {

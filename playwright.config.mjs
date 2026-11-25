@@ -20,6 +20,10 @@ export default defineConfig({
     baseURL: 'http://127.0.0.1:4510',
     channel: 'chrome',
     headless: true,
+    // Long headless runs on macOS have lost renderers to GPU-process display-link /
+    // shared-image errors under memory pressure; the site renders correctly through
+    // software rasterization, so the suite runs without the GPU process.
+    launchOptions: { args: ['--disable-gpu'] },
     viewport: { width: 1440, height: 900 },
     colorScheme: 'light',
     locale: 'zh-CN',

@@ -16,7 +16,7 @@ const example = (root, id) => root.locator(`[data-example="${id}"]`);
 
 async function componentIds(page) {
   await page.goto('/#/catalog');
-  await page.waitForFunction(() => document.querySelectorAll('a.catalog-card[href^="#/components/"]').length === 34);
+  await page.waitForFunction(() => document.querySelectorAll('a.catalog-card[href^="#/components/"]').length === 35);
   const hrefs = await page.locator('a.catalog-card[href^="#/components/"]').evaluateAll(nodes => nodes.map(node => node.getAttribute('href')));
   return [...new Set(hrefs.map(href => href.replace('#/components/', '')))];
 }
@@ -149,7 +149,7 @@ test.describe('强制颜色', () => {
 test('全部组件页可加载，结构、行为表与高亮齐全', async ({ page }) => {
   test.setTimeout(120_000);
   const ids = await componentIds(page);
-  expect(ids.length).toBe(34);
+  expect(ids.length).toBe(35);
   const failures = [];
   for (const id of ids) {
     const errors = [];
@@ -188,29 +188,12 @@ test('全部组件页可加载，结构、行为表与高亮齐全', async ({ pa
     if (unhighlighted) failures.push(`${id}: ${unhighlighted} 个代码块无高亮`);
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1);
     if (overflow) failures.push(`${id}: 1440 页面横向溢出`);
-    if (errors.length) failures.push(`${id}: ${errors.join(' | ')}`);
-    page.off('pageerror', onError);
-  }
-  expect(failures).toEqual([]);
-});
-
-test('全部组件页在 390 无页面级横向溢出', async ({ page }) => {
-  test.setTimeout(120_000);
-  await page.setViewportSize({ width: 390, height: 844 });
-  const ids = await componentIds(page);
-  const failures = [];
-  for (const id of ids) {
-    const errors = [];
-    const onError = error => errors.push(String(error));
-    page.on('pageerror', onError);
-    await page.goto(`/#/components/${id}`);
-    try {
-      await expect(page.locator(`[data-component="${id}"]`)).toBeVisible({ timeout: 15_000 });
-    } catch {
-      failures.push(`${id}: 页面未渲染`);
-    }
-    const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1);
-    if (overflow) failures.push(`${id}: 390 页面横向溢出`);
+    // Reflow the same loaded page at 390 instead of loading every page a second time;
+    // halving navigations keeps the long loop within headless Chrome's memory budget.
+    await page.setViewportSize({ width: 390, height: 844 });
+    const mobileOverflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1);
+    if (mobileOverflow) failures.push(`${id}: 390 页面横向溢出`);
+    await page.setViewportSize({ width: 1440, height: 900 });
     if (errors.length) failures.push(`${id}: ${errors.join(' | ')}`);
     page.off('pageerror', onError);
   }
@@ -294,7 +277,7 @@ test('站点搜索按类型分组、可跳转并在窄屏保持无溢出', async
   await page.goto('/#/search');
   await expect(page.getByRole('heading', { level: 1, name: '搜索' })).toBeVisible();
   await expect(page.locator('.search-summary-card')).toHaveCount(4);
-  await expect(page.locator('.search-count')).toHaveText('共 88 个条目');
+  await expect(page.locator('.search-count')).toHaveText('共 89 个条目');
   const input = page.getByLabel('搜索站点');
   await input.fill('button');
   await expect(page.locator('.search-count')).toHaveText('3 个结果');
@@ -421,7 +404,7 @@ test('Empty 组件页与目录 / 资源空态采用', async ({ page }) => {
   await page.getByLabel('搜索组件').fill('没有这个组件');
   await expect(page.locator('.rd-empty__title')).toHaveText('没有匹配的组件。');
   await page.getByRole('button', { name: '清除搜索' }).click();
-  await expect(page.locator('a.catalog-card')).toHaveCount(34);
+  await expect(page.locator('a.catalog-card')).toHaveCount(35);
   await page.goto('/#/resources');
   await page.getByLabel('搜索资源').fill('没有这个资源');
   await expect(page.locator('.rd-empty__title')).toHaveText('没有匹配的资源');
@@ -486,6 +469,33 @@ test('version 2 偏好迁移到 v3 并补默认每页条数', async ({ page }) =
   expect(stored.data.pageSize).toBe(5);
 });
 
+test('Upload 文件选择、校验与移除', async ({ page }) => {
+  const root = await openComponent(page, 'upload');
+  const basic = example(root, 'basic');
+  await basic.locator('input[type="file"]').setInputFiles([
+    { name: 'notes.md', mimeType: 'text/markdown', buffer: Buffer.from('# Notes') },
+    { name: 'readme.txt', mimeType: 'text/plain', buffer: Buffer.from('hello') },
+  ]);
+  await expect(basic.getByText('notes.md')).toBeVisible();
+  await expect(basic.getByText('readme.txt')).toBeVisible();
+  await basic.getByRole('button', { name: '移除附件 notes.md' }).click();
+  await expect(basic.getByText('notes.md')).toHaveCount(0);
+  await expect(basic.getByText('readme.txt')).toBeVisible();
+
+  const validation = example(root, 'validation');
+  const picker = validation.locator('input[type="file"]');
+  await picker.setInputFiles({ name: 'bad.exe', mimeType: 'application/octet-stream', buffer: Buffer.from('x') });
+  await expect(validation.getByRole('alert')).toHaveText('只支持 .md / .txt / .pdf 文件。');
+  await picker.setInputFiles({ name: 'big.txt', mimeType: 'text/plain', buffer: Buffer.alloc(1024 * 1024 + 1) });
+  await expect(validation.getByRole('alert')).toHaveText('单个附件不能超过 1 MB。');
+  await picker.setInputFiles({ name: 'ok.md', mimeType: 'text/markdown', buffer: Buffer.from('# ok') });
+  await expect(validation.getByText('ok.md')).toBeVisible();
+
+  const progress = example(root, 'progress');
+  await expect(progress.getByRole('progressbar').first()).toHaveAttribute('aria-valuenow', '64');
+  await expect(progress.locator('.rd-upload[data-disabled]')).toBeVisible();
+});
+
 test('工作台资源新建表单校验与提交', async ({ page }) => {
   await page.goto('/#/resources');
   await page.getByRole('button', { name: '新建资源' }).click();
@@ -527,7 +537,7 @@ test('DescriptionList 使用原生 dl 语义并承接工作台详情', async ({ 
   await page.goto('/#/resources');
   await page.locator('.resource-select').first().click();
   const detail = page.locator('.resource-detail');
-  await expect(detail.locator('dl.rd-description-list dt')).toHaveCount(4);
+  await expect(detail.locator('dl.rd-description-list dt')).toHaveCount(5);
 });
 
 test('Drawer 底部编排共用同一合同并保持焦点回焦', async ({ page }) => {
@@ -613,7 +623,7 @@ test('英文语言下目录、组件页与搜索使用英文文案', async ({ pa
   await expect(page.locator('.doc-copy').first()).toHaveText('Copy');
 
   await page.goto('/#/search');
-  await expect(page.locator('.search-count')).toHaveText('88 entries');
+  await expect(page.locator('.search-count')).toHaveText('89 entries');
   await page.getByLabel('Search the site').fill('button');
   await expect(page.locator('.search-result')).toHaveCount(5);
   const descriptions = await page.locator('.search-result-desc').allInnerTexts();

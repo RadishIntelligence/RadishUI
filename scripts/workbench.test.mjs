@@ -8,7 +8,7 @@ import { siteSearchEntries } from '../apps/docs/src/site-search.generated.ts';
 import { searchMatchDetail, searchSite, siteSearchKindOrder } from '../apps/docs/src/site-search.ts';
 import { buildGeneratedSearch } from './generate-search.mjs';
 import * as lucideIcons from 'lucide-react';
-import { appendResourceTags, defaultPreferences, filterResources, isArticle, isArticles, isLegacyPreferences, isPreferences, isPreferencesV2, isResources, migratePreferences, migratePreferencesV2, pageCount, parseArticle, parseRoute, resourceTagLimits } from '../apps/docs/src/model.ts';
+import { appendResourceTags, attachmentError, defaultPreferences, filterResources, isArticle, isArticles, isLegacyPreferences, isPreferences, isPreferencesV2, isResources, migratePreferences, migratePreferencesV2, pageCount, parseArticle, parseRoute, resourceAttachmentLimits, resourceTagLimits } from '../apps/docs/src/model.ts';
 import { paginationRange, validatePage } from '../packages/react/src/pagination.ts';
 
 const resource = { id: 'release-notes', name: '发布 Release Notes', kind: 'document', status: 'ready', summary: 'Upgrade guide', creator: '示例成员', updatedAt: '2026-11-04T10:00:00Z', version: 'v1', tags: ['发布'] };
@@ -139,6 +139,26 @@ test('resources accept empty collections and reject corrupted or duplicate recor
   assert(isResources([])); assert(isResources([resource]));
   for (const value of [[resource, resource], [{ ...resource, updatedAt: 'not-a-date' }], [{ ...resource, kind: ['document'] }], [{ ...resource, tags: [42] }], [{ ...resource, name: ' ' }], [{ ...resource, id: '../secrets' }]]) assert.equal(isResources(value), false);
 });
+test('resource attachments validate type, size, count and duplicates', () => {
+  const doc = { name: 'notes.md', size: 1024 };
+  assert.equal(attachmentError(doc, []), undefined);
+  assert.equal(attachmentError({ name: 'notes.exe', size: 1024 }, []), 'type');
+  assert.equal(attachmentError({ name: 'notes.md', size: resourceAttachmentLimits.size + 1 }, []), 'size');
+  assert.equal(attachmentError(doc, [{ name: 'notes.md' }]), 'duplicate');
+  const full = Array.from({ length: resourceAttachmentLimits.count }, (_, index) => ({ name: `file-${index}.md` }));
+  assert.equal(attachmentError(doc, full), 'count');
+  const withAttachment = { ...resource, attachments: [{ id: 'att-1', name: 'notes.md', size: 1024, type: 'text/markdown' }] };
+  assert(isResources([withAttachment]));
+  assert(isResources([{ ...resource, attachments: [] }]));
+  for (const attachments of [
+    [{ id: 'att-2', name: '', size: 1024, type: 'text/markdown' }],
+    [{ id: 'att-3', name: 'notes.md', size: -1, type: 'text/markdown' }],
+    [{ id: 'att-4', name: 'notes.md', size: 1, type: 'text/markdown' }, { id: 'att-5', name: 'notes.md', size: 1, type: 'text/markdown' }],
+    Array.from({ length: resourceAttachmentLimits.count + 1 }, (_, index) => ({ id: `att-${index}`, name: `file-${index}.md`, size: 1, type: '' })),
+    'not-an-array',
+  ]) assert.equal(isResources([{ ...resource, attachments }]), false, JSON.stringify(attachments));
+});
+
 test('resource filters combine text, type and state without mutating the source', () => {
   const items = [resource, { ...resource, id: 'review', name: '检查清单', kind: 'checklist', status: 'draft' }];
   assert.deepEqual(filterResources(items, ' release ', 'all', 'ready'), [resource]);
