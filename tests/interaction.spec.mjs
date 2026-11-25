@@ -591,6 +591,15 @@ test('英文语言下目录、组件页与搜索使用英文文案', async ({ pa
   await expect(root).toBeVisible();
   expect(await root.locator('.component-doc__summary').innerText(), '组件页摘要仍是中文').not.toMatch(chinese);
   expect(await root.locator('.doc-example').first().locator('.doc-example__head').innerText(), '示例标题 / 说明仍是中文').not.toMatch(chinese);
+  const copyButton = root.locator('.doc-copy').first();
+  await expect(copyButton).toHaveText('Copy');
+  await copyButton.click();
+  await expect(copyButton).toHaveAttribute('aria-label', 'Copied');
+  await expect(copyButton).toContainText('Copied');
+
+  await page.goto('/#/icons');
+  await expect(page.locator('.icon-card').first()).toBeVisible();
+  await expect(page.locator('.doc-copy').first()).toHaveText('Copy');
 
   await page.goto('/#/search');
   await expect(page.locator('.search-count')).toHaveText('89 entries');
