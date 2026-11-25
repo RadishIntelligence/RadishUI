@@ -63,12 +63,12 @@ Catalyst / Flow / Chat / Forge / Axiom / AxiomChecker 等不是统一 React Web 
 | Tag / Badge / Status | console Tag 148；Mind StatusBadge 134 | Tag / StatusBadge | 文档深度；不按产品改语义 |
 | Avatar | console 11 | 已有 | 文档深度 |
 | Switch / Checkbox / Radio | console 11 / 8；Ink 8 | 已有 | 文档深度 |
-| InputNumber | console 18 | 无 | **候选**；数字输入与步进规则先定 |
+| InputNumber | console 18 | InputNumber（2026-11-24） | **已补**：方向键 / 步进 / 失焦钳制；设置页每页条数采用 |
 | Slider | Ink 19 | 无 | **候选**；与 InputNumber 一起评估 |
-| Upload | console 8 / 7、Ink 3、client FileUpload / 分片上传 | 无 | **候选**；通用上传与领域上传分开，不能整包搬入 |
+| Upload | console 8 / 7、Ink 3、client FileUpload / 分片上传 | Upload（2026-11-25） | **已补**：选择 / 拖放 / 移除 / 调用方校验 / 进度插槽；网络传输与分片留调用方 |
 | Progress / Steps | console 各 1 | 无 | 候选，真实流程需要时再做 |
 | Descriptions | console 4 个详情页（2026-11-23 复核） | DescriptionList（2026-11-23） | **已补**：原生 dl 行式窄栏，工作台资源详情 / 文档属性 / 版本弹窗已采用；多列 / bordered 变体未做 |
-| Empty | console 1、Nexus EmptyState 2 | 空态模式 | 可提炼 Empty，不急着加组件 |
+| Empty | console 1、Nexus EmptyState 2 | Empty（2026-11-24） | **已补**：目录 / 资源空态采用；start / center 与 fill |
 | Divider / Space / Grid | console 7 / 68 / 9 | 无独立原语 | **布局原语候选**；先确认是否由 CSS / Stack 承担 |
 | DatePicker / Calendar | `@radish/ui` 有再导出，本次未见高频使用 | 无 | 等真实表单需求，不提前做 |
 | Combobox / 搜索选择 | 设计盘点候选；本次无直接高频导入 | Select 无搜索 | 等大选项 / 搜索场景确认真实需求 |
@@ -112,6 +112,7 @@ Catalyst / Flow / Chat / Forge / Axiom / AxiomChecker 等不是统一 React Web 
 - 范围：Radish client（180 tsx）、console（66）、RadishX（18）、RadishMind（94）、RadishNexus（75）、RadishInk（94）、RadishChat（3），共 530 个 tsx / 475 个含 JSX 的文件；脚本与原始数据在忽略目录 `output/family-usage-audit-2026-11-23/`。
 - 与 2026-11-17 首轮差异：首轮 console「直接 AntD」列混用导入与标签计数（Descriptions 1、InputNumber 11、Upload 7、Progress 1、Empty 1）；本次统一按 JSX 开标签复核为 Descriptions 4 块 / 4 个详情页、InputNumber 18 / 11 个文件、Upload 9、Progress 5、Empty 4。方向不变，候选排序依据更完整。
 - 承载条件（本仓真实页面）：资源详情、文档属性、版本弹窗共 3 处页面级 `<dl class="property-list">`（9 个 label / value）→ Descriptions 可用；资源空结果与目录空结果 2 处 → Empty 可用；设置页每页条数 + 资源库分页 → InputNumber 可用（2026-11-24 落地）；Upload / Slider / Progress / Steps / DatePicker / ColorPicker 仍无承载。
+- 2026-11-25 更新：Descriptions、Empty、InputNumber 与 Upload 均已落地（Upload 以资源新建 / 详情附件为首个承载），当前 35 个条目 / 31 个组件；Slider / Progress / Steps / DatePicker / ColorPicker 仍无承载，等真实场景再确认。
 
 | 候选 | 2026-11-23 家族真实用量 | 本站承载 | 结论 |
 | --- | --- | --- | --- |
