@@ -86,10 +86,10 @@ Catalyst / Flow / Chat / Forge / Axiom / AxiomChecker 等不是统一 React Web 
 
 ## 目录扩展优先级
 
-先完成现有组件的文档 / API / 用法深度（2026-11-24 起为 30 个组件 / 34 个条目），再按以下顺序确认目录扩展；每一件必须有真实页面、示例、API 与测试。
+先完成现有组件的文档 / API / 用法深度（2026-11-25 起为 31 个组件 / 35 个条目），再按以下顺序确认目录扩展；每一件必须有真实页面、示例、API 与测试。
 
 1. **Form 与字段校验**：与 FormField、Input、Select 的现有上下文衔接；先定校验责任在库内还是调用方，避免引入第二个表单框架。**2026-11-22 已完成首项**：所有者确认走调用方校验 + 共享提交编排，Form 已加入组件目录并用于资源新建 / 文档编辑。
-2. **Upload**：通用选择 / 拖拽 / 进度 / 错误；分片、图片裁切、灯箱等留在产品侧或后续专项。
+2. **Upload**：通用选择 / 拖拽 / 进度 / 错误；分片、图片裁切、灯箱等留在产品侧或后续专项。**2026-11-25 已完成**：共享 Upload（选择 / 拖放 / 移除 / 调用方校验与进度插槽）接入工作台资源新建与详情。
 3. **InputNumber / Slider**：数字与范围输入；先定步进、精度、键盘与触控规则。**2026-11-24 已完成 InputNumber**：设置页每页条数为首个真实承载，资源库分页消费；Slider 仍无承载。
 4. **BottomSheet 编排**：优先扩展现有 Drawer 的侧向 / 底部变体，不新增第二套浮层。**2026-11-22 已完成**：`DrawerProps.side` 支持 bottom，工作台窄屏资源详情已采用；拖拽 / 半展开未做。
 5. **布局原语**：Divider / Stack / Grid 是否由 CSS 与现有 Card / Section 承担，先做一次真实页面审计，避免为了 API 而 API。
@@ -118,7 +118,7 @@ Catalyst / Flow / Chat / Forge / Axiom / AxiomChecker 等不是统一 React Web 
 | Descriptions | console 4 个详情页（用户、商品、角色权限、系统配置；column 1/2、bordered、size=small、title，items 与 children 两种写法） | 有（3 处，9 组） | **P4-③ 已确认并完成**：`DescriptionList` 行式窄栏版本 |
 | Empty | console 4（用户详情页签）、Nexus 2 | 有（资源空结果、目录空结果） | **P4-⑤ 已完成（2026-11-24）** |
 | InputNumber | console 18 / 11 文件（价格、库存、限额、时长、排序、金币调整等） | 有（设置页每页条数 + 资源库分页） | **P4-④ 已完成（2026-11-24）** |
-| Upload | console 9 / 7 文件 + 批量上传、Ink 3 | 无 | 领域耦合重、范围大，暂不做 |
+| Upload | console 9 / 7 文件 + 批量上传、Ink 3 | 资源新建 / 详情附件（2026-11-25） | **P4-⑥ 已完成**：文件选择 / 拖放 / 移除 / 调用方校验 / 进度插槽；网络传输留调用方 |
 | Slider | Ink 19（主题设计器字号 / 数值） | 无 | 编辑器向、无承载 |
 | Progress | console 5（均在上传弹窗内） | 无 | 随 Upload，不单独做 |
 | DatePicker / TimePicker | console 4 / 3 文件 | 无 | 低频且复杂，暂不做 |

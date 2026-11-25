@@ -396,7 +396,7 @@ Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前
 - 采用：设置页「外观」页签新增 5–50、步进 5 的每页条数，默认 20；资源库初始 `pageSize` 读取偏好，页内仍可临时调整，页大小选项包含当前自定义值。偏好存储从 v2 升到 v3，旧 v2 / v1 数据补默认每页条数，保留主题、语言、密度、字号与行高。
 - 组件站：InputNumber 加入时 33 个条目 / 29 个组件（Empty 后当前 34/30），3 个示例覆盖基础步进、精度与边界、表单字段 / 只读；API 16 行、行为 6 条；API / `llms.txt` / 代码高亮 / 站点搜索索引同批生成。
 - 验证：`npm run test:catalog`（11 项）、`npm run test:workbench`（17 项，新增 v2→v3 迁移）、`npm run test:interaction`（当时 28 项，新增方向键 / 失焦 / Tab、设置页保存与资源库分页、v2 迁移；Empty 后 29）、`npm run check`、`npm run build` 通过；Chrome 1440 / 390 × 明暗探针覆盖组件页与设置页，1440 两种主题保存后资源库 5 行，无横向溢出与 pageerror，证据在忽略目录 `output/p4-input-number-2026-11-24/`。
-- 边界：不做千分位、货币前缀、任意精度格式化、异步校验或空值提交；Slider 与 Upload 仍无承载；Safari / Firefox 已于 2026-11-24 定向复验通过（4 组组合，含方向键与设置页 / 资源库采用），真实触屏与真实屏幕阅读器未复验。组件站页面契约见 [E-03 P4-④](component-site-1.md#p4-input-number-2026-11-24)；实现与文档本地提交，未推送、未部署。
+- 边界：不做千分位、货币前缀、任意精度格式化、异步校验或空值提交；Slider 仍无承载，Upload 已于 2026-11-25 单独落地；Safari / Firefox 已于 2026-11-24 定向复验通过（4 组组合，含方向键与设置页 / 资源库采用），真实触屏与真实屏幕阅读器未复验。组件站页面契约见 [E-03 P4-④](component-site-1.md#p4-input-number-2026-11-24)；实现与文档本地提交，未推送、未部署。
 
 ## Empty 空态（2026-11-24）
 
@@ -406,3 +406,12 @@ Safari 的指针激活不一定自动聚焦按钮；Button 在执行 onClick 前
 - 组件站：Empty 进入 feedback 分组（34 个条目 / 30 个组件），3 个示例覆盖基础居中、行内与 fill；API 8 行、行为 4 条；API / `llms.txt` / 代码高亮 / 站点搜索索引同批生成。
 - 验证：`npm run test:catalog`（11 项）、`npm run test:workbench`（17 项）、`npm run test:interaction`（29 项，新增 Empty 组件页与目录 / 资源空态采用）、`npm run check`、`npm run build` 通过；Chrome 1440 / 390 × 明暗探针覆盖组件页、目录与资源空态，无横向溢出与 pageerror，证据在忽略目录 `output/p4-empty-2026-11-24/`；Safari / Firefox 定向复验见 [E-03](component-site-1.md#p5-cross-browser-2026-11-24)。
 - 边界：只有 start / center 两种对齐与 fill，不含插画、自动播报、倒计时或空数据列表；不替代字段错误、保存结果或列表计数。实现与文档本地提交，未推送、未部署。
+
+## Upload 文件附件（2026-11-25）
+
+- 范围：P4-⑥，组件站 1.0 收口后的扩展。新增共享 Upload，以工作台资源新建 / 资源详情为首个真实承载；不内置网络传输、分片、图片裁切或灯箱，不改 token 与其他组件 API。
+- API：受控 `files` / `onFilesSelected` / `onRemove` / `removeLabel`；`prompt` 为可见拖放提示；`label`、`accept`、`multiple`、`disabled`、`required`、`className`。`UploadFile` 可带 `progress`，由调用方维护（本地读取或上传进度），提供时显示进度条；原生 `input[type=file]` 由 FormField 自动关联标签 / 说明 / 错误；删除后焦点移到下一个删除按钮，移除最后一个后回到选择器。
+- 承载：资源新建弹窗「附件」字段（可选，最多 3 个 .md / .txt / .pdf、每个 ≤ 2 MB；桌面拖入 + 点击选择，移动端点击选择；FileReader 本地读取进度为真实读取，只读取到当前浏览器）；资源详情 DescriptionList 增加「附件」行展示名称与大小；`Resource` 增加可选 `attachments` 元数据，旧数据兼容，模型校验类型 / 大小 / 数量 / 重名与上限。
+- 组件站：Upload 进入 fields 分组（35 个条目 / 31 个组件），3 个示例覆盖选择与移除、类型 / 大小 / 数量校验、进度与禁用；API 11 行、行为 4 条；API / `llms.txt` / 代码高亮 / 站点搜索索引同批生成，中英文同源。
+- 验证：`npm run test:catalog`（13 项）、`npm run test:workbench`（18 项）、`npm run test:interaction`（30 项，新增文件选择 / 校验 / 移除断言）、`npm run check`、`npm run build` 通过；Chrome 1440 / 390 × 中英 × 明暗 4 组探针 0 问题；证据在忽略目录 `output/upload-2026-11-25/`。长套件在本机内存压力下出现环境层渲染进程回收，`playwright.config.mjs` 禁用 GPU 进程后连续两轮 30 项通过。
+- 边界：不内置上传请求 / 分片 / 图片裁切 / 服务端错误处理；附件只保存在当前浏览器元数据中；Safari / Firefox 与真实辅助技术未复验；实现、测试与文档为本地提交，未推送、未部署。

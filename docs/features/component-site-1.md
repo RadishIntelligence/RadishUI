@@ -6,7 +6,7 @@
 
 ## 目标
 
-把当前的单页组件展示升级为可用的组件文档站，每个组件有独立页面、可查的 TypeScript API、可复制的用法示例、可搜索的目录，以及键盘 / 可访问性说明。先做深现有 27 个组件（P1 同时纳入 Card / Section / Table 页面原语），再按家族真实需求扩目录（P4 已加入 Form、DescriptionList、InputNumber 与 Empty，当前 34 个条目：30 个组件与 4 个页面原语），不以组件数量衡量完成度。P2 从同一来源生成组件页 API 表与 `llms.txt` 并检查漂移，P3 将逐组件行为归属与可访问性声明纳入该流程。
+把当前的单页组件展示升级为可用的组件文档站，每个组件有独立页面、可查的 TypeScript API、可复制的用法示例、可搜索的目录，以及键盘 / 可访问性说明。先做深现有 27 个组件（P1 同时纳入 Card / Section / Table 页面原语），再按家族真实需求扩目录（P4 已加入 Form、DescriptionList、InputNumber、Empty 与 Upload，当前 35 个条目：31 个组件与 4 个页面原语），不以组件数量衡量完成度。P2 从同一来源生成组件页 API 表与 `llms.txt` 并检查漂移，P3 将逐组件行为归属与可访问性声明纳入该流程。
 
 ## 非目标
 
@@ -48,7 +48,7 @@
 | **P1 迁移 27 个** | 现有组件全部进入模板；Card / Section / Table 页面原语一并纳入目录；单页参考退为“全部示例” | 已完成（30 个条目） |
 | **P2 类型 / API 全量** | 导出缺失 props 类型；JSDoc / 默认值 / 事件 / ref；单一来源生成 API 表与 `llms.txt`，行为归属随 P3 进入同一来源；`--check` 漂移门禁；类型测试与完整性检查 | 已完成（2026-11-21）：类型、JSDoc 说明、解构默认值与事件签名由源码生成；原生 / Radix 继承属性、union 类型与未解构默认值保留契约回退 |
 | **P3 用法深度** | 每组件 3+ 示例、变体 / 受控 / 表单 / 组合；代码高亮（新增依赖需确认）；每示例主题 / 密度；逐组件 a11y 与行为归属声明及对应断言（依赖待确认） | 已完成（2026-11-22）：行为归属与 a11y 声明进入契约生成；示例深度覆盖六组共 106 个示例；每示例主题 / 密度；代码高亮构建期生成；交互断言以 `test:interaction` 入仓并进入 CI。断言覆盖代表性行为，不等于逐条行为声明可执行（2026-11-23 共 148 条） |
-| **P4 目录扩展** | 按[家族需求盘点](family-component-demand.md)排序；Form、Upload、InputNumber / Slider 等逐项确认 | 已完成已确认候选（2026-11-22 Form 与 Drawer 底部编排；2026-11-23 DescriptionList；2026-11-24 InputNumber 与 Empty）；Upload / Slider 等剩余候选缺真实承载或场景，转入后续扩展，不阻塞收口 |
+| **P4 目录扩展** | 按[家族需求盘点](family-component-demand.md)排序；Form、Upload、InputNumber / Slider 等逐项确认 | 已完成已确认候选（2026-11-22 Form 与 Drawer 底部编排；2026-11-23 DescriptionList；2026-11-24 InputNumber 与 Empty；2026-11-25 收口后追加 Upload）；Slider / Progress / Steps 等剩余候选缺真实承载或场景，转入后续扩展 |
 | **P5 站点能力** | 版本 / 变更记录、状态与弃用、双语文档、图标参考、站点搜索索引；公开安装 / CLI / registry 属 P4 发行 | 已完成（2026-11-23 变更记录、图标参考；2026-11-24 站点搜索；2026-11-25 双语文档两批、旧单页退役与跨端证据）；组件状态 / 弃用未启用（等真实 preview / deprecated 数据）；公开安装 / CLI / registry 属 P4 发行 |
 
 P2 / P3 的生成与声明范围见[契约与行为](#contract-and-behavior-2026-11-18)；交互断言的执行环境与依赖确认见该节。
@@ -88,12 +88,12 @@ P2 / P3 的生成与声明范围见[契约与行为](#contract-and-behavior-2026
 
 P0 垂直切片与 P1 首批共用以下文件：
 
-- `apps/docs/src/component-catalog.ts`：34 个条目（30 个组件与 4 个页面原语）的单一目录数据（id、名称、分组、摘要、状态、是否有独立页）；
+- `apps/docs/src/component-catalog.ts`：35 个条目（31 个组件与 4 个页面原语）的单一目录数据（id、名称、分组、摘要、状态、是否有独立页）；
 - `apps/docs/src/CatalogPage.tsx`：搜索、分组、计数、空结果与卡片深链；
 - `apps/docs/src/ComponentDetailPage.tsx`：导入、示例（含每示例主题 / 密度预览设置与代码高亮）、API、键盘 / a11y、相关组件、本页目录与章节深链；页面根与示例暴露 `data-component` / `data-example` 供交互断言稳定定位；
 - `apps/docs/src/component-api.ts`：组件导入代码、相关组件与 API 回退行（原生 / Radix 继承属性、union 类型、`其余属性` 与未解构默认值）；P2 起 props 类型、说明与可解构默认值由 `packages/react/src` 生成到 `component-api.generated.ts`；
 - `apps/docs/src/component-behavior.ts`：P3 起逐组件行为归属与 a11y 声明（键盘 / 焦点 / ARIA / 已知限制及来源），经同一生成器写入 `component-api.generated.ts`；
-- `apps/docs/src/component-pilot-examples.tsx`：已迁移组件的示例（34 个条目共 119 个示例，含 P4 新增 Form、Drawer 底部编排、DescriptionList、InputNumber 与 Empty），预览使用真实共享组件；代码片段同时是高亮生成器的输入；
+- `apps/docs/src/component-pilot-examples.tsx`：已迁移组件的示例（35 个条目共 122 个示例，含 P4 新增 Form、Drawer 底部编排、DescriptionList、InputNumber、Empty 与 Upload），预览使用真实共享组件；代码片段同时是高亮生成器的输入；
 - `apps/docs/src/component-code.generated.ts`：P3 起由 `scripts/generate-code.mjs` 生成的逐条高亮 HTML（导入片段与示例），组件页消费；生成物入仓并由测试拦截漂移；
 - `apps/docs/src/changelog.ts`：P5 起站点版本与变更记录的单一来源（中英条目、站内链接），由 `test:workbench` 校验版本一致、日期倒序与链接目标；
 - `apps/docs/src/ChangelogPage.tsx`：`#/changelog` 变更记录页（版本卡、目录状态摘要、日期倒序条目），入口在侧栏「设计系统」与平台页 footer；
@@ -371,7 +371,7 @@ P1 完成：30 个条目均有独立页；目录新增「页面原语」分组�
 
 用途：a11y 声明的依据、回归检查清单、Flutter 端语义对应，以及未来更换行为层时的迁移清单。P3 覆盖 30 个条目，P4 起新增条目同批登记（2026-11-24 起 34 个条目）；未迁移或没有真实页面承载的组件不加壳。
 
-2026-11-21 起逐组件声明落在 `apps/docs/src/component-behavior.ts`：30 个条目共 138 条（键盘 53、焦点 15、ARIA 42、已知限制 28；浏览器原生 29、Radix 32、RadishUI 77），经 `scripts/generate-api.mjs` 校验后生成到组件页「键盘与可访问性」表与 `llms.txt`。上表保留为跨组件示例；逐组件完整清单以生成物为准。2026-11-22 新增 Form 与 Drawer 底部编排后共 31 个条目 143 条；2026-11-23 新增 DescriptionList 后共 32 个条目 148 条（键盘 55、焦点 16、ARIA 46、已知限制 31；浏览器原生 33、Radix 32、RadishUI 83）；2026-11-24 新增 InputNumber 后共 33 个条目 154 条（键盘 57、焦点 17、ARIA 47、已知限制 33；浏览器原生 34、Radix 32、RadishUI 88）；同日新增 Empty 后共 34 个条目 158 条（键盘 58、焦点 17、ARIA 49、已知限制 34；浏览器原生 35、Radix 32、RadishUI 91）。
+2026-11-21 起逐组件声明落在 `apps/docs/src/component-behavior.ts`：30 个条目共 138 条（键盘 53、焦点 15、ARIA 42、已知限制 28；浏览器原生 29、Radix 32、RadishUI 77），经 `scripts/generate-api.mjs` 校验后生成到组件页「键盘与可访问性」表与 `llms.txt`。上表保留为跨组件示例；逐组件完整清单以生成物为准。2026-11-22 新增 Form 与 Drawer 底部编排后共 31 个条目 143 条；2026-11-23 新增 DescriptionList 后共 32 个条目 148 条（键盘 55、焦点 16、ARIA 46、已知限制 31；浏览器原生 33、Radix 32、RadishUI 83）；2026-11-24 新增 InputNumber 后共 33 个条目 154 条（键盘 57、焦点 17、ARIA 47、已知限制 33；浏览器原生 34、Radix 32、RadishUI 88）；同日新增 Empty 后共 34 个条目 158 条（键盘 58、焦点 17、ARIA 49、已知限制 34；浏览器原生 35、Radix 32、RadishUI 91）。2026-11-25 新增 Upload 后共 35 个条目 162 条（键盘 59、焦点 18、ARIA 50、已知限制 35；浏览器原生 36、Radix 32、RadishUI 94）。
 
 ### 交互行为测试
 
@@ -403,14 +403,14 @@ P1 完成：30 个条目均有独立页；目录新增「页面原语」分组�
 
 ## 验收口径
 
-- 目录：34 个条目全部可搜索 / 分组；每个 id 可深链；无重复、无死链（全部条目有独立文档页；旧 `#/components` 入口重定向到目录）。
+- 目录：35 个条目全部可搜索 / 分组；每个 id 可深链；无重复、无死链（全部条目有独立文档页；旧 `#/components` 入口重定向到目录）。
 - 已迁移页：导入、≥3 示例、API 表、键盘 / a11y、相关组件与页面目录齐全；代码可复制并有构建期高亮（2026-11-22 起）；1440 / 390 与明暗无页面级横向溢出、无 pageerror。
 - 类型：P2 起每个公开 props 有类型、默认值、必填与说明；API 表由源码生成并在 CI 检查漂移。
 - 用法：P3 起每组件至少 3 个真实示例；示例代码与预览一致；每示例可在明暗与三档密度下预览；不能只靠静态截图。
 - 站点：搜索、深链、复制、键盘焦点可用；`#/search` 覆盖页面 / 组件 / 图标 / 变更记录，索引由生成器与 `check:search` 保持同源；组件页章节可深链（`#/components/<id>/doc-api`）并可恢复；不因新增页面破坏 Workbench 与既有路由。
 - 版本：`#/changelog` 展示当前内部版本与日期倒序条目，版本与 `package.json` 一致、条目链接无死链；页面不承诺公开发布或 tag。
 - 图标：`#/icons` 只收录展示站与示例实际使用的 lucide-react 图标，名称与依赖导出一致、可搜索并复制导入；不新增第二套图标依赖。
-- 双语：2026-11-25 起组件目录摘要与 119 个示例的标题 / 说明、目录分组、组件页摘要、282 行 API 说明、158 条行为声明（含主题 / 来源标签）与站点搜索按站点语言切换；英文覆盖由 `test:catalog` 与 `test:workbench` 拦截。`llms.txt` 与示例代码仍为中文（后续另行确认）。
+- 双语：2026-11-25 起组件目录摘要与 122 个示例的标题 / 说明、目录分组、组件页摘要、293 行 API 说明、162 条行为声明（含主题 / 来源标签）与站点搜索按站点语言切换；英文覆盖由 `test:catalog` 与 `test:workbench` 拦截。`llms.txt` 与示例代码仍为中文（后续另行确认）。
 - 跨环境：2026-11-23 起组件页模板与 DescriptionList 采用位置经 Safari 27 / Firefox 159 定向复验；2026-11-24 起 P5 三页、InputNumber 与设置页 / 资源库完成 4 组定向复验；2026-11-25 补 Safari 加载期日志（26 次加载 0 错误）、Firefox 9 页完整键盘遍历、Safari 8 页焦点环遍历与英文模式 92 项复验（[记录](#cross-browser-2026-11-25)）。真实辅助技术、Windows 高对比、实体设备与真实 200% 仍未覆盖，不能据此推断其他平台通过。
 - 契约：P2 起 API 表与 `llms.txt` 由单一来源生成并有 `--check` 漂移门禁；行为归属已于 2026-11-21 进入同一来源，代码高亮产物于 2026-11-22 同属生成链路。手写镜像只作为过渡并在同批标注到期阶段。
 - 行为：P3 组件页逐项注明浏览器原生、Radix 与 RadishUI 承担的行为（2026-11-21 起已进入契约生成）；2026-11-22 起 `npm run test:interaction` 在真实 Chrome 中断言代表性键盘 / 焦点 / ARIA 与强制颜色；未覆盖项按验证记录如实标注。
@@ -428,6 +428,20 @@ P1 完成：30 个条目均有独立页；目录新增「页面原语」分组�
 - 收口基线：`npm run check`（`test:repo` 10 / `test:workbench` 17 / `test:catalog` 13）、`npm run build`（主入口 426.26 kB / gzip 133.69 kB、组件页懒加载 321.31 kB / gzip 66.31 kB、`SearchPage` 50.30 kB / gzip 13.90 kB，无 500 kB 警告）、`npm run test:interaction` 30 项通过。证据在忽略目录 `output/e03-closeout-2026-11-25/`（`audit.mjs`、`audit.json`、`report.md`）。
 - 未启用 / 未覆盖：组件状态与弃用机制未启用（没有真实 preview / deprecated 组件数据）；真实屏幕阅读器（VoiceOver / NVDA）实际朗读、Windows 真实高对比、实体设备与真实浏览器 200% 仍缺环境；`llms.txt`、示例代码演示文案与工作台合成数据按所有者决定保持中文；展示站仍是 private workspace，未发布 npm、未创建 tag / Release。
 - 后续入口：P4 Upload 需最小真实场景；组件状态 / 弃用需语义与真实数据；P4 正式发行、外部采用与 Flutter 需单独授权 / 确认。收口不等于发行或产品采用，后续扩展按新任务启动。
+
+- 注：本节是 2026-11-25 收口时的快照；同日收口后追加 P4-⑥ Upload，当前计数以 [P4-⑥](#p4-upload-2026-11-25) 为准。
+
+<a id="p4-upload-2026-11-25"></a>
+
+## P4-⑥ Upload 文件附件（2026-11-25）
+
+- 范围：按所有者确认的收口后扩展，新增共享 `Upload` 文件附件字段，并以工作台「资源新建 / 资源详情」为首个真实承载；不含网络传输、分片、图片裁切、灯箱或其他组件，不改 token 与既有组件 API。
+- API：受控 `files` / `onFilesSelected` / `onRemove` / `removeLabel`；`prompt` 为可见拖放提示；`label`、`accept`、`multiple`、`disabled`、`required`、`className`。类型、大小、数量、去重与进度由调用方维护，`UploadFile.progress` 提供时显示进度条。文件选择器是原生 `input[type=file]`，由 FormField 自动关联标签 / 说明 / 错误；删除后焦点移到下一个删除按钮，移除最后一个后回到选择器。
+- 承载：资源新建弹窗新增「附件」字段（可选，最多 3 个 .md / .txt / .pdf、每个 ≤ 2 MB；桌面拖入 + 点击选择，移动端点击选择；FileReader 本地读取进度为真实读取，只读取到当前浏览器、不发送服务器）；资源详情用 DescriptionList 的「附件」行展示名称与大小；`Resource` 增加可选 `attachments` 元数据，旧数据保持兼容，模型校验类型 / 大小 / 数量 / 重名与上限。
+- 组件站：Upload 进入 fields 分组（35 个条目 / 31 个组件 + 4 个页面原语），3 个示例覆盖选择与移除、类型 / 大小 / 数量校验、进度与禁用；API 11 行、行为 4 条；API / `llms.txt` / 代码高亮 / 站点搜索索引同批生成；英文摘要、示例与 API / 行为说明同批补齐。
+- 验证：`npm run check`（`test:catalog` 13 项、`test:workbench` 18 项）、`npm run build`（主入口 432.60 kB / gzip 135.76 kB、组件页懒加载 334.34 kB / gzip 69.39 kB、`SearchPage` 51.74 kB / gzip 14.26 kB，无 500 kB 警告）、`npm run test:interaction` 30 项通过（新增 Upload 文件选择 / 校验 / 移除断言；长套件在本机内存压力下出现环境层渲染进程回收，`playwright.config.mjs` 禁用 GPU 进程后连续两轮 30 项通过）；Chrome 探针 4 组（1440 / 390 × 中英 × 明暗）0 问题：组件页 3 示例 / 11 行 API / 4 条行为 / 进度与禁用态、工作台新建带附件并写入资源详情，无横向溢出与 pageerror。证据在忽略目录 `output/upload-2026-11-25/`。
+- 边界：Upload 不内置上传请求、分片、图片裁切或服务端错误处理；工作台附件只读取到当前浏览器并保存元数据；Safari / Firefox 与真实辅助技术未复验；`llms.txt` 与示例代码演示文案保持中文。
+- 状态：实现、测试与文档为本地提交；未推送、未运行 PR Checks、未合并、未部署。
 
 ## 边界与依赖
 
