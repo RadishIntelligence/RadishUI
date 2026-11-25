@@ -42,6 +42,7 @@ export const changelog: readonly ChangelogEntry[] = [
       { zh: '旧 #/components 单页参考退役：访问时重定向到 #/catalog，“全部示例”重复入口移除，站点搜索页面索引由 10 个减为 9 个。', en: 'Retired the legacy single-page #/components reference: it now redirects to #/catalog, the duplicate “all examples” entries were removed, and the site search page index drops from 10 to 9.' },
       { zh: '示例代码、工作台合成数据与 llms.txt 不在本批范围。', en: 'Example code, workbench synthetic data, and llms.txt stay out of this batch.' },
       { zh: '交互断言增至 30 项，新增英文语言下的目录、组件页、搜索与复制按钮检查。', en: 'Interaction assertions grew to 30 with English-language checks for the catalog, component pages, search, and copy buttons.' },
+      { zh: '补跨端与辅助技术证据：Safari 加载期日志（26 次加载 0 错误）、Firefox 9 页完整键盘遍历、Safari 8 页焦点环遍历与英文模式 Safari / Firefox 92 项复验。', en: 'Added cross-environment evidence: Safari load-time logs (26 loads, no errors), a full keyboard traversal on 9 Firefox pages, focus-ring traversal on 8 Safari pages, and 92 English-mode checks across Safari and Firefox.' },
     ],
   },
   {

@@ -301,7 +301,7 @@ P1 完成：30 个条目均有独立页；目录新增「页面原语」分组�
 - 第二批（同日）：API 说明 282 行英文集中在 `apps/docs/src/component-api-en.ts`（按组件 id 与行键 `Prop` / `Part.Prop` 维护），行为声明 158 条在同一 `component-behavior.ts` 条目内增加 `textEn`；`generate-api.mjs` 校验英文与生成行一一对应、非空且无中文，行为主题 / 来源标签改为 zh / en 双语。组件页 API 表与键盘 / 可访问性表按语言显示说明与标签；`llms.txt` 仍只输出中文。
 - 验证：`npm run check`（`test:catalog` 13 项、`test:workbench` 17 项）、`npm run build`（主入口 459.68 kB / gzip 143.62 kB、组件页懒加载分块 318.65 kB / gzip 65.00 kB，无 500 kB 警告）、`npm run test:interaction` 30 项通过（英文语言下目录、组件页、搜索、复制按钮、API / 行为表与 390 溢出）。Chrome 157 探针 8 组（1440 / 390 × 明暗 × 中英）0 问题：英文目录 34 条摘要与分组、34 个组件页摘要、119 个示例标题 / 说明、282 行 API 说明、158 条行为声明、主题 / 来源标签与复制按钮无中文残留，中文模式回归不变，无 pageerror 与页面级横向溢出；证据在忽略目录 `output/p5-bilingual-2026-11-25/` 与 `output/p5-bilingual-batch2-2026-11-25/`。
 - 旧入口退役（同日）：删除旧单页参考组件与配套样式，`#/components` 规范化为 `#/catalog`、移除重复的「全部示例」入口；站点搜索页面索引由 10 个减为 9 个、总条目 89 → 88，主入口 459.68 → 426.26 kB（gzip 143.62 → 133.69 kB）。
-- 边界：`llms.txt`、示例代码与预览演示文案、工作台合成数据仍为中文（后续另行确认）；旧单页参考已退役；未复验 Safari / Firefox 与真实辅助技术。
+- 边界：`llms.txt`、示例代码与预览演示文案、工作台合成数据仍为中文（后续另行确认）；旧单页参考已退役；Safari / Firefox 的英文模式已在 2026-11-25 定向复验（[跨端证据](#cross-browser-2026-11-25)），真实辅助技术仍未覆盖。
 
 <a id="p4-input-number-2026-11-24"></a>
 
@@ -334,6 +334,16 @@ P1 完成：30 个条目均有独立页；目录新增「页面原语」分组�
 - 覆盖：`#/search` 88 个条目 / 4 类摘要 / `button` 3 结果 / 2 组 / 结果跳转 / 空态与清除；`#/changelog` 6 条 / 首条 11-24 / 搜索入口；`#/icons` 38 个 / `arrow` 3 个；`#/components/input-number` 3 示例 / 16 行 API / 6 条行为 / 4 个 spinbutton / ArrowUp 从 3 到 4；`#/components/empty` 3 示例 / 8 行 API / 4 条行为 / 3 个空态实例；目录搜索无结果采用行内 Empty，资源搜索无结果采用 fill Empty；`#/settings` 每页条数默认 20→改 5 并保存；`#/resources` 桌面表格 / 窄屏列表均 5 行、页大小「5 条/页」；各页无横向溢出与交互期 window error。
 - 结果：Safari 4 组 148 项、Firefox 4 组 148 项，合计 296 项全部通过（0 失败）。证据在忽略目录 `output/p5-cross-browser-2026-11-24/`（`audit.mjs`、两份 report JSON、各 9 张截图与 `report.md`）。
 - 边界：Safari 驱动不提供加载期页面异常事件（仅交互期）；未测真实屏幕阅读器、Windows 真实高对比、实体设备与真实 200% 整页缩放；headless Firefox 与 iframe 窄视口不替代实体设备；所有者视觉复审仍待确认。
+
+<a id="cross-browser-2026-11-25"></a>
+
+## 跨端与辅助技术证据（2026-11-25）
+
+- 范围：按所有者选择补 Safari 加载期日志、Firefox 完整键盘遍历，并复验刚完成的英文模式；不改代码、不新增依赖、不改共享组件与 token。
+- 方法：macOS 27.0.1；Safari 27.0.1（safaridriver 4452，WebDriver BiDi + W3C actions）、Firefox 159.0.1（headless，远程调试 9224，QA 沙箱参数仅用于 127.0.0.1）；构建产物 + preview 4510，经 fixture 代理 4511。Safari 驱动没有加载期异常事件，fixture 对 HTML 注入最前置的 `error` / `unhandledrejection` / `console.error` / 资源错误捕获脚本后在导航后读取；Safari 在系统全键盘控制关闭时纯 Tab 只到表单控件，键盘遍历使用 Option+Tab。Firefox headless 的 `document.hasFocus()` 始终为 false（尝试 `browsingContext.activate`、`focusmanager.testmode`、`window.focus()` 均无效），因此 Firefox 只断言 Tab 序列 / 循环 / 可见性 / 无陷阱，焦点环由 Safari 覆盖。
+- 结果：Safari 加载期 13 条路由 × 中英两种语言共 26 次加载全部注入成功，无错误 / 未处理拒绝 / console.error / 资源错误，主标题与无横向溢出通过；Firefox 9 页完整键盘遍历通过（从跳转链接开始、26–60 个焦点、进入主内容区、循环回到起点，所有焦点可见且在视口内、无陷阱与交互期错误，循环末尾重复最后一个焦点一次属 Firefox 行为）；Safari 8 页 Option+Tab 遍历的 25–59 个焦点全部 `:focus-visible` 且有 1px 实线焦点环、可见、无重复与陷阱、无交互期错误；英文模式 Safari / Firefox 各 3 组（1440 英文明 / 390 英文明 / 1440 中文明）共 92 项检查 0 失败（目录 34 卡片与英文分组 / 摘要，Button 页英文示例 / API / 行为 / Copy，搜索 88 条目与中英结果，中文回归，无横向溢出）。
+- 证据：忽略目录 `output/cross-browser-2026-11-25/`（`fixture-server.mjs`、`native-drivers.mjs`、`safari-load.mjs`、`firefox-keyboard.mjs`、`safari-keyboard.mjs`、`english.mjs`、四份 report JSON、10 张截图、`report.md`）。
+- 边界：仍无真实屏幕阅读器（VoiceOver / NVDA）、Windows 真实高对比、实体设备与真实浏览器 200% 整页缩放；Safari 加载期捕获只覆盖经 fixture 代理的 HTML 文档；Firefox headless 无法观测 `:focus-visible` / 焦点环；headless Firefox 与 iframe 窄视口不替代实体设备。
 
 <a id="contract-and-behavior-2026-11-18"></a>
 
@@ -401,7 +411,7 @@ P1 完成：30 个条目均有独立页；目录新增「页面原语」分组�
 - 版本：`#/changelog` 展示当前内部版本与日期倒序条目，版本与 `package.json` 一致、条目链接无死链；页面不承诺公开发布或 tag。
 - 图标：`#/icons` 只收录展示站与示例实际使用的 lucide-react 图标，名称与依赖导出一致、可搜索并复制导入；不新增第二套图标依赖。
 - 双语：2026-11-25 起组件目录摘要与 119 个示例的标题 / 说明、目录分组、组件页摘要、282 行 API 说明、158 条行为声明（含主题 / 来源标签）与站点搜索按站点语言切换；英文覆盖由 `test:catalog` 与 `test:workbench` 拦截。`llms.txt` 与示例代码仍为中文（后续另行确认）。
-- 跨环境：2026-11-23 起组件页模板与 DescriptionList 采用位置经 Safari 27 / Firefox 159 定向复验；2026-11-24 起 P5 三页、InputNumber 与设置页 / 资源库也完成 4 组定向复验（见上节）；加载期异常与真实辅助技术仍未覆盖，不能据此推断其他平台通过。
+- 跨环境：2026-11-23 起组件页模板与 DescriptionList 采用位置经 Safari 27 / Firefox 159 定向复验；2026-11-24 起 P5 三页、InputNumber 与设置页 / 资源库完成 4 组定向复验；2026-11-25 补 Safari 加载期日志（26 次加载 0 错误）、Firefox 9 页完整键盘遍历、Safari 8 页焦点环遍历与英文模式 92 项复验（[记录](#cross-browser-2026-11-25)）。真实辅助技术、Windows 高对比、实体设备与真实 200% 仍未覆盖，不能据此推断其他平台通过。
 - 契约：P2 起 API 表与 `llms.txt` 由单一来源生成并有 `--check` 漂移门禁；行为归属已于 2026-11-21 进入同一来源，代码高亮产物于 2026-11-22 同属生成链路。手写镜像只作为过渡并在同批标注到期阶段。
 - 行为：P3 组件页逐项注明浏览器原生、Radix 与 RadishUI 承担的行为（2026-11-21 起已进入契约生成）；2026-11-22 起 `npm run test:interaction` 在真实 Chrome 中断言代表性键盘 / 焦点 / ARIA 与强制颜色；未覆盖项按验证记录如实标注。
 - 不以组件数量或文档页数量替代验收；每项必须有可复验证据。

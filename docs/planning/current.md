@@ -70,6 +70,8 @@
 
 2026-11-25 按所有者选择推进 P5-④ 双语文档首批：为组件目录摘要（34）与 119 个示例的标题 / 说明补齐英文，`ComponentEntry` 增加 `summaryEn`、`PilotExample` 增加 `titleEn` / `descriptionEn`，与中文文案同源维护；`CatalogPage` / `ComponentDetailPage` / `SearchPage` 接收站点语言，`site-search.ts` 只匹配当前语言的标题 / 说明 / 正文并保留双语关键词别名，目录搜索同时匹配中英摘要。`scripts/generate-code.mjs` 读取示例时要求四个文案字段齐全，缺失即让 `code:generate --check` 失败；`test:catalog` 增至 12 项（英文覆盖断言），`test:workbench` 校验英文搜索说明无中文，`test:interaction` 增至 30 项（新增英文语言下目录 / 组件页 / 搜索 / 复制按钮与 390 溢出）。`npm run check`、`npm run build` 通过，主入口 459.68 kB / gzip 143.62 kB（较 11-24 增加英文摘要），无 500 kB 警告；Chrome 157 探针 8 组（1440 / 390 × 明暗 × 中英）0 问题，证据在忽略目录 `output/p5-bilingual-2026-11-25/`。同日继续第二批：API 说明 282 行英文集中在 `apps/docs/src/component-api-en.ts`（按组件与行键维护，`generate-api` 校验与生成行一一对应），行为声明 158 条在同一 `component-behavior.ts` 条目内增加 `textEn`，行为主题 / 来源标签改为 zh / en 双语；组件页 API 表与键盘 / 可访问性表按语言显示，`llms.txt` 仍只输出中文。`test:catalog` 增至 13 项（API / 行为英文覆盖），`test:interaction` 30 项已含英文 API / 行为表断言；`npm run check`、`npm run build` 通过（主入口 459.68 kB / gzip 143.62 kB，组件页懒加载 318.65 kB / gzip 65.00 kB，无 500 kB 警告），Chrome 探针 8 组 0 问题（282 行 API 与 158 条行为在英文下无中文残留，中文回归不变），证据在忽略目录 `output/p5-bilingual-batch2-2026-11-25/`。同日按所有者确认收尾：旧 `#/components` 单页参考退役（删除 `ComponentsPage` / `ComponentExample` / `components.css` 共 383 行与 40 行样式），`#/components` 在 `parseRoute` 归为目录路由并由 App 规范化为 `#/catalog`，移除目录页与组件页重复的「全部示例」入口；站点搜索页面索引 10 → 9、总条目 89 → 88。主入口 459.68 → 426.26 kB（gzip 143.62 → 133.69 kB），入口 CSS 87.45 → 84.65 kB（gzip 17.00 → 16.56 kB）；`test:interaction` 30 项（新增旧入口重定向断言），Chrome 157 探针 3 组 30 项 0 问题（旧入口规范化、目录 34 卡片、搜索 88 条目 / 页面 9、`旧版` 无结果、组件页深链可用），证据在忽略目录 `output/legacy-retire-2026-11-25/`。示例代码与预览演示文案、`llms.txt`、工作台合成数据仍为中文，后续另行确认；未改共享组件、token 与依赖。登记见 [E-03 P5-④](../features/component-site-1.md#p5-bilingual-2026-11-25)。
 
+2026-11-25 同日按所有者选择补跨端与辅助技术证据：Safari 27.0.1 加载期日志（fixture 代理注入最前置错误捕获，13 条路由 × 中英两种语言共 26 次加载，0 错误 / 0 未处理拒绝 / 0 console.error / 0 资源错误）、Firefox 159.0.1 完整键盘遍历（9 页，从跳转链接开始、26–60 个焦点、进入主内容区并循环，无陷阱与交互期错误；headless Firefox 无法观测 `:focus-visible`，焦点环由 Safari 覆盖）、Safari 8 页 Option+Tab 焦点环遍历（25–59 个焦点全部 `:focus-visible` 且 1px 实线环）与英文模式 Safari / Firefox 各 3 组共 92 项复验（目录 / 组件页 API 与行为 / 搜索 / 中文回归，0 失败）。未改代码、共享组件、token 与依赖；仍待真实屏幕阅读器（VoiceOver / NVDA）、Windows 真实高对比、实体设备与真实 200%。证据在忽略目录 `output/cross-browser-2026-11-25/`，登记见 [E-03 跨端证据](../features/component-site-1.md#cross-browser-2026-11-25)。
+
 长期阶段和专题归属见[整体规划](roadmap.md)与[专题地图](topics.md)。本轮证据见[本周开发记录](../devlogs/2026-W48.md)，晋级历史见[上周收尾记录](../devlogs/2026-W45.md#2026-11-08-收尾提交回顾与文档复核)。
 
 ## 接下来的事项
@@ -90,7 +92,7 @@
     1. 所有者复审：P5-④ 双语文档（目录 / 组件页 API 与行为表 / 搜索 / 复制按钮）的英文文案与视觉，以及 11-24 遗留的 P4-③ / P4-④ / P4-⑤、组件页模板与 P5 三页复审；部署另定。
     2. P5 剩余：`llms.txt`、示例代码内容与工作台合成数据是否纳入需先确认；组件状态 / 弃用仍等真实 preview / deprecated 数据；站点搜索的 URL 持久化、结果高亮与拼音匹配不作为当前默认范围。
     3. P4 扩展：InputNumber 与 Empty 已完成；Upload 需所有者指定最小真实场景（端点 / 进度 / 校验），Slider / Progress / Steps 仍缺真实承载。没有场景时不再新增 P4 组件。
-    4. 辅助技术：真实屏幕阅读器（VoiceOver / NVDA）、Windows 高对比、实体设备、真实 200%、Safari 加载期日志与 Firefox 完整键盘遍历仍待补齐；Safari / Firefox 已覆盖 P5 三页、InputNumber、Empty、设置页 / 资源库与双语文档首批的交互期（英文语言尚未跨浏览器复验）。
+    4. 辅助技术：真实屏幕阅读器（VoiceOver / NVDA）、Windows 真实高对比、实体设备与真实 200% 仍待补齐；Safari 加载期日志、Firefox 完整键盘遍历与英文模式 Safari / Firefox 复验已于 2026-11-25 完成（见 [E-03](../features/component-site-1.md#cross-browser-2026-11-25)），Chrome 仍为交互断言主环境。
     5. 暂缓项维持：新的兄弟项目试点、Flutter、组件包发行与部署均需另行授权；推送与 PR Checks 不属默认动作。
 
 ## 当前停止线
@@ -106,7 +108,7 @@
 - 2026-11-23 的 P4-③ DescriptionList 实现 `887455f` 与文档登记 `15d5cc1`、组件页布局与目录修订 `c8c3d1e` 及文档登记、Safari / Firefox 定向复验登记 `c37a7f1`、P5 变更记录实现 `c2ee0d0` 及文档登记、P5 图标参考实现 `8b16462` 及文档登记与边界修正 `4bcac56`、收尾文档提交 `395d0c7`，共 11 个提交，已于 11-23 22:21 推送 `origin/dev` `395d0c7`（此前「未推送」为收尾快照）；11-24 手动 PR Checks run `45381557300` 通过。未部署，生产未更新。
 - 2026-11-24 共 19 个本地提交（交互断言扩展、验收收口、P5-③ 站点搜索、P4-④ InputNumber、P4-⑤ Empty、跨浏览器复验与收尾文档）；2026-11-25 核对：该批已于 11-24 21:55 推送 `origin/dev` `317e43c`，此前「未推送 / 本地领先 `395d0c7`」为收尾快照，已过期；该批没有对应 PR Checks（工作流仅 PR 或手动触发），按 2026-11-24 口径未补跑。审计证据在忽略目录 `output/component-site-audit-2026-11-24/`，搜索证据在 `output/p5-search-2026-11-24/`，InputNumber 证据在 `output/p4-input-number-2026-11-24/`，Empty 证据在 `output/p4-empty-2026-11-24/`，跨浏览器证据在 `output/p5-cross-browser-2026-11-24/`。
 - 2026-11-25 起点：`dev` 与 `origin/dev` 同为 `317e43c`，工作区与暂存区干净；`dev` 领先 `origin/master` 83 个提交（`master` 停在 11-15 的 PR #8），生产展示站仍是旧版本，合并晋级与部署需另行授权。
-- 2026-11-25 P5-④ 双语文档（首批 + API / 行为第二批）与旧单页参考退役的实现、测试和文档为本地提交，按当前口径不推送、不运行 PR Checks、不部署，生产未更新；证据在忽略目录 `output/p5-bilingual-2026-11-25/`、`output/p5-bilingual-batch2-2026-11-25/` 与 `output/legacy-retire-2026-11-25/`。
+- 2026-11-25 P5-④ 双语文档（首批 + API / 行为第二批）、旧单页参考退役与跨端证据的实现 / 测试 / 文档为本地提交，按当前口径不推送、不运行 PR Checks、不部署，生产未更新；证据在忽略目录 `output/p5-bilingual-2026-11-25/`、`output/p5-bilingual-batch2-2026-11-25/`、`output/legacy-retire-2026-11-25/` 与 `output/cross-browser-2026-11-25/`。
 - 组件站 1.0 达标前不恢复兄弟项目试点；About 采用只作已闭环记录，不触发其他页面 / 产品接入。
 - 不引入跨框架行为层与 Agent 运行时桥接（`@ui-sdk/*`、Agent Bridge / WebMCP）。重评触发点见[组件站 1.0](../features/component-site-1.md#contract-and-behavior-2026-11-18)。Playwright 已于 2026-11-22 经所有者确认入仓（只用预装 Chrome）；新增其他测试依赖（jsdom / happy-dom 等）仍需单独确认。
 - React 18 / Flutter 支持、组件包发行、字体策略、全站 token 与 family-ui 资料迁移不随试点自动进入，也不作为本次有限采用的前置条件。未覆盖平台与辅助技术如实记录；影响所选关键路径的缺陷仍需处理。
