@@ -1,4 +1,6 @@
 export type SiteSearchKind = 'page' | 'component' | 'icon' | 'changelog';
+/** 站点搜索只匹配当前语言的文案；`keywords` 保留双语别名用于跨语言命中。 */
+export type SiteSearchLocale = 'zh-CN' | 'en';
 
 export interface SiteSearchText {
   zh: string;
@@ -45,15 +47,21 @@ function matchesWholeTerm(value: string, term: string) {
   return new RegExp(`(^|[^a-z0-9])${escaped}(?=[^a-z0-9]|$)`, 'i').test(value);
 }
 
-function entryText(entry: SiteSearchEntry) {
-  return [entry.title.zh, entry.title.en, entry.description.zh, entry.description.en,
-    entry.group.zh, entry.group.en, ...entry.keywords,
-    ...(entry.details?.flatMap(detail => [detail.zh, detail.en]) ?? [])].map(normalize);
+/** Map the site locale onto the `{ zh, en }` text keys. */
+function textKey(locale: SiteSearchLocale) {
+  return locale === 'en' ? 'en' as const : 'zh' as const;
 }
 
-function scoreEntry(entry: SiteSearchEntry, terms: readonly string[]) {
-  const titles = [normalize(entry.title.zh), normalize(entry.title.en)];
-  const text = entryText(entry);
+/** Searchable text for the active language; keywords stay bilingual aliases. */
+function entryText(entry: SiteSearchEntry, locale: SiteSearchLocale) {
+  const key = textKey(locale);
+  return [entry.title[key], entry.description[key], entry.group[key], ...entry.keywords,
+    ...(entry.details?.map(detail => detail[key]) ?? [])].map(normalize);
+}
+
+function scoreEntry(entry: SiteSearchEntry, terms: readonly string[], locale: SiteSearchLocale) {
+  const titles = [normalize(entry.title[textKey(locale)])];
+  const text = entryText(entry, locale);
   let score = 0;
   for (const term of terms) {
     if (titles.some(title => title === term)) score += 100;
@@ -73,20 +81,22 @@ function compareEntries(left: SiteSearchEntry, right: SiteSearchEntry) {
 /**
  * 按空格拆分查询词，全部命中才返回；标题优先于描述、分组与正文。
  * 空查询返回完整索引（生成物已按页面 / 组件 / 图标 / 变更记录分组）。
+ * 只匹配当前语言的标题 / 说明 / 正文；关键词保留双语别名，供跨语言检索。
  */
-export function searchSite(entries: readonly SiteSearchEntry[], query: string): SiteSearchEntry[] {
+export function searchSite(entries: readonly SiteSearchEntry[], query: string, locale: SiteSearchLocale = 'zh-CN'): SiteSearchEntry[] {
   const terms = queryTerms(query);
   if (!terms.length) return [...entries];
   return entries
-    .map(entry => ({ entry, score: scoreEntry(entry, terms) }))
+    .map(entry => ({ entry, score: scoreEntry(entry, terms, locale) }))
     .filter(result => result.score >= 0)
     .sort((left, right) => right.score - left.score || compareEntries(left.entry, right.entry))
     .map(result => result.entry);
 }
 
 /** 命中查询词的第一条正文，用于变更记录等长条目结果的上下文。 */
-export function searchMatchDetail(entry: SiteSearchEntry, query: string): SiteSearchText | undefined {
+export function searchMatchDetail(entry: SiteSearchEntry, query: string, locale: SiteSearchLocale = 'zh-CN'): SiteSearchText | undefined {
   const terms = queryTerms(query);
   if (!terms.length || !entry.details) return undefined;
-  return entry.details.find(detail => terms.every(term => matchesWholeTerm(normalize(`${detail.zh} ${detail.en}`), term)));
+  const key = textKey(locale);
+  return entry.details.find(detail => terms.every(term => matchesWholeTerm(normalize(detail[key]), term)));
 }

@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import type { LucideIcon } from 'lucide-react';
 import { ArrowRight, Boxes, History, PanelsTopLeft, Search, Shapes } from 'lucide-react';
 import { Input } from '@radish-ui/react';
-import type { Translate } from './model';
+import type { Locale, Translate } from './model';
 import { PageHeader } from './PageHeader';
 import { searchMatchDetail, searchSite, siteSearchKindLabels, siteSearchKindOrder, type SiteSearchKind } from './site-search';
 import { siteSearchEntries } from './site-search.generated';
@@ -17,10 +17,10 @@ const summaryTargets: Record<SiteSearchKind, { href: string; Icon: LucideIcon }>
 
 const counts = Object.fromEntries(siteSearchKindOrder.map(kind => [kind, siteSearchEntries.filter(entry => entry.kind === kind).length])) as Record<SiteSearchKind, number>;
 
-export function SearchPage({ t }: { t: Translate }) {
+export function SearchPage({ t, locale }: { t: Translate; locale: Locale }) {
   const [query, setQuery] = useState('');
   const trimmed = query.trim();
-  const results = useMemo(() => searchSite(siteSearchEntries, query), [query]);
+  const results = useMemo(() => searchSite(siteSearchEntries, query, locale), [query, locale]);
   const groups = siteSearchKindOrder
     .map(kind => ({ kind, entries: results.filter(entry => entry.kind === kind) }))
     .filter(group => group.entries.length > 0);
@@ -59,7 +59,7 @@ export function SearchPage({ t }: { t: Translate }) {
             <h2 id={`search-kind-${kind}`}>{t(label.zh, label.en)}<span>{entries.length}</span></h2>
             <ul className="search-list">
               {entries.map(entry => {
-                const detail = searchMatchDetail(entry, query);
+                const detail = searchMatchDetail(entry, query, locale);
                 const description = detail ?? entry.description;
                 return <li key={entry.id}>
                   <a className="search-result" href={entry.href}>

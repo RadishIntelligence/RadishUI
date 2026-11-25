@@ -1,8 +1,10 @@
 export type Page = 'overview' | 'resources' | 'settings' | 'document' | 'components' | 'foundations' | 'platforms' | 'changelog' | 'icons' | 'search';
 export type Translate = (chinese: string, english: string) => string;
+/** 站点语言；页面级 `t()` 与字符串型英文数据共用同一取值。 */
+export type Locale = 'zh-CN' | 'en';
 export interface Preferences {
   theme: 'light' | 'dark' | 'system';
-  locale: 'zh-CN' | 'en';
+  locale: Locale;
   density: 'compact' | 'standard' | 'spacious';
   fontSize: 'small' | 'standard' | 'large';
   showToc: boolean;

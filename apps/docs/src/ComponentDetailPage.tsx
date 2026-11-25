@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState, type ReactNode, type RefObject } from 'react';
 import { Card, Drawer, IconButton, StatusBadge, TableOfContents } from '@radish-ui/react';
 import { ListTree } from 'lucide-react';
-import type { Translate } from './model';
+import type { Locale, Translate } from './model';
 import { PageHeader } from './PageHeader';
 import { CopyButton } from './CopyButton';
 import { findComponent, type ComponentEntry } from './component-catalog';
@@ -78,7 +78,7 @@ function RelatedLink({ entry }: { entry: ComponentEntry }) {
   </a>;
 }
 
-export function ComponentDetailPage({ id, section, scrollRoot, t }: { id: string; section?: string; scrollRoot: RefObject<HTMLElement | null>; t: Translate }) {
+export function ComponentDetailPage({ id, section, scrollRoot, t, locale }: { id: string; section?: string; scrollRoot: RefObject<HTMLElement | null>; t: Translate; locale: Locale }) {
   const entry = findComponent(id);
   const doc = pilotDocs[id];
   const examples = pilotExamples[id];
@@ -188,7 +188,7 @@ export function ComponentDetailPage({ id, section, scrollRoot, t }: { id: string
       </div>} />
     <div className="component-doc__layout">
       <div className="component-doc__main">
-        <p className="component-doc__summary">{entry.summary}</p>
+        <p className="component-doc__summary">{locale === 'en' ? entry.summaryEn : entry.summary}</p>
 
         <section className="doc-section" aria-labelledby="doc-import">
           <h2 id="doc-import">{t('导入', 'Import')}</h2>
@@ -199,14 +199,17 @@ export function ComponentDetailPage({ id, section, scrollRoot, t }: { id: string
 
         <section className="doc-section" aria-labelledby="doc-examples">
           <h2 id="doc-examples">{t('示例', 'Examples')}</h2>
-          {examples.map(example => <article className="doc-example" key={`${entry.id}-${example.id}`} data-example={example.id}>
-            <div className="doc-example__head">
-              <h3>{example.title}</h3>
-              <p>{example.description}</p>
-            </div>
-            <ExamplePreview title={example.title} preview={example.preview} t={t} />
-            <DocCode code={example.code} html={highlightedCode[`${entry.id}/${example.id}`]} label={t(`复制 ${example.title} 代码`, `Copy ${example.title} code`)} />
-          </article>)}
+          {examples.map(example => {
+            const title = locale === 'en' ? example.titleEn : example.title;
+            return <article className="doc-example" key={`${entry.id}-${example.id}`} data-example={example.id}>
+              <div className="doc-example__head">
+                <h3>{title}</h3>
+                <p>{locale === 'en' ? example.descriptionEn : example.description}</p>
+              </div>
+              <ExamplePreview title={title} preview={example.preview} t={t} />
+              <DocCode code={example.code} html={highlightedCode[`${entry.id}/${example.id}`]} label={t(`复制 ${example.title} 代码`, `Copy ${title} code`)} />
+            </article>;
+          })}
         </section>
 
         <section className="doc-section" aria-labelledby="doc-api">

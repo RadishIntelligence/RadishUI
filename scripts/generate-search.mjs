@@ -98,7 +98,7 @@ export function buildSearchEntries() {
       kind: 'component',
       group,
       title: { zh: component.name, en: component.name },
-      description: { zh: component.summary, en: component.summary },
+      description: { zh: component.summary, en: component.summaryEn },
       href: component.detail ? `#/components/${component.id}` : '#/components',
       keywords: [component.id, group.zh, group.en, '组件', 'component', ...(componentAliases[component.id] ?? [])],
     };

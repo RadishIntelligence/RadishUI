@@ -134,8 +134,8 @@ export function App() {
       }}>{t('重新保存当前偏好', 'Save current preferences again')}</Button></InlineAlert>}
       {route.page === 'overview' && <OverviewPage t={t} />}
       <Suspense fallback={<p className="page-loading">{t('正在加载组件文档…', 'Loading component docs…')}</p>}>
-        {route.catalog && <CatalogPage t={t} />}
-        {route.page === 'components' && route.componentId && <ComponentDetailPage id={route.componentId} section={route.componentSection} scrollRoot={main} t={t} />}
+        {route.catalog && <CatalogPage t={t} locale={preferences.locale} />}
+        {route.page === 'components' && route.componentId && <ComponentDetailPage id={route.componentId} section={route.componentSection} scrollRoot={main} t={t} locale={preferences.locale} />}
       </Suspense>
       {route.page === 'components' && !route.componentId && !route.catalog && <ComponentsPage t={t} />}
       {route.page === 'foundations' && <FoundationsPage t={t} />}
@@ -143,7 +143,7 @@ export function App() {
       <Suspense fallback={<p className="page-loading">{t('正在加载页面…', 'Loading page…')}</p>}>
         {route.page === 'changelog' && <ChangelogPage t={t} />}
         {route.page === 'icons' && <IconsPage t={t} />}
-        {route.page === 'search' && <SearchPage t={t} />}
+        {route.page === 'search' && <SearchPage t={t} locale={preferences.locale} />}
       </Suspense>
       {route.page === 'settings' && <SettingsPage preferences={preferences} save={savePreferences} t={t} onDirtyChange={updateDirty} />}
       {route.page === 'resources' && <ResourcesPage resources={resources} error={resourceError} save={saveResources} retry={() => setLoadAttempt(loadAttempt + 1)} t={t} locale={preferences.locale} density={preferences.density} pageSize={preferences.pageSize} notify={notify} />}

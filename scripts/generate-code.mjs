@@ -58,12 +58,25 @@ function render(code, lang) {
   }).join('\n');
 }
 
+/** 读取示例对象里的字符串字段；缺失或类型不符时直接失败，避免文案与生成物漂移。 */
+function readLiteralField(fields, componentId, exampleId, name) {
+  const value = fields.get(name);
+  if (!value || !(ts.isStringLiteral(value) || ts.isNoSubstitutionTemplateLiteral(value)) || value.text.trim().length === 0) {
+    throw new Error(`${componentId}${exampleId ? `.${exampleId}` : ''} 的 ${name} 必须是非空字符串字面量`);
+  }
+  return value.text;
+}
+
 /**
  * Reads `pilotExamples` from the TSX example module. The previews are JSX, so the file
  * cannot be imported by Node directly; the TypeScript AST is the same source the docs
  * page renders, and the catalog test checks the same literal shape.
+ *
+ * Each example carries both Chinese and English copy. The English fields are required
+ * here so `code:generate --check` fails when a translation is missing, and the test
+ * entry point below exposes them for coverage assertions.
  */
-export function readExampleSources() {
+function readPilotExampleCatalog() {
   const file = fileURLToPath(new URL(examplesPath, root));
   const source = ts.createSourceFile(examplesPath, readFileSync(file, 'utf8'), ts.ScriptTarget.ES2022, true, ts.ScriptKind.TSX);
   let catalog;
@@ -90,11 +103,31 @@ export function readExampleSources() {
       if (!exampleId || !ts.isStringLiteral(exampleId)) throw new Error(`${id} 的示例缺少可读取 id`);
       if (!code || !(ts.isStringLiteral(code) || ts.isNoSubstitutionTemplateLiteral(code))) throw new Error(`${id}.${exampleId.text} 的代码片段必须是无插值字符串`);
       if (examples.has(exampleId.text)) throw new Error(`${id} 示例 id 重复：${exampleId.text}`);
-      examples.set(exampleId.text, code.text);
+      examples.set(exampleId.text, {
+        code: code.text,
+        title: readLiteralField(fields, id, exampleId.text, 'title'),
+        titleEn: readLiteralField(fields, id, exampleId.text, 'titleEn'),
+        description: readLiteralField(fields, id, exampleId.text, 'description'),
+        descriptionEn: readLiteralField(fields, id, exampleId.text, 'descriptionEn'),
+      });
     }
     components.set(id, examples);
   }
   return components;
+}
+
+/** Code snippets keyed by component id then example id; used by the highlight generator. */
+export function readExampleSources() {
+  const components = new Map();
+  for (const [id, examples] of readPilotExampleCatalog()) {
+    components.set(id, new Map([...examples].map(([exampleId, example]) => [exampleId, example.code])));
+  }
+  return components;
+}
+
+/** Chinese / English example copy keyed by component id then example id; used by tests. */
+export function readExampleMetadata() {
+  return readPilotExampleCatalog();
 }
 
 /**

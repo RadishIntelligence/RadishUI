@@ -1,17 +1,17 @@
 import { useMemo, useState } from 'react';
 import { Search } from 'lucide-react';
 import { Button, Empty, Input } from '@radish-ui/react';
-import type { Translate } from './model';
+import type { Locale, Translate } from './model';
 import { PageHeader } from './PageHeader';
 import { componentCatalog, componentGroups, filterComponents, groupLabel, type ComponentEntry } from './component-catalog';
 import './component-site.css';
 
-function ComponentCard({ entry, t }: { entry: ComponentEntry; t: Translate }) {
+function ComponentCard({ entry, t, locale }: { entry: ComponentEntry; t: Translate; locale: Locale }) {
   const href = entry.detail ? `#/components/${entry.id}` : '#/components';
   return <a className="catalog-card" href={href}>
-    <span className="catalog-card__group">{groupLabel(entry.group, 'zh-CN')}</span>
+    <span className="catalog-card__group">{groupLabel(entry.group, locale)}</span>
     <strong className="catalog-card__name">{entry.name}</strong>
-    <span className="catalog-card__summary">{entry.summary}</span>
+    <span className="catalog-card__summary">{locale === 'en' ? entry.summaryEn : entry.summary}</span>
     <span className="catalog-card__meta">
       {entry.detail ? t('独立文档页', 'Dedicated page') : t('在组件用法中查看', 'In the component reference')}
       <span aria-hidden="true">→</span>
@@ -19,7 +19,7 @@ function ComponentCard({ entry, t }: { entry: ComponentEntry; t: Translate }) {
   </a>;
 }
 
-export function CatalogPage({ t }: { t: Translate }) {
+export function CatalogPage({ t, locale }: { t: Translate; locale: Locale }) {
   const [query, setQuery] = useState('');
   const detailCount = componentCatalog.filter(component => component.detail).length;
   const primitiveCount = componentCatalog.filter(component => component.group === 'primitives').length;
@@ -52,11 +52,11 @@ export function CatalogPage({ t }: { t: Translate }) {
       action={<Button variant="secondary" size="sm" onClick={() => setQuery('')}>{t('清除搜索', 'Clear search')}</Button>} />}
     {groups.map(group => <section className="catalog-group" key={group.id}>
       <div className="catalog-group__head">
-        <h2>{group.label}</h2>
+        <h2>{groupLabel(group.id, locale)}</h2>
         <span>{group.entries.length}</span>
       </div>
       <div className="catalog-grid">
-        {group.entries.map(entry => <ComponentCard key={entry.id} entry={entry} t={t} />)}
+        {group.entries.map(entry => <ComponentCard key={entry.id} entry={entry} t={t} locale={locale} />)}
       </div>
     </section>)}
     <p className="catalog-footnote">

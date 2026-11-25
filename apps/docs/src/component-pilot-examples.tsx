@@ -4,8 +4,12 @@ import { Accordion, Avatar, Button, Card, Checkbox, ConfirmDialog, DescriptionLi
 
 export interface PilotExample {
   id: string;
+  /** 中文示例标题；英文切换下由 `titleEn` 替代。 */
   title: string;
+  titleEn: string;
+  /** 中文示例说明；英文切换下由 `descriptionEn` 替代。 */
   description: string;
+  descriptionEn: string;
   code: string;
   preview: ReactNode;
 }
@@ -1196,7 +1200,9 @@ export const pilotExamples: Record<string, readonly PilotExample[]> = {
     {
       id: 'variants',
       title: '操作层级',
+      titleEn: 'Action hierarchy',
       description: '一个区域只保留一个主要操作；危险操作使用 danger。',
+      descriptionEn: 'Keep one primary action per area; use danger for destructive actions.',
       code: `<Button>发布资源</Button>
 <Button variant="secondary">保存草稿</Button>
 <Button variant="ghost">取消</Button>
@@ -1206,7 +1212,9 @@ export const pilotExamples: Record<string, readonly PilotExample[]> = {
     {
       id: 'sizes',
       title: '尺寸',
+      titleEn: 'Sizes',
       description: 'sm 用于工具栏和紧凑行，md 用于页面与表单操作。',
+      descriptionEn: 'Use sm for toolbars and compact rows, and md for page and form actions.',
       code: `<Button size="sm">小号操作</Button>
 <Button>标准操作</Button>`,
       preview: <ButtonSizes />,
@@ -1214,7 +1222,9 @@ export const pilotExamples: Record<string, readonly PilotExample[]> = {
     {
       id: 'states',
       title: '加载与禁用',
+      titleEn: 'Loading and disabled states',
       description: 'loading 保留焦点并拦截重复激活；disabled 使用原生禁用语义。',
+      descriptionEn: 'loading keeps focus and blocks repeated activation; disabled uses native disabled semantics.',
       code: `<Button loading>保存中</Button>
 <Button disabled>不可用</Button>`,
       preview: <ButtonStates />,
@@ -1222,7 +1232,9 @@ export const pilotExamples: Record<string, readonly PilotExample[]> = {
     {
       id: 'form-submit',
       title: '表单提交',
+      titleEn: 'Form submission',
       description: '默认 type=button 不触发表单提交；提交按钮显式传 type=submit。',
+      descriptionEn: 'The default type=button does not trigger form submission; submit buttons pass type=submit explicitly.',
       code: `import { useState } from 'react';
 
 const [submitted, setSubmitted] = useState('');
@@ -1247,7 +1259,9 @@ const [submitted, setSubmitted] = useState('');
     {
       id: 'basic',
       title: '标签与说明',
+      titleEn: 'Label and hint',
       description: '标签通过 htmlFor 关联字段控件；hint 作为补充说明。',
+      descriptionEn: 'The label is associated with the field control through htmlFor; hint adds supporting text.',
       code: `<FormField label="资源名称" hint="显示在资源列表与详情页。">
   <Input placeholder="例如：发布检查清单" />
 </FormField>`,
@@ -1256,7 +1270,9 @@ const [submitted, setSubmitted] = useState('');
     {
       id: 'error',
       title: '必填与错误',
+      titleEn: 'Required and error states',
       description: 'required 显示必填标记；error 优先于 hint 并以 alert 播报。',
+      descriptionEn: 'required shows the required marker; error takes precedence over hint and is announced as an alert.',
       code: `<FormField label="资源名称" required error="名称不能为空。">
   <Input placeholder="请输入资源名称" />
 </FormField>`,
@@ -1265,7 +1281,9 @@ const [submitted, setSubmitted] = useState('');
     {
       id: 'group',
       title: '成组字段',
+      titleEn: 'Grouped fields',
       description: '多个 FormField 垂直排列；控件自动继承字段上下文。',
+      descriptionEn: 'Multiple FormField instances stack vertically; controls inherit the field context automatically.',
       code: `<div>
   <FormField label="资源名称" hint="显示在资源列表与详情页。">
     <Input placeholder="例如：发布检查清单" />
@@ -1281,7 +1299,9 @@ const [submitted, setSubmitted] = useState('');
     {
       id: 'basic',
       title: '提交前校验',
+      titleEn: 'Validation before submit',
       description: 'validate 返回以字段 id 为键的错误；校验通过才调用 onValidSubmit。',
+      descriptionEn: 'validate returns errors keyed by field id; onValidSubmit is called only after validation passes.',
       code: `const [name, setName] = useState('');
 const [error, setError] = useState('');
 
@@ -1302,7 +1322,9 @@ function validate() {
     {
       id: 'focus-order',
       title: '首个错误字段聚焦',
+      titleEn: 'First-error focus',
       description: '多个字段同时报错时，焦点移到 DOM 顺序中的第一个错误字段。',
+      descriptionEn: 'When several fields fail at once, focus moves to the first invalid field in DOM order.',
       code: `function validate() {
   const nextName = name.trim() ? '' : '请输入资源名称。';
   const nextSummary = summary.trim() ? '' : '请输入资源说明。';
@@ -1325,7 +1347,9 @@ function validate() {
     {
       id: 'events',
       title: '校验事件',
+      titleEn: 'Validation events',
       description: 'onInvalid 收到本次错误，onValidSubmit 只在全部通过后触发。',
+      descriptionEn: 'onInvalid receives the current errors, and onValidSubmit fires only when all pass.',
       code: `<Form validate={validate}
   onInvalid={errors => setInvalidCount(Object.values(errors).filter(Boolean).length)}
   onValidSubmit={() => submit(email)}>
@@ -1341,7 +1365,9 @@ function validate() {
     {
       id: 'basic',
       title: '基础输入',
+      titleEn: 'Basic input',
       description: '标签、说明与输入由 FormField 关联；placeholder 只作提示。',
+      descriptionEn: 'FormField associates the label, hint, and input; placeholder is only a prompt.',
       code: `<FormField label="资源名称" hint="最多 60 个字符。">
   <Input placeholder="例如：发布检查清单" />
 </FormField>`,
@@ -1350,7 +1376,9 @@ function validate() {
     {
       id: 'surface',
       title: '表面',
+      titleEn: 'Surface',
       description: 'outline 为默认；filled 用于强调或分组背景。',
+      descriptionEn: 'outline is the default; use filled for emphasis or a grouped background.',
       code: `<div>
   <FormField label="描边表面"><Input placeholder="outline（默认）" /></FormField>
   <FormField label="填充表面"><Input surface="filled" placeholder="filled" /></FormField>
@@ -1360,7 +1388,9 @@ function validate() {
     {
       id: 'states',
       title: '错误与只读',
+      titleEn: 'Error and read-only states',
       description: '错误由 FormField 传入；只读保留选择与复制。',
+      descriptionEn: 'The error comes from FormField; read-only keeps selection and copy available.',
       code: `<div>
   <FormField label="资源名称" required error="名称不能为空。">
     <Input placeholder="请输入资源名称" />
@@ -1374,7 +1404,9 @@ function validate() {
     {
       id: 'controlled',
       title: '受控与长度',
+      titleEn: 'Controlled value and length',
       description: 'value / onChange 由调用方持有；maxLength 交给原生输入约束。',
+      descriptionEn: 'The caller owns value / onChange; maxLength is left to the native input constraint.',
       code: `import { useState } from 'react';
 
 const [name, setName] = useState('发布检查清单');
@@ -1393,7 +1425,9 @@ const limit = 20;
     {
       id: 'basic',
       title: '基础步进',
+      titleEn: 'Basic stepping',
       description: '受控值由调用方持有；min / max / step 约束步进与失焦钳制。',
+      descriptionEn: 'The caller owns the controlled value; min / max / step constrain stepping and blur clamping.',
       code: `import { useState } from 'react';
 
 const [value, setValue] = useState(3);
@@ -1407,7 +1441,9 @@ const [value, setValue] = useState(3);
     {
       id: 'step',
       title: '精度与边界',
+      titleEn: 'Precision and bounds',
       description: '小数步进按步长精度显示；方向键与按钮都不会越过 min / max。',
+      descriptionEn: 'Decimal steps display at the step\'s precision; neither arrow keys nor buttons cross min / max.',
       code: `import { useState } from 'react';
 
 const [value, setValue] = useState(12.5);
@@ -1421,7 +1457,9 @@ const [value, setValue] = useState(12.5);
     {
       id: 'field',
       title: '表单字段',
+      titleEn: 'Form field',
       description: 'FormField 关联标签、说明与错误；只读数值保留显示不响应步进。',
+      descriptionEn: 'FormField associates the label, hint, and error; a read-only value stays visible but ignores stepping.',
       code: `<FormField label="每页条数" hint="5–50 条；失焦时越界值钳制到范围内。"
   error="每页条数需在 5–50 之间。">
   <InputNumber value={60} min={5} max={50} step={5} onValueChange={() => {}} />
@@ -1436,7 +1474,9 @@ const [value, setValue] = useState(12.5);
     {
       id: 'basic',
       title: '基础多行',
+      titleEn: 'Basic multiline input',
       description: 'rows 只设初始可见行数；仍保留垂直 resize。',
+      descriptionEn: 'rows sets only the initial visible line count; vertical resize is still available.',
       code: `<FormField label="资源说明" hint="支持多行；保留垂直 resize。">
   <Textarea rows={4} placeholder="一句话说明用途" />
 </FormField>`,
@@ -1445,7 +1485,9 @@ const [value, setValue] = useState(12.5);
     {
       id: 'surface',
       title: '表面',
+      titleEn: 'Surface',
       description: '与 Input 使用同一组语义表面。',
+      descriptionEn: 'Uses the same set of semantic surfaces as Input.',
       code: `<div>
   <FormField label="描边表面"><Textarea rows={3} placeholder="outline（默认）" /></FormField>
   <FormField label="填充表面"><Textarea rows={3} surface="filled" placeholder="filled" /></FormField>
@@ -1455,7 +1497,9 @@ const [value, setValue] = useState(12.5);
     {
       id: 'states',
       title: '错误与只读',
+      titleEn: 'Error and read-only states',
       description: '错误优先于 hint；只读不响应编辑。',
+      descriptionEn: 'Errors take precedence over hint; read-only does not accept edits.',
       code: `<div>
   <FormField label="资源说明" error="说明不能超过 500 个字符。">
     <Textarea rows={3} defaultValue="超出长度限制的说明示例。" />
@@ -1469,7 +1513,9 @@ const [value, setValue] = useState(12.5);
     {
       id: 'controlled',
       title: '受控与长度',
+      titleEn: 'Controlled value and length',
       description: '受控多行输入与字符计数；仍保留原生垂直 resize。',
+      descriptionEn: 'Controlled multiline input with a character count; native vertical resize is still available.',
       code: `import { useState } from 'react';
 
 const [note, setNote] = useState('一段受控的多行说明。');
@@ -1488,7 +1534,9 @@ const limit = 40;
     {
       id: 'basic',
       title: '受控选择',
+      titleEn: 'Controlled select',
       description: '由调用方保存当前值；FormField 自动关联标签与说明。',
+      descriptionEn: 'The caller stores the current value; FormField associates the label and hint automatically.',
       code: `import { useState } from 'react';
 
 const typeOptions = [
@@ -1509,7 +1557,9 @@ const [type, setType] = useState('');
     {
       id: 'states',
       title: '错误与禁用',
+      titleEn: 'Error and disabled states',
       description: '错误优先于 hint；禁用选择器不进入 Tab 顺序。',
+      descriptionEn: 'Errors take precedence over hint; a disabled select stays out of the Tab order.',
       code: `const typeOptions = [
   { value: 'document', label: '文档' },
   { value: 'checklist', label: '清单' },
@@ -1527,7 +1577,9 @@ const [type, setType] = useState('');
     {
       id: 'long-options',
       title: '长选项',
+      titleEn: 'Long options',
       description: '浮层宽度受视口限制，长名称在选项内换行。',
+      descriptionEn: 'The overlay is limited by the viewport width, and long names wrap inside the option.',
       code: `import { useState } from 'react';
 
 const longOptions = [
@@ -1546,7 +1598,9 @@ const [type, setType] = useState('document');
     {
       id: 'surface-size',
       title: 'filled 与尺寸',
+      titleEn: 'filled surface and sizes',
       description: 'surface=filled 用于强调或分组背景；表单字段用 md，页面 chrome 用 sm。',
+      descriptionEn: 'surface=filled is for emphasis or a grouped background; use md in form fields and sm in page chrome.',
       code: `import { useState } from 'react';
 
 const typeOptions = [
@@ -1572,7 +1626,9 @@ const [filter, setFilter] = useState('document');
     {
       id: 'basic',
       title: '非受控标签',
+      titleEn: 'Uncontrolled tabs',
       description: '默认显示第一个标签；TabsList 的 items 定义标签名称。',
+      descriptionEn: 'Shows the first tab by default; the TabsList items define the tab names.',
       code: `<Tabs defaultValue="overview">
   <TabsList label="资源详情分组" items={[
     { value: 'overview', label: '概览' },
@@ -1586,7 +1642,9 @@ const [filter, setFilter] = useState('document');
     {
       id: 'controlled',
       title: '受控标签',
+      titleEn: 'Controlled tabs',
       description: 'value / onValueChange 由调用方持有，适合与路由或筛选联动。',
+      descriptionEn: 'The caller owns value / onValueChange, which suits routing or filter synchronization.',
       code: `import { useState } from 'react';
 
 const [tab, setTab] = useState('overview');
@@ -1607,7 +1665,9 @@ const [tab, setTab] = useState('overview');
     {
       id: 'disabled',
       title: '禁用项与键盘',
+      titleEn: 'Disabled tabs and keyboard',
       description: '禁用标签被方向键与 Tab 顺序跳过，焦点与选中分别呈现。',
+      descriptionEn: 'Disabled tabs are skipped by arrow keys and the Tab order; focus and selection are presented separately.',
       code: `<Tabs defaultValue="overview">
   <TabsList label="带禁用项的标签组" items={[
     { value: 'overview', label: '概览' },
@@ -1622,7 +1682,9 @@ const [tab, setTab] = useState('overview');
     {
       id: 'sizes',
       title: '尺寸与组合',
+      titleEn: 'Sizes and composition',
       description: 'size 提供 sm / md / lg；卡片工具栏用 sm，页面分区用 lg，同页不混用。',
+      descriptionEn: 'size offers sm / md / lg; use sm in card toolbars and lg in page sections, and do not mix them on the same page.',
       code: `<Card tone="muted" padding="sm">
   <Tabs defaultValue="overview">
     <TabsList size="sm" label="紧凑标签组" items={[
@@ -1648,7 +1710,9 @@ const [tab, setTab] = useState('overview');
     {
       id: 'basic',
       title: '基础验证码',
+      titleEn: 'Basic verification code',
       description: '逐位输入数字并自动前进；粘贴多位会从当前位填充。',
+      descriptionEn: 'Digits are entered cell by cell with automatic advance; pasting multiple digits fills from the current cell.',
       code: `import { useState } from 'react';
 
 const [code, setCode] = useState('');
@@ -1659,14 +1723,18 @@ const [code, setCode] = useState('');
     {
       id: 'error',
       title: '错误与必填',
+      titleEn: 'Error and required states',
       description: 'error 替代 hint 并以 alert 播报，每一位输入都关联错误。',
+      descriptionEn: 'error replaces hint and is announced as an alert, and every cell is associated with the error.',
       code: `<InputOTP label="验证码" value="123" onValueChange={() => {}} required error="验证码应为 6 位。" />`,
       preview: <InputOTPError />,
     },
     {
       id: 'form',
       title: '表单提交',
+      titleEn: 'Form submission',
       description: '有 onEnterPress 时 Enter 只触发回调；提交按钮保留表单提交。',
+      descriptionEn: 'With onEnterPress, Enter only triggers the callback; the submit button still submits the form.',
       code: `import { useState } from 'react';
 
 const [code, setCode] = useState('');
@@ -1682,7 +1750,9 @@ const [submitted, setSubmitted] = useState('');
     {
       id: 'length',
       title: '位数与禁用',
+      titleEn: 'Length and disabled state',
       description: 'length 控制位数；disabled 禁用全部输入位与隐藏字段。',
+      descriptionEn: 'length controls the number of cells; disabled disables every cell and the hidden field.',
       code: `import { useState } from 'react';
 
 const [code, setCode] = useState('');
@@ -1698,7 +1768,9 @@ const [code, setCode] = useState('');
     {
       id: 'basic',
       title: '基础添加',
+      titleEn: 'Basic tag entry',
       description: 'Enter 或添加按钮提交草稿；去重与上限由调用方决定。',
+      descriptionEn: 'Enter or the add button commits the draft; deduplication and the limit are left to the caller.',
       code: `import { useState } from 'react';
 
 const [tags, setTags] = useState(['发布', '验收']);
@@ -1719,7 +1791,9 @@ function add() {
     {
       id: 'delete',
       title: '回退删除',
+      titleEn: 'Backspace removal',
       description: '输入框为空时 Backspace 删除最后一个标签，焦点回到输入框。',
+      descriptionEn: 'Backspace on an empty input removes the last tag and returns focus to the input.',
       code: `const [tags, setTags] = useState(['组件', '令牌']);
 const [draft, setDraft] = useState('');
 
@@ -1732,7 +1806,9 @@ const [draft, setDraft] = useState('');
     {
       id: 'disabled',
       title: '禁用',
+      titleEn: 'Disabled state',
       description: '禁用后输入、添加与删除都不可用，现有标签仍可阅读。',
+      descriptionEn: 'When disabled, input, adding, and removal are unavailable, while existing tags stay readable.',
       code: `<FormField label="标签" hint="禁用时仍可阅读现有标签。">
   <TagInput value={['只读示例']} onValueChange={() => {}} draft="" onDraftChange={() => {}}
     onAdd={() => {}} addLabel="添加" removeLabel={tag => '移除标签 ' + tag} disabled />
@@ -1742,7 +1818,9 @@ const [draft, setDraft] = useState('');
     {
       id: 'limit',
       title: '上限与错误',
+      titleEn: 'Limit and error states',
       description: '去重与上限由调用方维护；达到上限时由 FormField 展示错误。',
+      descriptionEn: 'The caller maintains deduplication and the limit; FormField shows the error when the limit is reached.',
       code: `import { useState } from 'react';
 
 const [tags, setTags] = useState(['发布', '验收']);
@@ -1768,7 +1846,9 @@ function add() {
     {
       id: 'basic',
       title: '基础单选',
+      titleEn: 'Basic radio group',
       description: '方向键移动即选中；FormField 自动关联标签、说明与错误。',
+      descriptionEn: 'Arrow keys move and select; FormField associates the label, hint, and error automatically.',
       code: `import { useState } from 'react';
 
 const [value, setValue] = useState('document');
@@ -1785,7 +1865,9 @@ const [value, setValue] = useState('document');
     {
       id: 'horizontal',
       title: '横向排列',
+      titleEn: 'Horizontal layout',
       description: 'orientation="horizontal" 用于紧凑选项。',
+      descriptionEn: 'Use orientation="horizontal" for compact options.',
       code: `const [value, setValue] = useState('standard');
 
 <FormField label="显示密度">
@@ -1800,7 +1882,9 @@ const [value, setValue] = useState('document');
     {
       id: 'states',
       title: '必填与禁用',
+      titleEn: 'Required and disabled states',
       description: 'error 优先于 hint；禁用项被方向键跳过。',
+      descriptionEn: 'error takes precedence over hint; disabled options are skipped by arrow keys.',
       code: `const [value, setValue] = useState('');
 
 <FormField label="资源类型" required error="请选择一个类型。">
@@ -1815,7 +1899,9 @@ const [value, setValue] = useState('document');
     {
       id: 'form',
       title: '表单提交',
+      titleEn: 'Form submission',
       description: 'name 让单选值进入原生表单提交；required 由字段上下文传给控件。',
+      descriptionEn: 'name lets the radio value join native form submission; required reaches the control through the field context.',
       code: `import { useState } from 'react';
 
 const [value, setValue] = useState('document');
@@ -1842,7 +1928,9 @@ const [submitted, setSubmitted] = useState('');
     {
       id: 'basic',
       title: '单个复选',
+      titleEn: 'Single checkbox',
       description: '原生 checkbox 与键盘行为；children 提供可见标签。',
+      descriptionEn: 'Native checkbox and keyboard behavior; children provide the visible label.',
       code: `import { useState } from 'react';
 
 const [checked, setChecked] = useState(false);
@@ -1853,7 +1941,9 @@ const [checked, setChecked] = useState(false);
     {
       id: 'group',
       title: '复选组',
+      titleEn: 'Checkbox group',
       description: '多选用受控数组维护；每个复选框独立聚焦。',
+      descriptionEn: 'Multi-select is maintained as a controlled array; each checkbox receives focus independently.',
       code: `const [selected, setSelected] = useState<string[]>(['document']);
 const toggle = (value: string) => setSelected(current =>
   current.includes(value) ? current.filter(item => item !== value) : [...current, value]);
@@ -1868,7 +1958,9 @@ const toggle = (value: string) => setSelected(current =>
     {
       id: 'states',
       title: '选中与禁用',
+      titleEn: 'Checked and disabled states',
       description: '禁用不进入 Tab 顺序；选中态与焦点分别呈现。',
+      descriptionEn: 'A disabled checkbox stays out of the Tab order; checked state and focus are presented separately.',
       code: `<div>
   <Checkbox checked onChange={() => {}}>已选中的复选框</Checkbox>
   <Checkbox disabled>不可用的复选框</Checkbox>
@@ -1878,7 +1970,9 @@ const toggle = (value: string) => setSelected(current =>
     {
       id: 'validation',
       title: '复选组校验',
+      titleEn: 'Checkbox group validation',
       description: '组内多个复选框由调用方校验；错误通过 FormField 关联并以 alert 播报。',
+      descriptionEn: 'The caller validates the checkboxes in the group; the error is associated through FormField and announced as an alert.',
       code: `import { useState } from 'react';
 
 const options = ['发布记录', '验收步骤', '回滚方案'];
@@ -1908,7 +2002,9 @@ const [error, setError] = useState('');
     {
       id: 'basic',
       title: '受控开关',
+      titleEn: 'Controlled switch',
       description: 'checked / onCheckedChange 由调用方持有。',
+      descriptionEn: 'The caller owns checked / onCheckedChange.',
       code: `import { useState } from 'react';
 
 const [enabled, setEnabled] = useState(true);
@@ -1925,7 +2021,9 @@ const [enabled, setEnabled] = useState(true);
     {
       id: 'labels',
       title: '标签关联',
+      titleEn: 'Label association',
       description: 'Switch 不渲染文字，用外部 label 的 htmlFor 关联。',
+      descriptionEn: 'Switch renders no text; associate an external label through htmlFor.',
       code: `const [enabled, setEnabled] = useState(false);
 
 <div>
@@ -1937,7 +2035,9 @@ const [enabled, setEnabled] = useState(true);
     {
       id: 'states',
       title: '状态',
+      titleEn: 'States',
       description: '非受控、选中与禁用三种状态。',
+      descriptionEn: 'Uncontrolled, checked, and disabled states.',
       code: `<div>
   <div><label htmlFor="switch-on">已开启</label><Switch id="switch-on" defaultChecked /></div>
   <div><label htmlFor="switch-off">已关闭</label><Switch id="switch-off" /></div>
@@ -1950,7 +2050,9 @@ const [enabled, setEnabled] = useState(true);
     {
       id: 'basic',
       title: '基础对话框',
+      titleEn: 'Basic dialog',
       description: '标题、说明与底部操作；Escape 与遮罩走同一关闭回调。',
+      descriptionEn: 'Title, description, and footer actions; Escape and the overlay use the same close callback.',
       code: `import { useState } from 'react';
 
 const [open, setOpen] = useState(false);
@@ -1970,7 +2072,9 @@ const [open, setOpen] = useState(false);
     {
       id: 'focus',
       title: '初始焦点',
+      titleEn: 'Initial focus',
       description: 'initialFocusRef 把焦点放到输入框；关闭后回到打开按钮。',
+      descriptionEn: 'initialFocusRef puts focus on the input; closing returns focus to the opening button.',
       code: `import { useRef, useState } from 'react';
 
 const [open, setOpen] = useState(false);
@@ -1991,7 +2095,9 @@ const nameRef = useRef<HTMLInputElement>(null);
     {
       id: 'loading',
       title: '关闭按钮禁用',
+      titleEn: 'Disabled close button',
       description: 'closeDisabled 保留头部关闭按钮但不允许点击，适合处理中状态。',
+      descriptionEn: 'closeDisabled keeps the header close button visible but not clickable, which suits an in-progress state.',
       code: `const [open, setOpen] = useState(false);
 
 <Dialog open={open} onOpenChange={setOpen} title="正在发布" closeDisabled
@@ -2003,7 +2109,9 @@ const nameRef = useRef<HTMLInputElement>(null);
     {
       id: 'form',
       title: '表单对话框',
+      titleEn: 'Form dialog',
       description: '对话框内承载表单与校验；保存后关闭并把焦点还给入口。',
+      descriptionEn: 'The dialog hosts a form and its validation; saving closes it and returns focus to the entry point.',
       code: `import { useState } from 'react';
 
 const [open, setOpen] = useState(false);
@@ -2032,7 +2140,9 @@ const [saved, setSaved] = useState('');
     {
       id: 'basic',
       title: '基础抽屉',
+      titleEn: 'Basic drawer',
       description: '与 Dialog 同一合同，从侧边打开；正文可放置表单。',
+      descriptionEn: 'Opens from the side under the same contract as Dialog; the body can hold a form.',
       code: `const [open, setOpen] = useState(false);
 const [kind, setKind] = useState('document');
 
@@ -2054,7 +2164,9 @@ const [kind, setKind] = useState('document');
     {
       id: 'long',
       title: '长内容',
+      titleEn: 'Long content',
       description: '正文滚动时 footer 保持可见；关闭后焦点回到入口。',
+      descriptionEn: 'The footer stays visible while the body scrolls; closing returns focus to the entry point.',
       code: `const [open, setOpen] = useState(false);
 
 <>
@@ -2072,7 +2184,9 @@ const [kind, setKind] = useState('document');
     {
       id: 'loading',
       title: '关闭按钮禁用',
+      titleEn: 'Disabled close button',
       description: '同步期间禁用头部关闭按钮，操作区显示 loading。',
+      descriptionEn: 'While syncing, the header close button is disabled and the action area shows loading.',
       code: `const [open, setOpen] = useState(false);
 
 <Drawer open={open} onOpenChange={setOpen} title="正在同步" closeDisabled
@@ -2084,7 +2198,9 @@ const [kind, setKind] = useState('document');
     {
       id: 'bottom',
       title: '底部编排',
+      titleEn: 'Bottom sheet',
       description: 'side="bottom" 使用同一抽屉合同；窄屏承载详情，焦点与 Escape 行为不变。',
+      descriptionEn: 'side="bottom" uses the same drawer contract; narrow screens host details there, with unchanged focus and Escape behavior.',
       code: `const [open, setOpen] = useState(false);
 
 <>
@@ -2101,7 +2217,9 @@ const [kind, setKind] = useState('document');
     {
       id: 'danger',
       title: '危险确认',
+      titleEn: 'Danger confirmation',
       description: 'tone="danger" 使用危险按钮；初始焦点在取消。',
+      descriptionEn: 'tone="danger" uses the danger button; initial focus is on cancel.',
       code: `const [open, setOpen] = useState(false);
 
 <>
@@ -2116,7 +2234,9 @@ const [kind, setKind] = useState('document');
     {
       id: 'default',
       title: '默认确认',
+      titleEn: 'Default confirmation',
       description: '默认 tone 使用主要按钮；确认回调由调用方关闭。',
+      descriptionEn: 'The default tone uses the primary button; the caller closes the dialog in the confirm callback.',
       code: `const [open, setOpen] = useState(false);
 
 <>
@@ -2131,7 +2251,9 @@ const [kind, setKind] = useState('document');
     {
       id: 'loading',
       title: '确认中',
+      titleEn: 'Confirming',
       description: 'loading 时拦截关闭并禁用取消与头部关闭按钮。',
+      descriptionEn: 'While loading, dismissal is blocked and both cancel and the header close button are disabled.',
       code: `const [open, setOpen] = useState(false);
 const [loading, setLoading] = useState(false);
 
@@ -2147,7 +2269,9 @@ const [loading, setLoading] = useState(false);
     {
       id: 'basic',
       title: '基础菜单',
+      titleEn: 'Basic menu',
       description: '选择动作可用 onSelect；危险项加分隔线与 danger 样式。',
+      descriptionEn: 'onSelect handles the chosen action; danger items add a separator and danger styling.',
       code: `<Menu trigger={<Button variant="secondary">更多操作</Button>} items={[
   { id: 'edit', label: '编辑', onSelect: () => {} },
   { id: 'duplicate', label: '复制', onSelect: () => {} },
@@ -2158,7 +2282,9 @@ const [loading, setLoading] = useState(false);
     {
       id: 'grouped',
       title: '分组与禁用',
+      titleEn: 'Groups and disabled items',
       description: 'label 提供分组标题；禁用项不响应选择。',
+      descriptionEn: 'label provides a group heading; disabled items do not respond to selection.',
       code: `<Menu trigger={<Button variant="secondary">归档操作</Button>} label="资源" items={[
   { id: 'open', label: '打开', onSelect: () => {} },
   { id: 'download', label: '下载', disabled: true },
@@ -2169,7 +2295,9 @@ const [loading, setLoading] = useState(false);
     {
       id: 'links',
       title: '链接项',
+      titleEn: 'Link items',
       description: '提供 href 时渲染为链接，保留键盘与焦点行为。',
+      descriptionEn: 'When href is provided, the item renders as a link while preserving keyboard and focus behavior.',
       code: `<Menu trigger={<Button variant="secondary">前往</Button>} items={[
   { id: 'catalog', label: '组件目录', href: '#/catalog' },
   { id: 'button', label: 'Button 文档', href: '#/components/button' },
@@ -2181,7 +2309,9 @@ const [loading, setLoading] = useState(false);
     {
       id: 'single',
       title: '单开折叠',
+      titleEn: 'Single-open accordion',
       description: 'type="single" 一次只展开一项；collapsible 允许收起。',
+      descriptionEn: 'type="single" opens one item at a time; collapsible allows it to collapse.',
       code: `<Accordion type="single" collapsible defaultValue="basics" items={[
   { value: 'basics', label: '基础说明', content: <p>折叠面板一次只展开一组内容。</p> },
   { value: 'rules', label: '使用规则', content: <p>标题按钮由键盘操作，内容区域按 DOM 顺序继续 Tab。</p> },
@@ -2191,7 +2321,9 @@ const [loading, setLoading] = useState(false);
     {
       id: 'multiple',
       title: '多开折叠',
+      titleEn: 'Multiple-open accordion',
       description: 'type="multiple" 可同时展开多项，value 为数组。',
+      descriptionEn: 'type="multiple" opens several items at once, and value is an array.',
       code: `<Accordion type="multiple" defaultValue={['tokens', 'a11y']} items={[
   { value: 'tokens', label: '设计 token', content: <p>颜色、尺度与状态由 token 驱动。</p> },
   { value: 'a11y', label: '可访问性', content: <p>标题按钮与内容区域由 Radix 维护。</p> },
@@ -2201,7 +2333,9 @@ const [loading, setLoading] = useState(false);
     {
       id: 'disabled',
       title: '受控与禁用',
+      titleEn: 'Controlled value and disabled items',
       description: '受控 value / onValueChange；禁用项不可展开。',
+      descriptionEn: 'Controlled value / onValueChange; disabled items cannot be expanded.',
       code: `const [value, setValue] = useState('overview');
 
 <Accordion type="single" collapsible value={value} onValueChange={setValue} label="资源信息" items={[
@@ -2215,7 +2349,9 @@ const [loading, setLoading] = useState(false);
     {
       id: 'tones',
       title: '状态层级',
+      titleEn: 'Tone levels',
       description: '四种语气对应不同图标与播报角色；danger 立即播报。',
+      descriptionEn: 'Four tones map to different icons and announcement roles; danger is announced immediately.',
       code: `<div>
   <InlineAlert tone="info">资源会在保存后同步。</InlineAlert>
   <InlineAlert tone="success">发布成功。</InlineAlert>
@@ -2227,14 +2363,18 @@ const [loading, setLoading] = useState(false);
     {
       id: 'title',
       title: '带标题',
+      titleEn: 'Alert with a title',
       description: 'title 提供加粗摘要，正文保持简短。',
+      descriptionEn: 'title provides a bold summary, and the body stays short.',
       code: `<InlineAlert tone="warning" title="待处理">有 2 个标签待确认，确认后才能发布。</InlineAlert>`,
       preview: <InlineAlertTitle />,
     },
     {
       id: 'long',
       title: '长内容',
+      titleEn: 'Long content',
       description: '错误保留为页面内容，不只放在 Toast 或 Tooltip 中。',
+      descriptionEn: 'Keep errors in page content, not only in a Toast or Tooltip.',
       code: `<InlineAlert tone="danger" title="同步失败">
   <p>服务器暂时不可用，本地草稿已保留。恢复网络后重试，或稍后再打开此页。</p>
 </InlineAlert>`,
@@ -2243,7 +2383,9 @@ const [loading, setLoading] = useState(false);
     {
       id: 'action',
       title: '带操作入口',
+      titleEn: 'Alert with an action',
       description: '提示正文可包含操作按钮；错误文案本身仍需保留在页面。',
+      descriptionEn: 'The alert body can include an action button; the error text itself still belongs on the page.',
       code: `import { useState } from 'react';
 
 const [message, setMessage] = useState('');
@@ -2265,7 +2407,9 @@ const [message, setMessage] = useState('');
     {
       id: 'basic',
       title: '基础空态',
+      titleEn: 'Basic empty state',
       description: '图标、主文案、说明与操作；默认居中并保留最小高度。',
+      descriptionEn: 'Icon, title, description, and action; centered by default with a minimum height.',
       code: `<Empty icon={<Search aria-hidden="true" />} title="没有匹配的资源" description="调整筛选条件后重试。"
   action={<Button variant="secondary">清除筛选</Button>} />`,
       preview: <EmptyBasic />,
@@ -2273,7 +2417,9 @@ const [message, setMessage] = useState('');
     {
       id: 'inline',
       title: '行内空态',
+      titleEn: 'Inline empty state',
       description: 'start 对齐用于工具栏下方；不占满列表区域。',
+      descriptionEn: 'Use start alignment below a toolbar; it does not fill the list area.',
       code: `<Empty align="start" title="没有匹配的组件。"
   action={<Button variant="secondary" size="sm">清除搜索</Button>} />`,
       preview: <EmptyInline />,
@@ -2281,7 +2427,9 @@ const [message, setMessage] = useState('');
     {
       id: 'fill',
       title: '填满容器',
+      titleEn: 'Filling the container',
       description: 'fill 让空态占满父容器，适合表格 / 列表滚动区。',
+      descriptionEn: 'fill lets the empty state fill its parent container, which suits table or list scroll areas.',
       code: `<div className="doc-empty-frame">
   <Empty fill title="还没有资源" description="新建第一份资源后会显示在这里。"
     action={<Button>新建资源</Button>} />
@@ -2293,7 +2441,9 @@ const [message, setMessage] = useState('');
     {
       id: 'basic',
       title: '基础占位',
+      titleEn: 'Basic placeholder',
       description: '宽高由 width / height 控制；纯展示且 aria-hidden。',
+      descriptionEn: 'width / height set the dimensions; purely presentational and aria-hidden.',
       code: `<div>
   <Skeleton width={240} height={16} />
   <Skeleton width="60%" height={12} />
@@ -2303,7 +2453,9 @@ const [message, setMessage] = useState('');
     {
       id: 'text',
       title: '文本骨架',
+      titleEn: 'Text skeleton',
       description: '多行文本用百分比宽度模拟段落。',
+      descriptionEn: 'Multi-line text uses percentage widths to imitate a paragraph.',
       code: `<div>
   <Skeleton width="100%" height={14} />
   <Skeleton width="80%" height={14} />
@@ -2314,7 +2466,9 @@ const [message, setMessage] = useState('');
     {
       id: 'card',
       title: '卡片骨架',
+      titleEn: 'Card skeleton',
       description: '组合头像与两行文本骨架；加载完成后移除。',
+      descriptionEn: 'Combines an avatar and a two-line text skeleton; remove it once loading finishes.',
       code: `<div>
   <Skeleton width={40} height={40} />
   <div>
@@ -2329,7 +2483,9 @@ const [message, setMessage] = useState('');
     {
       id: 'basic',
       title: '基础通知',
+      titleEn: 'Basic notification',
       description: 'open / onOpenChange 控制显示；4.5 秒后自动关闭。',
+      descriptionEn: 'open / onOpenChange control visibility; it closes automatically after 4.5 seconds.',
       code: `import { useState } from 'react';
 
 const [open, setOpen] = useState(false);
@@ -2343,7 +2499,9 @@ const [open, setOpen] = useState(false);
     {
       id: 'label',
       title: '自定义区域名',
+      titleEn: 'Custom region label',
       description: 'label 同时用于区域名与 F8 提示。',
+      descriptionEn: 'label names both the region and the F8 shortcut hint.',
       code: `const [open, setOpen] = useState(false);
 
 <>
@@ -2355,7 +2513,9 @@ const [open, setOpen] = useState(false);
     {
       id: 'manual',
       title: '手动关闭',
+      titleEn: 'Manual dismissal',
       description: '关闭按钮显示剩余时间；悬停或聚焦暂停倒计时。',
+      descriptionEn: 'The close button shows the remaining time; hovering or focusing pauses the countdown.',
       code: `const [open, setOpen] = useState(false);
 
 <>
@@ -2369,7 +2529,9 @@ const [open, setOpen] = useState(false);
     {
       id: 'button',
       title: '按钮提示',
+      titleEn: 'Button tooltip',
       description: '悬停 400ms 或键盘聚焦显示。',
+      descriptionEn: 'Shows after 400ms of hover or on keyboard focus.',
       code: `<Tooltip content="保存当前修改">
   <Button>保存</Button>
 </Tooltip>`,
@@ -2378,7 +2540,9 @@ const [open, setOpen] = useState(false);
     {
       id: 'icon',
       title: '图标按钮',
+      titleEn: 'Icon button',
       description: '补充已有可访问名称，不替代 label。',
+      descriptionEn: 'Supplements an existing accessible name; it does not replace a label.',
       code: `<Tooltip content="添加资源">
   <IconButton label="添加资源"><Plus size={16} /></IconButton>
 </Tooltip>`,
@@ -2387,7 +2551,9 @@ const [open, setOpen] = useState(false);
     {
       id: 'link',
       title: '链接提示',
+      titleEn: 'Link tooltip',
       description: 'Escape 关闭；触屏没有悬停，必要说明不能只放这里。',
+      descriptionEn: 'Escape closes it; touch screens have no hover, so essential information must not live only here.',
       code: `<Tooltip content="返回组件目录">
   <a href="#/catalog">组件目录</a>
 </Tooltip>`,
@@ -2398,7 +2564,9 @@ const [open, setOpen] = useState(false);
     {
       id: 'basic',
       title: '基础图标按钮',
+      titleEn: 'Basic icon button',
       description: 'label 必填；图标只作视觉，名称由 label 提供。',
+      descriptionEn: 'label is required; the icon is visual only, and label provides the name.',
       code: `<div>
   <IconButton label="添加资源"><Plus size={16} /></IconButton>
   <IconButton label="删除资源"><Trash2 size={16} /></IconButton>
@@ -2408,7 +2576,9 @@ const [open, setOpen] = useState(false);
     {
       id: 'variants',
       title: '变体',
+      titleEn: 'Variants',
       description: '默认 ghost；危险操作使用 danger。',
+      descriptionEn: 'ghost by default; use danger for destructive actions.',
       code: `<div>
   <IconButton label="添加资源" variant="secondary"><Plus size={16} /></IconButton>
   <IconButton label="删除资源" variant="danger"><Trash2 size={16} /></IconButton>
@@ -2418,7 +2588,9 @@ const [open, setOpen] = useState(false);
     {
       id: 'states',
       title: '加载与禁用',
+      titleEn: 'Loading and disabled states',
       description: 'loading 只显示 spinner 并保留焦点；disabled 退出 Tab 顺序。',
+      descriptionEn: 'loading shows only a spinner and keeps focus; disabled leaves the Tab order.',
       code: `<div>
   <IconButton label="添加资源（处理中）" loading><Plus size={16} /></IconButton>
   <IconButton label="添加资源（不可用）" disabled><Plus size={16} /></IconButton>
@@ -2428,7 +2600,9 @@ const [open, setOpen] = useState(false);
     {
       id: 'toolbar',
       title: '工具栏组合',
+      titleEn: 'Toolbar group',
       description: '多个图标按钮组成工具栏；每个按钮的 label 独立，图标不承担可访问名称。',
+      descriptionEn: 'Several icon buttons form a toolbar; each button has its own label, and the icon does not carry the accessible name.',
       code: `<Card tone="muted" padding="sm">
   <div>
     <IconButton label="复制资源"><Copy size={16} /></IconButton>
@@ -2443,7 +2617,9 @@ const [open, setOpen] = useState(false);
     {
       id: 'fallback',
       title: '首字回退',
+      titleEn: 'Initial fallback',
       description: '没有图片时取名字首字；中文单字与英文缩写都可用。',
+      descriptionEn: 'Without an image, the initial comes from the name; a single Chinese character and English initials both work.',
       code: `<div>
   <Avatar name="林杏" />
   <Avatar name="Ada Lovelace" />
@@ -2453,7 +2629,9 @@ const [open, setOpen] = useState(false);
     {
       id: 'image',
       title: '图片与形状',
+      titleEn: 'Image and shape',
       description: 'src 加载失败回退到首字；shape 控制圆形或圆角方形。',
+      descriptionEn: 'A failed src load falls back to the initial; shape selects a circle or a rounded square.',
       code: `const avatarImage = '/avatar.svg';
 
 <Avatar name="林杏" src={avatarImage} />
@@ -2463,7 +2641,9 @@ const [open, setOpen] = useState(false);
     {
       id: 'sizes',
       title: '尺寸与装饰',
+      titleEn: 'Sizes and decoration',
       description: '三档尺寸；decorative 时对辅助技术隐藏。',
+      descriptionEn: 'Three sizes; decorative avatars are hidden from assistive technology.',
       code: `<div>
   <Avatar name="林杏" size="sm" />
   <Avatar name="林杏" size="md" />
@@ -2477,7 +2657,9 @@ const [open, setOpen] = useState(false);
     {
       id: 'basic',
       title: '基础标签',
+      titleEn: 'Basic tag',
       description: '中性文本标签；状态语义请用 StatusBadge。',
+      descriptionEn: 'Neutral text tag; use StatusBadge for status semantics.',
       code: `<div>
   <Tag>组件</Tag>
   <Tag>令牌</Tag>
@@ -2488,7 +2670,9 @@ const [open, setOpen] = useState(false);
     {
       id: 'long',
       title: '长文本',
+      titleEn: 'Long text',
       description: '容器宽度决定换行，不截断内容。',
+      descriptionEn: 'The container width decides wrapping; content is not truncated.',
       code: `<div style={{ maxWidth: 220 }}>
   <Tag>这是一段较长的标签文本，用于检查换行与容器宽度</Tag>
 </div>`,
@@ -2497,7 +2681,9 @@ const [open, setOpen] = useState(false);
     {
       id: 'inline',
       title: '行内组合',
+      titleEn: 'Inline composition',
       description: '行内与文本混排时保持基线对齐。',
+      descriptionEn: 'Keeps baseline alignment when mixed inline with text.',
       code: `<p>筛选条件：<Tag>文档</Tag> <Tag>清单</Tag>，共 2 项。</p>`,
       preview: <TagInline />,
     },
@@ -2506,7 +2692,9 @@ const [open, setOpen] = useState(false);
     {
       id: 'tones',
       title: '状态层级',
+      titleEn: 'Tone levels',
       description: '五个语气；文字本身要能说明状态，不能只靠颜色。',
+      descriptionEn: 'Five tones; the text itself must convey the status, so color alone is not enough.',
       code: `<div>
   <StatusBadge tone="neutral">草稿</StatusBadge>
   <StatusBadge tone="info">审核中</StatusBadge>
@@ -2519,7 +2707,9 @@ const [open, setOpen] = useState(false);
     {
       id: 'list',
       title: '列表中的状态',
+      titleEn: 'Status in a list',
       description: '名称与状态分列，状态不抢主信息的层级。',
+      descriptionEn: 'Name and status sit in separate columns, and status does not compete with the primary information hierarchy.',
       code: `<div>
   <div><span>发布检查清单</span><StatusBadge tone="success">已发布</StatusBadge></div>
   <div><span>接口规范</span><StatusBadge tone="info">审核中</StatusBadge></div>
@@ -2530,7 +2720,9 @@ const [open, setOpen] = useState(false);
     {
       id: 'compare',
       title: '与 Tag 的分工',
+      titleEn: 'Tag vs StatusBadge',
       description: 'Tag 表达分类，StatusBadge 表达状态。',
+      descriptionEn: 'Tag expresses a category, and StatusBadge expresses status.',
       code: `<div>
   <Tag>文档</Tag>
   <StatusBadge tone="success">已发布</StatusBadge>
@@ -2543,7 +2735,9 @@ const [open, setOpen] = useState(false);
     {
       id: 'single',
       title: '单选分段',
+      titleEn: 'Single-select segmented control',
       description: 'radiogroup 语义，方向键移动即选中。',
+      descriptionEn: 'radiogroup semantics; arrow keys move and select.',
       code: `const [value, setValue] = useState('list');
 
 <ToggleGroup type="single" label="视图" value={value} onValueChange={setValue} items={[
@@ -2555,7 +2749,9 @@ const [open, setOpen] = useState(false);
     {
       id: 'multiple',
       title: '多选工具条',
+      titleEn: 'Multi-select toolbar',
       description: 'toolbar / aria-pressed 语义，方向键只移动焦点。',
+      descriptionEn: 'toolbar / aria-pressed semantics; arrow keys only move focus.',
       code: `const [value, setValue] = useState<string[]>(['bold']);
 
 <ToggleGroup type="multiple" label="文本格式" value={value} onValueChange={setValue} items={[
@@ -2568,7 +2764,9 @@ const [open, setOpen] = useState(false);
     {
       id: 'sizes',
       title: '尺寸与禁用',
+      titleEn: 'Sizes and disabled states',
       description: 'size="sm" 用于紧凑工具条；禁用项被跳过。',
+      descriptionEn: 'size="sm" suits compact toolbars; disabled items are skipped.',
       code: `const [value, setValue] = useState('day');
 
 <ToggleGroup type="single" label="范围" size="sm" value={value} onValueChange={setValue} items={[
@@ -2584,7 +2782,9 @@ const [open, setOpen] = useState(false);
     {
       id: 'basic',
       title: '基础分页',
+      titleEn: 'Basic pagination',
       description: '页码、页大小与跳页；pageCount 由调用方计算。',
+      descriptionEn: 'Page numbers, page size, and jump; the caller computes pageCount.',
       code: `const [page, setPage] = useState(2);
 const [pageSize, setPageSize] = useState(10);
 const total = 42;
@@ -2596,7 +2796,9 @@ const total = 42;
     {
       id: 'sizes',
       title: '每页条数',
+      titleEn: 'Page size',
       description: 'pageSizeOptions 控制可选项；切换后回到第一页。',
+      descriptionEn: 'pageSizeOptions controls the choices; changing the page size returns to the first page.',
       code: `const [page, setPage] = useState(1);
 const [pageSize, setPageSize] = useState(5);
 const total = 42;
@@ -2609,7 +2811,9 @@ const total = 42;
     {
       id: 'single',
       title: '单页',
+      titleEn: 'Single page',
       description: '只有一页时隐藏页码与跳页，保留当前位置。',
+      descriptionEn: 'With only one page, page numbers and jump are hidden and the current position is kept.',
       code: `<Pagination page={1} pageCount={1} pageSize={10} totalItems={8}
   onPageChange={() => {}} onPageSizeChange={() => {}} />`,
       preview: <PaginationSingle />,
@@ -2617,7 +2821,9 @@ const total = 42;
     {
       id: 'jump',
       title: '跳页与校验',
+      titleEn: 'Jump and validation',
       description: '跳页输入按 Enter 提交；非法值提示 1–总页数之间的整数。',
+      descriptionEn: 'The jump input submits on Enter; an invalid value prompts for an integer between 1 and the total pages.',
       code: `import { useState } from 'react';
 
 const [page, setPage] = useState(1);
@@ -2633,7 +2839,9 @@ const total = 76;
     {
       id: 'basic',
       title: '基础目录',
+      titleEn: 'Basic outline',
       description: 'currentId 标记当前章节；onNavigate 可拦截跳转。',
+      descriptionEn: 'currentId marks the current section; onNavigate can intercept navigation.',
       code: `const [current, setCurrent] = useState('import');
 
 <TableOfContents label="页内目录" currentId={current}
@@ -2647,7 +2855,9 @@ const total = 76;
     {
       id: 'levels',
       title: '层级',
+      titleEn: 'Levels',
       description: 'level 控制缩进；当前项不只靠颜色。',
+      descriptionEn: 'level controls indentation; the current item does not rely on color alone.',
       code: `<TableOfContents label="章节" currentId="api"
   onNavigate={(_, event) => event.preventDefault()} items={[
     { id: 'import', text: '导入' },
@@ -2660,7 +2870,9 @@ const total = 76;
     {
       id: 'navigate',
       title: '当前项联动',
+      titleEn: 'Current item sync',
       description: '点击后更新 currentId，用 aria-current 表达位置。',
+      descriptionEn: 'Clicking updates currentId, and aria-current expresses the position.',
       code: `const [current, setCurrent] = useState('overview');
 
 <TableOfContents label="目录" currentId={current}
@@ -2673,7 +2885,9 @@ const total = 76;
     {
       id: 'sections',
       title: '与页面分区联动',
+      titleEn: 'Section sync',
       description: '目录与页面分区组合；currentId 由页面驱动，组件不监听滚动。',
+      descriptionEn: 'The outline works with page sections; the page drives currentId, and the component does not listen to scrolling.',
       code: `import { useState } from 'react';
 
 const [current, setCurrent] = useState('toc-overview');
@@ -2698,7 +2912,9 @@ const items = [
     {
       id: 'basic',
       title: '基础表面',
+      titleEn: 'Basic surface',
       description: '默认 surface 与 16px 内边距，用于内容分组。',
+      descriptionEn: 'The default surface with 16px padding, used to group content.',
       code: `<Card>
   <h3>发布检查清单</h3>
   <p>默认表面与 16px 内边距。</p>
@@ -2708,7 +2924,9 @@ const items = [
     {
       id: 'tones',
       title: '表面与内边距',
+      titleEn: 'Surface and padding',
       description: 'muted 用于弱化内嵌，app 用于预览画布；padding="none" 由内容自管。',
+      descriptionEn: 'muted de-emphasizes embedded content, app is for preview canvases, and padding="none" leaves padding to the content.',
       code: `<div>
   <Card tone="muted" padding="sm"><p>muted · sm</p></Card>
   <Card tone="app" padding="sm"><p>app · sm</p></Card>
@@ -2719,7 +2937,9 @@ const items = [
     {
       id: 'link',
       title: '链接卡片',
+      titleEn: 'Link card',
       description: 'asChild 把表面挂到链接上，保留链接语义与键盘行为。',
+      descriptionEn: 'asChild puts the surface on a link, preserving link semantics and keyboard behavior.',
       code: `<Card asChild padding="sm">
   <a href="#/catalog">打开组件目录 →</a>
 </Card>`,
@@ -2728,7 +2948,9 @@ const items = [
     {
       id: 'actions',
       title: '带操作的卡片',
+      titleEn: 'Card with actions',
       description: '内容与操作由调用方组合；卡片本身不声明 role 或点击行为。',
+      descriptionEn: 'The caller composes content and actions; the card itself declares no role or click behavior.',
       code: `<Card tone="surface" padding="md">
   <div>
     <div>
@@ -2748,7 +2970,9 @@ const items = [
     {
       id: 'basic',
       title: '基础区块',
+      titleEn: 'Basic section',
       description: '标题由组件生成并关联 aria-labelledby。',
+      descriptionEn: 'The component renders the title and associates it through aria-labelledby.',
       code: `<Section title="资源信息">
   <p>区块用于页面分区，标题由组件生成并关联 aria-labelledby。</p>
 </Section>`,
@@ -2757,7 +2981,9 @@ const items = [
     {
       id: 'meta',
       title: 'eyebrow 与说明',
+      titleEn: 'eyebrow and description',
       description: 'eyebrow 提供流程标签；description 仅用于文档区块。',
+      descriptionEn: 'eyebrow provides a process label; description is only for documentation sections.',
       code: `<Section eyebrow="发布流程" title="检查清单" description="发布前逐项确认。">
   <p>说明只在该文档区块使用。</p>
 </Section>`,
@@ -2766,7 +2992,9 @@ const items = [
     {
       id: 'small',
       title: '紧凑区块',
+      titleEn: 'Compact section',
       description: 'size="sm" 降低标题与内边距，用于密集参考区。',
+      descriptionEn: 'size="sm" reduces the title size and padding for dense reference areas.',
       code: `<Section title="紧凑区块" size="sm">
   <p>sm 用于密集参考区，20px 内边距、16px 标题。</p>
 </Section>`,
@@ -2777,7 +3005,9 @@ const items = [
     {
       id: 'basic',
       title: '基础元数据',
+      titleEn: 'Basic metadata',
       description: '标签与值成对渲染为原生 dl；用于资源详情等窄栏次要信息。',
+      descriptionEn: 'Labels and values render in pairs as a native dl; used for secondary information in narrow columns, such as resource details.',
       code: `const items = [
   { label: '类型', value: '文档' },
   { label: '创建者', value: '林杏' },
@@ -2791,7 +3021,9 @@ const items = [
     {
       id: 'values',
       title: '状态与标签值',
+      titleEn: 'Status and tag values',
       description: 'value 可放组件；状态与标签由调用方组合，列表只保持标签 / 值对齐。',
+      descriptionEn: 'value can hold a component; the caller composes status and tags, and the list only keeps label / value alignment.',
       code: `<DescriptionList items={[
   { label: '状态', value: <StatusBadge tone="success">已发布</StatusBadge> },
   { label: '标签', value: <div><Tag>排版</Tag><Tag>交互</Tag></div> },
@@ -2802,7 +3034,9 @@ const items = [
     {
       id: 'layout',
       title: '长值与窄栏',
+      titleEn: 'Long values and narrow columns',
       description: '窄栏中值右对齐并按需换行，数字使用等宽数字；宽度由页面容器决定。',
+      descriptionEn: 'In a narrow column, values are right-aligned and wrap as needed, numbers use tabular figures, and the page container decides the width.',
       code: `<div style={{ maxWidth: 260 }}>
   <DescriptionList items={[
     { label: '资源路径', value: '/docs/guides/component-site/description-list' },
@@ -2817,7 +3051,9 @@ const items = [
     {
       id: 'basic',
       title: '基础表格',
+      titleEn: 'Basic table',
       description: 'label 渲染为视觉隐藏的 caption；表头默认吸顶。',
+      descriptionEn: 'label renders as a visually hidden caption; the header is sticky by default.',
       code: `<Table label="资源列表">
   <thead><tr><th scope="col">名称</th><th scope="col">类型</th><th scope="col">状态</th></tr></thead>
   <tbody>
@@ -2830,7 +3066,9 @@ const items = [
     {
       id: 'no-sticky',
       title: '不吸顶',
+      titleEn: 'Non-sticky header',
       description: '页面级滚动退化时关闭 stickyHeader。',
+      descriptionEn: 'Turn off stickyHeader when page-level scrolling degrades the sticky behavior.',
       code: `<Table label="资源列表（不吸顶）" stickyHeader={false}>
   <thead><tr><th scope="col">名称</th><th scope="col">类型</th><th scope="col">状态</th></tr></thead>
   <tbody>
@@ -2843,7 +3081,9 @@ const items = [
     {
       id: 'long',
       title: '长内容',
+      titleEn: 'Long content',
       description: '单元格长文本换行由内容决定，列宽由页面控制。',
+      descriptionEn: 'Long cell text wraps based on content, and the page controls column widths.',
       code: `<Table label="长内容表格">
   <thead><tr><th scope="col">名称</th><th scope="col">说明</th></tr></thead>
   <tbody>
@@ -2856,7 +3096,9 @@ const items = [
     {
       id: 'actions',
       title: '行内状态与操作',
+      titleEn: 'Row status and actions',
       description: '表格只负责结构；行内状态与操作由调用方组合，操作按钮保留独立可访问名称。',
+      descriptionEn: 'The table handles structure only; the caller composes row status and actions, and action buttons keep independent accessible names.',
       code: `<Table label="资源操作列表">
   <thead><tr><th scope="col">资源</th><th scope="col">状态</th><th scope="col">操作</th></tr></thead>
   <tbody>

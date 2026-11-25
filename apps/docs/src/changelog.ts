@@ -32,6 +32,17 @@ export const siteVersion = '26.11.1';
  */
 export const changelog: readonly ChangelogEntry[] = [
   {
+    date: '2026-11-25',
+    kind: 'site',
+    title: { zh: '组件文档双语文案首批', en: 'Bilingual component docs, first batch' },
+    items: [
+      { zh: '组件目录摘要与 119 个示例的标题 / 说明新增英文文案，英文切换下目录与组件页同步显示；中文源仍为唯一来源。', en: 'Added English copy for catalog summaries and the titles / descriptions of 119 examples; the catalog and component pages follow the language switch while the Chinese source stays single-sourced.', href: '#/catalog' },
+      { zh: '站点搜索索引的组件说明改用英文摘要，英文查询结果与目录一致。', en: 'Site search now uses the English catalog summaries for component entries, matching the catalog in English.' },
+      { zh: 'API 与行为声明的英文属于第二批；示例代码、工作台合成数据与旧单页参考不在首批范围。', en: 'English API and behavior declarations are the second batch; example code, workbench synthetic data, and the legacy single-page reference stay out of this batch.' },
+      { zh: '交互断言增至 30 项，新增英文语言下的目录、组件页与搜索检查。', en: 'Interaction assertions grew to 30 with an English-language check for the catalog, component pages, and search.' },
+    ],
+  },
+  {
     date: '2026-11-24',
     kind: 'site',
     title: { zh: '站点搜索、InputNumber、Empty 与验收收口', en: 'Site search, InputNumber, Empty, and acceptance audit' },
