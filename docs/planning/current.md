@@ -72,6 +72,8 @@
 
 2026-11-25 同日按所有者选择补跨端与辅助技术证据：Safari 27.0.1 加载期日志（fixture 代理注入最前置错误捕获，13 条路由 × 中英两种语言共 26 次加载，0 错误 / 0 未处理拒绝 / 0 console.error / 0 资源错误）、Firefox 159.0.1 完整键盘遍历（9 页，从跳转链接开始、26–60 个焦点、进入主内容区并循环，无陷阱与交互期错误；headless Firefox 无法观测 `:focus-visible`，焦点环由 Safari 覆盖）、Safari 8 页 Option+Tab 焦点环遍历（25–59 个焦点全部 `:focus-visible` 且 1px 实线环）与英文模式 Safari / Firefox 各 3 组共 92 项复验（目录 / 组件页 API 与行为 / 搜索 / 中文回归，0 失败）。未改代码、共享组件、token 与依赖；仍待真实屏幕阅读器（VoiceOver / NVDA）、Windows 真实高对比、实体设备与真实 200%。证据在忽略目录 `output/cross-browser-2026-11-25/`，登记见 [E-03 跨端证据](../features/component-site-1.md#cross-browser-2026-11-25)。
 
+2026-11-25 所有者明确合并节奏与远端动作约束：`dev` → `master` 只在发版或所有者主动要求时合并，不做日常或频繁晋级；推送、PR Checks、合并与部署默认不执行，不作为下一步建议、不反复征询，一次授权不自动延伸到下一次。约束已同步到 `AGENTS.md` / `CLAUDE.md`、[协作规范](../development/collaboration.md)、[仓库治理](../development/repository-governance.md)、[ADR 0001](../adr/0001-branch-and-pr-governance.md) 与[版本策略](../development/versioning.md)；本轮 14 个本地提交继续保留在本地，不推送、不运行 PR Checks、不部署。
+
 长期阶段和专题归属见[整体规划](roadmap.md)与[专题地图](topics.md)。本轮证据见[本周开发记录](../devlogs/2026-W48.md)，晋级历史见[上周收尾记录](../devlogs/2026-W45.md#2026-11-08-收尾提交回顾与文档复核)。
 
 ## 接下来的事项
@@ -93,11 +95,11 @@
     2. P5 剩余：`llms.txt`、示例代码内容与工作台合成数据是否纳入需先确认；组件状态 / 弃用仍等真实 preview / deprecated 数据；站点搜索的 URL 持久化、结果高亮与拼音匹配不作为当前默认范围。
     3. P4 扩展：InputNumber 与 Empty 已完成；Upload 需所有者指定最小真实场景（端点 / 进度 / 校验），Slider / Progress / Steps 仍缺真实承载。没有场景时不再新增 P4 组件。
     4. 辅助技术：真实屏幕阅读器（VoiceOver / NVDA）、Windows 真实高对比、实体设备与真实 200% 仍待补齐；Safari 加载期日志、Firefox 完整键盘遍历与英文模式 Safari / Firefox 复验已于 2026-11-25 完成（见 [E-03](../features/component-site-1.md#cross-browser-2026-11-25)），Chrome 仍为交互断言主环境。
-    5. 暂缓项维持：新的兄弟项目试点、Flutter、组件包发行与部署均需另行授权；推送与 PR Checks 不属默认动作。
+    5. 暂缓项维持：新的兄弟项目试点、Flutter、组件包发行、tag / Release 与部署均需另行授权；推送、PR Checks、合并与部署不属默认动作，`dev` → `master` 只在发版或你主动要求时合并。
 
 ## 当前停止线
 
-- **提交与远端口径（2026-11-24 所有者确认）**：本阶段开发提交保留在本地 `dev`，不默认推送、不运行 PR Checks、不部署；需要远端同步、PR 或部署时另行提出。
+- **提交与远端口径（2026-11-24 确立，2026-11-25 补充合并节奏）**：本阶段开发提交保留在本地 `dev`，不默认推送、不运行 PR Checks、不部署；`dev` → `master` 只在发版或所有者主动要求时合并，不做日常或频繁晋级；推送、PR Checks、合并与部署默认不执行，也不作为下一步建议或反复征询，需要时由所有者主动提出并按具体动作单独授权。
 - 当前工作范围是组件站 1.0（P0–P5）；P0–P3 已完成，P4 已落地 Form、Drawer 底部编排、DescriptionList、InputNumber 与 Empty，P5 已落地变更记录、图标参考、站点搜索与双语文档首批 / 第二批；家族真实用量审计已完成，P4 其余条目按第 8 项结论等场景确认，`llms.txt` 与示例代码内容是否纳入、组件状态 / 弃用待排。暂缓新的兄弟项目试点、其他产品接入、Flutter、组件包发行或部署。需要发布或跨仓时另行确认。
 - Batch B–F、G9 已于 2026-11-16 推送 `origin/dev` `ff3c79e`；11-17 的强制颜色实现 `e8585a8`、登记 `d2e5be5`、跨环境缺陷修订 `6674bae` 已推送 `dev`（手动 PR Checks run `44092521435` 通过）。生产未更新；后续部署与发布仍需另行确认。
 - 2026-11-19 的 P0 / P1 / P2 提交与 2026-11-21 的 P2 / P3 提交（至 `4b020dc`）已随 2026-11-21 21:26 的推送进入 `origin/dev` `22d505b`；此前各批「未推送」是当时快照，已过期。远端 PR Checks 按批次手动补跑，11-21 至 11-23 的推送结果见下列各条；11-24 run `45381557300` 覆盖 11-23 的 11 个提交并通过。2026-11-24 起按所有者口径不再默认补跑。
