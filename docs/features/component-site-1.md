@@ -297,9 +297,9 @@ P1 完成：30 个条目均有独立页；目录新增「页面原语」分组�
 
 - 范围：按所有者确认的首批范围，为组件目录摘要（34）与 119 个示例的标题 / 说明补齐英文，并让目录、组件页按站点语言切换展示；同批把站点搜索的组件说明与匹配语言化。不翻译示例代码与预览中的演示文案、工作台合成数据、旧 `#/components` 单页参考；API 说明与行为声明列为第二批。
 - 数据与维护：`ComponentEntry` 增加 `summaryEn`，`PilotExample` 增加 `titleEn` / `descriptionEn`，与中文文案同源维护（沿用 icon-reference / changelog 的 zh / en 模式）；`scripts/generate-code.mjs` 读取示例时要求四个文案字段齐全（缺失即让 `code:generate --check` 失败）；`test:catalog` 新增英文覆盖断言（34 个摘要 + 119 个示例 × 2，英文无中文、标题与中文不同），`test:workbench` 校验英文搜索说明无中文。目录搜索同时匹配中英摘要与分组，保留跨语言召回。
-- 站点：`CatalogPage` / `ComponentDetailPage` 接收 `locale`，分组标签、摘要、示例标题 / 说明、预览可访问名称与复制标签按语言取值；`SearchPage` 接收 `locale`，`searchSite` 只匹配当前语言的标题 / 说明 / 正文，`keywords` 中的双语别名保留跨语言命中（如英文下搜「按钮」仍命中 Button）。
+- 站点：`CatalogPage` / `ComponentDetailPage` 接收 `locale`，分组标签、摘要、示例标题 / 说明、预览可访问名称与复制标签按语言取值；`CopyButton` 的可见文案与「已复制」播报也按语言切换（组件页与图标页共用）。`SearchPage` 接收 `locale`，`searchSite` 只匹配当前语言的标题 / 说明 / 正文，`keywords` 中的双语别名保留跨语言命中（如英文下搜「按钮」仍命中 Button）。
 - 索引：`generate-search.mjs` 的组件说明改用英文摘要；索引条目为 89（新增 11-25 变更记录 1 条），`check:search` 与 `test:workbench` 拦漂移。
-- 验证：`npm run check`（`test:catalog` 12 项、`test:workbench` 17 项）、`npm run build`（主入口 459.66 kB / gzip 143.62 kB，无 500 kB 警告）、`npm run test:interaction` 30 项通过（新增英文语言下目录、组件页、搜索与 390 溢出断言）。Chrome 157 探针 8 组（1440 / 390 × 明暗 × 中英）0 问题：英文目录 34 条摘要与分组、34 个组件页摘要与 119 个示例标题 / 说明无中文残留，中文模式回归不变，无 pageerror 与页面级横向溢出；证据在忽略目录 `output/p5-bilingual-2026-11-25/`。
+- 验证：`npm run check`（`test:catalog` 12 项、`test:workbench` 17 项）、`npm run build`（主入口 459.68 kB / gzip 143.62 kB，无 500 kB 警告）、`npm run test:interaction` 30 项通过（新增英文语言下目录、组件页、搜索、复制按钮与 390 溢出断言）。Chrome 157 探针 8 组（1440 / 390 × 明暗 × 中英）0 问题：英文目录 34 条摘要与分组、34 个组件页摘要、119 个示例标题 / 说明与组件 / 图标页复制按钮无中文残留，中文模式回归不变，无 pageerror 与页面级横向溢出；证据在忽略目录 `output/p5-bilingual-2026-11-25/`。
 - 边界：英文 API / 行为声明、`llms.txt`、示例代码内容与旧单页参考仍为中文（第二批）；未复验 Safari / Firefox 与真实辅助技术。
 
 <a id="p4-input-number-2026-11-24"></a>
