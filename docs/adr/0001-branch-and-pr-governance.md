@@ -33,3 +33,9 @@ RadishUI 已有 `master` / `dev`、真实构建和 Vercel 展示站，需要让�
 2026-11-25 所有者明确：不按日常开发节奏晋级 `master`，只有发版或主动要求时才合并，避免频繁部署副作用；推送与 PR Checks 同样按需授权，不随开发批次自动执行，AI 协作者也不把这些动作列为默认下一步或反复征询。
 
 修改分支、合并方式、required context、审批或绕过范围时，同步[仓库治理](../development/repository-governance.md)、Ruleset 与设置模板、PR 模板、工作流和检查器；只在根入口保留必须立即生效的长期约束。
+
+## 二进制资产门禁
+
+本仓采用 [Radish 系列资产规则 v1](https://github.com/RadishIntelligence/.github/tree/main/asset-policy/v1)。单个二进制超过 5 MiB 时须登记例外，新增二进制合计超过 10 MiB 时提示复核。本仓的输出路径和例外以 [policy.tsv](../../.radish-assets/policy.tsv) 为准。
+
+新克隆在仓库根目录运行 `git config --local core.hooksPath .githooks` 启用本地钩子。PR 检查会核对新增提交中的资产。可用 `bash .radish-assets/check.sh --staged` 检查暂存区。

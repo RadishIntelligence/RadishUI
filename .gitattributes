@@ -15,3 +15,8 @@
 
 # Pencil 文件只通过 Pencil 读写，不进行文本合并。
 *.pen binary
+
+# Repository asset checks
+/.radish-assets/* text eol=lf
+/.githooks/pre-commit text eol=lf
+/.githooks/pre-push text eol=lf
