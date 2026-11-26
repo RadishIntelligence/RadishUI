@@ -23,12 +23,14 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
       - name: Check binary asset policy
-        if: github.event_name == 'pull_request'
         shell: bash
         env:
           RADISH_ASSET_BASE: ${{ github.event.pull_request.base.sha }}
           RADISH_ASSET_HEAD: ${{ github.event.pull_request.head.sha }}
-        run: bash .radish-assets/check.sh --range "$RADISH_ASSET_BASE" "$RADISH_ASSET_HEAD"
+        run: |
+          if [[ "$GITHUB_EVENT_NAME" == 'pull_request' ]]; then
+            bash .radish-assets/check.sh --range "$RADISH_ASSET_BASE" "$RADISH_ASSET_HEAD"
+          fi
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
           node-version-file: .node-version
